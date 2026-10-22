@@ -257,3 +257,35 @@ parameter creation/binding (2021 legacy path vs 2022+ ForgeTypeId), `ElementId` 
 4. Add integration tests for the new tools to `tests/integration` once a test model is fixed.
 5. Possible extensions: clearance clashes with tolerance, family libraries (batch audit of a folder of
    .rfa files), IFC/COBie parameter mapping presets.
+
+---
+
+# v2.1
+
+## Phase 0 – baseline and audit (v2.0.0, commit `405a980`)
+
+| Check | Result |
+|---|---|
+| Unit tests | 158 passed (mcp 1.9.0 via `uv.lock`, and mcp 2.3.0) |
+| pyflakes | 13 messages, all unused imports/variables in upstream files and the compat shim (no errors) |
+| vermin `-t=2.7- -t=3.4-` on `revit_mcp/`, `startup.py` | pass |
+| `tools/list` payload | **119,369 chars ≈ 29.8k tokens** for 74 tools on mcp 2.3 (107,005 on mcp 1.9). Per-tool sizes: `docs/metrics/tool_payload_v2.0.json` |
+
+**Where the payload goes (mcp 2.3):** 10.4k auto-generated `outputSchema` boilerplate (`{"result": string}`) on text tools, 8.8k property `title`s, ~7k `anyOf [..., null]` wrappers, 4.7k `"default": null`, the rest descriptions. Largest tools: `family_create_form` 4.6k, `find_elements` 4.4k, `bulk_update_parameter` 4.0k, `shared_parameters` 4.0k.
+
+**Overlapping tools**
+
+| Older tool | Covered by | Decision |
+|---|---|---|
+| `list_families` | `get_family_inventory` (families, types, instance counts) | legacy toolset, deprecated alias |
+| `list_family_categories` | `get_family_inventory.families_by_category` | legacy |
+| `list_revit_views` | `find_views` (ids, types, templates, sheets) | legacy |
+| `get_current_view_elements` | `find_elements(view="active")` | legacy |
+| `get_current_view_info` | `get_session_info.active_view` + `find_views` | legacy |
+| `list_levels` (feet) | `get_project_overview(include=["levels"])` (mm, ids) | legacy |
+| `place_family` | `create_elements(kind="family_instance")` (units, hosts, batch, dry run) | legacy |
+| `create_point_based_element` | – (only in the upstream README "Pending" table; never implemented) | README table removed |
+| `get_revit_status` / `get_session_info` | complementary: status works without API context (health), session info is detailed | keep both |
+| `color_splash` / `view_graphics(override)` | complementary: colouring by parameter value vs explicit overrides | keep both |
+
+Legacy tools keep their exact arguments and behaviour; they only move to the `legacy` toolset and get a deprecation note.
