@@ -190,7 +190,9 @@ def register_launch_tools(mcp, revit_get):
         language: str = None,
         timeout: int = 120,
     ) -> str:
-        """Launch Revit on this machine, optionally opening a file.
+        """Launch a Revit version (optionally with a file) and wait until pyRevit Routes answers.
+
+        Launch Revit on this machine, optionally opening a file.
 
         Finds installed Revit versions automatically. After launching, polls
         the pyRevit Routes health endpoint until Revit is ready for MCP tools.

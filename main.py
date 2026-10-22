@@ -186,7 +186,7 @@ async def _revit_call(method: str, endpoint: str, data: Dict = None, ctx: Contex
 
 # Register all tools BEFORE the main block
 from tools import register_tools
-register_tools(mcp, revit_get, revit_post, revit_image)
+toolset_server = register_tools(mcp, revit_get, revit_post, revit_image)
 
 
 async def run_combined_async():

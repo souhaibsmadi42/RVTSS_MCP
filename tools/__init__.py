@@ -2,8 +2,18 @@
 """Tool registration system for Revit MCP Server"""
 
 
-def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func):
-    """Register all tools with the MCP server"""
+def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func, toolsets=None):
+    """Register all tools with the MCP server.
+
+    Tools are registered through a ToolsetServer proxy (tools/toolsets.py) that
+    honours RVTSS_TOOLSETS and keeps the advertised descriptions short; the
+    advertised input schemas are compacted afterwards. Returns the proxy.
+    """
+    from .toolsets import ToolsetServer
+    from ._compat import finalize_tools
+
+    server = mcp_server
+    mcp_server = ToolsetServer(server, toolsets)
     # Import all tool modules
     from .status_tools import register_status_tools
     from .view_tools import register_view_tools
@@ -38,3 +48,6 @@ def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func
     register_parameter_tools(mcp_server, revit_get_func, revit_post_func)
     register_documentation_tools(mcp_server, revit_get_func, revit_post_func)
     register_qc_tools(mcp_server, revit_get_func, revit_post_func)
+
+    finalize_tools(server)
+    return mcp_server

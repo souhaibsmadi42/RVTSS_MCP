@@ -353,3 +353,39 @@ Verified first in the pyRevit source (`pyrevitlib/pyrevit/routes/server/server.p
   * the token is never logged or returned.
 * **Bug found:** `code_execution.py` imported `StringIO` from the Python 2 module, so `execute_revit_code`
   failed to import on pyRevit's IronPython 3 engine. It now falls back to `io.StringIO`.
+
+## Phase 3 – smaller tool context
+
+| Measurement (`scripts/measure_tool_payload.py`) | chars | ≈ tokens | vs v2.0 |
+|---|---|---|---|
+| v2.0 baseline, 74 tools (mcp 2.3) | 119,369 | 29.8k | – |
+| v2.1 default (all toolsets, 74 tools; mcp 2.3 **and** 1.9) | **66,600** | 16.7k | **−44.2 %** |
+| `RVTSS_TOOLSETS=bim_coordinator` (35 tools) | 33,142 | 8.3k | −72.2 % |
+| `RVTSS_TOOLSETS=family_author` (31 tools) | 34,547 | 8.6k | −71.1 % |
+
+Per-tool numbers: `docs/metrics/tool_payload_v2.1_phase3.json`. A unit test keeps the default at or below 60% of
+the v2.0 payload.
+
+* **Toolsets** (`tools/toolsets.py`, `RVTSS_TOOLSETS`): `core, model, edit, families, parameters,
+  documentation, qc, launch, code, legacy`, plus the profiles `bim_coordinator`, `family_author`, `modeler`,
+  `minimal` and `all` (the default). `core` is always on. Tools register through a proxy, so the tool
+  modules are unchanged.
+* **Consolidation:** the seven overlapping tools from Phase 0 keep their names, arguments and behaviour,
+  but move to the `legacy` toolset with a `[Deprecated: use …]` note. They are planned for removal in the
+  next release.
+* **What was trimmed:**
+  * The SDK's automatic `{"result": string}` output schema is turned off for text tools (2.x).
+  * Advertised input schemas are compacted after registration: no titles, no `null` branches, no
+    `"default": null`. Validation still uses the full pydantic model.
+  * `destructiveHint` is dropped on read-only tools, where the spec ignores it.
+  * Only the first docstring paragraph is advertised; 36 first paragraphs were rewritten as "what it
+    does, when to use it". The full docstrings remain in `TOOL_DOCS`, served as
+    `rvtss://docs/tools/{name}` (Phase 4) and in `docs/TOOLS.md`.
+  * The repeated `document` hint was shortened, and the 50-value template-kind enum became a validated
+    string (Revit lists the valid kinds).
+* **Annotations re-checked:**
+  * all tools are closed-world (`openWorldHint: false`);
+  * read-only tools are idempotent;
+  * `set_parameters`, `family_save`, `save_document`, `family_set_properties` and `view_graphics` are now
+    marked idempotent;
+  * `delete_elements`, `family_close`, `close_document` and `execute_revit_code` remain destructive.

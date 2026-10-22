@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Document management tools for Revit MCP Server"""
 
-from ._compat import Context, DESTRUCTIVE, MODIFIES
+from ._compat import Context, DESTRUCTIVE, MODIFIES, IDEMPOTENT
 from .utils import format_response
 
 
@@ -49,7 +49,7 @@ def register_document_tools(mcp, revit_get, revit_post):
         response = await revit_post("/close_document/", data, ctx)
         return format_response(response)
 
-    @mcp.tool(annotations=MODIFIES)
+    @mcp.tool(annotations=IDEMPOTENT)
     async def save_document(
         ctx: Context,
         file_path: str = None,

@@ -4,159 +4,176 @@ Generated from the live tool registry by `scripts/generate_tool_docs.py` - do no
 
 74 tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. **Mode**: read-only / modifies / destructive (MCP tool annotations).
 
+Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Profiles: `all` = code, core, documentation, edit, families, launch, legacy, model, parameters, qc; `bim_coordinator` = core, model, parameters, documentation, qc; `family_author` = core, families, parameters; `minimal` = core, model; `modeler` = core, model, edit, documentation.
+
 ## Session & status
 
-| Tool | Origin | Mode | Purpose |
-|---|---|---|---|
-| `get_revit_status` | retained | read-only | Check if the Revit MCP API is active and responding |
-| `get_session_info` | new | read-only | Revit version/build, RVTSS version, active document and view, selection count, ALL open |
-| `get_revit_model_info` | retained | read-only | Get comprehensive information about the current Revit model |
-| `list_revit_installations` | retained | read-only | Discover all Revit versions installed on this system. |
-| `launch_revit` | retained | modifies | Launch Revit on this machine, optionally opening a file. |
-| `open_document` | retained | modifies | Open a Revit document file in the running Revit instance. |
-| `close_document` | retained | destructive | Close the active Revit document. |
-| `save_document` | retained | modifies | Save the active Revit document. |
-| `sync_with_central` | retained | modifies | Synchronize the active workshared document with central. |
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `get_revit_status` | core | retained | read-only | Check if the Revit MCP API is active and responding |
+| `get_session_info` | core | new | read-only | Call first: Revit/pyRevit/RVTSS versions, active document and view, all open documents (use titles as `document`), security status, paths. |
+| `get_revit_model_info` | model | retained | read-only | Get comprehensive information about the current Revit model |
+| `list_revit_installations` | launch | retained | read-only | Discover all Revit versions installed on this system. |
+| `launch_revit` | launch | retained | modifies | Launch a Revit version (optionally with a file) and wait until pyRevit Routes answers. |
+| `open_document` | launch | retained | modifies | Open a Revit document file in the running Revit instance. |
+| `close_document` | launch | retained | destructive | Close the active Revit document. |
+| `save_document` | launch | retained | modifies | Save the active Revit document. |
+| `sync_with_central` | launch | retained | modifies | Synchronize the active workshared document with central. |
 
 ## Model intelligence
 
-| Tool | Origin | Mode | Purpose |
-|---|---|---|---|
-| `get_project_overview` | new | read-only | Project information parameters, display units, levels (elevations), grids, phases, |
-| `find_elements` | new | read-only | Find elements with combinable filters; returns ids, names, category/family/type and |
-| `get_element_details` | new | read-only | Full details for up to 50 elements: category, family/type, level, location, bounding box, |
-| `get_family_inventory` | new | read-only | Loaded families grouped by category with their types, instance counts, in-place and |
-| `list_families` | retained | read-only | Get a flat list of available family types in the current Revit model. |
-| `list_family_categories` | retained | read-only | Get a list of all family categories in the current Revit model |
-| `list_levels` | retained | read-only | Get a list of all levels in the current Revit model |
-| `list_links` | new | read-only | Revit links (path, load status, pinned, position/rotation) and CAD imports/links. |
-| `get_model_warnings` | new | read-only | Revit warnings grouped by description (most frequent first) with the failing element ids. |
-| `find_views` | new | read-only | Views with ids, type, level, scale, detail level, view template and the sheet they are on. |
-| `list_revit_views` | retained | read-only | Get a list of all exportable views in the current Revit model |
-| `get_current_view_info` | retained | read-only | Get detailed information about the currently active view in Revit. |
-| `get_current_view_elements` | retained | read-only | Get elements visible in the currently active view in Revit. |
-| `get_revit_view` | retained | read-only | Export a specific Revit view as a PNG image. |
-| `list_sheets` | new | read-only | Sheets with number, name, placed views, title blocks and revisions, plus counts of sheets |
-| `get_schedule_data` | new | read-only | Read a schedule's table (column headers and rows as displayed), paginated. |
-| `list_category_parameters` | retained | read-only | Get available parameters for elements in a category |
-| `revit_selection` | new | modifies | Read the current Revit selection, or select/highlight elements for the user (active document only). |
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `get_project_overview` | model | new | read-only | Project info, display units, levels, grids, phases, worksets and design options in one call. |
+| `find_elements` | core | new | read-only | Find elements by combinable filters -> ids, names, category/family/type, counts (paginated). E.g. doors on Level 2 wider than 900 mm: categories=['Doors'], level='Level 2', param_filters=[{name:'Width', op:'gt', value:900, unit:'mm'}]. |
+| `get_element_details` | core | new | read-only | Full details for up to 50 elements: level, location, bbox, workset, phases, host, group/assembly, parameters with units, geometry. |
+| `get_family_inventory` | model | new | read-only | Loaded families by category with types, instance counts, in-place/editable flags. |
+| `list_families` | legacy | retained | read-only | [Deprecated: use get_family_inventory] Flat list of family types, filterable with `contains`. |
+| `list_family_categories` | legacy | retained | read-only | [Deprecated: use get_family_inventory] Get a list of all family categories in the current Revit model |
+| `list_levels` | legacy | retained | read-only | [Deprecated: use get_project_overview(include=['levels'])] Get a list of all levels in the current Revit model |
+| `list_links` | model | new | read-only | Revit links (path, load status, pinned, position/rotation) and CAD imports/links. |
+| `get_model_warnings` | model | new | read-only | Revit warnings grouped by description (most frequent first) with the failing element ids. |
+| `find_views` | model | new | read-only | Views with id, type, level, scale, template and sheet placement. |
+| `list_revit_views` | legacy | retained | read-only | [Deprecated: use find_views] Get a list of all exportable views in the current Revit model |
+| `get_current_view_info` | legacy | retained | read-only | [Deprecated: use get_session_info / find_views] Name, type, id, scale, crop, detail level and discipline of the active view. |
+| `get_current_view_elements` | legacy | retained | read-only | [Deprecated: use find_elements(view='active')] Elements visible in the active view with category counts (truncated at `limit`). |
+| `get_revit_view` | model | retained | read-only | Export a specific Revit view as a PNG image. |
+| `list_sheets` | model | new | read-only | Sheets with number, name, placed views, title blocks, revisions; counts sheets without views/title blocks. |
+| `get_schedule_data` | model | new | read-only | Read a schedule's table (column headers and rows as displayed), paginated. |
+| `list_category_parameters` | documentation | retained | read-only | Parameters available on a category's elements (for color_splash). |
+| `revit_selection` | core | new | modifies | Read the current Revit selection, or select/highlight elements for the user (active document only). |
 
 ## Element editing
 
-| Tool | Origin | Mode | Purpose |
-|---|---|---|---|
-| `set_parameters` | new | modifies | Set parameter values on elements (instance or type) and return before/after values. |
-| `bulk_update_parameter` | new | modifies | Write one parameter on many elements (by ids, selection or filters) using a fixed value or a |
-| `transform_elements` | new | modifies | Move, copy, rotate or mirror elements. Copies return the new element ids. |
-| `delete_elements` | new | destructive | Delete elements. Without confirm=true this only previews: Revit performs the deletion inside a |
-| `create_elements` | new | modifies | Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one |
-| `place_family` | retained | modifies | Place a family instance at a specified location in the Revit model. |
-| `manage_element_types` | new | modifies | Project types: duplicate a type (optionally setting its parameters), rename it, list the |
-| `color_splash` | retained | modifies | Color elements in a category based on parameter values |
-| `clear_colors` | retained | modifies | Clear color overrides for elements in a category |
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `set_parameters` | edit | new | modifies | Set instance/type parameter values with before/after values. Dimensional numbers need `unit` (or '900 mm'); bare numbers are rejected. |
+| `bulk_update_parameter` | edit | new | modifies | Write one parameter on many elements (ids, selection or filters) with a value or a numbering template, e.g. selected doors left-to-right: parameter='Mark', selection=true, template='D{n:02}', sort_by='x'. Use dry_run first. |
+| `transform_elements` | edit | new | modifies | Move, copy, rotate or mirror elements. Copies return the new element ids. |
+| `delete_elements` | edit | new | destructive | Delete elements. Without confirm=true it only previews everything Revit would delete (incl. hosted/dependent elements); show the preview first. |
+| `create_elements` | edit | new | modifies | Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one transaction; returns new ids. |
+| `place_family` | legacy | retained | modifies | [Deprecated: use create_elements(kind='family_instance')] Place a family instance at a specified location in the Revit model. |
+| `manage_element_types` | edit | new | modifies | Project types: duplicate a type (optionally setting its parameters), rename it, list the types an element may switch to, or change elements to another type. |
+| `color_splash` | documentation | retained | modifies | Color a category's elements in the active view by parameter value. |
+| `clear_colors` | documentation | retained | modifies | Clear color overrides for elements in a category |
 
 ## Family creation & editing
 
-| Tool | Origin | Mode | Purpose |
-|---|---|---|---|
-| `family_list_templates` | new | read-only | Inspect family template folders (Revit's FamilyTemplatePath + extra dirs). With `kind`, returns |
-| `family_create` | new | modifies | Create a NEW family document (.rfa) from a Revit family template, chosen by kind (door, window, |
-| `family_open` | new | modifies | Open an existing family for editing - from an .rfa file or a family loaded in the project. |
-| `family_get_info` | new | read-only | Inspect a family document: category and family properties, parameters (instance/type, spec, group, |
-| `family_set_properties` | new | modifies | Change the family category and family-level settings (shared, work plane based, always vertical...). |
-| `family_add_parameters` | new | modifies | Add family parameters (type or instance; any data type; optional initial value, formula, |
-| `family_edit_parameters` | new | modifies | Edit existing family parameters. Shared parameters keep their GUID and cannot be renamed |
-| `family_manage_types` | new | modifies | List, create, duplicate, rename, delete family types and set per-type values; export or import a |
-| `family_create_reference_planes` | new | modifies | Create named reference planes (x: left/right, y: front/back, z: horizontal) at offsets, or list them. |
-| `family_create_form` | new | modifies | Create solid or void extrusions, blends, revolutions and sweeps on a work plane, optionally |
-| `family_add_dimension` | new | modifies | Dimension between parallel reference planes (or Ref. Level) and label it with a parameter |
-| `family_align_geometry` | new | modifies | Lock form faces to the reference planes they lie on, so geometry follows labelled dimensions. |
-| `family_build_parametric_box` | new | modifies | Build a genuinely parametric box in one step: Left/Right/Front/Back reference planes centred |
-| `family_nested` | new | modifies | Load a family into the family being edited and place it, linking nested parameters to host |
-| `family_flex_test` | new | read-only | Flex a family: apply types / parameter values, regenerate and measure geometry, report Revit |
-| `family_validate` | new | read-only | Quality-control a family: category, formulas (syntax, unknown names, circular references), |
-| `family_save` | new | modifies | Save the family document. Existing files are backed up to %APPDATA%/RVTSS/backups before being |
-| `family_load_into_project` | new | modifies | Load (or reload) the family into a project and verify that all its types arrived. |
-| `family_close` | new | destructive | Close a background family document (refuses to drop unsaved changes unless discard_changes=true). |
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `family_list_templates` | families | new | read-only | Find family templates (.rft) for a kind (best first) or show which kinds are available/missing. |
+| `family_create` | families | new | modifies | Create a new .rfa family from a template (by kind or template_path); opens in the background - pass its title as `document`. |
+| `family_open` | families | new | modifies | Open an existing family for editing - from an .rfa file or a family loaded in the project. |
+| `family_get_info` | families | new | read-only | Inspect a family: properties, parameters (formula, shared GUID, associations, labels), types with values, reference planes, dimensions, forms, nested families. |
+| `family_set_properties` | families | new | modifies | Change the family category and family-level settings (shared, work plane based, always vertical...). |
+| `family_add_parameters` | families | new | modifies | Add family parameters (type/instance, any data type, value, formula, reporting, or shared with its GUID). Formulas are checked before Revit applies them. |
+| `family_edit_parameters` | families | new | modifies | Edit existing family parameters. Shared parameters keep their GUID and cannot be renamed (Revit API limitation) - use replace_with_shared to swap definitions. |
+| `family_manage_types` | families | new | modifies | Family types: list, create/upsert, duplicate, rename, delete, set values per type; export/import type catalogs. |
+| `family_create_reference_planes` | families | new | modifies | Create named reference planes (x: left/right, y: front/back, z: horizontal) at offsets, or list them. |
+| `family_create_form` | families | new | modifies | Create solid/void extrusion, blend, revolution or sweep on a work plane, with material/visibility/end parameter links, subcategory and face locking. |
+| `family_add_dimension` | families | new | modifies | Dimension between parallel reference planes (or Ref. Level) and label it with a parameter (e.g. Left-Right labelled Width), add EQ constraints (Left-Center-Right) or lock it. |
+| `family_align_geometry` | families | new | modifies | Lock form faces to the reference planes they lie on, so geometry follows labelled dimensions. |
+| `family_build_parametric_box` | families | new | modifies | One call: fully constrained parametric box (planes, Width/Depth labels with EQ, locked extrusion, Height, Material) + flex check. Base for furniture/casework/equipment. |
+| `family_nested` | families | new | modifies | Load a family into the family being edited and place it, linking nested parameters to host family parameters (parameter associations). |
+| `family_flex_test` | families | new | read-only | Flex a family through types/values, measure geometry, report constraint errors and parameters with no effect; all rolled back. |
+| `family_validate` | families | new | read-only | QC a family: category, formulas, parameters that drive nothing, type values, geometry, labelled dimensions, warnings - with severity and fixes. |
+| `family_save` | families | new | modifies | Save the family document. Existing files are backed up to %APPDATA%/RVTSS/backups before being overwritten. |
+| `family_load_into_project` | families | new | modifies | Load (or reload) the family into a project and verify that all its types arrived. |
+| `family_close` | families | new | destructive | Close a background family document (refuses to drop unsaved changes unless discard_changes=true). |
 
 ## Parameter management
 
-| Tool | Origin | Mode | Purpose |
-|---|---|---|---|
-| `list_project_parameters` | new | read-only | Project parameters with binding (instance/type), categories, data type, group, shared GUID, |
-| `shared_parameters` | new | modifies | Shared parameter workflow: read the file (GUIDs, groups, duplicates, which are already in the |
-| `global_parameters` | new | modifies | Global parameters: list (value, formula, affected elements), create, set value/formula and |
-| `audit_parameters` | new | read-only | Audit parameters on a set of elements: missing, empty, invalid values, wrong data types, and |
-| `export_parameters` | new | read-only | Export element parameter values to CSV (ElementId, UniqueId, Category, Family, Type + columns). |
-| `import_parameters` | new | modifies | Import parameter values from CSV (needs an ElementId or UniqueId column; other columns are |
-| `map_parameters` | new | modifies | Copy values from existing parameters into your BIM-standard parameters (converting between |
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `list_project_parameters` | parameters | new | read-only | Project parameters with binding (instance/type), categories, data type, group, shared GUID, plus names defined more than once. |
+| `shared_parameters` | parameters | new | modifies | Shared parameters: read_file, create_definitions (GUIDs preserved), create_file, bind to categories (instance/type). |
+| `global_parameters` | parameters | new | modifies | Global parameters: list (value, formula, affected elements), create, set value/formula and associate element parameters with them. |
+| `audit_parameters` | parameters | new | read-only | Audit parameters on elements: missing, empty, invalid values, wrong types, duplicate or misnamed definitions. |
+| `export_parameters` | parameters | new | read-only | Export element parameter values to CSV (ElementId, UniqueId, Category, Family, Type + columns). |
+| `import_parameters` | parameters | new | modifies | Import parameter values from CSV (ElementId or UniqueId column + parameter columns). dry_run by default. |
+| `map_parameters` | parameters | new | modifies | Copy values from existing parameters into your BIM-standard parameters (converting between storage types through display values). Source values are never deleted. |
 
 ## Documentation
 
-| Tool | Origin | Mode | Purpose |
-|---|---|---|---|
-| `create_view` | new | modifies | Create plans, 3D views (optionally section-boxed to elements), sections framing elements, |
-| `view_graphics` | new | modifies | Per-view graphics: element/category overrides (color, fill, line weight, halftone, |
-| `manage_sheets` | new | modifies | Create sheets (with title blocks) and place views or schedules on them. |
-| `create_schedule` | new | modifies | Create a schedule for a category with fields, sorting and filters. |
-| `batch_rename` | new | modifies | Rename many items to a naming standard with find/replace (or regex), prefix, suffix and case. |
-| `manage_groups` | new | modifies | List group types (instances, unused types), create a model group from elements, or ungroup. |
-| `manage_assemblies` | new | modifies | Assemblies: create from elements (with a name), add/remove members, rename, and generate |
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `create_view` | documentation | new | modifies | Create plans, 3D (optionally boxed to elements), sections, elevations, drafting views or duplicates, with name/template/scale. |
+| `view_graphics` | documentation | new | modifies | Per-view graphics: element/category overrides, hide/unhide, temporary isolate, category visibility, view templates, scale, detail level. |
+| `manage_sheets` | documentation | new | modifies | Create sheets (with title blocks) and place views or schedules on them. |
+| `create_schedule` | documentation | new | modifies | Create a schedule for a category with fields, sorting and filters. |
+| `batch_rename` | documentation | new | modifies | Rename views/sheets/levels/families/types/rooms... with find/replace/regex/prefix/suffix/case; detects collisions. dry_run by default. |
+| `manage_groups` | documentation | new | modifies | List group types (instances, unused types), create a model group from elements, or ungroup. |
+| `manage_assemblies` | documentation | new | modifies | Assemblies: create, add/remove members, rename, create assembly views and sheet. |
 
 ## Coordination & QC
 
-| Tool | Origin | Mode | Purpose |
-|---|---|---|---|
-| `run_model_checks` | new | read-only | BIM quality report: warnings, duplicate elements, naming standards, near-duplicate families, |
-| `check_clashes` | new | read-only | Hard clash detection (solid intersection) between two element sets in the model or against a |
-| `model_snapshot` | new | modifies | Save a JSON snapshot of the model (ids, UniqueIds, types, levels, locations, tracked parameter |
-| `compare_models` | new | read-only | Change detection and model comparison. snapshots: added / removed / modified elements (type, |
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `run_model_checks` | qc | new | read-only | BIM QC report (warnings, duplicates, naming, families/types, CAD, links, rooms, views, sheets, required parameters, groups) with severity, ids and fixes. |
+| `check_clashes` | qc | new | read-only | Hard clashes (solid intersection) between two element sets, also against a Revit link. |
+| `model_snapshot` | qc | new | modifies | Save a JSON snapshot (ids, types, levels, locations, tracked parameters) for later compare_models. |
+| `compare_models` | qc | new | read-only | Change detection: snapshot vs live model or another snapshot (added/removed/modified), or match two element sets by location (design vs shop model). |
 
 ## Advanced
 
-| Tool | Origin | Mode | Purpose |
-|---|---|---|---|
-| `execute_revit_code` | retained | destructive | Execute IronPython code directly in Revit context. |
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `execute_revit_code` | code | retained | destructive | Run IronPython in Revit (doc, uidoc, DB, revit; print output returned). Prefer dedicated tools; transaction_mode none/auto/dry_run/read_only. |
 
 ## Parameters
 
 ### `get_revit_status`
 
+Toolset: `core`
+
 Check if the Revit MCP API is active and responding
 
 ### `get_session_info`
 
+Toolset: `core`
+
+Call first: Revit/pyRevit/RVTSS versions, active document and view, all open documents (use titles
+as `document`), security status, paths.
+
 Revit version/build, RVTSS version, active document and view, selection count, ALL open
-        documents (projects and background family documents - use their title as `document`), linked
-        documents, shared parameter file and family template path. Call this first in a session.
+documents (projects and background family documents - use their title as `document`), linked
+documents, shared parameter file and family template path. Call this first in a session.
 
 ### `get_revit_model_info`
+
+Toolset: `model`
 
 Get comprehensive information about the current Revit model
 
 ### `list_revit_installations`
 
+Toolset: `launch`
+
 Discover all Revit versions installed on this system.
 
-        Returns a list of installed Revit versions with their executable paths.
-        Use this to check what's available before calling launch_revit.
+Returns a list of installed Revit versions with their executable paths.
+Use this to check what's available before calling launch_revit.
 
 ### `launch_revit`
 
+Toolset: `launch`
+
+Launch a Revit version (optionally with a file) and wait until pyRevit Routes answers.
+
 Launch Revit on this machine, optionally opening a file.
 
-        Finds installed Revit versions automatically. After launching, polls
-        the pyRevit Routes health endpoint until Revit is ready for MCP tools.
+Finds installed Revit versions automatically. After launching, polls
+the pyRevit Routes health endpoint until Revit is ready for MCP tools.
 
-        For workshared (central model) files, Revit will show its native
-        worksharing dialog on open. Use the open_document tool after launch
-        for more control over worksharing options like detach from central.
+For workshared (central model) files, Revit will show its native
+worksharing dialog on open. Use the open_document tool after launch
+for more control over worksharing options like detach from central.
 
-        Args:
-            file_path: Path to a .rvt, .rfa, or .rte file to open. Optional.
-            version: Revit version year (e.g. "2025"). Uses latest if omitted.
-            language: Language code (e.g. "ENU", "FRA"). Optional.
-            timeout: Seconds to wait for Revit readiness (default 120).
+Args:
+    file_path: Path to a .rvt, .rfa, or .rte file to open. Optional.
+    version: Revit version year (e.g. "2025"). Uses latest if omitted.
+    language: Language code (e.g. "ENU", "FRA"). Optional.
+    timeout: Seconds to wait for Revit readiness (default 120).
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -167,16 +184,18 @@ Launch Revit on this machine, optionally opening a file.
 
 ### `open_document`
 
+Toolset: `launch`
+
 Open a Revit document file in the running Revit instance.
 
-        Supports workshared (central) files with options to detach from
-        central or audit the file on open.
+Supports workshared (central) files with options to detach from
+central or audit the file on open.
 
-        Args:
-            file_path: Absolute path to a .rvt, .rfa, or .rte file.
-            detach: If True, open detached from central (workshared files only).
-                    Preserves worksets but severs the link to the central model.
-            audit: If True, audit the file on open to check for corruption.
+Args:
+    file_path: Absolute path to a .rvt, .rfa, or .rte file.
+    detach: If True, open detached from central (workshared files only).
+            Preserves worksets but severs the link to the central model.
+    audit: If True, audit the file on open to check for corruption.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -186,11 +205,13 @@ Open a Revit document file in the running Revit instance.
 
 ### `close_document`
 
+Toolset: `launch`
+
 Close the active Revit document.
 
-        Args:
-            save: If True, save the document before closing.
-                  If False (default), close without saving.
+Args:
+    save: If True, save the document before closing.
+          If False (default), close without saving.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -198,13 +219,15 @@ Close the active Revit document.
 
 ### `save_document`
 
+Toolset: `launch`
+
 Save the active Revit document.
 
-        If file_path is omitted, saves the document in place.
-        If file_path is provided, performs a Save As to the new location.
+If file_path is omitted, saves the document in place.
+If file_path is provided, performs a Save As to the new location.
 
-        Args:
-            file_path: Optional path for Save As. If omitted, saves in place.
+Args:
+    file_path: Optional path for Save As. If omitted, saves in place.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -212,16 +235,18 @@ Save the active Revit document.
 
 ### `sync_with_central`
 
+Toolset: `launch`
+
 Synchronize the active workshared document with central.
 
-        Only works with workshared (central model) documents. For non-workshared
-        documents, use save_document instead.
+Only works with workshared (central model) documents. For non-workshared
+documents, use save_document instead.
 
-        Args:
-            comment: Sync comment visible in the worksharing log.
-            compact: If True, compact the central model during sync.
-            relinquish_all: If True (default), relinquish all borrowed elements
-                           and worksets after sync.
+Args:
+    comment: Sync comment visible in the worksharing log.
+    compact: If True, compact the central model during sync.
+    relinquish_all: If True (default), relinquish all borrowed elements
+                   and worksets after sync.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -231,22 +256,26 @@ Synchronize the active workshared document with central.
 
 ### `get_project_overview`
 
-Project information parameters, display units, levels (elevations), grids, phases,
-        worksets (workshared models) and design options - in one call.
+Toolset: `model`
+
+Project info, display units, levels, grids, phases, worksets and design options in one call.
+
+Project information parameters, display units, levels (elevations), grids, phases, worksets
+(workshared models) and design options - in one call.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `include` | list of `info` \| `levels` \| `grids` \| `phases` \| `worksets` \| `design_options` |  |  |  |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `find_elements`
 
-Find elements with combinable filters; returns ids, names, category/family/type and
-        category counts, paginated. Use this to turn a natural-language description
-        ("all fire doors on Level 2 wider than 900 mm") into concrete element ids:
-        categories=['Doors'], level='Level 2', param_filters=[{name:'Width', op:'gt', value:900, unit:'mm'}].
-        Numeric comparisons on dimensional parameters use `unit` of the filter (default mm).
+Toolset: `core`
+
+Find elements by combinable filters -> ids, names, category/family/type, counts (paginated).
+E.g. doors on Level 2 wider than 900 mm: categories=['Doors'], level='Level 2',
+param_filters=[{name:'Width', op:'gt', value:900, unit:'mm'}].
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -268,12 +297,17 @@ Find elements with combinable filters; returns ids, names, category/family/type 
 | `offset` | integer |  | `0` |  |
 | `limit` | integer |  | `100` |  |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `get_element_details`
 
+Toolset: `core`
+
+Full details for up to 50 elements: level, location, bbox, workset, phases, host, group/assembly,
+parameters with units, geometry.
+
 Full details for up to 50 elements: category, family/type, level, location, bounding box,
-        workset, phases, design option, group/assembly, host, parameters (with units), geometry.
+workset, phases, design option, group/assembly, host, parameters (with units), geometry.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -284,12 +318,16 @@ Full details for up to 50 elements: category, family/type, level, location, boun
 | `include_parameter_meta` | boolean |  | `False` | Storage type, spec, group, read-only, shared GUID |
 | `include_geometry` | boolean |  | `False` | Solid count, volume and surface area |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `get_family_inventory`
 
-Loaded families grouped by category with their types, instance counts, in-place and
-        editable flags. Use the family name with family_open to edit it.
+Toolset: `model`
+
+Loaded families by category with types, instance counts, in-place/editable flags.
+
+Loaded families grouped by category with their types, instance counts, in-place and editable
+flags. Use the family name with family_open to edit it.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -299,12 +337,16 @@ Loaded families grouped by category with their types, instance counts, in-place 
 | `include_types` | boolean |  | `True` |  |
 | `offset` | integer |  | `0` |  |
 | `limit` | integer |  | `100` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `list_families`
 
-Get a flat list of available family types in the current Revit model.
-        Use `contains` to filter by a substring of the family or type name (case-insensitive).
+Toolset: `legacy`
+
+Flat list of family types, filterable with `contains`.
+
+Get a flat list of available family types in the current Revit model. Use `contains` to filter
+by a substring of the family or type name (case-insensitive).
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -313,13 +355,19 @@ Get a flat list of available family types in the current Revit model.
 
 ### `list_family_categories`
 
+Toolset: `legacy`
+
 Get a list of all family categories in the current Revit model
 
 ### `list_levels`
 
+Toolset: `legacy`
+
 Get a list of all levels in the current Revit model
 
 ### `list_links`
+
+Toolset: `model`
 
 Revit links (path, load status, pinned, position/rotation) and CAD imports/links.
 
@@ -327,9 +375,11 @@ Revit links (path, load status, pinned, position/rotation) and CAD imports/links
 |---|---|---|---|---|
 | `include_counts` | boolean |  | `False` | Model element counts per category inside each loaded link |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `get_model_warnings`
+
+Toolset: `model`
 
 Revit warnings grouped by description (most frequent first) with the failing element ids.
 
@@ -339,9 +389,13 @@ Revit warnings grouped by description (most frequent first) with the failing ele
 | `offset` | integer |  | `0` |  |
 | `limit` | integer |  | `50` |  |
 | `ids_per_warning` | integer |  | `30` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `find_views`
+
+Toolset: `model`
+
+Views with id, type, level, scale, template and sheet placement.
 
 Views with ids, type, level, scale, detail level, view template and the sheet they are on.
 
@@ -353,38 +407,48 @@ Views with ids, type, level, scale, detail level, view template and the sheet th
 | `on_sheet` | boolean |  |  | true: only placed views, false: only unplaced |
 | `offset` | integer |  | `0` |  |
 | `limit` | integer |  | `200` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `list_revit_views`
+
+Toolset: `legacy`
 
 Get a list of all exportable views in the current Revit model
 
 ### `get_current_view_info`
 
+Toolset: `legacy`
+
+Name, type, id, scale, crop, detail level and discipline of the active view.
+
 Get detailed information about the currently active view in Revit.
 
-        Returns comprehensive information including:
-        - View name, type, and ID
-        - Scale and detail level
-        - Crop box status
-        - View family type
-        - View discipline
-        - Template status
+Returns comprehensive information including:
+- View name, type, and ID
+- Scale and detail level
+- Crop box status
+- View family type
+- View discipline
+- Template status
 
 ### `get_current_view_elements`
 
+Toolset: `legacy`
+
+Elements visible in the active view with category counts (truncated at `limit`).
+
 Get elements visible in the currently active view in Revit.
 
-        Returns per element: element_id, name, category, category_id.
-        Also returns category_counts (always for ALL elements, even if truncated).
+Returns per element: element_id, name, category, category_id.
+Also returns category_counts (always for ALL elements, even if truncated).
 
-        If the response contains truncated=true, not all elements were returned.
-        Check total_elements vs returned_elements and increase limit if needed.
+If the response contains truncated=true, not all elements were returned.
+Check total_elements vs returned_elements and increase limit if needed.
 
-        Args:
-            limit: Maximum number of elements to return (default 5000).
-            include_levels: Include level name and level_id per element. Default false.
-            include_location: Include location geometry (point or curve). Default false.
+Args:
+    limit: Maximum number of elements to return (default 5000).
+    include_levels: Include level name and level_id per element. Default false.
+    include_location: Include location geometry (point or curve). Default false.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -394,10 +458,12 @@ Get elements visible in the currently active view in Revit.
 
 ### `get_revit_view`
 
+Toolset: `model`
+
 Export a specific Revit view as a PNG image.
 
-        view_name: the exact view name, or the view element id as a string when
-        several views share a name (e.g. floor and ceiling plan "Level 1").
+view_name: the exact view name, or the view element id as a string when
+several views share a name (e.g. floor and ceiling plan "Level 1").
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -405,8 +471,13 @@ Export a specific Revit view as a PNG image.
 
 ### `list_sheets`
 
+Toolset: `model`
+
+Sheets with number, name, placed views, title blocks, revisions; counts sheets without views/title
+blocks.
+
 Sheets with number, name, placed views, title blocks and revisions, plus counts of sheets
-        without views or title blocks.
+without views or title blocks.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -414,9 +485,11 @@ Sheets with number, name, placed views, title blocks and revisions, plus counts 
 | `parameters` | list of string |  |  | Sheet parameters to include, e.g. ['Drawn By'] |
 | `offset` | integer |  | `0` |  |
 | `limit` | integer |  | `100` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `get_schedule_data`
+
+Toolset: `model`
 
 Read a schedule's table (column headers and rows as displayed), paginated.
 
@@ -425,27 +498,33 @@ Read a schedule's table (column headers and rows as displayed), paginated.
 | `schedule` | integer or string | yes |  | Schedule view id or exact name |
 | `offset` | integer |  | `0` |  |
 | `limit` | integer |  | `200` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `list_category_parameters`
 
+Toolset: `documentation`
+
+Parameters available on a category's elements (for color_splash).
+
 Get available parameters for elements in a category
 
-        This tool helps you discover what parameters are available for coloring
-        by listing all parameters found on elements in the specified category.
+This tool helps you discover what parameters are available for coloring
+by listing all parameters found on elements in the specified category.
 
-        Args:
-            category_name: Name of the category to check parameters for (e.g., "Walls", "Doors")
-            ctx: MCP context for logging
+Args:
+    category_name: Name of the category to check parameters for (e.g., "Walls", "Doors")
+    ctx: MCP context for logging
 
-        Returns:
-            List of available parameters with their types and sample values
+Returns:
+    List of available parameters with their types and sample values
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `category_name` | string | yes |  |  |
 
 ### `revit_selection`
+
+Toolset: `core`
 
 Read the current Revit selection, or select/highlight elements for the user (active document only).
 
@@ -457,12 +536,17 @@ Read the current Revit selection, or select/highlight elements for the user (act
 
 ### `set_parameters`
 
+Toolset: `edit`
+
+Set instance/type parameter values with before/after values. Dimensional numbers need `unit` (or
+'900 mm'); bare numbers are rejected.
+
 Set parameter values on elements (instance or type) and return before/after values.
 
-        Units are strict: a dimensional parameter needs `unit` (e.g. value=900, unit='mm') or a
-        string with units ('900 mm'); bare numbers are rejected to prevent feet/mm mistakes.
-        Yes/No accepts true/false. Element-id parameters accept an id or a material/level name.
-        Changing a type parameter affects every instance of that type (reported in the result).
+Units are strict: a dimensional parameter needs `unit` (e.g. value=900, unit='mm') or a
+string with units ('900 mm'); bare numbers are rejected to prevent feet/mm mistakes.
+Yes/No accepts true/false. Element-id parameters accept an id or a material/level name.
+Changing a type parameter affects every instance of that type (reported in the result).
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -475,13 +559,15 @@ Set parameter values on elements (instance or type) and return before/after valu
 | `atomic` | boolean |  | `True` | All-or-nothing (default). false = apply what succeeds |
 | `dry_run` | boolean |  | `False` |  |
 | `confirm` | boolean |  | `False` | Required when more than 100 elements are affected |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `bulk_update_parameter`
 
-Write one parameter on many elements (by ids, selection or filters) using a fixed value or a
-        numbering/naming template. Example: renumber the Mark of the selected doors left-to-right:
-        parameter='Mark', selection=true, template='D{n:02}', sort_by='x'. Use dry_run first.
+Toolset: `edit`
+
+Write one parameter on many elements (ids, selection or filters) with a value or a numbering
+template, e.g. selected doors left-to-right: parameter='Mark', selection=true, template='D{n:02}',
+sort_by='x'. Use dry_run first.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -505,9 +591,11 @@ Write one parameter on many elements (by ids, selection or filters) using a fixe
 | `atomic` | boolean |  | `True` |  |
 | `dry_run` | boolean |  | `False` |  |
 | `confirm` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `transform_elements`
+
+Toolset: `edit`
 
 Move, copy, rotate or mirror elements. Copies return the new element ids.
 
@@ -525,25 +613,35 @@ Move, copy, rotate or mirror elements. Copies return the new element ids.
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
 | `confirm` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `delete_elements`
 
+Toolset: `edit`
+
+Delete elements. Without confirm=true it only previews everything Revit would delete (incl.
+hosted/dependent elements); show the preview first.
+
 Delete elements. Without confirm=true this only previews: Revit performs the deletion inside a
-        rolled-back transaction and reports every dependent element that would also be removed
-        (hosted doors, tags, dimensions...). Show the preview to the user before confirming.
+rolled-back transaction and reports every dependent element that would also be removed (hosted
+doors, tags, dimensions...). Show the preview to the user before confirming.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `element_ids` | list of integer | yes |  |  |
 | `confirm` | boolean |  | `False` | false (default) = preview of everything Revit would delete |
 | `include_pinned` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `create_elements`
 
+Toolset: `edit`
+
+Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one transaction;
+returns new ids.
+
 Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one
-        transaction. Returns new element ids. Doors/windows need host_id of a wall.
+transaction. Returns new element ids. Doors/windows need host_id of a wall.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -551,18 +649,20 @@ Create levels, grids, walls, floors, family instances (hosted or not) and rooms 
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `atomic` | boolean |  | `True` |  |
 | `dry_run` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `place_family`
 
+Toolset: `legacy`
+
 Place a family instance at a specified location in the Revit model.
 
-        Coordinates are decimal feet unless `unit` is given ("mm", "m", "cm", "in", "ft").
-        rotation is in degrees about the vertical axis. For hosted families (doors,
-        windows, wall/face based) pass host_id = the wall/host element id.
-        Numeric `properties` are written in Revit internal units; prefer
-        set_parameters (which validates units) for dimensional values.
-        For full control (curves, floors, levels, grids) use create_elements.
+Coordinates are decimal feet unless `unit` is given ("mm", "m", "cm", "in", "ft").
+rotation is in degrees about the vertical axis. For hosted families (doors,
+windows, wall/face based) pass host_id = the wall/host element id.
+Numeric `properties` are written in Revit internal units; prefer
+set_parameters (which validates units) for dimensional values.
+For full control (curves, floors, levels, grids) use create_elements.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -579,8 +679,10 @@ Place a family instance at a specified location in the Revit model.
 
 ### `manage_element_types`
 
+Toolset: `edit`
+
 Project types: duplicate a type (optionally setting its parameters), rename it, list the
-        types an element may switch to, or change elements to another type.
+types an element may switch to, or change elements to another type.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -595,25 +697,29 @@ Project types: duplicate a type (optionally setting its parameters), rename it, 
 | `element_ids` | list of integer |  |  | change_type: elements to switch to the type |
 | `dry_run` | boolean |  | `False` |  |
 | `confirm` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `color_splash`
 
+Toolset: `documentation`
+
+Color a category's elements in the active view by parameter value.
+
 Color elements in a category based on parameter values
 
-        This tool applies color coding to Revit elements within a specified category
-        based on their parameter values. Elements with the same parameter value
-        will receive the same color.
+This tool applies color coding to Revit elements within a specified category
+based on their parameter values. Elements with the same parameter value
+will receive the same color.
 
-        Args:
-            category_name: Name of the category to color (e.g., "Walls", "Doors", "Windows")
-            parameter_name: Name of the parameter to use for coloring (e.g., "Mark", "Type Name")
-            use_gradient: Whether to use gradient coloring instead of distinct colors (default: False)
-            custom_colors: Optional list of custom colors in hex format (e.g., ["#FF0000", "#00FF00"])
-            ctx: MCP context for logging
+Args:
+    category_name: Name of the category to color (e.g., "Walls", "Doors", "Windows")
+    parameter_name: Name of the parameter to use for coloring (e.g., "Mark", "Type Name")
+    use_gradient: Whether to use gradient coloring instead of distinct colors (default: False)
+    custom_colors: Optional list of custom colors in hex format (e.g., ["#FF0000", "#00FF00"])
+    ctx: MCP context for logging
 
-        Returns:
-            Results of the coloring operation including statistics and color assignments
+Returns:
+    Results of the coloring operation including statistics and color assignments
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -624,17 +730,19 @@ Color elements in a category based on parameter values
 
 ### `clear_colors`
 
+Toolset: `documentation`
+
 Clear color overrides for elements in a category
 
-        This tool removes all color overrides that have been applied to elements
-        in the specified category, returning them to their default appearance.
+This tool removes all color overrides that have been applied to elements
+in the specified category, returning them to their default appearance.
 
-        Args:
-            category_name: Name of the category to clear colors from (e.g., "Walls", "Doors")
-            ctx: MCP context for logging
+Args:
+    category_name: Name of the category to clear colors from (e.g., "Walls", "Doors")
+    ctx: MCP context for logging
 
-        Returns:
-            Results of the clear operation including count of elements processed
+Returns:
+    Results of the clear operation including count of elements processed
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -642,26 +750,35 @@ Clear color overrides for elements in a category
 
 ### `family_list_templates`
 
+Toolset: `families`
+
+Find family templates (.rft) for a kind (best first) or show which kinds are available/missing.
+
 Inspect family template folders (Revit's FamilyTemplatePath + extra dirs). With `kind`, returns
-        matching .rft files best first and reports when none exists; without, shows the best template per
-        kind and which kinds are missing.
+matching .rft files best first and reports when none exists; without, shows the best template
+per kind and which kinds are missing.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `kind` | `generic_model` \| `generic_model_face_based` \| `generic_model_wall_based` \| `generic_model_floor_based` \| `generic_model_ceiling_based` \| `generic_model_line_based` \| `generic_model_adaptive` \| `door` \| `door_curtain_wall` \| `window` \| `window_curtain_wall` \| `furniture` \| `furniture_system` \| `casework` \| `casework_wall_based` \| `plumbing_fixture` \| `lighting_fixture` \| `lighting_fixture_ceiling_based` \| `mechanical_equipment` \| `electrical_equipment` \| `electrical_fixture` \| `specialty_equipment` \| `column` \| `structural_column` \| `structural_framing` \| `structural_foundation` \| `structural_stiffener` \| `structural_truss` \| `entourage` \| `planting` \| `site` \| `parking` \| `profile` \| `profile_mullion` \| `profile_rail` \| `profile_reveal` \| `profile_hosted` \| `detail_item` \| `detail_item_line_based` \| `generic_annotation` \| `door_tag` \| `window_tag` \| `room_tag` \| `multi_category_tag` \| `title_block` \| `rebar_shape` \| `mass` \| `railing_baluster` \| `ceiling_based_generic` |  |  |  |
+| `kind` | string |  |  | e.g. door, window, furniture, casework, generic_model, generic_model_wall_based, lighting_fixture (family_list_templates lists all) |
 | `unit_system` | `metric` \| `imperial` |  |  |  |
 | `contains` | string |  |  |  |
 | `search_dirs` | list of string |  |  |  |
 
 ### `family_create`
 
+Toolset: `families`
+
+Create a new .rfa family from a template (by kind or template_path); opens in the background - pass
+its title as `document`.
+
 Create a NEW family document (.rfa) from a Revit family template, chosen by kind (door, window,
-        furniture, casework, generic_model, ...) or explicit template_path. The family opens in the
-        background; pass its title as `document` to the other family_* tools.
+furniture, casework, generic_model, ...) or explicit template_path. The family opens in the
+background; pass its title as `document` to the other family_* tools.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `kind` | `generic_model` \| `generic_model_face_based` \| `generic_model_wall_based` \| `generic_model_floor_based` \| `generic_model_ceiling_based` \| `generic_model_line_based` \| `generic_model_adaptive` \| `door` \| `door_curtain_wall` \| `window` \| `window_curtain_wall` \| `furniture` \| `furniture_system` \| `casework` \| `casework_wall_based` \| `plumbing_fixture` \| `lighting_fixture` \| `lighting_fixture_ceiling_based` \| `mechanical_equipment` \| `electrical_equipment` \| `electrical_fixture` \| `specialty_equipment` \| `column` \| `structural_column` \| `structural_framing` \| `structural_foundation` \| `structural_stiffener` \| `structural_truss` \| `entourage` \| `planting` \| `site` \| `parking` \| `profile` \| `profile_mullion` \| `profile_rail` \| `profile_reveal` \| `profile_hosted` \| `detail_item` \| `detail_item_line_based` \| `generic_annotation` \| `door_tag` \| `window_tag` \| `room_tag` \| `multi_category_tag` \| `title_block` \| `rebar_shape` \| `mass` \| `railing_baluster` \| `ceiling_based_generic` |  |  |  |
+| `kind` | string |  |  | e.g. door, window, furniture, casework, generic_model, generic_model_wall_based, lighting_fixture (family_list_templates lists all) |
 | `template_path` | string |  |  |  |
 | `save_path` | string |  |  | Full .rfa path to save immediately (recommended) |
 | `category` | string |  |  | Override the template category, e.g. 'Furniture' |
@@ -672,6 +789,8 @@ Create a NEW family document (.rfa) from a Revit family template, chosen by kind
 
 ### `family_open`
 
+Toolset: `families`
+
 Open an existing family for editing - from an .rfa file or a family loaded in the project.
 
 | Argument | Type | Required | Default | Description |
@@ -681,13 +800,18 @@ Open an existing family for editing - from an .rfa file or a family loaded in th
 
 ### `family_get_info`
 
-Inspect a family document: category and family properties, parameters (instance/type, spec, group,
-        formula, shared GUID, reporting, associations, labelled dimensions), types with values, reference
-        planes, dimensions, solid/void forms with associated parameters, and nested families.
+Toolset: `families`
+
+Inspect a family: properties, parameters (formula, shared GUID, associations, labels), types with
+values, reference planes, dimensions, forms, nested families.
+
+Inspect a family document: category and family properties, parameters (instance/type, spec,
+group, formula, shared GUID, reporting, associations, labelled dimensions), types with values,
+reference planes, dimensions, solid/void forms with associated parameters, and nested families.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `include` | list of `parameters` \| `types` \| `reference_planes` \| `dimensions` \| `forms` \| `nested` \| `properties` |  |  |  |
 | `include_builtin` | boolean |  | `False` |  |
 | `max_types` | integer |  | `50` |  |
@@ -695,39 +819,48 @@ Inspect a family document: category and family properties, parameters (instance/
 
 ### `family_set_properties`
 
+Toolset: `families`
+
 Change the family category and family-level settings (shared, work plane based, always vertical...).
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `category` | string |  |  |  |
 | `set` | object |  |  | {work_plane_based, always_vertical, shared, room_calculation_point, cut_with_voids} |
 | `dry_run` | boolean |  | `False` |  |
 
 ### `family_add_parameters`
 
+Toolset: `families`
+
+Add family parameters (type/instance, any data type, value, formula, reporting, or shared with its
+GUID). Formulas are checked before Revit applies them.
+
 Add family parameters (type or instance; any data type; optional initial value, formula,
-        reporting; or shared definitions with their existing GUID). Existing names are skipped.
-        Formulas are pre-checked for unknown names and circular references, then validated by Revit.
+reporting; or shared definitions with their existing GUID). Existing names are skipped. Formulas
+are pre-checked for unknown names and circular references, then validated by Revit.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `parameters` | list of FamilyParameterSpec | yes |  |  |
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `naming_pattern` | string |  |  | Regex every new name must match |
 | `atomic` | boolean |  | `True` |  |
 | `dry_run` | boolean |  | `False` |  |
 
 ### `family_edit_parameters`
 
+Toolset: `families`
+
 Edit existing family parameters. Shared parameters keep their GUID and cannot be renamed
-        (Revit API limitation) - use replace_with_shared to swap definitions.
+(Revit API limitation) - use replace_with_shared to swap definitions.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `action` | `list` \| `remove` \| `rename` \| `set_formula` \| `set_instance` \| `set_reporting` \| `replace_with_shared` \| `associate` \| `set_values` | yes |  |  |
 | `parameters` | list of object |  |  | remove: {name} \| rename: {name, new_name} \| set_formula: {name, formula} (empty formula clears) \| set_instance: {name, instance} \| set_reporting: {name, reporting} \| replace_with_shared: {name, shared_name?\|guid?, group?, instance?} \| associate: {element_id, element_parameter, name} (name omitted = dissociate) \| set_values: {name, value, unit?} on the current type |
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `shared_parameter_file` | string |  |  |  |
 | `atomic` | boolean |  | `True` |  |
 | `dry_run` | boolean |  | `False` |  |
@@ -735,15 +868,20 @@ Edit existing family parameters. Shared parameters keep their GUID and cannot be
 
 ### `family_manage_types`
 
+Toolset: `families`
+
+Family types: list, create/upsert, duplicate, rename, delete, set values per type; export/import
+type catalogs.
+
 List, create, duplicate, rename, delete family types and set per-type values; export or import a
-        Revit type catalog (.txt). Example: three door sizes ->
-        action='create', types=[{name:'900x2100', values:{Width:900, Height:2100}}, ...].
+Revit type catalog (.txt). Example: three door sizes -> action='create',
+types=[{name:'900x2100', values:{Width:900, Height:2100}}, ...].
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `action` | `list` \| `create` \| `upsert` \| `duplicate` \| `rename` \| `delete` \| `set_values` \| `export_catalog` \| `import_catalog` |  | `list` |  |
 | `types` | list of object |  |  | create/upsert: {name, values: {param: value\|{value, unit}}, based_on?} \| duplicate: {source, new_name, values?} \| rename: {name, new_name} \| delete: {name} \| set_values: {name, values} |
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `parameters` | list of string |  |  | list: only these parameters |
 | `path` | string |  |  | Type catalog .txt path (default: next to the .rfa) |
 | `catalog_text` | string |  |  |  |
@@ -754,48 +892,59 @@ List, create, duplicate, rename, delete family types and set per-type values; ex
 
 ### `family_create_reference_planes`
 
+Toolset: `families`
+
 Create named reference planes (x: left/right, y: front/back, z: horizontal) at offsets, or list them.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `planes` | list of ReferencePlaneSpec |  |  |  |
 | `action` | `create` \| `list` |  | `create` |  |
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
 
 ### `family_create_form`
 
+Toolset: `families`
+
+Create solid/void extrusion, blend, revolution or sweep on a work plane, with
+material/visibility/end parameter links, subcategory and face locking.
+
 Create solid or void extrusions, blends, revolutions and sweeps on a work plane, optionally
-        associating material / visibility / extrusion end to family parameters, setting detail-level
-        visibility and subcategory, cutting solids with voids and locking faces to reference planes.
+associating material / visibility / extrusion end to family parameters, setting detail-level
+visibility and subcategory, cutting solids with voids and locking faces to reference planes.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `forms` | list of FormSpec | yes |  |  |
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
 
 ### `family_add_dimension`
 
+Toolset: `families`
+
 Dimension between parallel reference planes (or Ref. Level) and label it with a parameter
-        (e.g. Left-Right labelled Width), add EQ constraints (Left-Center-Right) or lock it.
+(e.g. Left-Right labelled Width), add EQ constraints (Left-Center-Right) or lock it.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `dimensions` | list of DimensionSpec | yes |  |  |
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
 
 ### `family_align_geometry`
 
+Toolset: `families`
+
 Lock form faces to the reference planes they lie on, so geometry follows labelled dimensions.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `form_ids` | list of integer |  |  | Default: all solid forms |
 | `planes` | list of string |  |  | Default: every reference plane + Ref. Level |
 | `lock` | boolean |  | `True` |  |
@@ -803,14 +952,19 @@ Lock form faces to the reference planes they lie on, so geometry follows labelle
 
 ### `family_build_parametric_box`
 
-Build a genuinely parametric box in one step: Left/Right/Front/Back reference planes centred
-        on the template's centre planes, Width/Depth labelled dimensions with EQ, a solid extrusion with
-        all four sides locked, Height driving the extrusion end and a Material parameter - then flex it
-        to prove the geometry follows the parameters. Ideal base for furniture, casework and equipment.
+Toolset: `families`
+
+One call: fully constrained parametric box (planes, Width/Depth labels with EQ, locked extrusion,
+Height, Material) + flex check. Base for furniture/casework/equipment.
+
+Build a genuinely parametric box in one step: Left/Right/Front/Back reference planes centred on
+the template's centre planes, Width/Depth labelled dimensions with EQ, a solid extrusion with
+all four sides locked, Height driving the extrusion end and a Material parameter - then flex it
+to prove the geometry follows the parameters. Ideal base for furniture, casework and equipment.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `width` | number |  | `900` |  |
 | `depth` | number |  | `600` |  |
 | `height` | number |  | `750` |  |
@@ -827,13 +981,15 @@ Build a genuinely parametric box in one step: Left/Right/Front/Back reference pl
 
 ### `family_nested`
 
+Toolset: `families`
+
 Load a family into the family being edited and place it, linking nested parameters to host
-        family parameters (parameter associations).
+family parameters (parameter associations).
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `action` | `load` \| `place` | yes |  |  |
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `path` | string |  |  | load: .rfa to nest |
 | `family` | string |  |  |  |
 | `type` | string |  |  |  |
@@ -844,12 +1000,17 @@ Load a family into the family being edited and place it, linking nested paramete
 
 ### `family_flex_test`
 
+Toolset: `families`
+
+Flex a family through types/values, measure geometry, report constraint errors and parameters with
+no effect; all rolled back.
+
 Flex a family: apply types / parameter values, regenerate and measure geometry, report Revit
-        constraint errors and parameters with no geometric effect. Everything is rolled back.
+constraint errors and parameters with no geometric effect. Everything is rolled back.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `cases` | list of FlexCase |  |  | Default: every type, then +20% on each length parameter |
 | `expect` | object |  |  | Bounding box axis -> parameter, e.g. {x:'Width'} |
 | `tolerance` | number |  | `0.5` |  |
@@ -857,24 +1018,31 @@ Flex a family: apply types / parameter values, regenerate and measure geometry, 
 
 ### `family_validate`
 
+Toolset: `families`
+
+QC a family: category, formulas, parameters that drive nothing, type values, geometry, labelled
+dimensions, warnings - with severity and fixes.
+
 Quality-control a family: category, formulas (syntax, unknown names, circular references),
-        parameters that drive nothing, types missing values or with zero dimensions, invalid geometry,
-        missing labelled dimensions (not parametric) and Revit warnings - with severities and fixes.
+parameters that drive nothing, types missing values or with zero dimensions, invalid geometry,
+missing labelled dimensions (not parametric) and Revit warnings - with severities and fixes.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `expected_category` | string |  |  |  |
 | `parameter_naming_pattern` | string |  |  |  |
 
 ### `family_save`
 
+Toolset: `families`
+
 Save the family document. Existing files are backed up to %APPDATA%/RVTSS/backups before being
-        overwritten.
+overwritten.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `save_path` | string |  |  | Save As path (.rfa). Omit to save in place |
 | `overwrite` | boolean |  | `False` |  |
 | `compact_file` | boolean |  | `False` |  |
@@ -882,43 +1050,56 @@ Save the family document. Existing files are backed up to %APPDATA%/RVTSS/backup
 
 ### `family_load_into_project`
 
+Toolset: `families`
+
 Load (or reload) the family into a project and verify that all its types arrived.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `project` | string |  |  | Target project title (default: active/only project) |
 | `overwrite` | boolean |  | `True` | Reload if the family already exists in the project |
 | `overwrite_parameter_values` | boolean |  | `False` | Also overwrite type parameter values in the project |
 
 ### `family_close`
 
+Toolset: `families`
+
 Close a background family document (refuses to drop unsaved changes unless discard_changes=true).
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `document` | string |  |  | Family document title or path (from family_create / family_open). Default: the active document. |
+| `document` | string |  |  | Family document title/path (default: active) |
 | `save` | boolean |  | `False` |  |
 | `discard_changes` | boolean |  | `False` | Required to close with unsaved changes and save=false |
 
 ### `list_project_parameters`
 
+Toolset: `parameters`
+
 Project parameters with binding (instance/type), categories, data type, group, shared GUID,
-        plus names defined more than once.
+plus names defined more than once.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `contains` | string |  |  |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `shared_parameters`
 
-Shared parameter workflow: read the file (GUIDs, groups, duplicates, which are already in the
-        project), create definitions (existing names are reused and their GUIDs never changed; supplied
-        GUIDs are honoured), create a new file, and bind a shared parameter to categories as instance or
-        type (existing bindings are extended, never replaced). Example: 'Fire Rating' on Doors and Walls ->
-        create_definitions [{name:'Fire Rating', type:'text'}] then bind name='Fire Rating',
-        categories=['Doors','Walls'].
+Toolset: `parameters`
+
+Shared parameters: read_file, create_definitions (GUIDs preserved), create_file, bind to categories
+(instance/type).
+
+Shared parameters: read_file (GUIDs, duplicates, project use), create_definitions (existing
+names/GUIDs reused, never rewritten), create_file, bind to categories as instance/type (extends
+existing bindings). E.g. create_definitions [{name:'Fire Rating'}] then bind
+categories=['Doors','Walls'].
+
+Existing names are reused and their GUIDs never changed; supplied GUIDs are honoured. Existing
+bindings are extended with ReInsert, never replaced; a different parameter with the same name is
+refused.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -935,12 +1116,14 @@ Shared parameter workflow: read the file (GUIDs, groups, duplicates, which are a
 | `vary_between_groups` | boolean |  |  |  |
 | `contains` | string |  |  |  |
 | `dry_run` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `global_parameters`
 
+Toolset: `parameters`
+
 Global parameters: list (value, formula, affected elements), create, set value/formula and
-        associate element parameters with them.
+associate element parameters with them.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -954,12 +1137,17 @@ Global parameters: list (value, formula, affected elements), create, set value/f
 | `parameter` | string |  |  | associate: element parameter to drive |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `audit_parameters`
 
+Toolset: `parameters`
+
+Audit parameters on elements: missing, empty, invalid values, wrong types, duplicate or misnamed
+definitions.
+
 Audit parameters on a set of elements: missing, empty, invalid values, wrong data types, and
-        duplicate / badly named project parameter definitions. Returns findings with element ids.
+duplicate / badly named project parameter definitions. Returns findings with element ids.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -973,9 +1161,11 @@ Audit parameters on a set of elements: missing, empty, invalid values, wrong dat
 | `naming_pattern` | string |  |  | Regex all project parameter names must match |
 | `include_type_parameters` | boolean |  | `True` |  |
 | `check_empty` | boolean |  | `True` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `export_parameters`
+
+Toolset: `parameters`
 
 Export element parameter values to CSV (ElementId, UniqueId, Category, Family, Type + columns).
 
@@ -991,12 +1181,17 @@ Export element parameter values to CSV (ElementId, UniqueId, Category, Family, T
 | `overwrite` | boolean |  | `False` |  |
 | `value_mode` | `display` \| `raw` |  | `display` |  |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `import_parameters`
 
+Toolset: `parameters`
+
+Import parameter values from CSV (ElementId or UniqueId column + parameter columns). dry_run by
+default.
+
 Import parameter values from CSV (needs an ElementId or UniqueId column; other columns are
-        parameter names). Defaults to dry_run=true - review the changes, then run with dry_run=false.
+parameter names). Defaults to dry_run=true - review the changes, then run with dry_run=false.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -1009,12 +1204,14 @@ Import parameter values from CSV (needs an ElementId or UniqueId column; other c
 | `atomic` | boolean |  | `False` |  |
 | `dry_run` | boolean |  | `True` |  |
 | `confirm` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `map_parameters`
 
+Toolset: `parameters`
+
 Copy values from existing parameters into your BIM-standard parameters (converting between
-        storage types through display values). Source values are never deleted.
+storage types through display values). Source values are never deleted.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -1028,12 +1225,17 @@ Copy values from existing parameters into your BIM-standard parameters (converti
 | `atomic` | boolean |  | `False` |  |
 | `dry_run` | boolean |  | `True` |  |
 | `confirm` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `create_view`
 
+Toolset: `documentation`
+
+Create plans, 3D (optionally boxed to elements), sections, elevations, drafting views or duplicates,
+with name/template/scale.
+
 Create plans, 3D views (optionally section-boxed to elements), sections framing elements,
-        elevations, drafting views, or duplicate a view - with name, template, scale and detail level.
+elevations, drafting views, or duplicate a view - with name, template, scale and detail level.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -1052,15 +1254,21 @@ Create plans, 3D views (optionally section-boxed to elements), sections framing 
 | `scale` | integer |  |  |  |
 | `detail_level` | `coarse` \| `medium` \| `fine` |  |  |  |
 | `view_family_type` | string |  |  |  |
+| `area_scheme` | string |  |  | area_plan: area scheme name (default: first) |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `view_graphics`
 
+Toolset: `documentation`
+
+Per-view graphics: element/category overrides, hide/unhide, temporary isolate, category visibility,
+view templates, scale, detail level.
+
 Per-view graphics: element/category overrides (color, fill, line weight, halftone,
-        transparency), hide/unhide, temporary isolate/hide, category visibility, view templates,
-        scale and detail level. Warns when a view template controls the setting.
+transparency), hide/unhide, temporary isolate/hide, category visibility, view templates, scale
+and detail level. Warns when a view template controls the setting.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -1078,9 +1286,11 @@ Per-view graphics: element/category overrides (color, fill, line weight, halfton
 | `scale` | integer |  |  |  |
 | `detail_level` | `coarse` \| `medium` \| `fine` |  |  |  |
 | `dry_run` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `manage_sheets`
+
+Toolset: `documentation`
 
 Create sheets (with title blocks) and place views or schedules on them.
 
@@ -1094,9 +1304,11 @@ Create sheets (with title blocks) and place views or schedules on them.
 | `location` | list of number |  |  | place_view: [x, y] on the sheet in `unit` |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `create_schedule`
+
+Toolset: `documentation`
 
 Create a schedule for a category with fields, sorting and filters.
 
@@ -1106,16 +1318,21 @@ Create a schedule for a category with fields, sorting and filters.
 | `fields` | list of string | yes |  | Schedulable field names, e.g. ['Mark','Type','Width','Fire Rating'] |
 | `name` | string |  |  |  |
 | `sort_by` | list of string |  |  |  |
-| `filters` | list of object |  |  | [{field, type: 'Equal'\|'Contains'\|..., value}] |
+| `filters` | list of object |  |  | [{field, type: 'Equal'\|'Contains'\|'GreaterThan'\|..., value, unit?}] - numbers for numeric fields (with unit for lengths), text for text fields |
 | `itemized` | boolean |  | `True` |  |
 | `strict` | boolean |  | `True` |  |
 | `dry_run` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `batch_rename`
 
+Toolset: `documentation`
+
+Rename views/sheets/levels/families/types/rooms... with find/replace/regex/prefix/suffix/case;
+detects collisions. dry_run by default.
+
 Rename many items to a naming standard with find/replace (or regex), prefix, suffix and case.
-        Detects collisions and invalid characters before changing anything. Defaults to dry_run=true.
+Detects collisions and invalid characters before changing anything. Defaults to dry_run=true.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -1131,9 +1348,11 @@ Rename many items to a naming standard with find/replace (or regex), prefix, suf
 | `field` | `name` \| `number` |  | `name` | sheets: rename the number instead of the name |
 | `dry_run` | boolean |  | `True` |  |
 | `confirm` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `manage_groups`
+
+Toolset: `documentation`
 
 List group types (instances, unused types), create a model group from elements, or ungroup.
 
@@ -1144,12 +1363,16 @@ List group types (instances, unused types), create a model group from elements, 
 | `name` | string |  |  |  |
 | `group_id` | integer |  |  |  |
 | `dry_run` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `manage_assemblies`
 
+Toolset: `documentation`
+
+Assemblies: create, add/remove members, rename, create assembly views and sheet.
+
 Assemblies: create from elements (with a name), add/remove members, rename, and generate
-        assembly views (3D, elevations/sections, parts list, material takeoff) plus an assembly sheet.
+assembly views (3D, elevations/sections, parts list, material takeoff) plus an assembly sheet.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -1161,14 +1384,19 @@ Assemblies: create from elements (with a name), add/remove members, rename, and 
 | `views` | list of `3d` \| `front` \| `back` \| `left` \| `right` \| `top` \| `bottom` \| `detail_front` \| `detail_side` \| `horizontal` \| `parts_list` \| `material_takeoff` |  |  | create_views: which assembly views to create |
 | `create_sheet` | boolean |  | `False` |  |
 | `dry_run` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `run_model_checks`
 
+Toolset: `qc`
+
+BIM QC report (warnings, duplicates, naming, families/types, CAD, links, rooms, views, sheets,
+required parameters, groups) with severity, ids and fixes.
+
 BIM quality report: warnings, duplicate elements, naming standards, near-duplicate families,
-        duplicate types, unused / in-place families, CAD imports, link status, rooms, views not on sheets,
-        sheet completeness, required parameters and unused groups. Each finding has severity, element ids
-        and a recommended correction.
+duplicate types, unused / in-place families, CAD imports, link status, rooms, views not on
+sheets, sheet completeness, required parameters and unused groups. Each finding has severity,
+element ids and a recommended correction.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -1179,12 +1407,16 @@ BIM quality report: warnings, duplicate elements, naming standards, near-duplica
 | `min_severity` | `info` \| `warning` \| `error` \| `critical` |  | `info` |  |
 | `max_findings` | integer |  | `200` |  |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `check_clashes`
 
+Toolset: `qc`
+
+Hard clashes (solid intersection) between two element sets, also against a Revit link.
+
 Hard clash detection (solid intersection) between two element sets in the model or against a
-        loaded Revit link. Returns clashing pairs with ids, categories and types.
+loaded Revit link. Returns clashing pairs with ids, categories and types.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -1194,12 +1426,16 @@ Hard clash detection (solid intersection) between two element sets in the model 
 | `max_elements` | integer |  | `2000` |  |
 | `compute_volume` | boolean |  | `False` |  |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `model_snapshot`
 
+Toolset: `qc`
+
+Save a JSON snapshot (ids, types, levels, locations, tracked parameters) for later compare_models.
+
 Save a JSON snapshot of the model (ids, UniqueIds, types, levels, locations, tracked parameter
-        values) to %APPDATA%/RVTSS/snapshots for later change detection with compare_models.
+values) to %APPDATA%/RVTSS/snapshots for later change detection with compare_models.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -1212,14 +1448,19 @@ Save a JSON snapshot of the model (ids, UniqueIds, types, levels, locations, tra
 | `hash_all_parameters` | boolean |  | `False` | Detect any parameter change (slower) |
 | `link_instance_id` | integer |  |  | Snapshot a Revit link (coordinates transformed to the host) |
 | `overwrite` | boolean |  | `False` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `compare_models`
 
+Toolset: `qc`
+
+Change detection: snapshot vs live model or another snapshot (added/removed/modified), or match two
+element sets by location (design vs shop model).
+
 Change detection and model comparison. snapshots: added / removed / modified elements (type,
-        level, moved, parameter changes) between a baseline snapshot and the live model or another
-        snapshot. match: pair elements of two sets by location (design model vs shop drawing / fabrication
-        link) and report unmatched elements and type substitutions.
+level, moved, parameter changes) between a baseline snapshot and the live model or another
+snapshot. match: pair elements of two sets by location (design model vs shop drawing /
+fabrication link) and report unmatched elements and type substitutions.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -1233,45 +1474,54 @@ Change detection and model comparison. snapshots: added / removed / modified ele
 | `match_on` | list of `category` \| `family` \| `type` \| `level` |  |  | match: keys that must be equal |
 | `tolerance` | number |  | `50.0` | match: max distance in mm |
 | `max_items` | integer |  | `300` |  |
-| `document` | string |  |  | Target document title or path; default is the active document. Family documents opened with family_open/family_create are addressed this way. |
+| `document` | string |  |  | Document title or path (default: active) |
 
 ### `execute_revit_code`
 
+Toolset: `code`
+
+Run IronPython in Revit (doc, uidoc, DB, revit; print output returned). Prefer dedicated tools;
+transaction_mode none/auto/dry_run/read_only.
+
 Execute IronPython code directly in Revit context.
 
-        The code has access to:
-        - doc: The active Revit document
-        - uidoc: The active UIDocument (use for UI operations like switching the active view)
-        - DB: Revit API Database namespace
-        - revit: pyRevit module
-        - print: Function to output text (returned in response)
+The code has access to:
+- doc: The active Revit document
+- uidoc: The active UIDocument (use for UI operations like switching the active view)
+- DB: Revit API Database namespace
+- revit: pyRevit module
+- print: Function to output text (returned in response)
 
-        Prefer the dedicated RVTSS tools (find_elements, set_parameters, family_*,
-        ...) - they validate input and support dry runs. Use this for anything
-        they do not cover.
+Prefer the dedicated RVTSS tools (find_elements, set_parameters, family_*,
+...) - they validate input and support dry runs. Use this for anything
+they do not cover.
 
-        transaction_mode:
-        - None/"none" (default): no transaction is opened automatically.
-        - "auto": the code runs in one transaction, committed on success and
-          rolled back if it raises. Do not start your own Transaction then.
-        - "dry_run": like auto but always rolled back - test modifying code safely.
+transaction_mode:
+- None/"none" (default): no transaction is opened automatically.
+- "auto": the code runs in one transaction, committed on success and
+  rolled back if it raises. Do not start your own Transaction then.
+- "dry_run": like auto but always rolled back - test modifying code safely.
+- "read_only": no transaction; opening one is refused and any change is rolled back.
 
-        With the default mode, wrap model-modifying code yourself:
-            t = DB.Transaction(doc, "My change")
-            t.Start()
-            # ... modify model ...
-            t.Commit()
+May be disabled on the Revit machine (RVTSS_ALLOW_CODE_EXECUTION=0); every call is
+logged with the code (secrets redacted).
 
-        For UI operations that cannot run inside a transaction (e.g. switching the active view):
-            all_views = DB.FilteredElementCollector(doc).OfClass(DB.View).ToElements()
-            target = next((v for v in all_views if v.Name == "Level 1"), None)
-            if target:
-                uidoc.ActiveView = target
+With the default mode, wrap model-modifying code yourself:
+    t = DB.Transaction(doc, "My change")
+    t.Start()
+    # ... modify model ...
+    t.Commit()
 
-        Tips:
-        - Use getattr(element, 'Name', 'N/A') to safely access the Name property
-        - Check elements exist before use: if element:
-        - Use hasattr() for optional properties
+For UI operations that cannot run inside a transaction (e.g. switching the active view):
+    all_views = DB.FilteredElementCollector(doc).OfClass(DB.View).ToElements()
+    target = next((v for v in all_views if v.Name == "Level 1"), None)
+    if target:
+        uidoc.ActiveView = target
+
+Tips:
+- Use getattr(element, 'Name', 'N/A') to safely access the Name property
+- Check elements exist before use: if element:
+- Use hasattr() for optional properties
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|

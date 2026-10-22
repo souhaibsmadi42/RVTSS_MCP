@@ -17,7 +17,8 @@ def register_colors_tools(mcp, revit_get, revit_post, revit_image=None):
         custom_colors: Optional[List[str]] = None,
         ctx: Context = None,
     ) -> str:
-        """
+        """Color a category's elements in the active view by parameter value.
+
         Color elements in a category based on parameter values
 
         This tool applies color coding to Revit elements within a specified category
@@ -90,7 +91,8 @@ def register_colors_tools(mcp, revit_get, revit_post, revit_image=None):
 
     @mcp.tool(annotations=READ_ONLY)
     async def list_category_parameters(category_name: str, ctx: Context = None) -> str:
-        """
+        """Parameters available on a category's elements (for color_splash).
+
         Get available parameters for elements in a category
 
         This tool helps you discover what parameters are available for coloring

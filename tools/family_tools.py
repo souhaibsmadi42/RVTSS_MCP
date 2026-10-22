@@ -51,9 +51,10 @@ def register_family_tools(mcp, revit_get, revit_post):
     async def list_families(
         contains: str = None, limit: int = 50, ctx: Context = None
     ) -> str:
-        """
-        Get a flat list of available family types in the current Revit model.
-        Use `contains` to filter by a substring of the family or type name (case-insensitive).
+        """Flat list of family types, filterable with `contains`.
+
+        Get a flat list of available family types in the current Revit model. Use `contains` to filter
+        by a substring of the family or type name (case-insensitive).
         """
         data = {"limit": limit}
         if contains:

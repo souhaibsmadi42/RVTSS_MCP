@@ -4,7 +4,7 @@ from typing import Annotated, Any, Dict, List, Literal, Optional
 
 from pydantic import Field
 
-from ._compat import Context, READ_ONLY, MODIFIES, DESTRUCTIVE
+from ._compat import Context, READ_ONLY, MODIFIES, DESTRUCTIVE, IDEMPOTENT
 from ._common import (LengthUnit, ValueUnit, ParamFilter, ParameterUpdate, Scalar, compact, post, DOC_HELP)
 
 Ids = Optional[List[int]]
@@ -37,11 +37,9 @@ def register_element_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Find elements with combinable filters; returns ids, names, category/family/type and
-        category counts, paginated. Use this to turn a natural-language description
-        ("all fire doors on Level 2 wider than 900 mm") into concrete element ids:
-        categories=['Doors'], level='Level 2', param_filters=[{name:'Width', op:'gt', value:900, unit:'mm'}].
-        Numeric comparisons on dimensional parameters use `unit` of the filter (default mm).
+        """Find elements by combinable filters -> ids, names, category/family/type, counts (paginated).
+        E.g. doors on Level 2 wider than 900 mm: categories=['Doors'], level='Level 2',
+        param_filters=[{name:'Width', op:'gt', value:900, unit:'mm'}].
         """
         data = compact(categories=categories, class_name=class_name, level=level, view=view, family=family,
                        type=type, name_contains=name_contains, text=text, param_filters=param_filters,
@@ -62,8 +60,12 @@ def register_element_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Full details for up to 50 elements: category, family/type, level, location, bounding box,
-        workset, phases, design option, group/assembly, host, parameters (with units), geometry."""
+        """Full details for up to 50 elements: level, location, bbox, workset, phases, host, group/assembly,
+        parameters with units, geometry.
+
+        Full details for up to 50 elements: category, family/type, level, location, bounding box,
+        workset, phases, design option, group/assembly, host, parameters (with units), geometry.
+        """
         data = compact(element_ids=element_ids, parameters=parameters, include_parameters=include_parameters,
                        include_type_parameters=include_type_parameters,
                        include_parameter_meta=include_parameter_meta, include_geometry=include_geometry,
@@ -81,7 +83,7 @@ def register_element_tools(mcp, revit_get, revit_post):
         return await post(revit_post, "/selection/", compact(action=action, element_ids=element_ids,
                                                               zoom=zoom or None), ctx)
 
-    @mcp.tool(annotations=MODIFIES)
+    @mcp.tool(annotations=IDEMPOTENT)
     async def set_parameters(
         updates: Annotated[Optional[List[ParameterUpdate]], Field(description="Per-element updates")] = None,
         element_ids: Annotated[Ids, Field(description="Shorthand: same parameter/value for these ids")] = None,
@@ -95,7 +97,10 @@ def register_element_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Set parameter values on elements (instance or type) and return before/after values.
+        """Set instance/type parameter values with before/after values. Dimensional numbers need `unit` (or
+        '900 mm'); bare numbers are rejected.
+
+        Set parameter values on elements (instance or type) and return before/after values.
 
         Units are strict: a dimensional parameter needs `unit` (e.g. value=900, unit='mm') or a
         string with units ('900 mm'); bare numbers are rejected to prevent feet/mm mistakes.
@@ -136,9 +141,9 @@ def register_element_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Write one parameter on many elements (by ids, selection or filters) using a fixed value or a
-        numbering/naming template. Example: renumber the Mark of the selected doors left-to-right:
-        parameter='Mark', selection=true, template='D{n:02}', sort_by='x'. Use dry_run first."""
+        """Write one parameter on many elements (ids, selection or filters) with a value or a numbering
+        template, e.g. selected doors left-to-right: parameter='Mark', selection=true, template='D{n:02}',
+        sort_by='x'. Use dry_run first."""
         data = compact(parameter=parameter, value=value, template=template, element_ids=element_ids,
                        selection=selection or None, categories=categories, level=level, view=view,
                        family=family, type=type, param_filters=param_filters, sort_by=sort_by, start=start,
@@ -181,9 +186,13 @@ def register_element_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Delete elements. Without confirm=true this only previews: Revit performs the deletion inside a
-        rolled-back transaction and reports every dependent element that would also be removed
-        (hosted doors, tags, dimensions...). Show the preview to the user before confirming."""
+        """Delete elements. Without confirm=true it only previews everything Revit would delete (incl.
+        hosted/dependent elements); show the preview first.
+
+        Delete elements. Without confirm=true this only previews: Revit performs the deletion inside a
+        rolled-back transaction and reports every dependent element that would also be removed (hosted
+        doors, tags, dimensions...). Show the preview to the user before confirming.
+        """
         data = compact(element_ids=element_ids, confirm=confirm or None, include_pinned=include_pinned or None,
                        document=document)
         return await post(revit_post, "/delete_elements/", data, ctx, timeout=120.0)
@@ -204,8 +213,12 @@ def register_element_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one
-        transaction. Returns new element ids. Doors/windows need host_id of a wall."""
+        """Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one transaction;
+        returns new ids.
+
+        Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one
+        transaction. Returns new element ids. Doors/windows need host_id of a wall.
+        """
         data = compact(items=items, unit=unit, atomic=atomic, dry_run=dry_run or None, document=document)
         return await post(revit_post, "/create_elements/", data, ctx, timeout=180.0)
 

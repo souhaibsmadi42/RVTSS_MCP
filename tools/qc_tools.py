@@ -31,10 +31,14 @@ def register_qc_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """BIM quality report: warnings, duplicate elements, naming standards, near-duplicate families,
-        duplicate types, unused / in-place families, CAD imports, link status, rooms, views not on sheets,
-        sheet completeness, required parameters and unused groups. Each finding has severity, element ids
-        and a recommended correction."""
+        """BIM QC report (warnings, duplicates, naming, families/types, CAD, links, rooms, views, sheets,
+        required parameters, groups) with severity, ids and fixes.
+
+        BIM quality report: warnings, duplicate elements, naming standards, near-duplicate families,
+        duplicate types, unused / in-place families, CAD imports, link status, rooms, views not on
+        sheets, sheet completeness, required parameters and unused groups. Each finding has severity,
+        element ids and a recommended correction.
+        """
         data = compact(checks=checks, rules=rules, sheet_parameters=sheet_parameters,
                        duplicate_tolerance=duplicate_tolerance, min_severity=min_severity, max_findings=max_findings,
                        unit=unit, document=document)
@@ -51,8 +55,11 @@ def register_qc_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Hard clash detection (solid intersection) between two element sets in the model or against a
-        loaded Revit link. Returns clashing pairs with ids, categories and types."""
+        """Hard clashes (solid intersection) between two element sets, also against a Revit link.
+
+        Hard clash detection (solid intersection) between two element sets in the model or against a
+        loaded Revit link. Returns clashing pairs with ids, categories and types.
+        """
         data = compact(set_a=set_a, set_b=set_b, max_pairs=max_pairs, max_elements=max_elements,
                        compute_volume=compute_volume or None, unit=unit, document=document)
         return await post(revit_post, "/qc/clashes/", data, ctx, timeout=600.0)
@@ -71,8 +78,11 @@ def register_qc_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Save a JSON snapshot of the model (ids, UniqueIds, types, levels, locations, tracked parameter
-        values) to %APPDATA%/RVTSS/snapshots for later change detection with compare_models."""
+        """Save a JSON snapshot (ids, types, levels, locations, tracked parameters) for later compare_models.
+
+        Save a JSON snapshot of the model (ids, UniqueIds, types, levels, locations, tracked parameter
+        values) to %APPDATA%/RVTSS/snapshots for later change detection with compare_models.
+        """
         data = compact(action=action, name=name, path=path, categories=categories, level=level,
                        track_parameters=track_parameters, hash_all_parameters=hash_all_parameters or None,
                        link_instance_id=link_instance_id, overwrite=overwrite or None, document=document)
@@ -93,10 +103,14 @@ def register_qc_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Change detection and model comparison. snapshots: added / removed / modified elements (type,
+        """Change detection: snapshot vs live model or another snapshot (added/removed/modified), or match two
+        element sets by location (design vs shop model).
+
+        Change detection and model comparison. snapshots: added / removed / modified elements (type,
         level, moved, parameter changes) between a baseline snapshot and the live model or another
-        snapshot. match: pair elements of two sets by location (design model vs shop drawing / fabrication
-        link) and report unmatched elements and type substitutions."""
+        snapshot. match: pair elements of two sets by location (design model vs shop drawing /
+        fabrication link) and report unmatched elements and type substitutions.
+        """
         data = compact(mode=mode, baseline=baseline, current=current, categories=categories,
                        move_tolerance=move_tolerance, source=source, target=target, match_on=match_on,
                        tolerance=tolerance, max_items=max_items, document=document)

@@ -25,7 +25,8 @@ def register_view_tools(mcp, revit_get, revit_post, revit_image):
 
     @mcp.tool(annotations=READ_ONLY)
     async def get_current_view_info(ctx: Context = None) -> str:
-        """
+        """Name, type, id, scale, crop, detail level and discipline of the active view.
+
         Get detailed information about the currently active view in Revit.
 
         Returns comprehensive information including:
@@ -48,7 +49,8 @@ def register_view_tools(mcp, revit_get, revit_post, revit_image):
         include_location: bool = False,
         ctx: Context = None,
     ) -> str:
-        """
+        """Elements visible in the active view with category counts (truncated at `limit`).
+
         Get elements visible in the currently active view in Revit.
 
         Returns per element: element_id, name, category, category_id.

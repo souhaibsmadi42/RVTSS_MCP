@@ -4,28 +4,20 @@ from typing import Annotated, Any, Dict, List, Literal, Optional, Union
 
 from pydantic import BaseModel, Field
 
-from ._compat import Context, READ_ONLY, MODIFIES, DESTRUCTIVE
+from ._compat import Context, READ_ONLY, MODIFIES, DESTRUCTIVE, IDEMPOTENT
 from ._common import LengthUnit, ValueUnit, Scalar, compact, post
 
-FamDoc = Annotated[Optional[str], Field(description=(
-    "Family document title or path (from family_create / family_open). Default: the active document."))]
+FamDoc = Annotated[Optional[str], Field(description="Family document title/path (default: active)")]
 
 ParamType = Literal["length", "area", "volume", "angle", "slope", "number", "integer", "text", "multiline_text",
                     "url", "yesno", "material", "image", "currency", "mass", "force"]
 ParamGroup = Literal["dimensions", "constraints", "construction", "data", "identity_data", "materials", "graphics",
                      "text", "general", "phasing", "visibility", "fire_protection", "structural", "mechanical",
                      "electrical", "plumbing", "energy_analysis", "ifc", "other"]
-TemplateKind = Literal[
-    "generic_model", "generic_model_face_based", "generic_model_wall_based", "generic_model_floor_based",
-    "generic_model_ceiling_based", "generic_model_line_based", "generic_model_adaptive", "door",
-    "door_curtain_wall", "window", "window_curtain_wall", "furniture", "furniture_system", "casework",
-    "casework_wall_based", "plumbing_fixture", "lighting_fixture", "lighting_fixture_ceiling_based",
-    "mechanical_equipment", "electrical_equipment", "electrical_fixture", "specialty_equipment", "column",
-    "structural_column", "structural_framing", "structural_foundation", "structural_stiffener", "structural_truss",
-    "entourage", "planting", "site", "parking", "profile", "profile_mullion", "profile_rail", "profile_reveal",
-    "profile_hosted", "detail_item", "detail_item_line_based", "generic_annotation", "door_tag", "window_tag",
-    "room_tag", "multi_category_tag", "title_block", "rebar_shape", "mass", "railing_baluster",
-    "ceiling_based_generic"]
+# ~50 template kinds (door, window, furniture, casework, generic_model, ... see revit_mcp/pure/templates.py).
+# Kept as a plain string to keep the tool listing small; Revit validates it and lists the valid kinds.
+TemplateKind = Annotated[str, Field(description="e.g. door, window, furniture, casework, generic_model, "
+                                                "generic_model_wall_based, lighting_fixture (family_list_templates lists all)")]
 
 
 class FamilyParameterSpec(BaseModel):
@@ -103,9 +95,12 @@ def register_family_editor_tools(mcp, revit_get, revit_post):
         search_dirs: Optional[List[str]] = None,
         ctx: Context = None,
     ) -> str:
-        """Inspect family template folders (Revit's FamilyTemplatePath + extra dirs). With `kind`, returns
-        matching .rft files best first and reports when none exists; without, shows the best template per
-        kind and which kinds are missing."""
+        """Find family templates (.rft) for a kind (best first) or show which kinds are available/missing.
+
+        Inspect family template folders (Revit's FamilyTemplatePath + extra dirs). With `kind`, returns
+        matching .rft files best first and reports when none exists; without, shows the best template
+        per kind and which kinds are missing.
+        """
         return await post(revit_post, "/family/templates/", compact(kind=kind, unit_system=unit_system,
                                                                      contains=contains, search_dirs=search_dirs), ctx)
 
@@ -121,9 +116,13 @@ def register_family_editor_tools(mcp, revit_get, revit_post):
         search_dirs: Optional[List[str]] = None,
         ctx: Context = None,
     ) -> str:
-        """Create a NEW family document (.rfa) from a Revit family template, chosen by kind (door, window,
+        """Create a new .rfa family from a template (by kind or template_path); opens in the background - pass
+        its title as `document`.
+
+        Create a NEW family document (.rfa) from a Revit family template, chosen by kind (door, window,
         furniture, casework, generic_model, ...) or explicit template_path. The family opens in the
-        background; pass its title as `document` to the other family_* tools."""
+        background; pass its title as `document` to the other family_* tools.
+        """
         data = compact(kind=kind, template_path=template_path, save_path=save_path, category=category,
                        type_name=type_name, unit_system=unit_system, overwrite=overwrite or None,
                        search_dirs=search_dirs)
@@ -148,14 +147,18 @@ def register_family_editor_tools(mcp, revit_get, revit_post):
         unit: LengthUnit = "mm",
         ctx: Context = None,
     ) -> str:
-        """Inspect a family document: category and family properties, parameters (instance/type, spec, group,
-        formula, shared GUID, reporting, associations, labelled dimensions), types with values, reference
-        planes, dimensions, solid/void forms with associated parameters, and nested families."""
+        """Inspect a family: properties, parameters (formula, shared GUID, associations, labels), types with
+        values, reference planes, dimensions, forms, nested families.
+
+        Inspect a family document: category and family properties, parameters (instance/type, spec,
+        group, formula, shared GUID, reporting, associations, labelled dimensions), types with values,
+        reference planes, dimensions, solid/void forms with associated parameters, and nested families.
+        """
         return await post(revit_post, "/family/info/", compact(document=document, include=include,
                                                                 include_builtin=include_builtin or None,
                                                                 max_types=max_types, unit=unit), ctx, timeout=60.0)
 
-    @mcp.tool(annotations=MODIFIES)
+    @mcp.tool(annotations=IDEMPOTENT)
     async def family_set_properties(
         document: FamDoc = None,
         category: Optional[str] = None,
@@ -177,9 +180,13 @@ def register_family_editor_tools(mcp, revit_get, revit_post):
         dry_run: bool = False,
         ctx: Context = None,
     ) -> str:
-        """Add family parameters (type or instance; any data type; optional initial value, formula,
-        reporting; or shared definitions with their existing GUID). Existing names are skipped.
-        Formulas are pre-checked for unknown names and circular references, then validated by Revit."""
+        """Add family parameters (type/instance, any data type, value, formula, reporting, or shared with its
+        GUID). Formulas are checked before Revit applies them.
+
+        Add family parameters (type or instance; any data type; optional initial value, formula,
+        reporting; or shared definitions with their existing GUID). Existing names are skipped. Formulas
+        are pre-checked for unknown names and circular references, then validated by Revit.
+        """
         data = compact(action="add", parameters=parameters, document=document, naming_pattern=naming_pattern,
                        atomic=atomic, dry_run=dry_run or None)
         return await post(revit_post, "/family/parameters/", data, ctx, timeout=120.0)
@@ -224,9 +231,13 @@ def register_family_editor_tools(mcp, revit_get, revit_post):
         dry_run: bool = False,
         ctx: Context = None,
     ) -> str:
-        """List, create, duplicate, rename, delete family types and set per-type values; export or import a
-        Revit type catalog (.txt). Example: three door sizes ->
-        action='create', types=[{name:'900x2100', values:{Width:900, Height:2100}}, ...]."""
+        """Family types: list, create/upsert, duplicate, rename, delete, set values per type; export/import
+        type catalogs.
+
+        List, create, duplicate, rename, delete family types and set per-type values; export or import a
+        Revit type catalog (.txt). Example: three door sizes -> action='create',
+        types=[{name:'900x2100', values:{Width:900, Height:2100}}, ...].
+        """
         data = compact(action=action, types=types, document=document, parameters=parameters, path=path,
                        catalog_text=catalog_text, overwrite=overwrite or None, strict=strict, unit=unit,
                        dry_run=dry_run or None)
@@ -254,9 +265,13 @@ def register_family_editor_tools(mcp, revit_get, revit_post):
         dry_run: bool = False,
         ctx: Context = None,
     ) -> str:
-        """Create solid or void extrusions, blends, revolutions and sweeps on a work plane, optionally
+        """Create solid/void extrusion, blend, revolution or sweep on a work plane, with
+        material/visibility/end parameter links, subcategory and face locking.
+
+        Create solid or void extrusions, blends, revolutions and sweeps on a work plane, optionally
         associating material / visibility / extrusion end to family parameters, setting detail-level
-        visibility and subcategory, cutting solids with voids and locking faces to reference planes."""
+        visibility and subcategory, cutting solids with voids and locking faces to reference planes.
+        """
         return await post(revit_post, "/family/forms/", compact(forms=forms, document=document, unit=unit,
                                                                  dry_run=dry_run or None), ctx, timeout=120.0)
 
@@ -304,10 +319,14 @@ def register_family_editor_tools(mcp, revit_get, revit_post):
         dry_run: bool = False,
         ctx: Context = None,
     ) -> str:
-        """Build a genuinely parametric box in one step: Left/Right/Front/Back reference planes centred
-        on the template's centre planes, Width/Depth labelled dimensions with EQ, a solid extrusion with
+        """One call: fully constrained parametric box (planes, Width/Depth labels with EQ, locked extrusion,
+        Height, Material) + flex check. Base for furniture/casework/equipment.
+
+        Build a genuinely parametric box in one step: Left/Right/Front/Back reference planes centred on
+        the template's centre planes, Width/Depth labelled dimensions with EQ, a solid extrusion with
         all four sides locked, Height driving the extrusion end and a Material parameter - then flex it
-        to prove the geometry follows the parameters. Ideal base for furniture, casework and equipment."""
+        to prove the geometry follows the parameters. Ideal base for furniture, casework and equipment.
+        """
         data = compact(document=document, width=width, depth=depth, height=height, width_parameter=width_parameter,
                        depth_parameter=depth_parameter, height_parameter=height_parameter,
                        material_parameter=material_parameter, instance_parameters=instance_parameters or None,
@@ -343,8 +362,12 @@ def register_family_editor_tools(mcp, revit_get, revit_post):
         unit: LengthUnit = "mm",
         ctx: Context = None,
     ) -> str:
-        """Flex a family: apply types / parameter values, regenerate and measure geometry, report Revit
-        constraint errors and parameters with no geometric effect. Everything is rolled back."""
+        """Flex a family through types/values, measure geometry, report constraint errors and parameters with
+        no effect; all rolled back.
+
+        Flex a family: apply types / parameter values, regenerate and measure geometry, report Revit
+        constraint errors and parameters with no geometric effect. Everything is rolled back.
+        """
         return await post(revit_post, "/family/flex/", compact(document=document, cases=cases, expect=expect,
                                                                 tolerance=tolerance, unit=unit), ctx, timeout=180.0)
 
@@ -355,14 +378,18 @@ def register_family_editor_tools(mcp, revit_get, revit_post):
         parameter_naming_pattern: Optional[str] = None,
         ctx: Context = None,
     ) -> str:
-        """Quality-control a family: category, formulas (syntax, unknown names, circular references),
+        """QC a family: category, formulas, parameters that drive nothing, type values, geometry, labelled
+        dimensions, warnings - with severity and fixes.
+
+        Quality-control a family: category, formulas (syntax, unknown names, circular references),
         parameters that drive nothing, types missing values or with zero dimensions, invalid geometry,
-        missing labelled dimensions (not parametric) and Revit warnings - with severities and fixes."""
+        missing labelled dimensions (not parametric) and Revit warnings - with severities and fixes.
+        """
         return await post(revit_post, "/family/validate/", compact(
             document=document, expected_category=expected_category,
             parameter_naming_pattern=parameter_naming_pattern), ctx, timeout=120.0)
 
-    @mcp.tool(annotations=MODIFIES)
+    @mcp.tool(annotations=IDEMPOTENT)
     async def family_save(
         document: FamDoc = None,
         save_path: Annotated[Optional[str], Field(description="Save As path (.rfa). Omit to save in place")] = None,

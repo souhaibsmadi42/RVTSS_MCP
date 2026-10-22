@@ -15,9 +15,13 @@ def register_project_tools(mcp, revit_get, revit_post):
 
     @mcp.tool(annotations=READ_ONLY)
     async def get_session_info(ctx: Context = None) -> str:
-        """Revit version/build, RVTSS version, active document and view, selection count, ALL open
+        """Call first: Revit/pyRevit/RVTSS versions, active document and view, all open documents (use titles
+        as `document`), security status, paths.
+
+        Revit version/build, RVTSS version, active document and view, selection count, ALL open
         documents (projects and background family documents - use their title as `document`), linked
-        documents, shared parameter file and family template path. Call this first in a session."""
+        documents, shared parameter file and family template path. Call this first in a session.
+        """
         return await post(revit_post, "/session_info/", {}, ctx, timeout=20.0)
 
     @mcp.tool(annotations=READ_ONLY)
@@ -27,8 +31,11 @@ def register_project_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Project information parameters, display units, levels (elevations), grids, phases,
-        worksets (workshared models) and design options - in one call."""
+        """Project info, display units, levels, grids, phases, worksets and design options in one call.
+
+        Project information parameters, display units, levels (elevations), grids, phases, worksets
+        (workshared models) and design options - in one call.
+        """
         return await post(revit_post, "/project_overview/", compact(include=include, unit=unit, document=document), ctx)
 
     @mcp.tool(annotations=READ_ONLY)
@@ -67,8 +74,11 @@ def register_project_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Loaded families grouped by category with their types, instance counts, in-place and
-        editable flags. Use the family name with family_open to edit it."""
+        """Loaded families by category with types, instance counts, in-place/editable flags.
+
+        Loaded families grouped by category with their types, instance counts, in-place and editable
+        flags. Use the family name with family_open to edit it.
+        """
         return await post(revit_post, "/family_inventory/", compact(
             category=category, contains=contains, unused_only=unused_only or None, include_types=include_types,
             offset=offset, limit=limit, document=document), ctx, timeout=120.0)
@@ -84,7 +94,10 @@ def register_project_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Views with ids, type, level, scale, detail level, view template and the sheet they are on."""
+        """Views with id, type, level, scale, template and sheet placement.
+
+        Views with ids, type, level, scale, detail level, view template and the sheet they are on.
+        """
         return await post(revit_post, "/find_views/", compact(
             view_types=view_types, name_contains=name_contains, templates=templates, on_sheet=on_sheet,
             offset=offset, limit=limit, document=document), ctx)
@@ -98,8 +111,12 @@ def register_project_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Sheets with number, name, placed views, title blocks and revisions, plus counts of sheets
-        without views or title blocks."""
+        """Sheets with number, name, placed views, title blocks, revisions; counts sheets without views/title
+        blocks.
+
+        Sheets with number, name, placed views, title blocks and revisions, plus counts of sheets
+        without views or title blocks.
+        """
         return await post(revit_post, "/list_sheets/", compact(contains=contains, parameters=parameters,
                                                                 offset=offset, limit=limit, document=document), ctx)
 

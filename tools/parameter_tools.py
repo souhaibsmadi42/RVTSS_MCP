@@ -57,12 +57,18 @@ def register_parameter_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Shared parameter workflow: read the file (GUIDs, groups, duplicates, which are already in the
-        project), create definitions (existing names are reused and their GUIDs never changed; supplied
-        GUIDs are honoured), create a new file, and bind a shared parameter to categories as instance or
-        type (existing bindings are extended, never replaced). Example: 'Fire Rating' on Doors and Walls ->
-        create_definitions [{name:'Fire Rating', type:'text'}] then bind name='Fire Rating',
-        categories=['Doors','Walls']."""
+        """Shared parameters: read_file, create_definitions (GUIDs preserved), create_file, bind to categories
+        (instance/type).
+
+        Shared parameters: read_file (GUIDs, duplicates, project use), create_definitions (existing
+        names/GUIDs reused, never rewritten), create_file, bind to categories as instance/type (extends
+        existing bindings). E.g. create_definitions [{name:'Fire Rating'}] then bind
+        categories=['Doors','Walls'].
+
+        Existing names are reused and their GUIDs never changed; supplied GUIDs are honoured. Existing
+        bindings are extended with ReInsert, never replaced; a different parameter with the same name is
+        refused.
+        """
         data = compact(action=action, shared_parameter_file=shared_parameter_file, definitions=definitions,
                        create_file=create_file or None, set_as_current=set_as_current or None, name=name, guid=guid,
                        categories=categories, binding=binding, group=group, vary_between_groups=vary_between_groups,
@@ -106,8 +112,12 @@ def register_parameter_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Audit parameters on a set of elements: missing, empty, invalid values, wrong data types, and
-        duplicate / badly named project parameter definitions. Returns findings with element ids."""
+        """Audit parameters on elements: missing, empty, invalid values, wrong types, duplicate or misnamed
+        definitions.
+
+        Audit parameters on a set of elements: missing, empty, invalid values, wrong data types, and
+        duplicate / badly named project parameter definitions. Returns findings with element ids.
+        """
         data = compact(categories=categories, element_ids=element_ids, view=view, level=level, required=required,
                        rules=rules, expected_types=expected_types, naming_pattern=naming_pattern,
                        include_type_parameters=include_type_parameters, check_empty=check_empty, document=document)
@@ -148,8 +158,12 @@ def register_parameter_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Import parameter values from CSV (needs an ElementId or UniqueId column; other columns are
-        parameter names). Defaults to dry_run=true - review the changes, then run with dry_run=false."""
+        """Import parameter values from CSV (ElementId or UniqueId column + parameter columns). dry_run by
+        default.
+
+        Import parameter values from CSV (needs an ElementId or UniqueId column; other columns are
+        parameter names). Defaults to dry_run=true - review the changes, then run with dry_run=false.
+        """
         data = compact(path=path, csv_text=csv_text, units=units, ignore_columns=ignore_columns, skip_empty=skip_empty,
                        allow_type=allow_type or None, atomic=atomic, dry_run=dry_run or None,
                        confirm=confirm or None, document=document)

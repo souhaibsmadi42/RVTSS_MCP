@@ -55,5 +55,4 @@ async def post(revit_post, endpoint, data, ctx=None, timeout=None):
     return format_response(response)
 
 
-DOC_HELP = ("Target document title or path; default is the active document. Family documents opened "
-            "with family_open/family_create are addressed this way.")
+DOC_HELP = "Document title or path (default: active)"

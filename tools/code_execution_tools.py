@@ -17,7 +17,9 @@ def register_code_execution_tools(mcp, revit_get, revit_post, revit_image=None):
         transaction_mode: str = None,
         ctx: Context = None,
     ) -> str:
-        """
+        """Run IronPython in Revit (doc, uidoc, DB, revit; print output returned). Prefer dedicated tools;
+        transaction_mode none/auto/dry_run/read_only.
+
         Execute IronPython code directly in Revit context.
 
         The code has access to:

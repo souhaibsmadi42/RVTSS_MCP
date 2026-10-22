@@ -4,7 +4,7 @@ from typing import Annotated, Any, Dict, List, Literal, Optional, Union
 
 from pydantic import Field
 
-from ._compat import Context, MODIFIES
+from ._compat import Context, MODIFIES, IDEMPOTENT
 from ._common import LengthUnit, compact, post, DOC_HELP
 
 Doc = Annotated[Optional[str], Field(description=DOC_HELP)]
@@ -38,8 +38,12 @@ def register_documentation_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Create plans, 3D views (optionally section-boxed to elements), sections framing elements,
-        elevations, drafting views, or duplicate a view - with name, template, scale and detail level."""
+        """Create plans, 3D (optionally boxed to elements), sections, elevations, drafting views or duplicates,
+        with name/template/scale.
+
+        Create plans, 3D views (optionally section-boxed to elements), sections framing elements,
+        elevations, drafting views, or duplicate a view - with name, template, scale and detail level.
+        """
         data = compact(kind=kind, name=name, level=level, element_ids=element_ids, margin=margin, looking=looking,
                        plan_view=plan_view, point=point, facing=facing, source_view=source_view,
                        duplicate_option=duplicate_option, template=template, scale=scale, detail_level=detail_level,
@@ -47,7 +51,7 @@ def register_documentation_tools(mcp, revit_get, revit_post):
                        dry_run=dry_run or None, document=document)
         return await post(revit_post, "/views/create/", data, ctx, timeout=120.0)
 
-    @mcp.tool(annotations=MODIFIES)
+    @mcp.tool(annotations=IDEMPOTENT)
     async def view_graphics(
         action: Literal["override", "reset", "hide", "unhide", "temporary_isolate", "temporary_hide",
                         "reset_temporary", "category_hidden", "apply_template", "remove_template", "set_scale",
@@ -68,9 +72,13 @@ def register_documentation_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Per-view graphics: element/category overrides (color, fill, line weight, halftone,
-        transparency), hide/unhide, temporary isolate/hide, category visibility, view templates,
-        scale and detail level. Warns when a view template controls the setting."""
+        """Per-view graphics: element/category overrides, hide/unhide, temporary isolate, category visibility,
+        view templates, scale, detail level.
+
+        Per-view graphics: element/category overrides (color, fill, line weight, halftone,
+        transparency), hide/unhide, temporary isolate/hide, category visibility, view templates, scale
+        and detail level. Warns when a view template controls the setting.
+        """
         data = compact(action=action, view=view, element_ids=element_ids, categories=categories, color=color,
                        fill=fill, line_weight=line_weight, halftone=halftone, transparency=transparency,
                        hidden=hidden, template=template, scale=scale, detail_level=detail_level,
@@ -131,8 +139,12 @@ def register_documentation_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Rename many items to a naming standard with find/replace (or regex), prefix, suffix and case.
-        Detects collisions and invalid characters before changing anything. Defaults to dry_run=true."""
+        """Rename views/sheets/levels/families/types/rooms... with find/replace/regex/prefix/suffix/case;
+        detects collisions. dry_run by default.
+
+        Rename many items to a naming standard with find/replace (or regex), prefix, suffix and case.
+        Detects collisions and invalid characters before changing anything. Defaults to dry_run=true.
+        """
         data = compact(target=target, find=find, replace=replace, regex=regex, prefix=prefix, suffix=suffix, case=case,
                        include_regex=include_regex, element_ids=element_ids, field=field, dry_run=dry_run or None,
                        confirm=confirm or None, document=document)
@@ -168,8 +180,11 @@ def register_documentation_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Assemblies: create from elements (with a name), add/remove members, rename, and generate
-        assembly views (3D, elevations/sections, parts list, material takeoff) plus an assembly sheet."""
+        """Assemblies: create, add/remove members, rename, create assembly views and sheet.
+
+        Assemblies: create from elements (with a name), add/remove members, rename, and generate
+        assembly views (3D, elevations/sections, parts list, material takeoff) plus an assembly sheet.
+        """
         data = compact(action=action, element_ids=element_ids, assembly_id=assembly_id, name=name,
                        naming_category=naming_category, views=views, create_sheet=create_sheet or None,
                        dry_run=dry_run or None, document=document)

@@ -79,6 +79,69 @@ def annotations(read_only=False, destructive=False, idempotent=None, title=None)
     return ToolAnnotations(**kwargs)
 
 
+def compact_schema(schema):
+    """Shrink a pydantic JSON schema without changing what it accepts.
+
+    Removes property titles, `"default": null` and the `{"type": "null"}` branch
+    of Optional fields (they are optional anyway). The SDK validates arguments
+    with the pydantic model, not with this advertised copy.
+    """
+    if isinstance(schema, list):
+        return [compact_schema(x) for x in schema]
+    if not isinstance(schema, dict):
+        return schema
+    out = {}
+    for k, v in schema.items():
+        if k == "title" and not isinstance(v, dict):
+            continue
+        if k in ("properties", "$defs", "definitions") and isinstance(v, dict):
+            out[k] = dict((name, compact_schema(sub)) for name, sub in v.items())
+        else:
+            out[k] = compact_schema(v)
+    if "anyOf" in out:
+        non_null = [x for x in out["anyOf"] if x != {"type": "null"}]
+        if len(non_null) == 1 and isinstance(non_null[0], dict):
+            merged = dict(non_null[0])
+            for k, v in out.items():
+                if k != "anyOf":
+                    merged.setdefault(k, v)
+            out = merged
+        else:
+            out["anyOf"] = non_null
+    if "default" in out and out["default"] is None:
+        del out["default"]
+    return out
+
+
+def _tool_infos(server):
+    manager = getattr(server, "_tool_manager", None)
+    if manager is None:
+        return []
+    return manager.list_tools()
+
+
+def finalize_tools(server):
+    """Compact every registered tool's advertised input schema (call after registration)."""
+    count = 0
+    for info in _tool_infos(server):
+        params = getattr(info, "parameters", None)
+        if isinstance(params, dict):
+            info.parameters = compact_schema(params)
+            count += 1
+        ann = getattr(info, "annotations", None)
+        if ann is not None and getattr(ann, "readOnlyHint", getattr(ann, "read_only_hint", None)):
+            # destructiveHint is only meaningful when readOnlyHint is false (MCP spec)
+            for attr in ("destructiveHint", "destructive_hint"):
+                if hasattr(ann, attr):
+                    try:
+                        setattr(ann, attr, None)
+                    except Exception:
+                        pass
+    return count
+
+
 READ_ONLY = annotations(read_only=True, idempotent=True)
 MODIFIES = annotations(read_only=False, destructive=False)
+# modifying tools whose repeated call with the same arguments has no further effect
+IDEMPOTENT = annotations(read_only=False, destructive=False, idempotent=True)
 DESTRUCTIVE = annotations(read_only=False, destructive=True)

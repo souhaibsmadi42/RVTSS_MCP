@@ -8,6 +8,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT)
 
 import main  # noqa: E402
+from tools.toolsets import TOOL_DOCS, TOOL_TO_SET, PROFILES  # noqa: E402
 
 GROUPS = [
     ("Session & status", ["get_revit_status", "get_session_info", "get_revit_model_info", "list_revit_installations",
@@ -73,9 +74,11 @@ def main_():
     lines = ["# RVTSS MCP tool reference", "",
              "Generated from the live tool registry by `scripts/generate_tool_docs.py` - do not edit by hand.", "",
              "{} tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. "
-             "**Mode**: read-only / modifies / destructive (MCP tool annotations).".format(len(tools)), ""]
+             "**Mode**: read-only / modifies / destructive (MCP tool annotations).".format(len(tools)), "",
+             "Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Profiles: " +
+             "; ".join("`{}` = {}".format(k, ", ".join(v)) for k, v in sorted(PROFILES.items())) + ".", ""]
     for group, names in GROUPS:
-        lines += ["## " + group, "", "| Tool | Origin | Mode | Purpose |", "|---|---|---|---|"]
+        lines += ["## " + group, "", "| Tool | Toolset | Origin | Mode | Purpose |", "|---|---|---|---|---|"]
         for n in names:
             t = tools.get(n)
             if t is None:
@@ -85,8 +88,9 @@ def main_():
             if _ann(t, "readOnlyHint", "read_only_hint") is None and n in ORIGINAL:
                 mode = "-"
             first = (t.description or "").strip().split("\n")[0]
-            lines.append("| `{}` | {} | {} | {} |".format(n, "retained" if n in ORIGINAL else "new", mode,
-                                                        first.replace("|", "\\|")))
+            lines.append("| `{}` | {} | {} | {} | {} |".format(n, TOOL_TO_SET.get(n, "core"),
+                                                             "retained" if n in ORIGINAL else "new", mode,
+                                                             first.replace("|", "\\|")))
         lines.append("")
     lines += ["## Parameters", ""]
     for group, names in GROUPS:
@@ -96,7 +100,8 @@ def main_():
                 continue
             props = _schema(t).get("properties", {})
             req = set(_schema(t).get("required", []))
-            lines += ["### `{}`".format(n), "", (t.description or "").strip(), ""]
+            lines += ["### `{}`".format(n), "", "Toolset: `{}`".format(TOOL_TO_SET.get(n, "core")), "",
+                      (TOOL_DOCS.get(n) or t.description or "").strip(), ""]
             if props:
                 lines += ["| Argument | Type | Required | Default | Description |", "|---|---|---|---|---|"]
                 for pname, p in props.items():
