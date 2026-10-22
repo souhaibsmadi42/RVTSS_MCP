@@ -389,3 +389,50 @@ the v2.0 payload.
   * `set_parameters`, `family_save`, `save_document`, `family_set_properties` and `view_graphics` are now
     marked idempotent;
   * `delete_elements`, `family_close`, `close_document` and `execute_revit_code` remain destructive.
+
+## Phase 4 – more of the MCP protocol
+
+* **Structured output.** On mcp 2.x, these tools return `structuredContent` and advertise an `outputSchema`
+  (loose models in `tools/_outputs.py`):
+  * `find_elements`, `get_element_details`, `get_project_overview`, `get_schedule_data`,
+    `run_model_checks` and `audit_parameters`;
+  * the text content is unchanged.
+
+  On mcp 1.9 they return text only, through `structured_return`/`structured_result` in `_compat.py`. The
+  default payload is 68,339 chars (−42.7 %).
+* **Resources:**
+  * `rvtss://session`
+  * `rvtss://project/overview`
+  * `rvtss://qc_rules`
+  * `rvtss://config` (secrets masked)
+  * `rvtss://logs/today` (redacted, last 200 lines)
+  * `rvtss://docs/toolsets`
+  * the template `rvtss://docs/tools/{name}` (full tool docs)
+
+  The files are read by the new Revit route `/rvtss_files/`, which runs without API context and reads only
+  `%APPDATA%/RVTSS`.
+* **Prompts:**
+  * `model_health_check`
+  * `create_parametric_family`
+  * `shared_parameter_rollout`
+  * `naming_audit`
+  * `pre_issue_qc`
+
+  Each is a step list with checks between steps.
+* **Progress and logging.** Long calls (flex test, clashes, snapshot/compare, parameter import, batch
+  rename, the parametric box, every structured tool) run through `call_with_progress`. It sends:
+  * `ctx.info` at start and finish;
+  * a progress heartbeat every 3 s while Revit works, because Routes cannot stream intermediate progress;
+  * a final progress = total.
+* **Confirmations.** `delete_elements`, `set_parameters`, `bulk_update_parameter`, `transform_elements`
+  and `manage_element_types` use `post_confirmable`. When Revit answers with a `preview` and the client
+  declared the `elicitation` capability (mcp 2.x), the user is asked through elicitation:
+  * **Accept:** the same call is re-run with `confirm=true`. The Revit-side `confirm_gate`, dry-run and
+    unit checks still apply.
+  * **Decline/cancel:** nothing changes.
+  * **No elicitation support:** the preview is returned exactly as before.
+* **Tests:**
+  * `tests/unit/test_mcp_features.py` runs a stdio end-to-end check of structured content, resources,
+    prompts, and accept/decline/no-elicitation;
+  * it also checks the heartbeat timing and the text fallback;
+  * the elicitation cases are skipped on 1.9.

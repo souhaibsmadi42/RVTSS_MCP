@@ -9,11 +9,11 @@ def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func
     honours RVTSS_TOOLSETS and keeps the advertised descriptions short; the
     advertised input schemas are compacted afterwards. Returns the proxy.
     """
-    from .toolsets import ToolsetServer
+    from .toolsets import ToolsetServer, STRUCTURED_TOOLS
     from ._compat import finalize_tools
 
     server = mcp_server
-    mcp_server = ToolsetServer(server, toolsets)
+    mcp_server = ToolsetServer(server, toolsets, structured=STRUCTURED_TOOLS)
     # Import all tool modules
     from .status_tools import register_status_tools
     from .view_tools import register_view_tools
@@ -50,4 +50,9 @@ def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func
     register_qc_tools(mcp_server, revit_get_func, revit_post_func)
 
     finalize_tools(server)
+
+    from .resources_prompts import register_resources, register_prompts
+
+    register_resources(server, revit_post_func)
+    register_prompts(server)
     return mcp_server

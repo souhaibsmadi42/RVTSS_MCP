@@ -394,7 +394,44 @@ def session_info(ctx):
     return out
 
 
+def rvtss_files(ctx):
+    """config.json / qc_rules.json / today's audit log from %APPDATA%/RVTSS (secrets masked)."""
+    import io
+    import os
+    import time
+    from .pure.security import redact_mapping, redact
+
+    kind = ctx.require("kind")
+    home = core.rvtss_home()
+    if kind in ("config", "qc_rules"):
+        path = os.path.join(home, "config.json" if kind == "config" else "qc_rules.json")
+        if not os.path.isfile(path):
+            return {"kind": kind, "path": path, "exists": False, "content": {}}
+        import json
+
+        with io.open(path, encoding="utf-8") as fh:
+            try:
+                content = json.load(fh)
+            except ValueError as e:
+                return {"kind": kind, "path": path, "exists": True, "error": "invalid JSON: {}".format(e)}
+        return {"kind": kind, "path": path, "exists": True, "content": redact_mapping(content)}
+    if kind == "log_today":
+        path = os.path.join(home, "logs", "rvtss-{}.log".format(time.strftime("%Y%m%d")))
+        lines = []
+        if os.path.isfile(path):
+            with io.open(path, encoding="utf-8") as fh:
+                lines = fh.read().splitlines()
+        n = ctx.int("max_lines", 200, 1, 2000)
+        return {"kind": kind, "path": path, "lines": [redact(l) for l in lines[-n:]], "total_lines": len(lines)}
+    raise RvtssError("kind must be config, qc_rules or log_today")
+
+
 def register_project_data_routes(api):
+    # file access only: no `doc` argument, so pyRevit answers without waiting for Revit to be idle
+    @api.route("/rvtss_files/", methods=["POST"])
+    def rvtss_files_route(request):
+        return handle(None, request, rvtss_files, needs_doc=False)
+
     @api.route("/session_info/", methods=["POST"])
     def session_info_route(doc, uidoc, request):
         return handle(doc, request, session_info, uidoc=uidoc, needs_doc=False)

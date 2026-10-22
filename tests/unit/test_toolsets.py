@@ -44,6 +44,11 @@ class Recorder(object):
             return func
         return deco
 
+    def resource(self, *a, **k):
+        return lambda func: func
+
+    prompt = resource
+
 
 def _register(toolsets):
     from tools import register_tools

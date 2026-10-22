@@ -49,7 +49,7 @@ def test_route_handlers_use_only_pyrevit_injected_arguments(registered):
 def test_modifying_rvtss_routes_run_in_api_context(registered):
     """Every RVTSS route must receive `doc` (forces Revit API context)."""
     api, _, _ = registered
-    legacy = {"/status/"}
+    legacy = {"/status/", "/ping/", "/rvtss_files/"}  # deliberately outside API context (no Revit API use)
     for r in api.routes:
         if r["path"] in legacy:
             continue
@@ -58,7 +58,8 @@ def test_modifying_rvtss_routes_run_in_api_context(registered):
 
 def _tool_endpoints():
     endpoints = set()
-    rx = re.compile(r"""(?:revit_post|revit_get|revit_image|post)\(\s*(?:revit_post,\s*)?f?["'](/[^"'{]+)""")
+    rx = re.compile(r"""(?:revit_post|revit_get|revit_image|post|post_structured|post_confirmable|call_with_progress)"""
+                    r"""\(\s*(?:revit_post,\s*)?f?["'](/[^"'{]+)""")
     tools_dir = os.path.join(ROOT, "tools")
     for fname in os.listdir(tools_dir):
         if fname.endswith(".py"):

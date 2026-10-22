@@ -50,6 +50,10 @@ DEPRECATED = {
     "place_family": "create_elements(kind='family_instance')",
 }
 
+# tools returning structuredContent + outputSchema (mcp 2.x); text everywhere else
+STRUCTURED_TOOLS = ("find_elements", "get_element_details", "get_project_overview", "run_model_checks",
+                    "audit_parameters", "get_schedule_data")
+
 PROFILES = {
     "all": sorted(TOOLSETS),
     "bim_coordinator": ["core", "model", "parameters", "documentation", "qc"],

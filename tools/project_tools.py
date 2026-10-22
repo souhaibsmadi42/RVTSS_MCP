@@ -4,8 +4,9 @@ from typing import Annotated, List, Literal, Optional, Union
 
 from pydantic import Field
 
-from ._compat import Context, READ_ONLY
-from ._common import LengthUnit, compact, post, DOC_HELP
+from ._compat import Context, READ_ONLY, structured_return
+from ._outputs import ProjectOverviewOut, ScheduleOut
+from ._common import LengthUnit, compact, post, DOC_HELP, post_structured
 
 Doc = Annotated[Optional[str], Field(description=DOC_HELP)]
 
@@ -30,13 +31,13 @@ def register_project_tools(mcp, revit_get, revit_post):
         unit: LengthUnit = "mm",
         document: Doc = None,
         ctx: Context = None,
-    ) -> str:
+    ) -> structured_return(ProjectOverviewOut):
         """Project info, display units, levels, grids, phases, worksets and design options in one call.
 
         Project information parameters, display units, levels (elevations), grids, phases, worksets
         (workshared models) and design options - in one call.
         """
-        return await post(revit_post, "/project_overview/", compact(include=include, unit=unit, document=document), ctx)
+        return await post_structured(revit_post, "/project_overview/", compact(include=include, unit=unit, document=document), ctx)
 
     @mcp.tool(annotations=READ_ONLY)
     async def list_links(
@@ -127,7 +128,7 @@ def register_project_tools(mcp, revit_get, revit_post):
         limit: Annotated[int, Field(ge=1, le=2000)] = 200,
         document: Doc = None,
         ctx: Context = None,
-    ) -> str:
+    ) -> structured_return(ScheduleOut):
         """Read a schedule's table (column headers and rows as displayed), paginated."""
-        return await post(revit_post, "/schedule_data/", compact(schedule=schedule, offset=offset, limit=limit,
+        return await post_structured(revit_post, "/schedule_data/", compact(schedule=schedule, offset=offset, limit=limit,
                                                                   document=document), ctx, timeout=120.0)

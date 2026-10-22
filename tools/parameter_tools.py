@@ -4,8 +4,10 @@ from typing import Annotated, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
-from ._compat import Context, READ_ONLY, MODIFIES
-from ._common import LengthUnit, ValueUnit, ParamFilter, Scalar, compact, post, DOC_HELP
+from ._compat import Context, READ_ONLY, MODIFIES, structured_return
+from ._outputs import FindingsOut
+from .utils import format_response
+from ._common import LengthUnit, ValueUnit, ParamFilter, Scalar, compact, post, DOC_HELP, call_with_progress, post_structured
 from .family_editor_tools import ParamType, ParamGroup
 
 Doc = Annotated[Optional[str], Field(description=DOC_HELP)]
@@ -111,7 +113,7 @@ def register_parameter_tools(mcp, revit_get, revit_post):
         check_empty: bool = True,
         document: Doc = None,
         ctx: Context = None,
-    ) -> str:
+    ) -> structured_return(FindingsOut):
         """Audit parameters on elements: missing, empty, invalid values, wrong types, duplicate or misnamed
         definitions.
 
@@ -121,7 +123,7 @@ def register_parameter_tools(mcp, revit_get, revit_post):
         data = compact(categories=categories, element_ids=element_ids, view=view, level=level, required=required,
                        rules=rules, expected_types=expected_types, naming_pattern=naming_pattern,
                        include_type_parameters=include_type_parameters, check_empty=check_empty, document=document)
-        return await post(revit_post, "/parameters/audit/", data, ctx, timeout=180.0)
+        return await post_structured(revit_post, "/parameters/audit/", data, ctx, timeout=180.0)
 
     @mcp.tool(annotations=READ_ONLY)
     async def export_parameters(
@@ -167,7 +169,8 @@ def register_parameter_tools(mcp, revit_get, revit_post):
         data = compact(path=path, csv_text=csv_text, units=units, ignore_columns=ignore_columns, skip_empty=skip_empty,
                        allow_type=allow_type or None, atomic=atomic, dry_run=dry_run or None,
                        confirm=confirm or None, document=document)
-        return await post(revit_post, "/parameters/import/", data, ctx, timeout=300.0)
+        response = await call_with_progress(revit_post, "/parameters/import/", data, ctx, 300.0, "CSV import")
+        return format_response(response)
 
     @mcp.tool(annotations=MODIFIES)
     async def map_parameters(

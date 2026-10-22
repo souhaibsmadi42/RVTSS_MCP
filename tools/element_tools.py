@@ -4,8 +4,10 @@ from typing import Annotated, Any, Dict, List, Literal, Optional
 
 from pydantic import Field
 
-from ._compat import Context, READ_ONLY, MODIFIES, DESTRUCTIVE, IDEMPOTENT
-from ._common import (LengthUnit, ValueUnit, ParamFilter, ParameterUpdate, Scalar, compact, post, DOC_HELP)
+from ._compat import Context, READ_ONLY, MODIFIES, DESTRUCTIVE, IDEMPOTENT, structured_return
+from ._outputs import FindElementsOut, ElementDetailsOut
+from ._common import (LengthUnit, ValueUnit, ParamFilter, ParameterUpdate, Scalar, compact, post, DOC_HELP,
+                      post_confirmable, post_structured)
 
 Ids = Optional[List[int]]
 Doc = Annotated[Optional[str], Field(description=DOC_HELP)]
@@ -36,7 +38,7 @@ def register_element_tools(mcp, revit_get, revit_post):
         unit: LengthUnit = "mm",
         document: Doc = None,
         ctx: Context = None,
-    ) -> str:
+    ) -> structured_return(FindElementsOut):
         """Find elements by combinable filters -> ids, names, category/family/type, counts (paginated).
         E.g. doors on Level 2 wider than 900 mm: categories=['Doors'], level='Level 2',
         param_filters=[{name:'Width', op:'gt', value:900, unit:'mm'}].
@@ -46,7 +48,7 @@ def register_element_tools(mcp, revit_get, revit_post):
                        element_ids=element_ids, selection=selection or None,
                        include_types=include_types or None, fields=fields, parameters=parameters,
                        count_only=count_only or None, offset=offset, limit=limit, unit=unit, document=document)
-        return await post(revit_post, "/find_elements/", data, ctx, timeout=120.0)
+        return await post_structured(revit_post, "/find_elements/", data, ctx, timeout=120.0)
 
     @mcp.tool(annotations=READ_ONLY)
     async def get_element_details(
@@ -59,7 +61,7 @@ def register_element_tools(mcp, revit_get, revit_post):
         unit: LengthUnit = "mm",
         document: Doc = None,
         ctx: Context = None,
-    ) -> str:
+    ) -> structured_return(ElementDetailsOut):
         """Full details for up to 50 elements: level, location, bbox, workset, phases, host, group/assembly,
         parameters with units, geometry.
 
@@ -70,7 +72,7 @@ def register_element_tools(mcp, revit_get, revit_post):
                        include_type_parameters=include_type_parameters,
                        include_parameter_meta=include_parameter_meta, include_geometry=include_geometry,
                        unit=unit, document=document)
-        return await post(revit_post, "/element_details/", data, ctx, timeout=60.0)
+        return await post_structured(revit_post, "/element_details/", data, ctx, timeout=60.0)
 
     @mcp.tool(annotations=MODIFIES)
     async def revit_selection(
@@ -112,7 +114,7 @@ def register_element_tools(mcp, revit_get, revit_post):
                        confirm=confirm or None, document=document)
         if value is None and parameter and "updates" not in data:
             data["value"] = None
-        return await post(revit_post, "/set_parameters/", data, ctx, timeout=120.0)
+        return await post_confirmable(revit_post, "/set_parameters/", data, ctx, 120.0, "set_parameters")
 
     @mcp.tool(annotations=MODIFIES)
     async def bulk_update_parameter(
@@ -152,7 +154,7 @@ def register_element_tools(mcp, revit_get, revit_post):
                        confirm=confirm or None, document=document)
         if template is None and "value" not in data:
             data["value"] = None
-        return await post(revit_post, "/bulk_update_parameter/", data, ctx, timeout=180.0)
+        return await post_confirmable(revit_post, "/bulk_update_parameter/", data, ctx, 180.0, "bulk_update_parameter")
 
     @mcp.tool(annotations=MODIFIES)
     async def transform_elements(
@@ -176,7 +178,7 @@ def register_element_tools(mcp, revit_get, revit_post):
                        center=center, each_about_own_center=each_about_own_center or None,
                        plane_normal=plane_normal, mirror_copy=mirror_copy or None, unpin=unpin or None, unit=unit,
                        dry_run=dry_run or None, confirm=confirm or None, document=document)
-        return await post(revit_post, "/transform_elements/", data, ctx, timeout=120.0)
+        return await post_confirmable(revit_post, "/transform_elements/", data, ctx, 120.0, "transform_elements")
 
     @mcp.tool(annotations=DESTRUCTIVE)
     async def delete_elements(
@@ -195,7 +197,7 @@ def register_element_tools(mcp, revit_get, revit_post):
         """
         data = compact(element_ids=element_ids, confirm=confirm or None, include_pinned=include_pinned or None,
                        document=document)
-        return await post(revit_post, "/delete_elements/", data, ctx, timeout=120.0)
+        return await post_confirmable(revit_post, "/delete_elements/", data, ctx, 120.0, "delete_elements")
 
     @mcp.tool(annotations=MODIFIES)
     async def create_elements(
@@ -245,4 +247,4 @@ def register_element_tools(mcp, revit_get, revit_post):
                        new_name=new_name, parameters=parameters, element_id=element_id,
                        element_ids=element_ids, dry_run=dry_run or None, confirm=confirm or None,
                        document=document)
-        return await post(revit_post, "/element_types/", data, ctx, timeout=120.0)
+        return await post_confirmable(revit_post, "/element_types/", data, ctx, 120.0, "manage_element_types")

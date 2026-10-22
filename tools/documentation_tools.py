@@ -5,7 +5,8 @@ from typing import Annotated, Any, Dict, List, Literal, Optional, Union
 from pydantic import Field
 
 from ._compat import Context, MODIFIES, IDEMPOTENT
-from ._common import LengthUnit, compact, post, DOC_HELP
+from .utils import format_response
+from ._common import LengthUnit, compact, post, DOC_HELP, call_with_progress
 
 Doc = Annotated[Optional[str], Field(description=DOC_HELP)]
 ViewRef = Annotated[Optional[Union[int, str]], Field(description="View id, exact name, or 'active'")]
@@ -148,7 +149,8 @@ def register_documentation_tools(mcp, revit_get, revit_post):
         data = compact(target=target, find=find, replace=replace, regex=regex, prefix=prefix, suffix=suffix, case=case,
                        include_regex=include_regex, element_ids=element_ids, field=field, dry_run=dry_run or None,
                        confirm=confirm or None, document=document)
-        return await post(revit_post, "/batch_rename/", data, ctx, timeout=120.0)
+        response = await call_with_progress(revit_post, "/batch_rename/", data, ctx, 120.0, "Batch rename")
+        return format_response(response)
 
     @mcp.tool(annotations=MODIFIES)
     async def manage_groups(

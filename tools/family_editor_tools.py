@@ -5,7 +5,8 @@ from typing import Annotated, Any, Dict, List, Literal, Optional, Union
 from pydantic import BaseModel, Field
 
 from ._compat import Context, READ_ONLY, MODIFIES, DESTRUCTIVE, IDEMPOTENT
-from ._common import LengthUnit, ValueUnit, Scalar, compact, post
+from .utils import format_response
+from ._common import LengthUnit, ValueUnit, Scalar, compact, post, call_with_progress
 
 FamDoc = Annotated[Optional[str], Field(description="Family document title/path (default: active)")]
 
@@ -332,7 +333,8 @@ def register_family_editor_tools(mcp, revit_get, revit_post):
                        material_parameter=material_parameter, instance_parameters=instance_parameters or None,
                        center_equality=center_equality, subcategory=subcategory, flex_check=flex_check, unit=unit,
                        dry_run=dry_run or None)
-        return await post(revit_post, "/family/build_box/", data, ctx, timeout=180.0)
+        response = await call_with_progress(revit_post, "/family/build_box/", data, ctx, 180.0, "Parametric box")
+        return format_response(response)
 
     @mcp.tool(annotations=MODIFIES)
     async def family_nested(
@@ -368,8 +370,9 @@ def register_family_editor_tools(mcp, revit_get, revit_post):
         Flex a family: apply types / parameter values, regenerate and measure geometry, report Revit
         constraint errors and parameters with no geometric effect. Everything is rolled back.
         """
-        return await post(revit_post, "/family/flex/", compact(document=document, cases=cases, expect=expect,
-                                                                tolerance=tolerance, unit=unit), ctx, timeout=180.0)
+        response = await call_with_progress(revit_post, "/family/flex/", compact(document=document, cases=cases, expect=expect,
+                                                                tolerance=tolerance, unit=unit), ctx, 180.0, "Flex test")
+        return format_response(response)
 
     @mcp.tool(annotations=READ_ONLY)
     async def family_validate(

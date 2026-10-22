@@ -4,8 +4,10 @@ from typing import Annotated, Any, Dict, List, Literal, Optional
 
 from pydantic import Field
 
-from ._compat import Context, READ_ONLY, MODIFIES
-from ._common import LengthUnit, compact, post, DOC_HELP
+from ._compat import Context, READ_ONLY, MODIFIES, structured_return
+from ._outputs import FindingsOut
+from .utils import format_response
+from ._common import LengthUnit, compact, DOC_HELP, call_with_progress, post_structured
 
 Doc = Annotated[Optional[str], Field(description=DOC_HELP)]
 CheckName = Literal["warnings", "duplicates", "naming", "similar_family_names", "duplicate_types",
@@ -30,7 +32,7 @@ def register_qc_tools(mcp, revit_get, revit_post):
         unit: LengthUnit = "mm",
         document: Doc = None,
         ctx: Context = None,
-    ) -> str:
+    ) -> structured_return(FindingsOut):
         """BIM QC report (warnings, duplicates, naming, families/types, CAD, links, rooms, views, sheets,
         required parameters, groups) with severity, ids and fixes.
 
@@ -42,7 +44,7 @@ def register_qc_tools(mcp, revit_get, revit_post):
         data = compact(checks=checks, rules=rules, sheet_parameters=sheet_parameters,
                        duplicate_tolerance=duplicate_tolerance, min_severity=min_severity, max_findings=max_findings,
                        unit=unit, document=document)
-        return await post(revit_post, "/qc/model_checks/", data, ctx, timeout=300.0)
+        return await post_structured(revit_post, "/qc/model_checks/", data, ctx, timeout=300.0)
 
     @mcp.tool(annotations=READ_ONLY)
     async def check_clashes(
@@ -62,7 +64,8 @@ def register_qc_tools(mcp, revit_get, revit_post):
         """
         data = compact(set_a=set_a, set_b=set_b, max_pairs=max_pairs, max_elements=max_elements,
                        compute_volume=compute_volume or None, unit=unit, document=document)
-        return await post(revit_post, "/qc/clashes/", data, ctx, timeout=600.0)
+        response = await call_with_progress(revit_post, "/qc/clashes/", data, ctx, 600.0, "Clash check")
+        return format_response(response)
 
     @mcp.tool(annotations=MODIFIES)
     async def model_snapshot(
@@ -86,7 +89,8 @@ def register_qc_tools(mcp, revit_get, revit_post):
         data = compact(action=action, name=name, path=path, categories=categories, level=level,
                        track_parameters=track_parameters, hash_all_parameters=hash_all_parameters or None,
                        link_instance_id=link_instance_id, overwrite=overwrite or None, document=document)
-        return await post(revit_post, "/qc/snapshot/", data, ctx, timeout=600.0)
+        response = await call_with_progress(revit_post, "/qc/snapshot/", data, ctx, 600.0, "Snapshot")
+        return format_response(response)
 
     @mcp.tool(annotations=READ_ONLY)
     async def compare_models(
@@ -114,4 +118,5 @@ def register_qc_tools(mcp, revit_get, revit_post):
         data = compact(mode=mode, baseline=baseline, current=current, categories=categories,
                        move_tolerance=move_tolerance, source=source, target=target, match_on=match_on,
                        tolerance=tolerance, max_items=max_items, document=document)
-        return await post(revit_post, "/qc/compare/", data, ctx, timeout=600.0)
+        response = await call_with_progress(revit_post, "/qc/compare/", data, ctx, 600.0, "Model comparison")
+        return format_response(response)

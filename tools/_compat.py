@@ -25,6 +25,68 @@ try:
 except ImportError:  # very old SDKs
     ToolAnnotations = None
 
+# Structured tool output (structuredContent + outputSchema). mcp 2.x lets a tool
+# return CallToolResult and publishes the schema of Annotated[CallToolResult, Model];
+# mcp 1.9 has neither, so structured tools fall back to plain text there.
+try:
+    from mcp.types import CallToolResult, TextContent
+
+    STRUCTURED_OUTPUT = MCP_MAJOR >= 2 and "structured_content" in CallToolResult.model_fields
+except Exception:  # pragma: no cover
+    CallToolResult = TextContent = None
+    STRUCTURED_OUTPUT = False
+
+
+def structured_return(model):
+    """Return annotation for a structured tool: Annotated[CallToolResult, model] or str."""
+    if STRUCTURED_OUTPUT:
+        from typing import Annotated
+
+        return Annotated[CallToolResult, model]
+    return str
+
+
+def structured_result(text, data, is_error=False):
+    """Text for every client + structuredContent where supported."""
+    if not STRUCTURED_OUTPUT:
+        return text
+    return CallToolResult(content=[TextContent(type="text", text=text)], structured_content=data,
+                          is_error=is_error)
+
+
+def client_supports(ctx, capability):
+    """True when the connected client declared a capability (e.g. 'elicitation')."""
+    try:
+        session = ctx.request_context.session
+        params = getattr(session, "client_params", None) or getattr(session, "_client_params", None)
+        caps = getattr(params, "capabilities", None)
+        return getattr(caps, capability, None) is not None
+    except Exception:
+        return False
+
+
+async def report_progress(ctx, progress, total=None, message=None):
+    if ctx is None:
+        return
+    try:
+        await ctx.report_progress(progress, total, message)
+    except TypeError:  # older signature without message
+        try:
+            await ctx.report_progress(progress, total)
+        except Exception:
+            pass
+    except Exception:
+        pass
+
+
+async def log_info(ctx, message):
+    if ctx is None:
+        return
+    try:
+        await ctx.info(message)
+    except Exception:
+        pass
+
 
 def create_server(name, host="127.0.0.1", port=8000, instructions=None):
     """Create the MCP server object for whichever SDK is installed."""
@@ -128,6 +190,12 @@ def finalize_tools(server):
         if isinstance(params, dict):
             info.parameters = compact_schema(params)
             count += 1
+        meta = getattr(info, "fn_metadata", None)
+        if meta is not None and isinstance(getattr(meta, "output_schema", None), dict):
+            try:
+                meta.output_schema = compact_schema(meta.output_schema)
+            except Exception:
+                pass
         ann = getattr(info, "annotations", None)
         if ann is not None and getattr(ann, "readOnlyHint", getattr(ann, "read_only_hint", None)):
             # destructiveHint is only meaningful when readOnlyHint is false (MCP spec)
