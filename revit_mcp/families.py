@@ -349,8 +349,8 @@ def _shared_definition(ctx, name, guid=None):
         raise RvtssError("Shared parameter '{}' not found in {}".format(guid or name, app.SharedParametersFilename),
                          status=404, hint="Create it first with shared_parameters(action='create_definitions').")
     finally:
-        if path and previous and previous != path:
-            app.SharedParametersFilename = previous
+        if path and (previous or "") != path:
+            app.SharedParametersFilename = previous or ""
 
 
 def family_parameters(ctx):

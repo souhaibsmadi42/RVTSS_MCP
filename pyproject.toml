@@ -27,4 +27,5 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 markers = [
     "integration: tests that require a running Revit instance (slow)",
+    "live: RVTSS live smoke run against a running Revit (tests/live)",
 ]

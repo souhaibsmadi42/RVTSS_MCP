@@ -289,3 +289,31 @@ parameter creation/binding (2021 legacy path vs 2022+ ForgeTypeId), `ElementId` 
 | `color_splash` / `view_graphics(override)` | complementary: colouring by parameter value vs explicit overrides | keep both |
 
 Legacy tools keep their exact arguments and behaviour; they only move to the `legacy` toolset and get a deprecation note.
+
+## Phase 1 – live verification harness
+
+* `revit_mcp/pure/selftest.py` – one self-test **plan** (≈35 steps covering the §7 order: status → original
+  tools → read-only → editing with dry run then real → family workflow → shared parameters on a scratch
+  file → QC) and a runner that produces `rvtss_live_report.json` and a Markdown summary (per step and per
+  MCP tool: pass / fail / skip, duration, environment, error + hint + traceback).
+  * Model-changing steps run **only** after a copy of `tests/test.rvt` (in `%TEMP%\RVTSS_live`) is open and
+    verified as the active document; otherwise they are skipped (unit-tested).
+  * The shared-parameter steps use a scratch file and assert it did not become Revit's current file.
+  * The family steps measure the generated geometry, so the known risk areas are checked automatically:
+    blend top profile (expects 200 × 200 × 300 mm), sweep profile orientation (expects 500 × 50 × 50 mm),
+    revolution (400 × 400 × 200 mm), formula evaluation per type, flex of all types, catalog, save, load.
+* `tests/live/run_live.py` (+ `tests/live/test_live.py`, marker `live`, skipped when Routes is not
+  reachable) – HTTP runner against the real Routes server.
+* `RVTSS.tab/Diagnostics.panel/Run Self-Test.pushbutton` – runs the same plan inside Revit. It cannot use
+  HTTP (the button runs on Revit's UI thread, where pyRevit Routes executes API requests through an
+  ExternalEvent, so a request to itself would wait forever). `revit_mcp/selftest_runtime.py` therefore
+  registers the routes on a recorder and calls the handlers directly with the same `doc` / `uidoc` /
+  `request` arguments (pyRevit source checked: `routes/server/server.py`, `handler.py`).
+* `revit_mcp/registry.py` – the route-module list shared by `startup.py` and the self-test.
+* Bug fixed while writing the shared-parameter steps: when Revit had **no** shared parameter file
+  configured, `shared_parameters` / `family_add_parameters(shared=true)` with an explicit file left Revit
+  pointing at that file (the restore only ran when a previous file existed).
+* `get_session_info` now reports pyRevit version, Python engine/version and the Revit-side temp folder.
+
+**Live run: not run – no Revit on this machine** (cloud container without Windows/Revit). Run
+`uv run python tests/live/run_live.py` or the *Run Self-Test* button and keep the generated report.

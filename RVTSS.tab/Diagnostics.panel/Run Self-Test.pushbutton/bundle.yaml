@@ -1,0 +1,7 @@
+title: Run Self-Test
+tooltip: >-
+  Runs the RVTSS live self-test on a COPY of the bundled test model
+  (tests/test.rvt) and writes rvtss_live_report.json / .md to
+  %TEMP%\RVTSS_live. Your open projects and your shared parameter file
+  are not modified.
+author: Suhaib Al Smadi (RVTSS)

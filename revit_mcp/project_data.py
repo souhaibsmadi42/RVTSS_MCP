@@ -372,6 +372,19 @@ def session_info(ctx):
     except Exception:
         pass
     out["rvtss_data_folder"] = core.rvtss_home()
+    import sys
+    import platform
+    import tempfile
+
+    out["python_version"] = sys.version.split("\n")[0]
+    out["python_engine"] = platform.python_implementation()
+    out["temp_dir"] = tempfile.gettempdir()
+    try:
+        from pyrevit import versionmgr
+
+        out["pyrevit_version"] = versionmgr.get_pyrevit_version().get_formatted()
+    except Exception:
+        out["pyrevit_version"] = None
     return out
 
 

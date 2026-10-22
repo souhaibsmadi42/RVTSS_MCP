@@ -109,9 +109,11 @@ class _SharedFile(object):
         return dfile
 
     def __exit__(self, *exc):
-        if self.path and self.previous and self.previous != self.path:
+        # restore even when no file was configured before (previous None/""), otherwise
+        # Revit would keep pointing at the temporary file
+        if self.path and (self.previous or "") != self.path:
             try:
-                self.app.SharedParametersFilename = self.previous
+                self.app.SharedParametersFilename = self.previous or ""
             except Exception:
                 pass
         return False
