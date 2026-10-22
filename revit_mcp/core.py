@@ -67,14 +67,59 @@ def load_config():
     return {}
 
 
-def _audit_log(method, ok, duration, detail=""):
+AUDIT_LINE_MAX = 500
+CODE_LOG_MAX = 20000
+LOG_RETENTION_DAYS = 30
+_ROTATED = {"day": None}
+
+
+def _rotate_logs(logdir):
+    """Delete RVTSS logs older than LOG_RETENTION_DAYS (once per day)."""
+    today = time.strftime("%Y%m%d")
+    if _ROTATED["day"] == today:
+        return
+    _ROTATED["day"] = today
+    cutoff = time.time() - LOG_RETENTION_DAYS * 86400
     try:
-        logdir = rvtss_subdir("logs")
-        fname = os.path.join(logdir, "rvtss-{}.log".format(time.strftime("%Y%m%d")))
-        with open(fname, "a") as fh:
-            fh.write("{}\t{}\t{}\t{:.0f}ms\t{}\n".format(
-                time.strftime("%H:%M:%S"), method, "ok" if ok else "ERROR", duration * 1000.0,
-                (detail or "").replace("\n", " ")[:300]))
+        for f in os.listdir(logdir):
+            p = os.path.join(logdir, f)
+            if f.endswith(".log") and os.path.getmtime(p) < cutoff:
+                os.remove(p)
+    except Exception:
+        pass
+
+
+def _append_log(prefix, text):
+    import io
+
+    logdir = rvtss_subdir("logs")
+    _rotate_logs(logdir)
+    fname = os.path.join(logdir, "{}-{}.log".format(prefix, time.strftime("%Y%m%d")))
+    with io.open(fname, "a", encoding="utf-8") as fh:
+        fh.write(text_type(text))
+
+
+def _audit_log(method, ok, duration, detail="", request_id=None):
+    """One line per request; secret-looking values are redacted and the line is capped."""
+    try:
+        from .pure.security import redact
+
+        line = u"{}\t{}\t{}\t{:.0f}ms\t{}\t{}\n".format(
+            time.strftime("%H:%M:%S"), method, "ok" if ok else "ERROR", duration * 1000.0, request_id or "-",
+            redact(to_text(detail or "").replace("\n", " "), AUDIT_LINE_MAX))
+        _append_log("rvtss", line)
+    except Exception:
+        pass
+
+
+def audit_code(description, mode, code):
+    """Write executed code to logs/code-YYYYMMDD.log (redacted, capped)."""
+    try:
+        from .pure.security import redact
+
+        _append_log("code", u"=== {} | mode={} | {}\n{}\n".format(
+            time.strftime("%Y-%m-%d %H:%M:%S"), mode, redact(to_text(description), 200),
+            redact(to_text(code), CODE_LOG_MAX)))
     except Exception:
         pass
 

@@ -27,9 +27,23 @@ ROUTE_MODULES = [
 ]
 
 
-def register_all(api):
-    """Register every route module on `api`. Returns {module: error} for failures."""
+def register_all(api, secure=True):
+    """Register every route module on `api`. Returns {module: error} for failures.
+
+    secure=True wraps the API with the optional RVTSS token check (secure_api);
+    the in-Revit self-test calls handlers in-process and passes secure=False.
+    """
     errors = {}
+    if secure:
+        try:
+            from .secure_api import secured
+
+            api = secured(api)
+        except Exception as e:
+            # fail closed: never expose the routes unprotected when the check is broken
+            errors["revit_mcp.secure_api"] = "{}: {} - no routes registered".format(type(e).__name__, e)
+            logger.error("RVTSS token protection could not be enabled, routes NOT registered: %s", e)
+            return errors
     for module_name, func_name in ROUTE_MODULES:
         try:
             module = importlib.import_module(module_name)

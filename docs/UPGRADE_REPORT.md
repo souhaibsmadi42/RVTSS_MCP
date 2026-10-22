@@ -317,3 +317,39 @@ Legacy tools keep their exact arguments and behaviour; they only move to the `le
 
 **Live run: not run – no Revit on this machine** (cloud container without Windows/Revit). Run
 `uv run python tests/live/run_live.py` or the *Run Self-Test* button and keep the generated report.
+
+## Phase 2 – security
+
+Verified first in the pyRevit source (`pyrevitlib/pyrevit/routes/server/server.py`, `develop` 2026-10-21):
+`_prepare_request` builds the handler's `Request` from path, method, body, route and query parameters only.
+**HTTP headers and the client address never reach a route handler**, and the server binds to
+`user_config.routes_host`, which is empty – all interfaces – by default.
+
+* **Token** (`RVTSS_TOKEN`, Revit environment or `"token"` in `%APPDATA%\RVTSS\config.json`; off by default):
+  every route except `/status/` (and `/ping/`, Phase 5) requires it. Because headers are not forwarded it is
+  read from the JSON body (`_rvtss_token`, stripped before the handler runs) or the query string
+  (`rvtss_token`); `X-RVTSS-Token` is accepted too for a future pyRevit. `main.py` sends all three from its
+  own `RVTSS_TOKEN`. The wrapper (`revit_mcp/secure_api.py`) is generated with the handler's exact argument
+  names plus `request`, because pyRevit picks API context and injects arguments by name. Registration
+  **fails closed**: if the wrapper cannot load, no route is registered. Constant-time comparison.
+* **Code execution**: `RVTSS_ALLOW_CODE_EXECUTION=0` refuses `execute_revit_code` (HTTP 403); allowed by
+  default. Every call logs a warning and writes the code to `logs/code-YYYYMMDD.log` (redacted, capped at
+  20k chars). New `transaction_mode="read_only"`: `DB.Transaction/SubTransaction/TransactionGroup` are
+  blocked in the code's namespace, the code runs inside a TransactionGroup that is always rolled back, and
+  `DocumentChanged` is watched – any change is undone and reported (409).
+* **Remote access**: a handler cannot see who is calling, so the Revit side cannot refuse remote clients.
+  Done instead:
+  * `main.py` refuses non-loopback `REVIT_HOST` unless `RVTSS_ALLOW_REMOTE=1`. **Breaking change** for VM
+    setups: set `RVTSS_ALLOW_REMOTE=1`.
+  * `/status/` and `get_session_info` report `security`: `token_required`, `code_execution_allowed`,
+    `routes_host`, `reachable_beyond_loopback`, and warnings when Routes listens beyond loopback without a
+    token.
+  * The README recommends setting pyRevit Settings → Routes → Host to `127.0.0.1`.
+* **Logs**:
+  * audit lines and code are passed through `pure/security.redact` (API keys, bearer/JWT tokens,
+    `key=value` secrets, long opaque strings; GUIDs kept);
+  * lines are capped at 500 chars;
+  * `.log` files older than 30 days are deleted;
+  * the token is never logged or returned.
+* **Bug found:** `code_execution.py` imported `StringIO` from the Python 2 module, so `execute_revit_code`
+  failed to import on pyRevit's IronPython 3 engine. It now falls back to `io.StringIO`.

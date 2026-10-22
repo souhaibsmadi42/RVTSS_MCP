@@ -13,6 +13,7 @@ import base64
 from typing import Optional, Dict, Any, Union
 
 from tools._compat import create_server, run_server, http_apps, log_level, Image, Context
+from revit_mcp.pure import security as _security
 
 # MCP stdio uses stdout for the protocol: all logging must go to stderr.
 logging.basicConfig(
@@ -46,6 +47,37 @@ REVIT_PORT = int(os.environ.get("REVIT_PORT", "48884"))
 REVIT_API_NAME = os.environ.get("REVIT_API_NAME", "revit_mcp")
 DEFAULT_TIMEOUT = float(os.environ.get("RVTSS_TIMEOUT", "30"))
 BASE_URL = f"http://{REVIT_HOST}:{REVIT_PORT}/{REVIT_API_NAME}"
+# Optional shared secret (must match RVTSS_TOKEN of the Revit process). pyRevit
+# Routes does not hand HTTP headers to route handlers, so the token is sent in
+# the JSON body (POST) and the query string (GET); the header is sent as well.
+RVTSS_TOKEN = os.environ.get("RVTSS_TOKEN") or None
+# Talking to a Routes server that is not on this machine must be explicit.
+ALLOW_REMOTE = bool(_security.parse_flag(os.environ.get("RVTSS_ALLOW_REMOTE"), False))
+REMOTE_REFUSED = (
+    "Refusing to send Revit commands to non-loopback host '{host}'. pyRevit Routes has no authentication of "
+    "its own: set RVTSS_ALLOW_REMOTE=1 (and preferably RVTSS_TOKEN on both sides) for VM / remote setups."
+)
+
+
+def _remote_refusal():
+    if _security.is_loopback(REVIT_HOST) or ALLOW_REMOTE:
+        return None
+    return "Error: " + REMOTE_REFUSED.format(host=REVIT_HOST)
+
+
+def _auth(method, data=None, params=None):
+    """Add the RVTSS token to a request (body for POST, query for GET, plus header)."""
+    headers = {"Content-Type": "application/json"} if method == "POST" else {}
+    if not RVTSS_TOKEN:
+        return data, params, headers
+    headers[_security.TOKEN_HEADER] = RVTSS_TOKEN
+    if method == "POST":
+        data = dict(data or {})
+        data[_security.TOKEN_BODY_KEY] = RVTSS_TOKEN
+    else:
+        params = dict(params or {})
+        params[_security.TOKEN_QUERY_KEY] = RVTSS_TOKEN
+    return data, params, headers
 
 # Create a generic MCP server for interacting with Revit
 # (stateless HTTP + JSON responses for HTTP transports; works on mcp 1.x and 2.x)
@@ -81,9 +113,13 @@ async def revit_post(endpoint: str, data: Dict[str, Any], ctx: Context = None, *
 
 async def revit_image(endpoint: str, ctx: Context = None) -> Union[Image, str]:
     """GET request that returns an Image object"""
+    refused = _remote_refusal()
+    if refused:
+        return refused
     try:
         async with httpx.AsyncClient(timeout=60.0) as client:
-            response = await client.get(f"{BASE_URL}{endpoint}")
+            _d, params, headers = _auth("GET")
+            response = await client.get(f"{BASE_URL}{endpoint}", params=params, headers=headers)
 
             if response.status_code == 200:
                 data = response.json()
@@ -124,12 +160,16 @@ async def _revit_call(method: str, endpoint: str, data: Dict = None, ctx: Contex
     """Internal function handling all HTTP calls"""
     timeout = timeout or DEFAULT_TIMEOUT
     url = f"{BASE_URL}{endpoint}"
+    refused = _remote_refusal()
+    if refused:
+        return refused
+    data, params, headers = _auth(method, data, params)
     try:
         async with httpx.AsyncClient(timeout=timeout) as client:
             if method == "GET":
-                response = await client.get(url, params=params)
+                response = await client.get(url, params=params, headers=headers)
             else:  # POST
-                response = await client.post(url, json=data, headers={"Content-Type": "application/json"})
+                response = await client.post(url, json=data, headers=headers)
 
             if response.status_code == 200:
                 return response.json()

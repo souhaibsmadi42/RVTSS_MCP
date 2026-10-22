@@ -36,6 +36,10 @@ def register_code_execution_tools(mcp, revit_get, revit_post, revit_image=None):
         - "auto": the code runs in one transaction, committed on success and
           rolled back if it raises. Do not start your own Transaction then.
         - "dry_run": like auto but always rolled back - test modifying code safely.
+        - "read_only": no transaction; opening one is refused and any change is rolled back.
+
+        May be disabled on the Revit machine (RVTSS_ALLOW_CODE_EXECUTION=0); every call is
+        logged with the code (secrets redacted).
 
         With the default mode, wrap model-modifying code yourself:
             t = DB.Transaction(doc, "My change")

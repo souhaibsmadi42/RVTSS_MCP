@@ -51,7 +51,7 @@ def _arg_names(func):
 
 def make_transport(uiapp):
     api = RecorderAPI()
-    errors = register_all(api)
+    errors = register_all(api, secure=False)  # in-process calls from the button are trusted
 
     def transport(method, path, payload):
         route, url_params = selftest.match_route(api.routes, method, path)

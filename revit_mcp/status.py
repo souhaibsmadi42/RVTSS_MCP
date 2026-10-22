@@ -38,6 +38,12 @@ def register_status_routes(api):
                 if revit_mcp.REGISTRATION_ERRORS:
                     data["health"] = "degraded"
                     data["route_modules_failed"] = dict(revit_mcp.REGISTRATION_ERRORS)
+                try:
+                    from revit_mcp.secure_api import security_status
+
+                    data["security"] = security_status()
+                except Exception as sec_err:
+                    data["security"] = {"error": str(sec_err)}
                 return routes.make_response(data=data)
             else:
                 return routes.make_response(data={

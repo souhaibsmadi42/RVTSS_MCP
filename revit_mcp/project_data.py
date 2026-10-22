@@ -372,6 +372,12 @@ def session_info(ctx):
     except Exception:
         pass
     out["rvtss_data_folder"] = core.rvtss_home()
+    try:
+        from .secure_api import security_status
+
+        out["security"] = security_status()
+    except Exception:
+        pass
     import sys
     import platform
     import tempfile

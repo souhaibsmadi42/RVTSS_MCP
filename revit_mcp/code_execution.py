@@ -8,10 +8,65 @@ import json
 import logging
 import sys
 import traceback
-from StringIO import StringIO
+
+try:
+    from StringIO import StringIO  # IronPython 2.7
+except ImportError:  # IronPython 3: the StringIO module does not exist (import failed before)
+    from io import StringIO
 
 # Standard logger setup
 logger = logging.getLogger(__name__)
+
+
+class _ReadOnlyDB(object):
+    """DB namespace for read_only code: transaction classes are blocked."""
+
+    _BLOCKED = ("Transaction", "SubTransaction", "TransactionGroup")
+
+    def __getattr__(self, name):
+        if name in self._BLOCKED:
+            raise RuntimeError("read_only mode: DB.{} is not allowed. Use transaction_mode='auto' or "
+                               "'dry_run' for code that modifies the model.".format(name))
+        return getattr(DB, name)
+
+
+def _run_read_only(doc, code, namespace):
+    """Execute code inside a TransactionGroup that is always rolled back.
+
+    Returns the number of elements Revit reported as changed (0 = read only).
+    The rollback is the safety net for code that reaches the API another way.
+    """
+    changed = {"count": 0}
+
+    def on_changed(sender, args):
+        try:
+            changed["count"] += (args.GetAddedElementIds().Count + args.GetModifiedElementIds().Count +
+                                 args.GetDeletedElementIds().Count)
+        except Exception:
+            changed["count"] += 1
+
+    app = doc.Application
+    group = None
+    subscribed = False
+    try:
+        app.DocumentChanged += on_changed
+        subscribed = True
+    except Exception:
+        pass
+    try:
+        if not doc.IsModifiable and not doc.IsReadOnly:
+            group = DB.TransactionGroup(doc, "RVTSS read_only code")
+            group.Start()
+        exec(code, namespace)
+    finally:
+        if group is not None and group.HasStarted() and not group.HasEnded():
+            group.RollBack()
+        if subscribed:
+            try:
+                app.DocumentChanged -= on_changed
+            except Exception:
+                pass
+    return changed["count"]
 
 
 def register_code_execution_routes(api):
@@ -26,7 +81,7 @@ def register_code_execution_routes(api):
         {
             "code": "python code as string",
             "description": "optional description of what the code does",
-            "transaction_mode": "none" | "auto" | "dry_run"
+            "transaction_mode": "none" | "auto" | "dry_run" | "read_only"
         }
 
         transaction_mode (RVTSS):
@@ -36,6 +91,14 @@ def register_code_execution_routes(api):
                        success and rolled back if the code raises.
             dry_run  - the code runs inside a transaction that is always rolled
                        back; use it to test modifying code safely.
+            read_only - (RVTSS 2.1) no transaction; the code may not open one
+                       (DB.Transaction/SubTransaction/TransactionGroup are blocked) and
+                       anything it changes anyway is rolled back and reported.
+
+        Security (RVTSS 2.1): refused when RVTSS_ALLOW_CODE_EXECUTION=0 (or
+        "allow_code_execution": false in %APPDATA%/RVTSS/config.json); every call is
+        logged as a warning and the code is written to %APPDATA%/RVTSS/logs/code-*.log
+        with secret-looking values redacted.
         """
         try:
             # Parse the request data
@@ -47,11 +110,23 @@ def register_code_execution_routes(api):
             code_to_execute = data.get("code", "")
             description = data.get("description", "Code execution")
             transaction_mode = (data.get("transaction_mode") or "none").lower()
-            if transaction_mode not in ("none", "auto", "dry_run"):
+            if transaction_mode not in ("none", "auto", "dry_run", "read_only"):
                 return routes.make_response(
-                    data={"error": "transaction_mode must be none, auto or dry_run"},
+                    data={"error": "transaction_mode must be none, auto, dry_run or read_only"},
                     status=400,
                 )
+            from .secure_api import settings as _security_settings
+            from .core import audit_code
+
+            if not _security_settings()["allow_code_execution"]:
+                return routes.make_response(
+                    data={"status": "error", "error": "Code execution is disabled on this Revit machine",
+                          "hint": "RVTSS_ALLOW_CODE_EXECUTION=0 (or allow_code_execution=false in "
+                                  "%APPDATA%/RVTSS/config.json). Use the dedicated RVTSS tools instead."},
+                    status=403,
+                )
+            logger.warning("execute_revit_code called (%s): %s", transaction_mode, description)
+            audit_code(description, transaction_mode, code_to_execute)
 
             if not code_to_execute:
                 return routes.make_response(
@@ -67,7 +142,7 @@ def register_code_execution_routes(api):
             namespace = {
                 "doc": doc,
                 "uidoc": uidoc,
-                "DB": DB,
+                "DB": _ReadOnlyDB() if transaction_mode == "read_only" else DB,
                 "revit": revit,
                 "__builtins__": __builtins__,
                 "print": lambda *args: captured_output.write(
@@ -79,6 +154,18 @@ def register_code_execution_routes(api):
                 failures = []
                 if transaction_mode == "none":
                     exec(code_to_execute, namespace)
+                elif transaction_mode == "read_only":
+                    changed = _run_read_only(doc, code_to_execute, namespace)
+                    if changed:
+                        sys.stdout = old_stdout
+                        captured_output.close()
+                        return routes.make_response(
+                            data={"status": "error",
+                                  "error": "read_only code modified the model ({} element(s)); the change was "
+                                           "rolled back".format(changed),
+                                  "hint": "Use transaction_mode='dry_run' or 'auto' for modifying code."},
+                            status=409,
+                        )
                 else:
                     from .core import run_transaction
 
