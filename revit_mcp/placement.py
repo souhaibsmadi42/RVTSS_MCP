@@ -7,6 +7,7 @@ Handles family placement and element creation functionality
 from .utils import get_element_name, find_family_symbol_safely, normalize_string, element_id_value
 from pyrevit import routes, revit, DB
 import json
+import math
 import traceback
 import logging
 
@@ -74,6 +75,10 @@ def register_placement_routes(api):
             rotation = data.get("rotation", 0.0)
             level_name = data.get("level_name")
             properties = data.get("properties", {})
+            # Optional (RVTSS): coordinate unit and host element. Defaults keep the
+            # original behaviour (decimal feet, unhosted placement).
+            unit = data.get("unit") or "ft"
+            host_id = data.get("host_id")
 
             # Basic validation
             if not family_name:
@@ -158,8 +163,12 @@ def register_placement_routes(api):
 
             # Create the location point
             try:
+                from .pure.units import to_internal
+
                 point = DB.XYZ(
-                    float(location["x"]), float(location["y"]), float(location["z"])
+                    to_internal(location["x"], unit),
+                    to_internal(location["y"], unit),
+                    to_internal(location["z"], unit),
                 )
             except (ValueError, TypeError) as coord_error:
                 return routes.make_response(
@@ -178,8 +187,26 @@ def register_placement_routes(api):
                     target_symbol.Activate()
                     doc.Regenerate()  # Ensure activation takes effect
 
+                host = None
+                if host_id is not None:
+                    from .compat import make_id
+
+                    host = doc.GetElement(make_id(int(host_id)))
+                    if host is None:
+                        raise ValueError("Host element {} not found".format(host_id))
+
                 # Create the instance
-                if target_level:
+                if host is not None and target_level:
+                    new_instance = doc.Create.NewFamilyInstance(
+                        point, target_symbol, host, target_level,
+                        DB.Structure.StructuralType.NonStructural,
+                    )
+                elif host is not None:
+                    new_instance = doc.Create.NewFamilyInstance(
+                        point, target_symbol, host,
+                        DB.Structure.StructuralType.NonStructural,
+                    )
+                elif target_level:
                     # Place on specific level
                     new_instance = doc.Create.NewFamilyInstance(
                         point,
@@ -202,7 +229,7 @@ def register_placement_routes(api):
                 # Apply rotation if specified
                 if rotation != 0:
                     try:
-                        rotation_radians = float(rotation) * (3.14159265359 / 180.0)
+                        rotation_radians = math.radians(float(rotation))
                         axis = DB.Line.CreateBound(point, point.Add(DB.XYZ(0, 0, 1)))
 
                         if hasattr(new_instance.Location, "Rotate"):
@@ -281,6 +308,8 @@ def register_placement_routes(api):
                     "requested_location": {"x": point.X, "y": point.Y, "z": point.Z},
                     "actual_location": actual_coords,
                     "rotation_degrees": rotation,
+                    "coordinate_unit": "ft",
+                    "host_id": host_id,
                     "level": level_name if target_level else None,
                     "properties_set": properties_set,
                     "properties_failed": properties_failed,

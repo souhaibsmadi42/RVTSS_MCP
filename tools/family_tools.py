@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Family and placement tools"""
 
-from mcp.server.fastmcp import Context
+from ._compat import Context
 from typing import Dict, Any
 from .utils import format_response
 
@@ -19,9 +19,19 @@ def register_family_tools(mcp, revit_get, revit_post):
         rotation: float = 0.0,
         level_name: str = None,
         properties: Dict[str, Any] = None,
+        unit: str = None,
+        host_id: int = None,
         ctx: Context = None,
     ) -> str:
-        """Place a family instance at a specified location in the Revit model"""
+        """Place a family instance at a specified location in the Revit model.
+
+        Coordinates are decimal feet unless `unit` is given ("mm", "m", "cm", "in", "ft").
+        rotation is in degrees about the vertical axis. For hosted families (doors,
+        windows, wall/face based) pass host_id = the wall/host element id.
+        Numeric `properties` are written in Revit internal units; prefer
+        set_parameters (which validates units) for dimensional values.
+        For full control (curves, floors, levels, grids) use create_elements.
+        """
         data = {
             "family_name": family_name,
             "type_name": type_name,
@@ -30,6 +40,10 @@ def register_family_tools(mcp, revit_get, revit_post):
             "level_name": level_name,
             "properties": properties or {},
         }
+        if unit:
+            data["unit"] = unit
+        if host_id is not None:
+            data["host_id"] = host_id
         response = await revit_post("/place_family/", data, ctx)
         return format_response(response)
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """View-related tools for capturing and listing Revit views"""
 
-from mcp.server.fastmcp import Context
+from ._compat import Context
 from .utils import format_response
 
 
@@ -10,7 +10,11 @@ def register_view_tools(mcp, revit_get, revit_post, revit_image):
 
     @mcp.tool()
     async def get_revit_view(view_name: str, ctx: Context = None):
-        """Export a specific Revit view as an image"""
+        """Export a specific Revit view as a PNG image.
+
+        view_name: the exact view name, or the view element id as a string when
+        several views share a name (e.g. floor and ceiling plan "Level 1").
+        """
         return await revit_image(f"/get_view/{view_name}", ctx)
 
     @mcp.tool()

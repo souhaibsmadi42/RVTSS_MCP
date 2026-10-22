@@ -9,6 +9,7 @@ import tempfile
 import os
 import base64
 import json
+import uuid
 import logging
 from System.Collections.Generic import List
 
@@ -57,8 +58,11 @@ def register_views_routes(api):
             if not os.path.exists(output_folder):
                 os.makedirs(output_folder)
 
-            # Create filename prefix
-            file_path_prefix = os.path.join(output_folder, "export")
+            # Unique filename prefix per export. The old fixed "export" prefix plus
+            # "newest PNG in the folder" lookup could return a stale image from an
+            # earlier export when the current export produced nothing.
+            export_prefix = "export_{}".format(uuid.uuid4().hex[:12])
+            file_path_prefix = os.path.join(output_folder, export_prefix)
 
             # Find the view by name
             target_view = None
@@ -74,6 +78,18 @@ def register_views_routes(api):
                 except Exception as e:
                     logger.warning("Could not get name for view: {}".format(str(e)))
                     continue
+
+            # Allow an element id ("12345") so views with duplicate names
+            # (e.g. a floor plan and a ceiling plan both called "Level 1")
+            # can be addressed unambiguously.
+            if not target_view and view_name.isdigit():
+                try:
+                    from .compat import make_id
+                    candidate = doc.GetElement(make_id(int(view_name)))
+                    if isinstance(candidate, DB.View):
+                        target_view = candidate
+                except Exception as e:
+                    logger.warning("View id lookup failed: {}".format(str(e)))
 
             if not target_view:
                 # Get list of available views for better error message
@@ -142,7 +158,7 @@ def register_views_routes(api):
                 matching_files = [
                     os.path.join(output_folder, f)
                     for f in os.listdir(output_folder)
-                    if f.endswith(".png")
+                    if f.startswith(export_prefix) and f.lower().endswith(".png")
                 ]
                 matching_files.sort(key=lambda x: os.path.getctime(x), reverse=True)
             except Exception as e:

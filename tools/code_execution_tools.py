@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Code execution tools for the MCP server."""
 
-from mcp.server.fastmcp import Context
+from ._compat import Context
 from .utils import format_response
 
 
@@ -12,7 +12,10 @@ def register_code_execution_tools(mcp, revit_get, revit_post, revit_image=None):
 
     @mcp.tool()
     async def execute_revit_code(
-        code: str, description: str = "Code execution", ctx: Context = None
+        code: str,
+        description: str = "Code execution",
+        transaction_mode: str = None,
+        ctx: Context = None,
     ) -> str:
         """
         Execute IronPython code directly in Revit context.
@@ -24,7 +27,17 @@ def register_code_execution_tools(mcp, revit_get, revit_post, revit_image=None):
         - revit: pyRevit module
         - print: Function to output text (returned in response)
 
-        No transaction is opened automatically. Wrap model-modifying code yourself:
+        Prefer the dedicated RVTSS tools (find_elements, set_parameters, family_*,
+        ...) - they validate input and support dry runs. Use this for anything
+        they do not cover.
+
+        transaction_mode:
+        - None/"none" (default): no transaction is opened automatically.
+        - "auto": the code runs in one transaction, committed on success and
+          rolled back if it raises. Do not start your own Transaction then.
+        - "dry_run": like auto but always rolled back - test modifying code safely.
+
+        With the default mode, wrap model-modifying code yourself:
             t = DB.Transaction(doc, "My change")
             t.Start()
             # ... modify model ...
@@ -43,6 +56,8 @@ def register_code_execution_tools(mcp, revit_get, revit_post, revit_image=None):
         """
         try:
             payload = {"code": code, "description": description}
+            if transaction_mode:
+                payload["transaction_mode"] = transaction_mode
 
             if ctx:
                 await ctx.info("Executing code: {}".format(description))

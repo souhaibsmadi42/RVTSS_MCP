@@ -26,8 +26,16 @@ def register_code_execution_routes(api):
         {
             "code": "python code as string",
             "description": "optional description of what the code does",
-            "use_transaction": true   # set false for UI ops like switching the active view
+            "transaction_mode": "none" | "auto" | "dry_run"
         }
+
+        transaction_mode (RVTSS):
+            none     - (default, original behaviour) no transaction is opened; the
+                       code manages its own transactions. Required for UI operations.
+            auto     - the code runs inside one transaction that is committed on
+                       success and rolled back if the code raises.
+            dry_run  - the code runs inside a transaction that is always rolled
+                       back; use it to test modifying code safely.
         """
         try:
             # Parse the request data
@@ -38,6 +46,12 @@ def register_code_execution_routes(api):
             )
             code_to_execute = data.get("code", "")
             description = data.get("description", "Code execution")
+            transaction_mode = (data.get("transaction_mode") or "none").lower()
+            if transaction_mode not in ("none", "auto", "dry_run"):
+                return routes.make_response(
+                    data={"error": "transaction_mode must be none, auto or dry_run"},
+                    status=400,
+                )
 
             if not code_to_execute:
                 return routes.make_response(
@@ -62,7 +76,19 @@ def register_code_execution_routes(api):
             }
 
             try:
-                exec(code_to_execute, namespace)
+                failures = []
+                if transaction_mode == "none":
+                    exec(code_to_execute, namespace)
+                else:
+                    from .core import run_transaction
+
+                    def _run_user_code():
+                        exec(code_to_execute, namespace)
+
+                    _result, failures = run_transaction(
+                        doc, description, _run_user_code,
+                        dry_run=(transaction_mode == "dry_run"),
+                    )
 
                 sys.stdout = old_stdout
                 output = captured_output.getvalue()
@@ -70,7 +96,11 @@ def register_code_execution_routes(api):
 
                 return routes.make_response(
                     data={
-                        "status": "success",
+                        "status": "dry_run" if transaction_mode == "dry_run" else "success",
+                        "transaction_mode": transaction_mode,
+                        "committed": (None if transaction_mode == "none"
+                                      else transaction_mode == "auto"),
+                        "revit_warnings": failures,
                         "description": description,
                         "output": (
                             output

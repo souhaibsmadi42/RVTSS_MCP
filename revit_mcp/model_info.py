@@ -18,7 +18,7 @@ def register_model_info_routes(api):
     """Register all model information routes with the API"""
 
     @api.route("/model_info/", methods=["GET"])
-    def get_model_info():
+    def get_model_info(doc):
         """
         Get comprehensive information about the current Revit model
 
@@ -30,8 +30,9 @@ def register_model_info_routes(api):
         - Room information with levels
         - Link status
         """
+        # `doc` is injected by pyRevit Routes, which also makes the handler run
+        # in Revit API context (previously it read revit.doc from the server thread).
         try:
-            doc = revit.doc
             if not doc:
                 return routes.make_response(
                     data={"error": "No active Revit document"}, status=503
@@ -93,10 +94,15 @@ def register_model_info_routes(api):
                 warnings = doc.GetWarnings()
                 warnings_count = len(warnings)
                 # Count critical warnings (simplified check)
+                # DB.WarningType does not exist in the Revit API; the AttributeError
+                # was swallowed below and reset warnings_count to 0 for every model
+                # that had at least one warning.
                 critical_warnings = sum(
-                    1 for w in warnings if w.GetSeverity() == DB.WarningType.Error
+                    1 for w in warnings
+                    if w.GetSeverity() != DB.FailureSeverity.Warning
                 )
-            except:
+            except Exception as e:
+                logger.warning("Could not read warnings: {}".format(str(e)))
                 warnings_count = 0
                 critical_warnings = 0
 
@@ -313,6 +319,7 @@ def register_model_info_routes(api):
             # ============ COMPILE RESPONSE ============
             model_data = {
                 "status": "success",
+                "units": {"elevation": "ft", "area": "ft2", "note": "Revit internal units"},
                 "project_info": project_info,
                 "element_summary": {
                     "total_elements": total_elements,

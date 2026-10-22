@@ -93,7 +93,16 @@ def format_response(response):
             if "output" in response:  # Code execution responses
                 return response["output"]
             elif "message" in response:
-                return response["message"]
+                # Keep the structured payload next to the message. Returning the
+                # message alone silently dropped data (e.g. the element list of a
+                # truncated get_current_view_elements response).
+                extra = {k: v for k, v in response.items()
+                         if k not in ("status", "message")}
+                if not extra:
+                    return response["message"]
+                return "{}\n\n{}".format(
+                    response["message"],
+                    json.dumps(extra, indent=2, default=str, ensure_ascii=False))
             elif "result" in response:
                 return str(response["result"])
             elif "data" in response:

@@ -5,6 +5,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+try:
+    unicode  # noqa: F821  IronPython 2.7
+except NameError:  # IronPython 3 / CPython: normalize_string raised NameError
+    unicode = str
+
 
 def normalize_string(text):
     """Safely normalize string values, always returning a unicode string.

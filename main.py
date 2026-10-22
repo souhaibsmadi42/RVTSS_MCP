@@ -1,28 +1,72 @@
 # -*- coding: utf-8 -*-
+"""RVTSS MCP server - bridges Claude (MCP) and Revit (pyRevit Routes).
+
+Created by Suhaib Al Smadi. Based on mcp-server-for-revit-python.
+"""
 import os
 import sys
+import json
+import logging
 import httpx
 import anyio
-from mcp.server.fastmcp import FastMCP, Image, Context
 import base64
 from typing import Optional, Dict, Any, Union
 
-# Create a generic MCP server for interacting with Revit
-# Use stateless_http=True and json_response=True for better compatibility
-mcp = FastMCP(
-    "Revit MCP Server", 
-    host="127.0.0.1", 
-    port=8000,
-    stateless_http=True,
-    json_response=True
+from tools._compat import create_server, run_server, http_apps, log_level, Image, Context
+
+# MCP stdio uses stdout for the protocol: all logging must go to stderr.
+logging.basicConfig(
+    level=os.environ.get("RVTSS_LOG_LEVEL", "WARNING").upper(),
+    stream=sys.stderr,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
 )
+logger = logging.getLogger("rvtss")
+
+SERVER_INSTRUCTIONS = """RVTSS controls a live Autodesk Revit session through pyRevit.
+Working rules:
+1. Inspect before changing: use get_revit_status / get_revit_model_info / find_elements /
+   family_get_info to learn the current state first. Use element ids returned by tools.
+2. Lengths in RVTSS tools default to millimetres ("unit" argument). Legacy tools
+   place_family / list_levels / get_current_view_elements report decimal feet.
+3. Prefer dry_run=true for multi-element or structural changes, read the preview,
+   then run again with dry_run=false (and confirm=true when asked).
+4. Destructive or large operations return status "preview" until confirm=true is passed.
+5. Verify after changing: re-read the elements or run family_flex_test / family_validate.
+6. Never report a change as done unless the tool returned status "success".
+Families: family_list_templates -> family_create (or family_open) -> family_add_parameters ->
+family_build_parametric_box / family_create_reference_planes + family_create_form +
+family_add_dimension -> family_manage_types -> family_flex_test -> family_validate ->
+family_save -> family_load_into_project."""
 
 # Configuration
 # Revit runs on Windows; when it lives in a VM the routes server is not on the
 # host loopback, so allow overriding the target via the environment.
 REVIT_HOST = os.environ.get("REVIT_HOST", "127.0.0.1")
 REVIT_PORT = int(os.environ.get("REVIT_PORT", "48884"))
-BASE_URL = f"http://{REVIT_HOST}:{REVIT_PORT}/revit_mcp"
+REVIT_API_NAME = os.environ.get("REVIT_API_NAME", "revit_mcp")
+DEFAULT_TIMEOUT = float(os.environ.get("RVTSS_TIMEOUT", "30"))
+BASE_URL = f"http://{REVIT_HOST}:{REVIT_PORT}/{REVIT_API_NAME}"
+
+# Create a generic MCP server for interacting with Revit
+# (stateless HTTP + JSON responses for HTTP transports; works on mcp 1.x and 2.x)
+mcp = create_server(
+    "Revit MCP Server",
+    host="127.0.0.1",
+    port=int(os.environ.get("MCP_PORT", "8000")),
+    instructions=SERVER_INSTRUCTIONS,
+)
+
+CONNECT_HINT = (
+    "Cannot reach the pyRevit Routes server at {url}. Check that: (1) Revit is running, "
+    "(2) pyRevit is loaded, (3) pyRevit Settings > Routes > 'Routes Server' is enabled, "
+    "(4) this extension is installed and pyRevit was reloaded, (5) REVIT_HOST/REVIT_PORT "
+    "match your setup. Only one copy of the extension may be installed."
+)
+TIMEOUT_HINT = (
+    "Request timed out after {t} seconds. The operation may still be running in Revit. "
+    "Revit only executes API requests when idle: close any open dialog, finish any edit "
+    "mode (sketch/in-place family), then check the model state before retrying."
+)
 
 
 async def revit_get(endpoint: str, ctx: Context = None, **kwargs) -> Union[Dict, str]:
@@ -40,7 +84,7 @@ async def revit_image(endpoint: str, ctx: Context = None) -> Union[Image, str]:
     try:
         async with httpx.AsyncClient(timeout=60.0) as client:
             response = await client.get(f"{BASE_URL}{endpoint}")
-            
+
             if response.status_code == 200:
                 data = response.json()
                 image_bytes = base64.b64decode(data["image_data"])
@@ -49,26 +93,52 @@ async def revit_image(endpoint: str, ctx: Context = None) -> Union[Image, str]:
                 return f"Error: {response.status_code} - {response.text}"
     except httpx.TimeoutException:
         return "Error: Image export timed out after 60 seconds."
+    except httpx.ConnectError:
+        return "Error: " + CONNECT_HINT.format(url=BASE_URL)
     except Exception as e:
         msg = str(e) or type(e).__name__
         return f"Error: {msg}"
 
 
+def _decode_error_response(response) -> Union[Dict, str]:
+    """Keep structured error payloads (error, hint, traceback...) instead of raw text.
+
+    Previously every non-200 answer was flattened into "Error: <code> - <body>",
+    which hid hints and recovery data from the model.
+    """
+    try:
+        body = response.json()
+    except (ValueError, json.JSONDecodeError):
+        body = None
+    if isinstance(body, dict):
+        body = dict(body)
+        body.setdefault("response_code", response.status_code)
+        if not body.get("status"):
+            body["status"] = "error"
+        return body
+    return f"Error: {response.status_code} - {response.text}"
+
+
 async def _revit_call(method: str, endpoint: str, data: Dict = None, ctx: Context = None,
-                     timeout: float = 30.0, params: Dict = None) -> Union[Dict, str]:
+                     timeout: float = None, params: Dict = None) -> Union[Dict, str]:
     """Internal function handling all HTTP calls"""
+    timeout = timeout or DEFAULT_TIMEOUT
+    url = f"{BASE_URL}{endpoint}"
     try:
         async with httpx.AsyncClient(timeout=timeout) as client:
-            url = f"{BASE_URL}{endpoint}"
-
             if method == "GET":
                 response = await client.get(url, params=params)
             else:  # POST
                 response = await client.post(url, json=data, headers={"Content-Type": "application/json"})
 
-            return response.json() if response.status_code == 200 else f"Error: {response.status_code} - {response.text}"
+            if response.status_code == 200:
+                return response.json()
+            logger.info("Revit returned %s for %s", response.status_code, endpoint)
+            return _decode_error_response(response)
     except httpx.TimeoutException:
-        return f"Error: Request timed out after {timeout} seconds. The operation may still be running in Revit."
+        return "Error: " + TIMEOUT_HINT.format(t=timeout)
+    except httpx.ConnectError:
+        return "Error: " + CONNECT_HINT.format(url=BASE_URL)
     except Exception as e:
         msg = str(e) or type(e).__name__
         return f"Error: {msg}"
@@ -90,11 +160,7 @@ async def run_combined_async():
 
     # Get the streamable-http app first - it has the proper lifespan
     # that initializes the session manager's task group
-    http_app = mcp.streamable_http_app()
-
-    # Get SSE routes (SSE doesn't need special lifespan - it creates
-    # task groups per-request in connect_sse())
-    sse_app = mcp.sse_app()
+    http_app, sse_app = http_apps(mcp)
 
     # Add SSE routes to the http app (preserving its lifespan)
     for route in sse_app.routes:
@@ -102,9 +168,9 @@ async def run_combined_async():
 
     config = uvicorn.Config(
         http_app,
-        host=mcp.settings.host,
-        port=mcp.settings.port,
-        log_level=mcp.settings.log_level.lower(),
+        host=mcp._rvtss_host,
+        port=mcp._rvtss_port,
+        log_level=log_level(mcp),
     )
     server = uvicorn.Server(config)
     await server.serve()
@@ -119,8 +185,9 @@ if __name__ == "__main__":
         transport = "streamable-http"
     elif "--combined" in sys.argv:
         # Run both SSE and streamable-http transports simultaneously
-        print("Starting combined server with SSE (/sse, /messages/) and streamable-http (/mcp) endpoints...")
+        print("Starting combined server with SSE (/sse, /messages/) and streamable-http (/mcp) endpoints...",
+              file=sys.stderr)
         anyio.run(run_combined_async)
         sys.exit(0)
 
-    mcp.run(transport=transport)
+    run_server(mcp, transport)
