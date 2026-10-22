@@ -31,8 +31,9 @@ class _FakeRevit(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_GET(self):
-        self.calls.append(("GET", self.path, None))
-        if self.path.endswith("/status/"):
+        path = self.path.split("?")[0]  # pyRevit Routes parses the query string separately
+        self.calls.append(("GET", path, None))
+        if path.endswith("/status/"):
             self._send(200, {"status": "active", "health": "healthy", "revit_available": True,
                              "document_title": "Test.rvt", "api_name": "revit_mcp"})
         else:

@@ -436,3 +436,48 @@ the v2.0 payload.
     prompts, and accept/decline/no-elicitation;
   * it also checks the heartbeat timing and the text fallback;
   * the elicitation cases are skipped on 1.9.
+
+## Phase 5 – bridge reliability
+
+* **One pooled `httpx.AsyncClient`** (`main._ClientPool`): at most 8 connections, 4 keep-alive, 10 s
+  expiry.
+  * It is created on first use, and recreated if the event loop changes or the client was closed.
+  * It is closed when the stdio session ends (server lifespan) and when the combined HTTP server stops. In
+    stateless HTTP mode the lifespan runs per request, so the pool is deliberately kept open there.
+  * Timeouts are still set per call: tool timeouts, `RVTSS_TIMEOUT`, and `RVTSS_IMAGE_TIMEOUT` (default
+    60 s).
+* **`/ping/`** is a new route without Revit API context. Checked in the pyRevit source
+  (`routes/server/server.py`): `ThreadedHttpServer` serves each request on its own thread, and only
+  handlers that take `doc`/`uidoc`/`uiapp` wait for Revit's main thread. So `/ping/` answers while Revit
+  is blocked. After a client timeout the MCP server pings:
+  * if `/ping/` answers, the message is **"Revit is busy"** (modal dialog, edit mode or long operation);
+  * if it doesn't, the message is **"Routes not responding"**.
+
+  pyRevit's own host timeout (HTTP 504 `RouteHandlerTimedOutException`, after 30 s without dispatcher
+  progress) gets the same "busy" hint. Against a v2.0 Revit extension, a 404 on `/ping/` still counts as
+  "Routes alive". The self-test plan now includes `/ping/`.
+* **Retries:**
+  * A GET is retried exactly once after `RemoteProtocolError`, `ReadError` or `WriteError` (a dropped
+    keep-alive connection), using the same request id.
+  * Connect errors and timeouts are never retried.
+  * A POST is never retried.
+* **`revit_image` / `get_revit_view`:**
+  * Errors come back in the same envelope as other calls: `{status: "error", error, error_kind, hint,
+    request_id, …}`, plus the Revit payload such as `available_views`.
+  * Timeout is configurable (`RVTSS_IMAGE_TIMEOUT`).
+  * New optional arguments `image_format` (`png` | `jpg`) and `pixel_size` (128–4096, default 1024).
+    `ImageFileType.JPEGMedium` was verified in the Revit 2025, 2026 and 2027 API docs.
+  * Images above `RVTSS_IMAGE_MAX_KB` (default 4096) are refused with a hint to use jpg or a smaller size.
+* **Correlation id.** Every call gets a 12-character id. It is sent as `_rvtss_request_id` (POST body) or
+  `rvtss_request_id` (query), because pyRevit drops headers.
+  * Revit side: the route wrapper in `secure_api.py` validates it (64 chars max, `[A-Za-z0-9._:-]`, so it
+    is safe in log lines) and removes it from the body. It then stores it in a thread-local
+    (`core.current_request_id`), writes it to the audit-log column and returns it as `request_id` in every
+    response, including 401s and legacy routes.
+  * MCP side: the id is added to every dict response and appended to text errors.
+* **Behaviour change:** without `RVTSS_TOKEN` the routes are now also wrapped (for request ids). Handler
+  argument names are preserved, so pyRevit's API-context detection is unchanged.
+* **Tests:** `tests/unit/test_bridge.py` adds 19 tests covering pooling, retry and no-retry cases,
+  busy/down diagnosis, the 504 hint, the image envelope and size limit, the pure tracing helpers, the
+  `/ping/` route without API context or token, and the request id in the audit log. 214 passed on mcp 2.3
+  and 2.2; 212 passed and 2 skipped on 1.9. The payload is 68,494 chars (−42.6 %).

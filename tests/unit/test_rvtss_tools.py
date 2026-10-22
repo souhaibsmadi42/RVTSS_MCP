@@ -196,7 +196,8 @@ class TestRevitClient:
 
     async def test_non_json_error_stays_text(self, monkeypatch):
         main = self._patch(monkeypatch, lambda req: httpx.Response(502, text="Bad gateway"))
-        assert await main.revit_get("/status/") == "Error: 502 - Bad gateway"
+        res = await main.revit_get("/status/")
+        assert res.startswith("Error: 502 - Bad gateway (request_id: ")
 
     async def test_connect_error_has_recovery_hint(self, monkeypatch):
         def boom(req):
@@ -214,7 +215,8 @@ class TestRevitClient:
             return httpx.Response(200, json={"status": "success"})
         main = self._patch(monkeypatch, ok)
         assert (await main.revit_post("/find_elements/", {"a": 1}))["status"] == "success"
-        assert seen["url"].endswith(":48884/revit_mcp/find_elements/") and seen["body"] == {"a": 1}
+        assert seen["url"].endswith(":48884/revit_mcp/find_elements/")
+        assert seen["body"].pop("_rvtss_request_id") and seen["body"] == {"a": 1}
 
     async def test_status_503_still_means_revit_is_up_for_launcher(self, monkeypatch):
         from tools.launch_tools import _wait_for_revit_ready

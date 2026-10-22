@@ -143,6 +143,13 @@ def _status(t):
     return {"document": d.get("document_title"), "rvtss_version": d.get("rvtss_version")}
 
 
+@step("status", "ping (no API context) and request id echo", ["get_revit_status"])
+def _ping(t):
+    d = t.get("/ping/")
+    check(d.get("pong") is True, "/ping/ did not answer pong", d)
+    return {"rvtss_version": d.get("rvtss_version")}
+
+
 @step("status", "session info", ["get_session_info"])
 def _session(t):
     d = t.post("/session_info/")

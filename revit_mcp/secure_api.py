@@ -15,6 +15,7 @@ import logging
 import os
 
 from .pure import security as S
+from .pure import tracing as T
 
 logger = logging.getLogger(__name__)
 
@@ -92,38 +93,68 @@ def make_checker(token):
     return check
 
 
-def protect(handler, check):
-    """Wrap a handler, keeping its argument names (pyRevit injects by name)."""
+def protect(handler, check=None):
+    """Wrap a handler, keeping its argument names (pyRevit injects by name).
+
+    The wrapper takes the correlation id out of the request (tracing), applies the
+    optional token check, and adds `request_id` to the response.
+    """
     args = _arg_names(handler)
     params = list(args) + ([] if "request" in args else ["request"])
     src = ("def {name}({params}):\n"
-           "    _denied = _check(request)\n"
-           "    if _denied is not None:\n"
-           "        return _denied\n"
-           "    return _handler({call})\n").format(
+           "    _rid = _begin(request)\n"
+           "    try:\n"
+           "        if _check is not None:\n"
+           "            _denied = _check(request)\n"
+           "            if _denied is not None:\n"
+           "                return _attach(_denied, _rid)\n"
+           "        return _attach(_handler({call}), _rid)\n"
+           "    finally:\n"
+           "        _end()\n").format(
         name=getattr(handler, "__name__", "handler"), params=", ".join(params),
         call=", ".join("{0}={0}".format(a) for a in args))
-    ns = {"_check": check, "_handler": handler}
+    ns = {"_check": check, "_handler": handler, "_begin": _begin_request, "_end": _end_request,
+          "_attach": T.attach_request_id}
     exec(src, ns)
     wrapped = ns[getattr(handler, "__name__", "handler")]
     wrapped.__doc__ = handler.__doc__
     return wrapped
 
 
-class SecureAPI(object):
-    """Proxy for routes.API applying the token check to every route but /status/ and /ping/."""
+def _begin_request(request):
+    data = getattr(request, "data", None)
+    rid = T.pop_request_id(data if isinstance(data, dict) else None, getattr(request, "query_params", None))
+    try:
+        from . import core
 
-    def __init__(self, api, token):
+        core.set_request_id(rid)
+    except Exception:
+        pass
+    return rid
+
+
+def _end_request():
+    try:
+        from . import core
+
+        core.set_request_id(None)
+    except Exception:
+        pass
+
+
+class SecureAPI(object):
+    """Proxy for routes.API: request ids on every route, the token check on all but /status/ and /ping/."""
+
+    def __init__(self, api, token=None):
         self._api = api
-        self._check = make_checker(token)
+        self._check = make_checker(token) if token else None
 
     def route(self, path, methods=None):
         real = self._api.route(path, methods=methods) if methods is not None else self._api.route(path)
 
         def deco(func):
-            if path in S.UNPROTECTED_PATHS:
-                return real(func)
-            return real(protect(func, self._check))
+            check = None if path in S.UNPROTECTED_PATHS else self._check
+            return real(protect(func, check))
         return deco
 
     def __getattr__(self, name):
@@ -132,7 +163,6 @@ class SecureAPI(object):
 
 def secured(api):
     st = settings()
-    if not st["token"]:
-        return api
-    logger.info("RVTSS token protection enabled for revit_mcp routes")
+    if st["token"]:
+        logger.info("RVTSS token protection enabled for revit_mcp routes")
     return SecureAPI(api, st["token"])

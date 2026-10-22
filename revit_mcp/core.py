@@ -18,6 +18,7 @@ import os
 import time
 import difflib
 import logging
+import threading
 import traceback
 
 from pyrevit import routes, DB
@@ -97,6 +98,18 @@ def _append_log(prefix, text):
     fname = os.path.join(logdir, "{}-{}.log".format(prefix, time.strftime("%Y%m%d")))
     with io.open(fname, "a", encoding="utf-8") as fh:
         fh.write(text_type(text))
+
+
+_REQUEST = threading.local()
+
+
+def set_request_id(request_id):
+    """Correlation id of the request being handled on this thread (set by secure_api.protect)."""
+    _REQUEST.id = request_id
+
+
+def current_request_id():
+    return getattr(_REQUEST, "id", None)
 
 
 def _audit_log(method, ok, duration, detail="", request_id=None):
@@ -321,16 +334,16 @@ def handle(doc, request, impl, uidoc=None, name=None, needs_doc=True):
         if ctx.warnings:
             result.setdefault("warnings", []).extend(ctx.warnings)
         result.setdefault("status", "success")
-        _audit_log(method, True, time.time() - start, result.get("status"))
+        _audit_log(method, True, time.time() - start, result.get("status"), current_request_id())
         return respond(result)
     except RvtssError as e:
-        _audit_log(method, False, time.time() - start, e.message)
+        _audit_log(method, False, time.time() - start, e.message, current_request_id())
         return error_response(e.message, status=e.status, hint=e.hint, **e.extra)
     except Exception as e:
         tb = traceback.format_exc()
         inner = getattr(e, "InnerException", None)
         logger.error("RVTSS {} failed: {}\n{}".format(method, e, tb))
-        _audit_log(method, False, time.time() - start, text_type(e))
+        _audit_log(method, False, time.time() - start, text_type(e), current_request_id())
         return error_response(
             "{}: {}".format(type(e).__name__, normalize_string(text_type(e))), status=500,
             hint=revit_error_hint(e), traceback=tb[-3000:],

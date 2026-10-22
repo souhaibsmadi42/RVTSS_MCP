@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """View-related tools for capturing and listing Revit views"""
 
+from typing import Literal
+
 from ._compat import Context, READ_ONLY
 from .utils import format_response
 
@@ -9,13 +11,17 @@ def register_view_tools(mcp, revit_get, revit_post, revit_image):
     """Register view-related tools"""
 
     @mcp.tool(annotations=READ_ONLY)
-    async def get_revit_view(view_name: str, ctx: Context = None):
-        """Export a specific Revit view as a PNG image.
+    async def get_revit_view(view_name: str, image_format: Literal["png", "jpg"] = "png",
+                             pixel_size: int = 1024, ctx: Context = None):
+        """Export a view as an image (png, or jpg for smaller payloads; pixel_size 128-4096).
 
         view_name: the exact view name, or the view element id as a string when
         several views share a name (e.g. floor and ceiling plan "Level 1").
+        Images above RVTSS_IMAGE_MAX_KB (default 4096 KB) are refused with a hint;
+        errors come back as {status, error, error_kind, hint, request_id}.
         """
-        return await revit_image(f"/get_view/{view_name}", ctx)
+        return await revit_image(f"/get_view/{view_name}", ctx, image_format=image_format,
+                                 pixel_size=pixel_size)
 
     @mcp.tool(annotations=READ_ONLY)
     async def list_revit_views(ctx: Context = None) -> str:

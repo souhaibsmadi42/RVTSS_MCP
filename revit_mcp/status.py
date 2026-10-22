@@ -62,4 +62,21 @@ def register_status_routes(api):
                 "api_name": "revit_mcp"
             }, status=503)
     
+    @api.route('/ping/', methods=["GET"])
+    def revit_ping():
+        """Liveness of the Routes server itself, answered without Revit API context.
+
+        pyRevit Routes serves each request on its own thread and only API-context
+        handlers wait for Revit's main thread, so /ping/ answers while Revit is busy
+        (modal dialog, edit mode, long operation). The MCP server uses it to tell
+        "Revit busy" from "Routes not running" after a timeout.
+        """
+        import time
+        import revit_mcp
+
+        return routes.make_response(data={
+            "status": "success", "pong": True, "api_name": "revit_mcp",
+            "rvtss_version": revit_mcp.RVTSS_VERSION, "server_time": time.strftime("%Y-%m-%dT%H:%M:%S"),
+        })
+
     logger.info("Status routes registered successfully")

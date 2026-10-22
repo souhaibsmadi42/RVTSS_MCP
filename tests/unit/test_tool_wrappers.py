@@ -66,7 +66,7 @@ class TestViewTools:
 
     async def test_get_revit_view(self):
         await self.tools["get_revit_view"](view_name="Level 1", ctx=None)
-        self.mock_image.assert_called_once_with("/get_view/Level 1", None)
+        self.mock_image.assert_called_once_with("/get_view/Level 1", None, image_format="png", pixel_size=1024)
 
     async def test_get_current_view_info(self):
         await self.tools["get_current_view_info"](ctx=None)

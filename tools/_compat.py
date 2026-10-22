@@ -88,15 +88,16 @@ async def log_info(ctx, message):
         pass
 
 
-def create_server(name, host="127.0.0.1", port=8000, instructions=None):
+def create_server(name, host="127.0.0.1", port=8000, instructions=None, lifespan=None):
     """Create the MCP server object for whichever SDK is installed."""
+    extra = {"lifespan": lifespan} if lifespan is not None else {}
     if MCP_MAJOR == 1:
-        kwargs = dict(host=host, port=port, stateless_http=True, json_response=True)
+        kwargs = dict(host=host, port=port, stateless_http=True, json_response=True, **extra)
         if instructions:
             kwargs["instructions"] = instructions
         server = _ServerClass(name, **kwargs)
     else:
-        server = _ServerClass(name, instructions=instructions)
+        server = _ServerClass(name, instructions=instructions, **extra)
     # remember transport settings for run_server()/combined mode
     server._rvtss_host = host
     server._rvtss_port = port

@@ -10,10 +10,13 @@ import logging
 import httpx
 import anyio
 import base64
-from typing import Optional, Dict, Any, Union
+import uuid
+from contextlib import asynccontextmanager
+from typing import Dict, Any, Union
 
 from tools._compat import create_server, run_server, http_apps, log_level, Image, Context
 from revit_mcp.pure import security as _security
+from revit_mcp.pure import tracing as _tracing
 
 # MCP stdio uses stdout for the protocol: all logging must go to stderr.
 logging.basicConfig(
@@ -79,6 +82,21 @@ def _auth(method, data=None, params=None):
         params[_security.TOKEN_QUERY_KEY] = RVTSS_TOKEN
     return data, params, headers
 
+# stdio serves one session for the life of the process: close the pooled HTTP
+# client when it ends. HTTP transports are stateless (the lifespan runs per
+# request), so there the pool stays open and is closed when uvicorn stops.
+_CLOSE_POOL_ON_SESSION_END = {"enabled": False}
+
+
+@asynccontextmanager
+async def _lifespan(_server):
+    try:
+        yield {}
+    finally:
+        if _CLOSE_POOL_ON_SESSION_END["enabled"]:
+            await close_client()
+
+
 # Create a generic MCP server for interacting with Revit
 # (stateless HTTP + JSON responses for HTTP transports; works on mcp 1.x and 2.x)
 mcp = create_server(
@@ -86,6 +104,7 @@ mcp = create_server(
     host="127.0.0.1",
     port=int(os.environ.get("MCP_PORT", "8000")),
     instructions=SERVER_INSTRUCTIONS,
+    lifespan=_lifespan,
 )
 
 CONNECT_HINT = (
@@ -94,11 +113,114 @@ CONNECT_HINT = (
     "(4) this extension is installed and pyRevit was reloaded, (5) REVIT_HOST/REVIT_PORT "
     "match your setup. Only one copy of the extension may be installed."
 )
-TIMEOUT_HINT = (
-    "Request timed out after {t} seconds. The operation may still be running in Revit. "
-    "Revit only executes API requests when idle: close any open dialog, finish any edit "
-    "mode (sketch/in-place family), then check the model state before retrying."
+TIMEOUT_BUSY_HINT = (
+    "Revit is busy: no answer after {t} seconds, but the pyRevit Routes server is running (/ping/ answered). "
+    "Revit's main thread is blocked by a modal dialog, an edit mode (sketch / in-place family / group edit) "
+    "or a long operation, which may still finish. Close dialogs, finish the edit mode, then check the model "
+    "state before retrying."
 )
+HOST_TIMEOUT_HINT = (
+    "pyRevit could not get Revit's main thread: Revit is busy with a modal dialog, an edit mode or a long "
+    "operation. Close dialogs / finish the edit mode, then retry."
+)
+TIMEOUT_DOWN_HINT = (
+    "No answer after {t} seconds and the pyRevit Routes server at {url} does not answer /ping/ either: "
+    "Revit may be frozen, closed, or Routes stopped. Check Revit, then reload pyRevit."
+)
+
+
+IMAGE_TIMEOUT = float(os.environ.get("RVTSS_IMAGE_TIMEOUT", "60"))
+# Images larger than this are refused (they would flood the model context).
+IMAGE_MAX_BYTES = int(float(os.environ.get("RVTSS_IMAGE_MAX_KB", "4096")) * 1024)
+PING_TIMEOUT = 3.0
+# Connection errors after which a GET is retried once (a pooled keep-alive
+# connection closed by the server). Never applied to POST: it may change the model.
+RETRYABLE_GET_ERRORS = (httpx.RemoteProtocolError, httpx.ReadError, httpx.WriteError)
+
+
+class _ClientPool(object):
+    """One pooled httpx.AsyncClient per event loop.
+
+    Created on first use, recreated when the event loop changes (tests, combined
+    mode restarts) or when httpx.AsyncClient was replaced (unit tests), and
+    closed by close_client() / the server lifespan. Timeouts are passed per call.
+    """
+
+    def __init__(self):
+        self.client = None
+        self._loop = None
+        self._factory = None
+
+    def get(self):
+        import asyncio
+
+        loop = asyncio.get_running_loop()
+        stale = (self.client is None or self.client.is_closed or self._loop is not loop
+                 or self._factory is not httpx.AsyncClient)
+        if stale:
+            self._factory = httpx.AsyncClient
+            self._loop = loop
+            self.client = httpx.AsyncClient(
+                timeout=DEFAULT_TIMEOUT,
+                limits=httpx.Limits(max_connections=8, max_keepalive_connections=4, keepalive_expiry=10.0))
+        return self.client
+
+    async def aclose(self):
+        client, self.client = self.client, None
+        if client is not None and not client.is_closed:
+            try:
+                await client.aclose()
+            except Exception:
+                pass
+
+
+_POOL = _ClientPool()
+
+
+async def close_client():
+    await _POOL.aclose()
+
+
+def new_request_id():
+    return uuid.uuid4().hex[:12]
+
+
+def _with_request_id(data, params, method, request_id):
+    if method == "POST":
+        data = dict(data or {})
+        data[_tracing.REQUEST_ID_BODY_KEY] = request_id
+    else:
+        params = dict(params or {})
+        params[_tracing.REQUEST_ID_QUERY_KEY] = request_id
+    return data, params
+
+
+async def ping_revit() -> Dict[str, Any]:
+    """GET /ping/ (no Revit API context): is the Routes server itself alive?"""
+    try:
+        client = _POOL.get()
+        _d, params, headers = _auth("GET")
+        response = await client.get(f"{BASE_URL}/ping/", params=params, headers=headers, timeout=PING_TIMEOUT)
+        if response.status_code == 200:
+            return {"alive": True}
+        if response.status_code == 404:
+            return {"alive": True, "note": "Routes answered but /ping/ is missing (RVTSS extension older than v2.1)"}
+        return {"alive": True, "note": "Routes answered {}".format(response.status_code)}
+    except Exception as e:
+        return {"alive": False, "error": str(e) or type(e).__name__}
+
+
+async def _timeout_message(timeout, request_id):
+    probe = await ping_revit()
+    if probe.get("alive"):
+        text = TIMEOUT_BUSY_HINT.format(t=timeout)
+    else:
+        text = TIMEOUT_DOWN_HINT.format(t=timeout, url=BASE_URL)
+    return "Error: {} (request_id: {})".format(text, request_id)
+
+
+def _error_suffix(request_id):
+    return " (request_id: {})".format(request_id)
 
 
 async def revit_get(endpoint: str, ctx: Context = None, **kwargs) -> Union[Dict, str]:
@@ -111,29 +233,63 @@ async def revit_post(endpoint: str, data: Dict[str, Any], ctx: Context = None, *
     return await _revit_call("POST", endpoint, data=data, ctx=ctx, **kwargs)
 
 
-async def revit_image(endpoint: str, ctx: Context = None) -> Union[Image, str]:
-    """GET request that returns an Image object"""
+def _image_error(error, kind, request_id, hint=None, **extra):
+    """Same envelope as the JSON tools: status/error/hint (+ request_id)."""
+    out = {"status": "error", "error": error, "error_kind": kind, "request_id": request_id}
+    if hint:
+        out["hint"] = hint
+    out.update(extra)
+    return out
+
+
+async def revit_image(endpoint: str, ctx: Context = None, timeout: float = None, image_format: str = None,
+                      pixel_size: int = None, max_bytes: int = None) -> Union[Image, Dict]:
+    """GET a view export and return an Image, or a structured error envelope."""
+    request_id = new_request_id()
     refused = _remote_refusal()
     if refused:
-        return refused
+        return _image_error(refused[len("Error: "):], "remote_refused", request_id)
+    timeout = timeout or IMAGE_TIMEOUT
+    max_bytes = max_bytes or IMAGE_MAX_BYTES
+    query = {}
+    if image_format:
+        query["image_format"] = image_format
+    if pixel_size:
+        query["pixel_size"] = int(pixel_size)
+    _d, params, headers = _auth("GET", params=query)
+    _d, params = _with_request_id(None, params, "GET", request_id)
+    url = f"{BASE_URL}{endpoint}"
     try:
-        async with httpx.AsyncClient(timeout=60.0) as client:
-            _d, params, headers = _auth("GET")
-            response = await client.get(f"{BASE_URL}{endpoint}", params=params, headers=headers)
-
-            if response.status_code == 200:
-                data = response.json()
-                image_bytes = base64.b64decode(data["image_data"])
-                return Image(data=image_bytes, format="png")
-            else:
-                return f"Error: {response.status_code} - {response.text}"
+        client = _POOL.get()
+        try:
+            response = await client.get(url, params=params, headers=headers, timeout=timeout)
+        except RETRYABLE_GET_ERRORS:
+            response = await client.get(url, params=params, headers=headers, timeout=timeout)
+        if response.status_code != 200:
+            body = _decode_error_response(response)
+            if isinstance(body, dict):
+                body.setdefault("request_id", request_id)
+                body.setdefault("error_kind", "revit_error")
+                return body
+            return _image_error(body[len("Error: "):], "revit_error", request_id,
+                                response_code=response.status_code)
+        data = response.json()
+        image_bytes = base64.b64decode(data["image_data"])
+        if len(image_bytes) > max_bytes:
+            return _image_error(
+                "View image is {:.0f} KB, above the {:.0f} KB limit".format(len(image_bytes) / 1024.0,
+                                                                            max_bytes / 1024.0),
+                "image_too_large", request_id,
+                hint="Retry with image_format='jpg' and/or a smaller pixel_size (e.g. 800), "
+                     "or raise RVTSS_IMAGE_MAX_KB.")
+        content_type = data.get("content_type") or "image/png"
+        return Image(data=image_bytes, format="jpeg" if "jpeg" in content_type else "png")
     except httpx.TimeoutException:
-        return "Error: Image export timed out after 60 seconds."
+        return _image_error((await _timeout_message(timeout, request_id))[len("Error: "):], "timeout", request_id)
     except httpx.ConnectError:
-        return "Error: " + CONNECT_HINT.format(url=BASE_URL)
+        return _image_error(CONNECT_HINT.format(url=BASE_URL), "routes_unreachable", request_id)
     except Exception as e:
-        msg = str(e) or type(e).__name__
-        return f"Error: {msg}"
+        return _image_error(str(e) or type(e).__name__, "client_error", request_id)
 
 
 def _decode_error_response(response) -> Union[Dict, str]:
@@ -157,31 +313,53 @@ def _decode_error_response(response) -> Union[Dict, str]:
 
 async def _revit_call(method: str, endpoint: str, data: Dict = None, ctx: Context = None,
                      timeout: float = None, params: Dict = None) -> Union[Dict, str]:
-    """Internal function handling all HTTP calls"""
+    """Internal function handling all HTTP calls.
+
+    Every call carries a correlation id (body `_rvtss_request_id` / query
+    `rvtss_request_id`), which the Revit side writes to its audit log and returns
+    as `request_id`. GETs are retried once after a dropped connection; POSTs are
+    never retried. Timeouts ping /ping/ to report "Revit busy" vs "Routes down".
+    """
     timeout = timeout or DEFAULT_TIMEOUT
     url = f"{BASE_URL}{endpoint}"
+    request_id = new_request_id()
     refused = _remote_refusal()
     if refused:
         return refused
     data, params, headers = _auth(method, data, params)
+    data, params = _with_request_id(data, params, method, request_id)
     try:
-        async with httpx.AsyncClient(timeout=timeout) as client:
-            if method == "GET":
-                response = await client.get(url, params=params, headers=headers)
-            else:  # POST
-                response = await client.post(url, json=data, headers=headers)
+        client = _POOL.get()
+        if method == "GET":
+            try:
+                response = await client.get(url, params=params, headers=headers, timeout=timeout)
+            except RETRYABLE_GET_ERRORS as e:
+                logger.info("GET %s retried after %s (request_id %s)", endpoint, type(e).__name__, request_id)
+                response = await client.get(url, params=params, headers=headers, timeout=timeout)
+        else:  # POST
+            response = await client.post(url, json=data, headers=headers, timeout=timeout)
 
-            if response.status_code == 200:
-                return response.json()
-            logger.info("Revit returned %s for %s", response.status_code, endpoint)
-            return _decode_error_response(response)
+        if response.status_code == 200:
+            body = response.json()
+            if isinstance(body, dict):
+                body.setdefault("request_id", request_id)
+            return body
+        logger.info("Revit returned %s for %s (request_id %s)", response.status_code, endpoint, request_id)
+        body = _decode_error_response(response)
+        if isinstance(body, dict):
+            body.setdefault("request_id", request_id)
+            if response.status_code == 504 and "timed out by host" in json.dumps(body):
+                # pyRevit gave up waiting for Revit's main thread (RouteHandlerTimedOutException)
+                body.setdefault("hint", HOST_TIMEOUT_HINT)
+            return body
+        return body + _error_suffix(request_id)
     except httpx.TimeoutException:
-        return "Error: " + TIMEOUT_HINT.format(t=timeout)
+        return await _timeout_message(timeout, request_id)
     except httpx.ConnectError:
-        return "Error: " + CONNECT_HINT.format(url=BASE_URL)
+        return "Error: " + CONNECT_HINT.format(url=BASE_URL) + _error_suffix(request_id)
     except Exception as e:
         msg = str(e) or type(e).__name__
-        return f"Error: {msg}"
+        return f"Error: {msg}" + _error_suffix(request_id)
 
 
 # Register all tools BEFORE the main block
@@ -213,7 +391,10 @@ async def run_combined_async():
         log_level=log_level(mcp),
     )
     server = uvicorn.Server(config)
-    await server.serve()
+    try:
+        await server.serve()
+    finally:
+        await close_client()
 
 
 if __name__ == "__main__":
@@ -230,4 +411,5 @@ if __name__ == "__main__":
         anyio.run(run_combined_async)
         sys.exit(0)
 
+    _CLOSE_POOL_ON_SESSION_END["enabled"] = transport == "stdio"
     run_server(mcp, transport)

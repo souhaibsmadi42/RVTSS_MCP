@@ -27,7 +27,7 @@ def register_views_routes(api):
     """Register all view-related routes with the API"""
 
     @api.route("/get_view/<view_name>", methods=["GET"])
-    def get_view(doc, view_name):
+    def get_view(doc, view_name, request=None):
         """
         Export a named Revit view as a PNG image and return the image data
 
@@ -50,6 +50,19 @@ def register_views_routes(api):
             # Normalize the view name
             view_name = normalize_string(view_name)
             logger.info("Exporting view: {}".format(view_name))
+
+            # Optional query options (RVTSS v2.1): image_format=png|jpg, pixel_size=128..4096
+            query = getattr(request, "query_params", None) or {}
+            image_format = str(query.get("image_format") or "png").lower()
+            if image_format not in ("png", "jpg", "jpeg"):
+                return routes.make_response(
+                    data={"error": "image_format must be png or jpg"}, status=400
+                )
+            is_jpeg = image_format != "png"
+            try:
+                pixel_size = max(128, min(4096, int(query.get("pixel_size") or 1024)))
+            except (TypeError, ValueError):
+                pixel_size = 1024
 
             # Define output folder in temp directory
             output_folder = os.path.join(tempfile.gettempdir(), "RevitMCPExports")
@@ -142,11 +155,12 @@ def register_views_routes(api):
             ieo.SetViewsAndSheets(viewIds)
 
             ieo.FilePath = file_path_prefix
-            ieo.HLRandWFViewsFileType = DB.ImageFileType.PNG
-            ieo.ShadowViewsFileType = DB.ImageFileType.PNG
+            file_type = DB.ImageFileType.JPEGMedium if is_jpeg else DB.ImageFileType.PNG
+            ieo.HLRandWFViewsFileType = file_type
+            ieo.ShadowViewsFileType = file_type
             ieo.ImageResolution = DB.ImageResolution.DPI_150
             ieo.ZoomType = DB.ZoomFitType.FitToPage
-            ieo.PixelSize = 1024  # Set a reasonable default size
+            ieo.PixelSize = pixel_size
 
             # Export the image
             logger.info("Starting image export for view: {}".format(view_name))
@@ -158,7 +172,8 @@ def register_views_routes(api):
                 matching_files = [
                     os.path.join(output_folder, f)
                     for f in os.listdir(output_folder)
-                    if f.startswith(export_prefix) and f.lower().endswith(".png")
+                    if f.startswith(export_prefix)
+                    and f.lower().endswith((".jpg", ".jpeg") if is_jpeg else (".png",))
                 ]
                 matching_files.sort(key=lambda x: os.path.getctime(x), reverse=True)
             except Exception as e:
@@ -208,7 +223,8 @@ def register_views_routes(api):
             return routes.make_response(
                 data={
                     "image_data": encoded_data,
-                    "content_type": "image/png",
+                    "content_type": "image/jpeg" if is_jpeg else "image/png",
+                    "pixel_size": pixel_size,
                     "view_name": view_name,
                     "file_size_bytes": len(img_data),
                     "export_success": True,

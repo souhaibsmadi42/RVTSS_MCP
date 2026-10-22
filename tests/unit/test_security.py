@@ -69,10 +69,7 @@ def test_token_wraps_every_route_but_status(secured_routes):
     assert errors == {}
     for r in api.routes:
         args = list(inspect.signature(r["func"]).parameters)
-        if r["path"] in S.UNPROTECTED_PATHS:
-            assert "request" not in args or r["path"] != "/status/"
-        else:
-            assert "request" in args, r["path"]
+        assert "request" in args, r["path"]  # every route is wrapped (request ids); the token skips /status/, /ping/
         assert set(args) <= {"doc", "uidoc", "request", "view_name"}, (r["path"], args)
 
 
@@ -119,12 +116,15 @@ def test_registration_fails_closed(monkeypatch):
         assert api.routes == [] and "revit_mcp.secure_api" in errors
 
 
-def test_no_token_means_unchanged_handlers(monkeypatch):
+def test_no_token_means_no_check_but_request_ids(monkeypatch):
     monkeypatch.delenv("RVTSS_TOKEN", raising=False)
     with revit_environment():
         startup = importlib.import_module("startup")
-        levels = _route(startup.api, "/list_levels/")
-        assert list(inspect.signature(levels).parameters) == ["doc"]
+        find = _route(startup.api, "/find_elements/")
+        req = FakeRequest({"categories": ["Walls"], "_rvtss_request_id": "abc123"})
+        res = find(doc=None, uidoc=None, request=req)
+        assert res["status"] == 503  # reached the handler: no token needed
+        assert res["data"]["request_id"] == "abc123" and "_rvtss_request_id" not in req.data
 
 
 class _FakeApp(object):
@@ -203,6 +203,7 @@ class TestClient:
         await main.revit_post("/find_elements/", {"a": 1})
         await main.revit_get("/list_levels/")
         body = json.loads(seen[0].content)
+        assert len(body.pop("_rvtss_request_id")) == 12
         assert body == {"a": 1, "_rvtss_token": "s3cret"} and seen[0].headers["X-RVTSS-Token"] == "s3cret"
         assert seen[1].url.params["rvtss_token"] == "s3cret"
 
