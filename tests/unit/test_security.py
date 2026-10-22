@@ -3,7 +3,6 @@
 import importlib
 import inspect
 import json
-import sys
 
 import httpx
 import pytest

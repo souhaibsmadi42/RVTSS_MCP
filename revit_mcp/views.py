@@ -4,7 +4,7 @@ Views Module for Revit MCP
 Handles view export and image generation functionality
 """
 
-from pyrevit import routes, revit, DB
+from pyrevit import routes, DB
 import tempfile
 import os
 import base64

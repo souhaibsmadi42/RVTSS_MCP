@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-"""Revit API version shims (Revit 2021 - 2026).
+"""Revit API version shims (Revit 2021 - 2027).
 
 Differences handled here:
   * ElementId: Int32 constructor + IntegerValue (<=2023) vs Int64 + Value (2024+,
@@ -8,6 +8,11 @@ Differences handled here:
     SpecTypeId (2021.1+).
   * Parameter groups: BuiltInParameterGroup (removed 2024) vs GroupTypeId (2022+).
   * Shared parameter creation / bindings / FamilyManager.AddParameter overloads.
+
+Revit 2027 (API 27.0, .NET 10) needs no extra shim: the BuiltInParameters,
+ImageFileType and GlobalParameter members RVTSS uses are unchanged in the 2027
+API reference, and pyRevit's develop branch ships a Revit 2027 runtime
+(pyRevitLabs.PyRevit.Runtime.2027). Not yet run in a live Revit 2027 session.
 """
 from pyrevit import DB
 import System

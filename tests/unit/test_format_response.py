@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Tests for tools.utils.format_response()"""
 import json
-import pytest
 from tools.utils import format_response
 
 

@@ -1,6 +1,6 @@
 [project]
-name = "mcp-server-for-revit"
-version = "2.0.0"
+name = "rvtss-mcp"
+version = "2.1.0"
 description = "RVTSS - MCP server for Autodesk Revit (pyRevit Routes): model intelligence, family creation, parameter management and BIM QC"
 readme = "README.md"
 requires-python = ">=3.11"

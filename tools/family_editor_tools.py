@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """RVTSS family editor tools: create and edit real .rfa family documents."""
-from typing import Annotated, Any, Dict, List, Literal, Optional, Union
+from typing import Annotated, Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field
 

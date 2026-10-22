@@ -6,7 +6,6 @@ import subprocess
 import json
 import anyio
 from ._compat import Context, MODIFIES, READ_ONLY
-from .utils import format_response
 
 
 def _find_revit_installations():

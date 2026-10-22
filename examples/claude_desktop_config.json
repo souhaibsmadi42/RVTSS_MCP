@@ -2,10 +2,15 @@
   "mcpServers": {
     "RVTSS Revit": {
       "command": "uv",
-      "args": ["run", "--with", "mcp[cli]", "mcp", "run", "C:\\Users\\<you>\\AppData\\Roaming\\pyRevit\\Extensions\\RVTSS.extension\\main.py"],
+      "args": [
+        "run",
+        "--project", "C:\\Users\\<you>\\AppData\\Roaming\\pyRevit\\Extensions\\RVTSS.extension",
+        "python", "C:\\Users\\<you>\\AppData\\Roaming\\pyRevit\\Extensions\\RVTSS.extension\\main.py"
+      ],
       "env": {
         "REVIT_PORT": "48884",
-        "RVTSS_TIMEOUT": "60"
+        "RVTSS_TIMEOUT": "60",
+        "RVTSS_TOOLSETS": "bim_coordinator"
       }
     }
   }

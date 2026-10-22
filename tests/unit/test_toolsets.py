@@ -6,7 +6,6 @@ import os
 import subprocess
 import sys
 
-import pytest
 
 from tools import toolsets as TS
 from tools._compat import compact_schema

@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """Tests for _find_revit_installations with mocked registry and filesystem."""
 import sys
-import types
 from unittest.mock import patch, MagicMock
-import pytest
 from tools.launch_tools import _find_revit_installations
 
 

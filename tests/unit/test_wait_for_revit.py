@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """Tests for _wait_for_revit_ready with mocked async calls."""
-import pytest
 from unittest.mock import AsyncMock, patch
 from tools.launch_tools import _wait_for_revit_ready
 

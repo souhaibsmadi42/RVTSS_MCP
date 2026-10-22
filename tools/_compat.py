@@ -20,6 +20,12 @@ except ImportError:  # mcp 2.x
 
     MCP_MAJOR = 2
 
+# re-exported for the tool modules (keeps pyflakes quiet about the SDK-specific imports)
+__all__ = ["Context", "Image", "ToolError", "MCP_MAJOR", "ToolAnnotations", "STRUCTURED_OUTPUT", "create_server",
+           "run_server", "http_apps", "log_level", "annotations", "structured_return", "structured_result",
+           "client_supports", "report_progress", "log_info", "compact_schema", "finalize_tools", "READ_ONLY",
+           "MODIFIES", "IDEMPOTENT", "DESTRUCTIVE"]
+
 try:
     from mcp.types import ToolAnnotations
 except ImportError:  # very old SDKs

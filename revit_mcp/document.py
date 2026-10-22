@@ -46,7 +46,6 @@ def register_document_routes(api):
             # Get the Application object via pyRevit HOST_APP
             # (uidoc may be None when no document is open)
             uiapp = revit.HOST_APP.uiapp
-            app = uiapp.Application
 
             # Convert string path to ModelPath
             model_path = DB.ModelPathUtils.ConvertUserVisiblePathToModelPath(

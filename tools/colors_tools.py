@@ -2,7 +2,7 @@
 """Color tools"""
 
 from ._compat import Context, MODIFIES, READ_ONLY
-from typing import Dict, Any, Optional, List
+from typing import Optional, List
 from .utils import format_response
 
 

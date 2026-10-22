@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "master", "claude/**"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    name: py${{ matrix.python }} / mcp ${{ matrix.mcp }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+        mcp: ["1.9.x", "2.x"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[test]"
+          if [ "${{ matrix.mcp }}" = "1.9.x" ]; then
+            # mcp 1.9.x imports a pydantic internal removed in pydantic 2.14
+            python -m pip install "mcp[cli]>=1.9,<1.10" "pydantic<2.14"
+          else
+            python -m pip install --upgrade "mcp[cli]>=2,<3"
+          fi
+          python -c "import mcp, importlib.metadata as m; print('mcp', m.version('mcp'))"
+      - name: Unit tests
+        run: python -m pytest tests/unit -q
+      - name: pyflakes
+        run: python -m pyflakes tools main.py revit_mcp tests scripts startup.py
+      - name: vermin (Revit side must run on IronPython 2.7 and 3.4)
+        run: vermin -q --no-tips -t=2.7- -t=3.4- --violations revit_mcp startup.py "RVTSS.tab"
+      - name: docs/TOOLS.md is up to date
+        run: |
+          python scripts/generate_tool_docs.py
+          git diff --exit-code -- docs/TOOLS.md || (echo "::error::docs/TOOLS.md is stale - run python scripts/generate_tool_docs.py" && exit 1)

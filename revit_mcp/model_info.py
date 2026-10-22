@@ -4,7 +4,7 @@ Model Info Module for Revit MCP
 Provides comprehensive model information for architects and designers
 """
 
-from pyrevit import routes, revit, DB
+from pyrevit import routes, DB
 from pyrevit.revit.db import ProjectInfo as RevitProjectInfo
 import pyrevit.revit.db.query as q
 import logging

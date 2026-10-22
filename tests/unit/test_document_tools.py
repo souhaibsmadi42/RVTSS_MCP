@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Tests for document tool wrappers — verify correct payloads."""
 import pytest
-from unittest.mock import AsyncMock
 from tools.document_tools import register_document_tools
 
 

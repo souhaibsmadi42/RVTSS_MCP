@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Tests for other tool module wrappers — verify endpoints and payloads."""
 import pytest
-from unittest.mock import AsyncMock
 from tools.status_tools import register_status_tools
 from tools.model_tools import register_model_tools
 from tools.view_tools import register_view_tools

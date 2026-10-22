@@ -1,10 +1,13 @@
 # RVTSS additions (read first)
 
-RVTSS 2.0 (Suhaib Al Smadi) extends this project. When adding functionality, follow these conventions:
+RVTSS 2.1 (Suhaib Al Smadi) extends this project. When adding functionality, follow these conventions:
 
-- **Revit side** (`revit_mcp/`, IronPython 2.7/3.4 – no f-strings, no Python-3-only syntax):
-  - Keep explicit route signatures (pyRevit injects `doc`, `uidoc`, `request` by name and runs handlers
-    that take `doc`/`uidoc` in Revit API context) and delegate to `core.handle(doc, request, impl)`.
+- **Revit side** (`revit_mcp/`, `startup.py`; IronPython 2.7/3.4 - no f-strings, walrus, type hints or
+  pathlib; check with `vermin -t=2.7- -t=3.4- revit_mcp startup.py`):
+  - Keep explicit route signatures (pyRevit injects `doc`, `uidoc`, `uiapp`, `request` and query/URL
+    params by name; handlers taking `doc`/`uidoc`/`uiapp` run in Revit API context, others - like
+    `/status/`, `/ping/`, `/rvtss_files/` - on the server thread) and delegate to
+    `core.handle(doc, request, impl)`.
   - `impl(ctx)` returns a dict; raise `core.RvtssError(message, status, hint=...)` for expected failures.
   - Read inputs with `ctx.get/require/bool/int/float/list`; `ctx.doc` is the target document (`document`
     field = title/path, default active); `ctx.unit` is the length unit for outputs/inputs (default `mm`).
@@ -12,14 +15,32 @@ RVTSS 2.0 (Suhaib Al Smadi) extends this project. When adding functionality, fol
     return `core.commit_result(result, failures, dry_run)`. Use `core.batch()` for lists and
     `core.confirm_gate()` + `core.preview_status()` for large/destructive operations.
   - Use `params_util.find/read/set_value` for parameters (unit-safe), `query.collect()` for element
-    selection, `compat.*` for version differences, and put Revit-independent logic in `revit_mcp/pure/`
-    with unit tests.
-  - Register the module in `startup.py` `ROUTE_MODULES`.
-- **MCP side** (`tools/`): import `Context` and annotations from `tools/_compat.py` (works with mcp 1.x
-  and 2.x); build payloads with `_common.compact(...)` and return `await _common.post(...)`; type
-  arguments with `Literal`/pydantic models so Claude gets strict schemas; register in `tools/__init__.py`.
-- Run `pytest tests/unit` (stub-based registration test verifies every tool endpoint has a route) and
-  regenerate `docs/TOOLS.md` with `python scripts/generate_tool_docs.py`.
+    selection, `compat.*` for version differences (Revit 2021-2027), `core.load_qc_rules()` for
+    qc_rules.json, and put Revit-independent logic in `revit_mcp/pure/` with unit tests.
+  - Register the module in `revit_mcp/registry.py` `ROUTE_MODULES` (startup.py and the self-test use it).
+    Routes are wrapped by `secure_api.SecureAPI`: optional token check (`RVTSS_TOKEN`; body
+    `_rvtss_token` / query `rvtss_token` - pyRevit does not forward headers) and the correlation id
+    (`_rvtss_request_id` / `rvtss_request_id`), which reaches the audit log and comes back as
+    `request_id`. Never log secrets: `pure.security.redact`.
+  - Add a step to `revit_mcp/pure/selftest.py` for new routes (the Diagnostics > Run Self-Test button and
+    `tests/live/run_live.py` run the same plan; model changes only after `t.require_test_model()`).
+- **MCP side** (`tools/`): import `Context`, annotations and helpers from `tools/_compat.py` (mcp 1.9 and
+  2.x); build payloads with `_common.compact(...)`.
+  - Plain tools: `return await _common.post(...)` (text). Long calls: `_common.call_with_progress(...)`
+    (progress heartbeats + ctx.info). Destructive previews: `_common.post_confirmable(...)` (elicitation
+    when the client supports it, preview/confirm otherwise). Structured read tools: return annotation
+    `structured_return(Model)` (models in `tools/_outputs.py`) + `_common.post_structured(...)`, and add
+    the name to `toolsets.STRUCTURED_TOOLS`.
+  - Add every new tool to a toolset in `tools/toolsets.py` (a unit test fails otherwise). The first
+    docstring paragraph is what clients see ("what it does, when to use it" - keep it short); the full
+    docstring is served as `rvtss://docs/tools/{name}`. Keep the default tools/list payload within the
+    budget enforced by `tests/unit/test_toolsets.py` (measure with `scripts/measure_tool_payload.py`).
+  - Type arguments with `Literal`/pydantic models so Claude gets strict schemas; avoid argument names
+    that shadow pydantic attributes (e.g. `validate`); register in `tools/__init__.py`.
+  - Reusable workflows go in `tools/resources_prompts.py` as MCP prompts.
+- Run `uv run --extra test pytest tests/unit` (stub-based tests verify every tool endpoint has a route
+  and every self-test endpoint exists), `pyflakes tools main.py revit_mcp tests scripts`, and regenerate
+  `docs/TOOLS.md` with `python scripts/generate_tool_docs.py` (CI fails when it is stale).
 
 ---
 

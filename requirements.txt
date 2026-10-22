@@ -35,7 +35,7 @@ httpcore==1.0.9
 httpcore2==2.16.0
     # via httpx2
 httpx==0.28.1
-    # via mcp-server-for-revit (pyproject.toml)
+    # via rvtss-mcp (pyproject.toml)
 httpx2==2.16.0
     # via mcp
 idna==3.20
@@ -50,20 +50,20 @@ jsonschema-specifications==2025.9.1
 markdown-it-py==3.0.0
     # via rich
 mcp==2.2.0
-    # via mcp-server-for-revit (pyproject.toml)
+    # via rvtss-mcp (pyproject.toml)
 mcp-types==2.2.0
     # via mcp
 mdurl==0.1.2
     # via markdown-it-py
 openpyxl==3.1.5
-    # via mcp-server-for-revit (pyproject.toml)
+    # via rvtss-mcp (pyproject.toml)
 opentelemetry-api==1.45.1
     # via mcp
 pycparser==3.11
     # via cffi
 pydantic==2.14.1
     # via
-    #   mcp-server-for-revit (pyproject.toml)
+    #   rvtss-mcp (pyproject.toml)
     #   mcp
     #   mcp-types
 pydantic-core==2.50.1

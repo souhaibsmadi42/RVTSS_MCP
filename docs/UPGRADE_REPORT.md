@@ -524,3 +524,97 @@ only optional arguments.
 * **Tests:** `tests/unit/test_coordination.py` (31 tests). The suites give 245 passed on mcp 2.3 and 2.2,
   and 243 passed + 2 skipped on 1.9. vermin is clean; pyflakes has no new warnings (20 pre-existing ones
   are cleaned up in Phase 7).
+
+## Phase 7 – tooling and docs
+
+* **CI.** `.github/workflows/ci.yml` runs on every push and pull request, on Python 3.11, 3.12 and 3.13 ×
+  mcp 1.9.x and the latest 2.x. Each cell runs:
+  * the unit tests;
+  * `pyflakes tools main.py revit_mcp tests scripts startup.py` (clean: the 20 old warnings were removed);
+  * `vermin -t=2.7- -t=3.4- --violations` on `revit_mcp/`, `startup.py` and the pushbuttons;
+  * the `docs/TOOLS.md` freshness check (the generated file is identical on both SDK majors).
+
+  The 3.11/1.9 and 3.13/2.x cells were reproduced locally in fresh virtual environments, which exposed the
+  issue below.
+* **Issue found: mcp 1.9.x + pydantic 2.14.** mcp 1.9 imports `pydantic._internal._typing_extra.
+  eval_type_backport`, which pydantic 2.14 removed, so `import mcp` fails. pydantic 2.13.5 works. The CI cell
+  for 1.9 pins `pydantic<2.14`, and the CHANGELOG says so. Default installs resolve to mcp 2.x and are not
+  affected.
+* **README** rewritten:
+  * quick start;
+  * toolsets and profiles, with measured tool counts;
+  * security (token, code-execution gate, remote hosts, Routes host);
+  * self-test and live runs;
+  * the full configuration table and the coordination features.
+
+  The upstream documentation moved to `docs/UPSTREAM.md`; its outdated "Current Implementation Status" /
+  *Pending* table was removed and replaced by a pointer to `docs/TOOLS.md`.
+* **`LLM.txt`** conventions updated:
+  * `registry.py`;
+  * the secure wrapper (token and request id);
+  * self-test steps;
+  * toolsets and the payload budget;
+  * `post_structured`, `call_with_progress` and `post_confirmable`;
+  * prompts;
+  * pydantic-shadowing argument names.
+* **Naming and versions:**
+  * Python package `rvtss-mcp` (`pyproject.toml`, `uv.lock`, `requirements.txt`).
+  * Extension display name `RVTSS` (`extension.json`). The install folder, API name `revit_mcp` and port
+    are unchanged.
+  * `RVTSS_VERSION = "2.1.0"`, package version 2.1.0.
+  * Revit 2027 added to the supported range (`compat.py` docstring, README) based on the 2027 API reference
+    and pyRevit's 2027 runtime. No new shim was needed.
+* **Examples:** `examples/claude_desktop_config.json` now uses `uv run --project <extension> python main.py`,
+  so the project's dependencies (`openpyxl`) are installed. It sets the `bim_coordinator` profile.
+* `CHANGELOG.md` added.
+
+## v2.1 summary
+
+### Definition of done
+
+| Item | Status |
+|---|---|
+| All phases committed | yes: one commit per phase on `claude/wizardly-goldberg-v7awiu` |
+| Unit suite green | 245 passed (mcp 2.3, 2.2, latest 2.x on py3.13); 243 passed + 2 skipped (mcp 1.9, py3.11 and py3.13) |
+| vermin / pyflakes | clean |
+| Default tool payload ≥ 40 % smaller | 119,369 → **71,202** chars (−40.4 %) with 77 tools instead of 74. `bim_coordinator`: 37,173 (−68.9 %) |
+| `tests/live` report | **not run – no Revit on this machine** (cloud container, Linux) |
+
+### Bugs found and fixed in v2.1
+
+1. `SharedParametersFilename` was not restored when Revit previously had no shared parameter file
+   (`parameters._SharedFile`, `families._shared_definition`).
+2. Clash grid zones were reversed for grids drawn along +Y.
+3. A mixed mapping preset without a selection would have mapped Rooms only.
+4. The tool argument `validate` shadowed a pydantic attribute on mcp 1.9 (now `run_validation`).
+5. The proxy forced `structured_output=False` on every tool, so the structured tools had no
+   `outputSchema` (found while building Phase 4).
+6. Installation issue: mcp 1.9.x does not work with pydantic ≥ 2.14 (documented, and pinned in CI).
+
+### Verified here vs. needs Revit
+
+| Verified in this environment | Needs a live Revit session (self-test button) |
+|---|---|
+| Revit-side modules import and register against pyRevit stubs; every tool endpoint has a route; every self-test endpoint exists | Every Revit API call: transactions, geometry, family editing, view export, clash geometry |
+| Token check, request ids, redaction, log rotation, `read_only` code mode (stubbed transaction classes) | `/ping/` answering while a modal dialog is open (pyRevit's threaded server was checked in its source) |
+| MCP side end-to-end over stdio against a fake Routes server: structured content, resources, prompts, elicitation accept/decline, progress | Clearance distances on real solids, grid zones on a real model, the family library audit opening real `.rfa` files |
+| Pure logic: clash zones and grouping, ISO 19650, view audit, presets, library findings, Excel workbook | `GlobalParameter.LabelDimension` on project dimensions; the scope-box BuiltInParameters |
+| CI matrix cells reproduced locally | Revit 2027 |
+
+### Manual steps for the user
+
+1. **One extension copy.** Remove or disable the duplicate copy (`revit-mcp-python.extension` /
+   `mcp-server-for-revit-python.extension`), so that only `RVTSS.extension` registers `revit_mcp`.
+2. Pull this branch into the extension folder and **reload pyRevit**.
+3. pyRevit Settings → Routes: set the host to **127.0.0.1** (unless Revit runs in a VM).
+4. **Optional token:** set `RVTSS_TOKEN` in the Revit environment (or `"token"` in
+   `%APPDATA%\RVTSS\config.json`) **and** in the MCP server `env` in the Claude config.
+5. **VM setups:** add `RVTSS_ALLOW_REMOTE=1` to the MCP server `env`.
+6. **Optional:** `RVTSS_ALLOW_CODE_EXECUTION=0` to disable `execute_revit_code`; `RVTSS_TOOLSETS=bim_coordinator`
+   for a lighter tool list.
+7. **Update dependencies** with `uv sync` (new: `openpyxl`) and update the Claude Desktop config (see
+   `examples/claude_desktop_config.json`).
+8. Copy `docs/examples/qc_rules.iso19650.json` to `%APPDATA%\RVTSS\qc_rules.json` and put in your BEP
+   codes.
+9. **Run Diagnostics → Run Self-Test** in Revit and keep `rvtss_live_report.md` / `.json` (they are written
+   to `%TEMP%\RVTSS_live`).
