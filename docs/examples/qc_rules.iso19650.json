@@ -1,0 +1,79 @@
+{
+  "_comment": "Example RVTSS qc_rules.json (copy to %APPDATA%/RVTSS/qc_rules.json and edit the allowed values). ISO 19650-2 / UK NA style information container naming: Project-Originator-Volume-Level-Type-Role-Number. Field codes below are placeholders for a typical Gulf / Jordan project - replace them with the codes in your BIM Execution Plan.",
+  "iso19650": {
+    "delimiter": "-",
+    "severity": "warning",
+    "description": "Rename to Project-Originator-Volume-Level-Type-Role-Number as defined in the BEP.",
+    "fields": [
+      {"name": "project", "values": ["P123"]},
+      {"name": "originator", "values": ["ABC", "XYZ", "DEF"]},
+      {"name": "volume", "pattern": "^(ZZ|XX|[A-Z0-9]{2})$"},
+      {"name": "level", "values": ["B2", "B1", "GF", "MZ", "01", "02", "03", "04", "05", "RF", "ZZ", "XX"]},
+      {"name": "type", "values": ["DR", "M3", "M2", "SH", "SC", "SP", "CA", "VS"]},
+      {"name": "role", "values": ["A", "S", "M", "E", "P", "C", "L", "F", "W", "Z"]},
+      {"name": "number", "pattern": "^\\d{4}$"}
+    ],
+    "targets": {
+      "sheets": {"source": "number", "severity": "error"},
+      "views": {
+        "delimiter": "_",
+        "fields": [
+          {"name": "role", "values": ["A", "S", "M", "E", "P", "C", "Z"]},
+          {"name": "view kind", "values": ["PLN", "RCP", "SEC", "ELV", "DET", "3D", "LEG", "SCH", "WIP"]},
+          {"name": "level", "values": ["B2", "B1", "GF", "MZ", "01", "02", "03", "04", "05", "RF", "ZZ", "XX"]},
+          {"name": "description", "min_length": 2}
+        ]
+      },
+      "view_templates": {
+        "delimiter": "_",
+        "fields": [
+          {"name": "originator", "values": ["ABC"]},
+          {"name": "role", "values": ["A", "S", "M", "E", "P", "C", "Z"]},
+          {"name": "description", "min_length": 3}
+        ]
+      },
+      "families": {
+        "delimiter": "_",
+        "fields": [
+          {"name": "originator", "values": ["ABC", "XYZ", "DEF", "MFR"]},
+          {"name": "category", "min_length": 3},
+          {"name": "description", "min_length": 2},
+          {"name": "variant", "optional": true}
+        ]
+      },
+      "types": {
+        "delimiter": "_",
+        "fields": [
+          {"name": "description", "min_length": 2},
+          {"name": "size", "optional": true}
+        ]
+      },
+      "worksets": {
+        "delimiter": "_",
+        "fields": [
+          {"name": "role", "values": ["A", "S", "M", "E", "P", "C", "Z"]},
+          {"name": "content", "min_length": 3}
+        ]
+      }
+    },
+    "examples": {
+      "sheets": "P123-ABC-ZZ-GF-DR-A-0101",
+      "views": "A_PLN_GF_General Arrangement",
+      "view_templates": "ABC_A_Plan 1-100",
+      "families": "ABC_Door_Single Flush_Glazed",
+      "types": "900x2100",
+      "worksets": "A_Internal Walls"
+    }
+  },
+  "view_audit": {
+    "template_view_types": ["FloorPlan", "CeilingPlan", "Section", "Elevation", "ThreeD", "AreaPlan", "EngineeringPlan"]
+  },
+  "naming": {
+    "levels": {"pattern": "^(B\\d|GF|MZ|\\d{2}|RF)( |$)", "description": "Level names start with the level code (GF, 01, RF...)"}
+  },
+  "required_parameters": [
+    {"categories": ["Doors"], "parameters": ["Fire Rating", "Mark"], "severity": "error"},
+    {"categories": ["Rooms"], "parameters": ["Number", "Name"], "severity": "error"}
+  ],
+  "sheet_parameters": ["Drawn By", "Checked By"]
+}

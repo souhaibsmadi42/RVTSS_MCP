@@ -24,6 +24,7 @@ ROUTE_MODULES = [
     ("revit_mcp.parameters", "register_parameter_routes"),
     ("revit_mcp.documentation", "register_documentation_routes"),
     ("revit_mcp.qc", "register_qc_routes"),
+    ("revit_mcp.family_library", "register_family_library_routes"),
 ]
 
 

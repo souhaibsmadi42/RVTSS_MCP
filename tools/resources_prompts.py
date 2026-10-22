@@ -145,6 +145,44 @@ def pre_issue_qc(issue_name: str = "next issue") -> str:
 Report a checklist (pass/fail per item) and the blocking items first."""
 
 
+@_prompt("clash_coordination", "Coordination round: hard + clearance clashes grouped by pair/level/grid zone, "
+                               "exported to CSV/HTML")
+def clash_coordination(set_a: str = "Ducts, Pipes", set_b: str = "Structural Framing, Structural Columns",
+                       clearance_mm: str = "50", link: str = "") -> str:
+    link_hint = f" Set B is in the link '{link}': list_links -> use its id as set_b.link_instance_id." if link else ""
+    return f"""Clash coordination: [{set_a}] against [{set_b}], clearance {clearance_mm} mm.{link_hint}
+
+1. get_session_info - confirm the project; list_links if a link is involved (must be loaded).
+2. check_clashes(set_a={{categories: [...]}}, set_b={{categories: [...]}}, dry_run=true) - check the set sizes.
+3. check_clashes(..., clearance={clearance_mm}, group_by=["pair", "level", "grid_zone"], max_pairs=50) - review the
+   biggest groups first; hard clashes before clearance violations.
+4. export_clash_report(same sets, clearance={clearance_mm}) - CSV + HTML with ids, levels, grid zone and nearest
+   grid intersection. Report the file paths.
+5. Summarise per group: count, typical element types, the grid zone / level to look at, and a proposed owner
+   (discipline) for each group. Do not move or delete anything in this workflow.
+Clearance distances are sampled (never below the true distance); mention this when a pair is close to the limit."""
+
+
+@_prompt("bim_standards_audit", "BIM standards audit: ISO 19650 naming, views/templates, family library, "
+                                "IFC/COBie parameter readiness")
+def bim_standards_audit(family_folder: str = "", preset: str = "ifc_overrides") -> str:
+    lib = (f"4. audit_family_library(folder=\"{family_folder}\", dry_run=true) -> then without dry_run; list failing "
+           "families with the reason." if family_folder else "4. (No family folder given - skip the library audit.)")
+    return f"""BIM standards audit of the active model.
+
+1. Read rvtss://qc_rules: it needs an iso19650 section (example: docs/examples/qc_rules.iso19650.json in the RVTSS
+   repo). If missing, stop and ask for the BEP naming codes.
+2. run_model_checks(checks=["iso19650"]) - violations per target with the failing fields.
+3. run_model_checks(checks=["view_audit"]) - views without templates, unused templates, empty sheets, views off
+   sheets, duplicate view names, unused scope boxes.
+{lib}
+5. map_parameters(preset="{preset}", dry_run=true) - which targets exist and would be filled; report
+   unverified_targets as "check against the BEP / COBie shared parameter file".
+6. export_to_excel(output_path="standards_audit.xlsx", categories=[...], parameters=[...]) for the parameters the
+   client needs, if asked.
+Report a pass/fail table per area and the top 10 fixes."""
+
+
 def register_prompts(mcp):
     for name, info in PROMPTS.items():
         mcp.prompt(name=name, description=info["description"])(info["fn"])

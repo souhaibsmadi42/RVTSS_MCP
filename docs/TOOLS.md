@@ -2,7 +2,7 @@
 
 Generated from the live tool registry by `scripts/generate_tool_docs.py` - do not edit by hand.
 
-74 tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. **Mode**: read-only / modifies / destructive (MCP tool annotations).
+77 tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. **Mode**: read-only / modifies / destructive (MCP tool annotations).
 
 Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Profiles: `all` = code, core, documentation, edit, families, launch, legacy, model, parameters, qc; `bim_coordinator` = core, model, parameters, documentation, qc; `family_author` = core, families, parameters; `minimal` = core, model; `modeler` = core, model, edit, documentation.
 
@@ -37,7 +37,7 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `list_revit_views` | legacy | retained | read-only | [Deprecated: use find_views] Get a list of all exportable views in the current Revit model |
 | `get_current_view_info` | legacy | retained | read-only | [Deprecated: use get_session_info / find_views] Name, type, id, scale, crop, detail level and discipline of the active view. |
 | `get_current_view_elements` | legacy | retained | read-only | [Deprecated: use find_elements(view='active')] Elements visible in the active view with category counts (truncated at `limit`). |
-| `get_revit_view` | model | retained | read-only | Export a specific Revit view as a PNG image. |
+| `get_revit_view` | model | retained | read-only | Export a view as an image (png, or jpg for smaller payloads; pixel_size 128-4096). |
 | `list_sheets` | model | new | read-only | Sheets with number, name, placed views, title blocks, revisions; counts sheets without views/title blocks. |
 | `get_schedule_data` | model | new | read-only | Read a schedule's table (column headers and rows as displayed), paginated. |
 | `list_category_parameters` | documentation | retained | read-only | Parameters available on a category's elements (for color_splash). |
@@ -87,11 +87,11 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 |---|---|---|---|---|
 | `list_project_parameters` | parameters | new | read-only | Project parameters with binding (instance/type), categories, data type, group, shared GUID, plus names defined more than once. |
 | `shared_parameters` | parameters | new | modifies | Shared parameters: read_file, create_definitions (GUIDs preserved), create_file, bind to categories (instance/type). |
-| `global_parameters` | parameters | new | modifies | Global parameters: list (value, formula, affected elements), create, set value/formula and associate element parameters with them. |
+| `global_parameters` | parameters | new | modifies | Global parameters: list (value, formula, affected elements, labelled dimensions), create, set value/formula, associate element parameters, and label / unlabel project dimensions. |
 | `audit_parameters` | parameters | new | read-only | Audit parameters on elements: missing, empty, invalid values, wrong types, duplicate or misnamed definitions. |
 | `export_parameters` | parameters | new | read-only | Export element parameter values to CSV (ElementId, UniqueId, Category, Family, Type + columns). |
 | `import_parameters` | parameters | new | modifies | Import parameter values from CSV (ElementId or UniqueId column + parameter columns). dry_run by default. |
-| `map_parameters` | parameters | new | modifies | Copy values from existing parameters into your BIM-standard parameters (converting between storage types through display values). Source values are never deleted. |
+| `map_parameters` | parameters | new | modifies | Copy values from existing parameters into your BIM-standard parameters (converting between storage types through display values), or apply an IFC/COBie preset. Source values are never deleted. |
 
 ## Documentation
 
@@ -110,9 +110,12 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | Tool | Toolset | Origin | Mode | Purpose |
 |---|---|---|---|---|
 | `run_model_checks` | qc | new | read-only | BIM QC report (warnings, duplicates, naming, families/types, CAD, links, rooms, views, sheets, required parameters, groups) with severity, ids and fixes. |
-| `check_clashes` | qc | new | read-only | Hard clashes (solid intersection) between two element sets, also against a Revit link. |
+| `check_clashes` | qc | new | read-only | Hard and clearance clashes between two element sets (also against a link), with level, grid zone and nearest grid intersection; export_clash_report writes CSV/HTML. |
+| `export_clash_report` | qc | new | read-only | Clash check (hard + clearance) written to CSV/HTML: ids, levels, grid zone, nearest grid. |
 | `model_snapshot` | qc | new | modifies | Save a JSON snapshot (ids, types, levels, locations, tracked parameters) for later compare_models. |
 | `compare_models` | qc | new | read-only | Change detection: snapshot vs live model or another snapshot (added/removed/modified), or match two element sets by location (design vs shop model). |
+| `audit_family_library` | families | new | read-only | Audit a folder of .rfa files (opened read-only, never saved): category, size, parameters, nested families, warnings, family_validate errors, naming. |
+| `export_to_excel` | parameters | new | read-only | Write parameter values (one sheet per category, units in headers) and schedules to .xlsx. |
 
 ## Advanced
 
@@ -460,14 +463,18 @@ Args:
 
 Toolset: `model`
 
-Export a specific Revit view as a PNG image.
+Export a view as an image (png, or jpg for smaller payloads; pixel_size 128-4096).
 
 view_name: the exact view name, or the view element id as a string when
 several views share a name (e.g. floor and ceiling plan "Level 1").
+Images above RVTSS_IMAGE_MAX_KB (default 4096 KB) are refused with a hint;
+errors come back as {status, error, error_kind, hint, request_id}.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `view_name` | string | yes |  |  |
+| `image_format` | `png` \| `jpg` |  | `png` |  |
+| `pixel_size` | integer |  | `1024` |  |
 
 ### `list_sheets`
 
@@ -1122,18 +1129,18 @@ refused.
 
 Toolset: `parameters`
 
-Global parameters: list (value, formula, affected elements), create, set value/formula and
-associate element parameters with them.
+Global parameters: list (value, formula, affected elements, labelled dimensions), create, set
+value/formula, associate element parameters, and label / unlabel project dimensions.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `action` | `list` \| `create` \| `set_value` \| `set_formula` \| `associate` \| `dissociate` |  | `list` |  |
+| `action` | `list` \| `create` \| `set_value` \| `set_formula` \| `associate` \| `dissociate` \| `label_dimensions` \| `unlabel_dimensions` |  | `list` |  |
 | `name` | string |  |  |  |
 | `type` | `length` \| `area` \| `volume` \| `angle` \| `slope` \| `number` \| `integer` \| `text` \| `multiline_text` \| `url` \| `yesno` \| `material` \| `image` \| `currency` \| `mass` \| `force` |  | `length` |  |
 | `value` | string or number or integer or boolean |  |  |  |
 | `value_unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` \| `mm2` \| `m2` \| `ft2` \| `mm3` \| `m3` \| `ft3` \| `deg` \| `rad` \| `internal` |  |  |  |
 | `formula` | string |  |  |  |
-| `element_ids` | list of integer |  |  | associate/dissociate targets |
+| `element_ids` | list of integer |  |  | associate/dissociate targets; dimension ids for label_dimensions |
 | `parameter` | string |  |  | associate: element parameter to drive |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
@@ -1211,11 +1218,16 @@ parameter names). Defaults to dry_run=true - review the changes, then run with d
 Toolset: `parameters`
 
 Copy values from existing parameters into your BIM-standard parameters (converting between
-storage types through display values). Source values are never deleted.
+storage types through display values), or apply an IFC/COBie preset. Source values are never deleted.
+
+Presets list the target parameter names; unverified names are reported in unverified_targets
+and targets that do not exist on an element are skipped. Office presets:
+%APPDATA%/RVTSS/presets/<name>.json = {"description", "mappings": [{from, to, categories?}]}.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `mappings` | list of object | yes |  | [{from: 'Old Param', to: 'Standard Param'}] |
+| `mappings` | list of object |  |  | [{from: 'Old Param', to: 'Standard Param'}] |
+| `preset` | string |  |  | ifc_overrides \| ifc_common_psets \| cobie_type \| cobie_component \| cobie_space \| office preset |
 | `categories` | list of string |  |  |  |
 | `element_ids` | list of integer |  |  |  |
 | `view` | string |  |  |  |
@@ -1400,7 +1412,7 @@ element ids and a recommended correction.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `checks` | list of `warnings` \| `duplicates` \| `naming` \| `similar_family_names` \| `duplicate_types` \| `unused_families` \| `in_place_families` \| `cad_imports` \| `links` \| `rooms` \| `views_not_on_sheets` \| `sheets` \| `required_parameters` \| `groups` |  |  | Default: all checks |
+| `checks` | list of `warnings` \| `duplicates` \| `naming` \| `similar_family_names` \| `duplicate_types` \| `unused_families` \| `in_place_families` \| `cad_imports` \| `links` \| `rooms` \| `views_not_on_sheets` \| `sheets` \| `required_parameters` \| `groups` \| `iso19650` \| `view_audit` |  |  | Default: all checks |
 | `rules` | object |  |  | Project rules (merged over %APPDATA%/RVTSS/qc_rules.json): {naming: {views\|sheets\|levels\|families\|types: {pattern, severity, description}}, required_parameters: [{categories, parameters, severity}], sheet_parameters: [...]} |
 | `sheet_parameters` | list of string |  |  |  |
 | `duplicate_tolerance` | number |  | `1.0` | Distance in `unit` for duplicate detection |
@@ -1413,10 +1425,13 @@ element ids and a recommended correction.
 
 Toolset: `qc`
 
-Hard clashes (solid intersection) between two element sets, also against a Revit link.
+Hard and clearance clashes between two element sets (also against a link), with level, grid zone
+and nearest grid intersection; export_clash_report writes CSV/HTML.
 
 Hard clash detection (solid intersection) between two element sets in the model or against a
-loaded Revit link. Returns clashing pairs with ids, categories and types.
+loaded Revit link; with clearance > 0 also pairs closer than the clearance (sampled distance).
+Returns clashing pairs with ids, categories, types, type (hard/clearance), distance, level,
+grid_zone and nearest_grid, grouped when group_by is given.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
@@ -1425,7 +1440,33 @@ loaded Revit link. Returns clashing pairs with ids, categories and types.
 | `max_pairs` | integer |  | `200` |  |
 | `max_elements` | integer |  | `2000` |  |
 | `compute_volume` | boolean |  | `False` |  |
+| `clearance` | number |  | `0.0` | Soft clash distance in `unit` (0 = hard only) |
+| `group_by` | list of `pair` \| `type_pair` \| `level` \| `grid_zone` |  |  |  |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `export_clash_report`
+
+Toolset: `qc`
+
+Clash check (hard + clearance) written to CSV/HTML: ids, levels, grid zone, nearest grid.
+
+Groups clashes by element category pair, level and grid zone (default all three). Files are
+written on the MCP machine. dry_run checks the sets and returns the planned file paths.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `set_a` | object | yes |  | Element query, e.g. {categories: ['Ducts']} |
+| `set_b` | object | yes |  | Element query (+link_instance_id) |
+| `clearance` | number |  | `0.0` | Soft-clash clearance in `unit` (0 = hard only) |
+| `group_by` | list of `pair` \| `type_pair` \| `level` \| `grid_zone` |  |  |  |
+| `name` | string |  | `clash_report` |  |
+| `output_folder` | string |  |  | Default: RVTSS_REPORT_DIR |
+| `formats` | list of `csv` \| `html` |  |  |  |
+| `max_pairs` | integer |  | `500` |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
 ### `model_snapshot`
@@ -1474,6 +1515,49 @@ fabrication link) and report unmatched elements and type substitutions.
 | `match_on` | list of `category` \| `family` \| `type` \| `level` |  |  | match: keys that must be equal |
 | `tolerance` | number |  | `50.0` | match: max distance in mm |
 | `max_items` | integer |  | `300` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `audit_family_library`
+
+Toolset: `families`
+
+Audit a folder of .rfa files (opened read-only, never saved): category, size, parameters, nested
+families, warnings, family_validate errors, naming.
+
+Naming uses qc_rules.json naming.families and the iso19650 'families' target. dry_run lists
+the files that would be opened. Backup files (*.0001.rfa) are skipped.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `folder` | string | yes |  | Folder of .rfa files (Revit machine) |
+| `recursive` | boolean |  | `True` |  |
+| `name_contains` | string |  |  |  |
+| `max_files` | integer |  | `50` |  |
+| `run_validation` | boolean |  | `True` | Run family_validate on each family |
+| `max_size_kb` | integer |  | `2048` |  |
+| `include_details` | boolean |  | `False` |  |
+| `dry_run` | boolean |  | `False` |  |
+
+### `export_to_excel`
+
+Toolset: `parameters`
+
+Write parameter values (one sheet per category, units in headers) and schedules to .xlsx.
+
+value_mode raw writes numbers in `unit` with the unit in the column header; display writes
+Revit's formatted text. Values starting with = + - @ are written as text.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `output_path` | string | yes |  | .xlsx path (relative = report folder) |
+| `categories` | list of string |  |  | One sheet per category |
+| `parameters` | list of string |  |  | Parameter columns for category sheets |
+| `schedules` | list of integer or string |  |  | Schedule names/ids, one sheet each |
+| `level` | string |  |  |  |
+| `value_mode` | `raw` \| `display` |  | `raw` |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `overwrite` | boolean |  | `False` |  |
+| `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
 ### `execute_revit_code`

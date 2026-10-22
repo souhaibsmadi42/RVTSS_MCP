@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """RVTSS project / shared / global parameter management tools."""
-from typing import Annotated, Dict, List, Literal, Optional
+from typing import Annotated, Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -79,21 +79,22 @@ def register_parameter_tools(mcp, revit_get, revit_post):
 
     @mcp.tool(annotations=MODIFIES)
     async def global_parameters(
-        action: Literal["list", "create", "set_value", "set_formula", "associate", "dissociate"] = "list",
+        action: Literal["list", "create", "set_value", "set_formula", "associate", "dissociate",
+                        "label_dimensions", "unlabel_dimensions"] = "list",
         name: Optional[str] = None,
         type: ParamType = "length",
         value: Scalar = None,
         value_unit: Optional[ValueUnit] = None,
         formula: Optional[str] = None,
-        element_ids: Annotated[Optional[List[int]], Field(description="associate/dissociate targets")] = None,
+        element_ids: Annotated[Optional[List[int]], Field(description="associate/dissociate targets; dimension ids for label_dimensions")] = None,
         parameter: Annotated[Optional[str], Field(description="associate: element parameter to drive")] = None,
         unit: LengthUnit = "mm",
         dry_run: bool = False,
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Global parameters: list (value, formula, affected elements), create, set value/formula and
-        associate element parameters with them."""
+        """Global parameters: list (value, formula, affected elements, labelled dimensions), create, set
+        value/formula, associate element parameters, and label / unlabel project dimensions."""
         data = compact(action=action, name=name, type=type, value=value, value_unit=value_unit, formula=formula,
                        element_ids=element_ids, parameter=parameter, unit=unit, dry_run=dry_run or None,
                        document=document)
@@ -174,7 +175,8 @@ def register_parameter_tools(mcp, revit_get, revit_post):
 
     @mcp.tool(annotations=MODIFIES)
     async def map_parameters(
-        mappings: Annotated[List[Dict[str, str]], Field(description="[{from: 'Old Param', to: 'Standard Param'}]")],
+        mappings: Annotated[Optional[List[Dict[str, Any]]], Field(description="[{from: 'Old Param', to: 'Standard Param'}]")] = None,
+        preset: Annotated[Optional[str], Field(description="ifc_overrides | ifc_common_psets | cobie_type | cobie_component | cobie_space | office preset")] = None,
         categories: Optional[List[str]] = None,
         element_ids: Optional[List[int]] = None,
         view: Optional[str] = None,
@@ -188,8 +190,13 @@ def register_parameter_tools(mcp, revit_get, revit_post):
         ctx: Context = None,
     ) -> str:
         """Copy values from existing parameters into your BIM-standard parameters (converting between
-        storage types through display values). Source values are never deleted."""
-        data = compact(mappings=mappings, categories=categories, element_ids=element_ids, view=view, level=level,
+        storage types through display values), or apply an IFC/COBie preset. Source values are never deleted.
+
+        Presets list the target parameter names; unverified names are reported in unverified_targets
+        and targets that do not exist on an element are skipped. Office presets:
+        %APPDATA%/RVTSS/presets/<name>.json = {"description", "mappings": [{from, to, categories?}]}.
+        """
+        data = compact(mappings=mappings, preset=preset, categories=categories, element_ids=element_ids, view=view, level=level,
                        only_empty_target=only_empty_target or None, allow_type=allow_type or None, atomic=atomic,
                        dry_run=dry_run or None, confirm=confirm or None, document=document)
         return await post(revit_post, "/parameters/map/", data, ctx, timeout=300.0)

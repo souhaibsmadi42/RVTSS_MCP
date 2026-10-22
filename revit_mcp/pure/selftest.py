@@ -558,6 +558,54 @@ def _snapshot(t):
     return d["summary"]
 
 
+@step("qc", "clearance clashes + grid zones + grouping", ["check_clashes", "export_clash_report"])
+def _clearance(t):
+    d = t.post("/qc/clashes/", {"set_a": {"categories": ["Walls"]}, "set_b": {"categories": ["Floors"]},
+                                "clearance": 50, "group_by": ["pair", "level", "grid_zone"], "max_pairs": 20})
+    check(d.get("clearance") == 50 and "groups" in d, "clearance / grouping missing from the answer", d)
+    for c in d.get("clashes") or []:
+        check(c.get("type") in ("hard", "clearance"), "clash without type", c)
+        check(c.get("type") == "hard" or c.get("distance", 999) <= 50, "clearance pair beyond 50 mm", c)
+    dr = t.post("/qc/clashes/", {"set_a": {"categories": ["Walls"]}, "set_b": {"categories": ["Floors"]},
+                                 "dry_run": True})
+    check(dr.get("status") == "dry_run", "clash dry run expected", dr)
+    return {"hard": d.get("hard_count"), "clearance": d.get("clearance_count"),
+            "zones": [g["key"] for g in (d.get("groups") or {}).get("grid_zone", [])][:5]}
+
+
+@step("qc", "ISO 19650 naming + view audit checks", ["run_model_checks"])
+def _iso_views(t):
+    rules = {"iso19650": {"delimiter": "-", "fields": [{"name": "project", "values": ["P1"]},
+                                                        {"name": "number", "pattern": "^\\d{3}$"}],
+                          "targets": {"sheets": {"source": "number"}, "views": {}, "worksets": {}}}}
+    d = t.post("/qc/model_checks/", {"checks": ["iso19650", "view_audit"], "rules": rules})
+    check(not d.get("checks_failed"), "checks crashed: %s" % d.get("checks_failed"), d)
+    return d.get("summary")
+
+
+@step("qc", "family library audit (dry run + real, read-only)", ["audit_family_library"])
+def _library(t):
+    dr = t.post("/family/library_audit/", {"folder": t.scratch, "recursive": False, "dry_run": True})
+    check(dr.get("status") == "dry_run", "dry run expected", dr)
+    if not dr.get("would_open"):
+        raise StepSkipped("no .rfa in the scratch folder (family group skipped)")
+    d = t.post("/family/library_audit/", {"folder": t.scratch, "recursive": False, "max_files": 3})
+    check(d.get("audited") == len(dr["would_open"][:3]), "audited count", d)
+    check(not [f for f in d["families"] if f.get("error")], "a family failed to open", d)
+    return {"audited": d["audited"], "summary": d.get("summary")}
+
+
+@step("qc", "mapping preset (dry run) + JSON export for Excel", ["map_parameters", "export_to_excel"])
+def _preset_export(t):
+    t.require_test_model()
+    d = t.post("/parameters/map/", {"preset": "ifc_overrides", "categories": ["Walls"], "dry_run": True})
+    check(d.get("status") in ("dry_run", "preview"), "preset dry run expected", d)
+    e = t.post("/parameters/export/", {"categories": ["Walls"], "parameters": ["Length", "Mark"],
+                                       "value_mode": "raw", "format": "json"})
+    check(e.get("rows") and e.get("column_units", {}).get("Length") == "mm", "JSON export with units", e)
+    return {"preset_unverified": d.get("unverified_targets"), "rows": e.get("row_count")}
+
+
 # ------------------------------------------------------------------ runner
 def run(transport, scratch_dir, prepare_model=None, groups=None, log=None, environment=None):
     t = TestContext(transport, scratch_dir, prepare_model, log)

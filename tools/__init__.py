@@ -30,6 +30,7 @@ def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func
     from .parameter_tools import register_parameter_tools
     from .documentation_tools import register_documentation_tools
     from .qc_tools import register_qc_tools
+    from .coordination_tools import register_coordination_tools
 
     # Register tools from each module
     register_status_tools(mcp_server, revit_get_func)
@@ -48,6 +49,7 @@ def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func
     register_parameter_tools(mcp_server, revit_get_func, revit_post_func)
     register_documentation_tools(mcp_server, revit_get_func, revit_post_func)
     register_qc_tools(mcp_server, revit_get_func, revit_post_func)
+    register_coordination_tools(mcp_server, revit_get_func, revit_post_func)
 
     finalize_tools(server)
 

@@ -481,3 +481,46 @@ the v2.0 payload.
   busy/down diagnosis, the 504 hint, the image envelope and size limit, the pure tracing helpers, the
   `/ping/` route without API context or token, and the request id in the audit log. 214 passed on mcp 2.3
   and 2.2; 212 passed and 2 skipped on 1.9. The payload is 68,494 chars (−42.6 %).
+
+## Phase 6 – BIM coordination features
+
+There are worked examples for every feature in [`docs/COORDINATION.md`](COORDINATION.md), and the new MCP
+prompts `clash_coordination` and `bim_standards_audit` chain them. Three tools are new
+(`export_clash_report`, `audit_family_library`, `export_to_excel`), for 77 in total. Existing tools gained
+only optional arguments.
+
+| # | Feature | Where | Dry run | Pure logic + tests |
+|---|---|---|---|---|
+| 1 | Clearance clashes (`clearance` in `unit`), `type` hard/clearance + `distance`, level, grid zone (`A-B/1-2`), nearest grid intersection, `group_by` pair / type_pair / level / grid_zone; CSV + HTML report | `qc.clashes`, `pure/clash.py`, `export_clash_report` | `check_clashes(dry_run)`, `export_clash_report(dry_run)` returns the planned files | grid intersections, zones (also reversed and 30°-rotated grids), grouping, rows, HTML escaping, CSV units |
+| 2 | Family library audit (open read-only, `Close(False)`, never saved; category, size, parameters, nested, warnings, `family_validate`, naming) | `family_library.py`, `pure/family_library.py`, `audit_family_library` | lists files, sizes, skips | file listing (backups skipped), findings, ISO naming of file names, route dry run on a temp folder |
+| 3 | ISO 19650 field-by-field naming for sheets / views / view templates / families / types / worksets | check `iso19650`, `pure/naming.py`, `docs/examples/qc_rules.iso19650.json` | read-only check | structure, allowed values, regex, optional, case, lengths, scheme errors; the example file is validated by a test |
+| 4 | View audit: no template, unused templates, empty sheets, views off sheets (dependent excluded), duplicate names, unused scope boxes | check `view_audit`, `pure/view_audit.py` | read-only check | every finding |
+| 5 | `.xlsx` export: one sheet per category, units in headers, schedules paged by 2000, summary sheet, formula-injection guard | `tools/excel_export.py`, `export_to_excel`; `/parameters/export/` gained `format="json"` and `column_units` | returns the sheets and row counts without writing | sheet titles (31 chars, invalid characters, unique), headers, round-trip through openpyxl, tool end-to-end with paging |
+| 6 | IFC / COBie presets for `map_parameters` (`preset=`), office presets in `%APPDATA%/RVTSS/presets/*.json` | `pure/mapping_presets.py`, `parameters.map_values` | existing dry_run / confirm gate | preset shape, office override, copies, category filter, Revit-side errors |
+| 7 | Global parameters on dimensions: `label_dimensions` / `unlabel_dimensions`, labelled dimensions in `list` | `parameters.global_parameters` | existing dry_run (transaction rolled back) | Revit-only API (no pure logic); covered by the self-test |
+
+* **API checks:**
+  * `GlobalParameter.CanLabelDimension`, `LabelDimension`, `UnlabelDimension`, `GetLabeledDimensions` and
+    `ImageFileType.JPEGMedium` are confirmed in the Revit API reference.
+  * `Face.Project`, `Curve.Project`, `Face.IsInside`, `Face.Evaluate`, `ElementFilter.PassesFilter`,
+    `Application.OpenDocumentFile` and `Document.Close(bool)` are long-standing APIs.
+  * `BuiltInParameter.VIEWER_VOLUME_OF_INTEREST_CROP` / `DATUM_VOLUME_OF_INTEREST` could **not** be found in
+    the online docs reachable from this machine. They are looked up with `getattr` and the audit reports when
+    they are missing.
+  * COBie / IFC target names: confirmed names are marked `verified: true`; the rest are reported as
+    `unverified_targets`.
+* **Bugs found while testing:**
+  * Grid zones were reversed (`B-A`) for grids drawn along +Y. The zone normal is now oriented towards +X/+Y.
+  * A mixed preset (`ifc_overrides`) without a selection would have selected Rooms only. It now requires an
+    explicit selection unless every mapping is category-limited.
+  * The `validate` argument shadowed a pydantic attribute on mcp 1.9; it is renamed to `run_validation`.
+* **Self-test:** four new `qc` steps (clearance clashes + grouping, iso19650 + view audit, library audit on
+  the scratch folder, preset dry run + JSON export with units).
+* **Dependencies:** `openpyxl>=3.1` (MCP side) was added to `pyproject.toml`, `uv.lock` and
+  `requirements.txt`.
+* **Payload:** 71,202 chars on mcp 2.3 (−40.4 %) and 69,911 on 1.9, with 3 more tools. The schema
+  compaction now also drops `"additionalProperties": true`, the JSON Schema default. Numbers are in
+  `docs/metrics/tool_payload_v2.1_phase6.json`.
+* **Tests:** `tests/unit/test_coordination.py` (31 tests). The suites give 245 passed on mcp 2.3 and 2.2,
+  and 243 passed + 2 skipped on 1.9. vermin is clean; pyflakes has no new warnings (20 pre-existing ones
+  are cleaned up in Phase 7).

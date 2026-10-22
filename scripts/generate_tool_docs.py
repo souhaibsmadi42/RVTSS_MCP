@@ -30,7 +30,8 @@ GROUPS = [
                               "audit_parameters", "export_parameters", "import_parameters", "map_parameters"]),
     ("Documentation", ["create_view", "view_graphics", "manage_sheets", "create_schedule", "batch_rename",
                        "manage_groups", "manage_assemblies"]),
-    ("Coordination & QC", ["run_model_checks", "check_clashes", "model_snapshot", "compare_models"]),
+    ("Coordination & QC", ["run_model_checks", "check_clashes", "export_clash_report", "model_snapshot",
+                           "compare_models", "audit_family_library", "export_to_excel"]),
     ("Advanced", ["execute_revit_code"]),
 ]
 

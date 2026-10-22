@@ -27,24 +27,22 @@ from .params_util import find as find_param, read as read_param
 from .pure import rules as R
 from .pure import diff as D
 from .pure import units as U
+from .pure import naming as N
+from .pure import view_audit as VA
+from .pure import clash as CL
 from .utils import normalize_string, get_element_name
 
 logger = logging.getLogger(__name__)
 
 ALL_CHECKS = ("warnings", "duplicates", "naming", "similar_family_names", "duplicate_types", "unused_families",
               "in_place_families", "cad_imports", "links", "rooms", "views_not_on_sheets", "sheets",
-              "required_parameters", "groups")
+              "required_parameters", "groups", "iso19650", "view_audit")
 
 
 def _rules(ctx):
-    path = os.path.join(core.rvtss_home(), "qc_rules.json")
-    rules = {}
-    if os.path.isfile(path):
-        try:
-            with io.open(path, encoding="utf-8") as fh:
-                rules = json.load(fh)
-        except Exception as e:
-            ctx.warn("qc_rules.json is invalid: {}".format(e))
+    rules, error = core.load_qc_rules()
+    if error:
+        ctx.warn(error)
     for k, v in (ctx.get("rules") or {}).items():
         rules[k] = v
     return rules
@@ -325,11 +323,122 @@ def _check_groups(ctx, doc, rules):
                       examples=[normalize_string(t.Name) for t in unused[:15]], recommendation="Purge unused groups.")]
 
 
+_NON_VIEWS = ("Internal", "ProjectBrowser", "SystemBrowser", "Undefined", "DrawingSheet")
+# view types that are printed / placed on sheets (template and placement checks)
+_PRINTABLE = ("FloorPlan", "CeilingPlan", "Section", "Elevation", "DraftingView", "Detail", "EngineeringPlan",
+              "AreaPlan", "ThreeD", "Legend", "Schedule")
+
+
+# view types expected to carry a view template (configurable: view_audit.template_view_types)
+_TEMPLATE_TYPES = ("FloorPlan", "CeilingPlan", "Section", "Elevation", "ThreeD", "AreaPlan", "EngineeringPlan")
+
+
+def _views(doc):
+    return [v for v in DB.FilteredElementCollector(doc).OfClass(DB.View) if str(v.ViewType) not in _NON_VIEWS]
+
+
+def _check_iso19650(ctx, doc, rules):
+    scheme = rules.get("iso19650") or {}
+    if not scheme.get("targets"):
+        return [R.finding("iso19650", "info", "No iso19650 naming scheme configured",
+                          recommendation="Add an 'iso19650' section to qc_rules.json "
+                                         "(see docs/examples/qc_rules.iso19650.json) or pass rules={iso19650: ...}.")]
+    targets = scheme["targets"]
+    out = []
+    try:
+        if "sheets" in targets:
+            src = targets["sheets"].get("source", "number")
+            out.extend(N.check_items([(id_int(s), normalize_string(s.SheetNumber if src == "number" else s.Name))
+                                      for s in DB.FilteredElementCollector(doc).OfClass(DB.ViewSheet)
+                                      if not s.IsPlaceholder], scheme, "sheets"))
+        views = _views(doc)
+        if "views" in targets:
+            out.extend(N.check_items([(id_int(v), normalize_string(v.Name)) for v in views if not v.IsTemplate],
+                                     scheme, "views"))
+        if "view_templates" in targets:
+            out.extend(N.check_items([(id_int(v), normalize_string(v.Name)) for v in views if v.IsTemplate],
+                                     scheme, "view_templates"))
+        if "families" in targets:
+            out.extend(N.check_items([(id_int(f), normalize_string(f.Name)) for f in
+                                      DB.FilteredElementCollector(doc).OfClass(DB.Family) if f.IsEditable],
+                                     scheme, "families"))
+        if "types" in targets:
+            out.extend(N.check_items([(id_int(t), normalize_string(get_element_name(t))) for t in
+                                      DB.FilteredElementCollector(doc).OfClass(DB.FamilySymbol)], scheme, "types"))
+        if "worksets" in targets:
+            if doc.IsWorkshared:
+                ws = DB.FilteredWorksetCollector(doc).OfKind(DB.WorksetKind.UserWorkset)
+                out.extend(N.check_items([(w.Id.IntegerValue, normalize_string(w.Name)) for w in ws],
+                                         scheme, "worksets"))
+            else:
+                out.append(R.finding("iso19650", "info", "Worksets not checked: the model is not workshared"))
+    except N.SchemeError as e:
+        return [R.finding("iso19650", "error", text_type(e), recommendation="Fix the iso19650 section of qc_rules.json")]
+    return out
+
+
+def _bip(name):
+    return getattr(DB.BuiltInParameter, name, None)
+
+
+def _param_id(e, bip_name):
+    bip = _bip(bip_name)
+    if bip is None:
+        return None
+    try:
+        p = e.get_Parameter(bip)
+        if p is not None and is_valid_id(p.AsElementId()):
+            return id_int(p.AsElementId())
+    except Exception:
+        pass
+    return None
+
+
+def _check_view_audit(ctx, doc, rules):
+    placed = _placed_view_ids(doc)
+    views = []
+    for v in _views(doc):
+        vt = str(v.ViewType)
+        try:
+            dependent = is_valid_id(v.GetPrimaryViewId())
+        except Exception:
+            dependent = False
+        views.append({"id": id_int(v), "name": normalize_string(v.Name), "view_type": vt,
+                      "is_template": v.IsTemplate,
+                      "template_id": id_int(v.ViewTemplateId) if is_valid_id(v.ViewTemplateId) else None,
+                      "on_sheet": id_int(v) in placed, "is_dependent": dependent,
+                      "printable": vt in _PRINTABLE,
+                      # scope box of a view: VIEWER_VOLUME_OF_INTEREST_CROP (looked up defensively)
+                      "scope_box_id": _param_id(v, "VIEWER_VOLUME_OF_INTEREST_CROP")})
+    # schedules are audited for placement only when asked; they rarely use templates
+    if not ctx.bool("include_schedules", False):
+        views = [v for v in views if v["view_type"] != "Schedule"]
+    sheets = [{"id": id_int(s), "number": normalize_string(s.SheetNumber), "name": normalize_string(s.Name),
+               "is_placeholder": s.IsPlaceholder, "view_count": len(list(s.GetAllPlacedViews()))}
+              for s in DB.FilteredElementCollector(doc).OfClass(DB.ViewSheet)]
+    boxes = [{"id": id_int(b), "name": normalize_string(b.Name)} for b in
+             DB.FilteredElementCollector(doc).OfCategory(DB.BuiltInCategory.OST_VolumeOfInterest)
+             .WhereElementIsNotElementType()]
+    datum_boxes = set()
+    if boxes:
+        for cls in (DB.Grid, DB.Level, DB.ReferencePlane):
+            for d in DB.FilteredElementCollector(doc).OfClass(cls):
+                bid = _param_id(d, "DATUM_VOLUME_OF_INTEREST")
+                if bid:
+                    datum_boxes.add(bid)
+    out = VA.audit(views, sheets, boxes, datum_boxes, ctx.list("template_view_types") or
+                   (rules.get("view_audit") or {}).get("template_view_types") or _TEMPLATE_TYPES)
+    if boxes and (_bip("VIEWER_VOLUME_OF_INTEREST_CROP") is None or _bip("DATUM_VOLUME_OF_INTEREST") is None):
+        out.append(R.finding("view_audit", "info", "Scope box usage could not be read in this Revit version"))
+    return out
+
+
 CHECKS = {"warnings": _check_warnings, "duplicates": _check_duplicates, "naming": _check_naming,
           "similar_family_names": _check_similar_families, "duplicate_types": _check_duplicate_types,
           "unused_families": _check_unused_families, "in_place_families": _check_in_place, "cad_imports": _check_cad,
           "links": _check_links, "rooms": _check_rooms, "views_not_on_sheets": _check_views, "sheets": _check_sheets,
-          "required_parameters": _check_required, "groups": _check_groups}
+          "required_parameters": _check_required, "groups": _check_groups, "iso19650": _check_iso19650,
+          "view_audit": _check_view_audit}
 
 
 def model_checks(ctx):
@@ -380,6 +489,98 @@ def _solids(e, transform=None):
     return out
 
 
+def _sample_points(solids, n):
+    """Points spread over the faces (UV grid, n x n per face) and edges of the solids."""
+    pts = []
+    for s in solids:
+        for face in s.Faces:
+            try:
+                bb = face.GetBoundingBox()
+                for i in range(n):
+                    for j in range(n):
+                        uv = DB.UV(bb.Min.U + (bb.Max.U - bb.Min.U) * (i + 0.5) / n,
+                                   bb.Min.V + (bb.Max.V - bb.Min.V) * (j + 0.5) / n)
+                        if face.IsInside(uv):
+                            pts.append(face.Evaluate(uv))
+            except Exception:
+                continue
+        for edge in s.Edges:
+            for t in (0.0, 0.5, 1.0):
+                try:
+                    pts.append(edge.Evaluate(t))
+                except Exception:
+                    continue
+    return pts
+
+
+def _distance_to(p, solids):
+    best, best_pt = None, None
+    for s in solids:
+        for face in s.Faces:
+            try:
+                r = face.Project(p)
+            except Exception:
+                r = None
+            if r is not None and (best is None or r.Distance < best):
+                best, best_pt = r.Distance, r.XYZPoint
+        for edge in s.Edges:
+            try:
+                r = edge.AsCurve().Project(p)
+            except Exception:
+                r = None
+            if r is not None and (best is None or r.Distance < best):
+                best, best_pt = r.Distance, r.XYZPoint
+    return best, best_pt
+
+
+def _min_distance(solids_a, solids_b, n):
+    """Approximate minimum distance between two solid sets (sampled; never below the true distance)."""
+    best = (None, None, None)
+    for src, dst, flip in ((solids_a, solids_b, False), (solids_b, solids_a, True)):
+        for p in _sample_points(src, n):
+            d, q = _distance_to(p, dst)
+            if d is not None and (best[0] is None or d < best[0]):
+                best = (d, q, p) if flip else (d, p, q)
+    return best
+
+
+def _bbox_center_overlap(a_outline, b_elem, view=None):
+    bb = b_elem.get_BoundingBox(view)
+    lo, hi = a_outline.MinimumPoint, a_outline.MaximumPoint
+    if bb is None:
+        return (lo + hi) * 0.5
+    mn = DB.XYZ(max(lo.X, bb.Min.X), max(lo.Y, bb.Min.Y), max(lo.Z, bb.Min.Z))
+    mx = DB.XYZ(min(hi.X, bb.Max.X), min(hi.Y, bb.Max.Y), min(hi.Z, bb.Max.Z))
+    return (mn + mx) * 0.5
+
+
+def _outline(solid, grow=0.0):
+    bb = solid.GetBoundingBox()
+    # the box is in the solid's own frame (bb.Transform may rotate): transform all 8
+    # corners so the world-aligned outline really encloses the solid
+    t = bb.Transform
+    corners = [t.OfPoint(DB.XYZ(x, y, z)) for x in (bb.Min.X, bb.Max.X)
+               for y in (bb.Min.Y, bb.Max.Y) for z in (bb.Min.Z, bb.Max.Z)]
+    return DB.Outline(DB.XYZ(min(c.X for c in corners) - grow, min(c.Y for c in corners) - grow,
+                             min(c.Z for c in corners) - grow),
+                      DB.XYZ(max(c.X for c in corners) + grow, max(c.Y for c in corners) + grow,
+                             max(c.Z for c in corners) + grow))
+
+
+def project_grids(doc, unit):
+    """Straight grids of the host model as plan lines in `unit` (arc / multi-segment grids skipped)."""
+    out = []
+    for g in DB.FilteredElementCollector(doc).OfClass(DB.Grid):
+        c = g.Curve
+        if not isinstance(c, DB.Line):
+            continue
+        a, b = c.GetEndPoint(0), c.GetEndPoint(1)
+        out.append({"name": normalize_string(g.Name),
+                    "start": [U.from_internal(a.X, unit, 1), U.from_internal(a.Y, unit, 1)],
+                    "end": [U.from_internal(b.X, unit, 1), U.from_internal(b.Y, unit, 1)]})
+    return out
+
+
 def clashes(ctx):
     doc = ctx.doc
     core.require_project(doc)
@@ -387,43 +588,62 @@ def clashes(ctx):
     set_b = ctx.get("set_b") or {}
     if not set_a or not set_b:
         raise RvtssError("set_a and set_b are required, e.g. {categories: ['Ducts']} and {categories: ['Structural Framing']}")
+    unit = ctx.unit
+    clearance = ctx.float("clearance", 0.0) or 0.0
+    if clearance < 0:
+        raise RvtssError("clearance must be >= 0 (distance in `unit`)")
+    clr = U.to_internal(clearance, unit) if clearance else 0.0
+    samples = ctx.int("samples", 5, 2, 12)
+    group_by = ctx.list("group_by")
+    for g in group_by:
+        if g not in CL.GROUP_KEYS:
+            raise RvtssError("group_by values must be in {}".format(", ".join(CL.GROUP_KEYS)))
     max_el = ctx.int("max_elements", 2000)
     a_elems = collect(ctx, set_a)[:max_el]
     link = None
     b_doc = doc
     to_b = None
+    to_host = None
     if set_b.get("link_instance_id") is not None:
         link = core.get_element(doc, set_b["link_instance_id"], "Link")
         if not isinstance(link, DB.RevitLinkInstance) or link.GetLinkDocument() is None:
             raise RvtssError("link_instance_id must be a loaded Revit link", status=409)
         b_doc = link.GetLinkDocument()
-        to_b = link.GetTotalTransform().Inverse
+        to_host = link.GetTotalTransform()
+        to_b = to_host.Inverse
     b_cats = [core.resolve_category(b_doc, c).Id for c in set_b.get("categories") or []]
     b_ids = set(set_b.get("element_ids") or [])
+    if ctx.dry_run:
+        return {"status": "dry_run", "set_a_count": len(a_elems), "set_b_categories": len(b_cats),
+                "clearance": clearance, "unit": unit, "against_link": normalize_string(link.Name) if link else None,
+                "note": "No geometry was checked. Run without dry_run to compute clashes."}
     pairs, seen = [], set()
     max_pairs = ctx.int("max_pairs", 200)
     compute_volume = ctx.bool("compute_volume", False)
     checked = 0
+    b_solids_cache = {}
+
+    def host_pt(p):
+        return to_host.OfPoint(p) if to_host is not None and p is not None else p
+
+    def b_solids(b):
+        key = id_int(b)
+        if key not in b_solids_cache:
+            b_solids_cache[key] = _solids(b)
+        return b_solids_cache[key]
+
     for a in a_elems:
         solids = _solids(a, to_b)
         if not solids:
             continue
         checked += 1
         for s in solids:
-            bb = s.GetBoundingBox()
-            # the box is in the solid's own frame (bb.Transform may rotate): transform all 8
-            # corners so the world-aligned outline really encloses the solid
-            t = bb.Transform
-            corners = [t.OfPoint(DB.XYZ(x, y, z)) for x in (bb.Min.X, bb.Max.X)
-                       for y in (bb.Min.Y, bb.Max.Y) for z in (bb.Min.Z, bb.Max.Z)]
-            outline = DB.Outline(DB.XYZ(min(c.X for c in corners), min(c.Y for c in corners),
-                                        min(c.Z for c in corners)),
-                                 DB.XYZ(max(c.X for c in corners), max(c.Y for c in corners),
-                                        max(c.Z for c in corners)))
+            outline = _outline(s, clr)
             col = DB.FilteredElementCollector(b_doc).WhereElementIsNotElementType()
             if b_cats:
                 col = col.WherePasses(DB.ElementMulticategoryFilter(core.to_id_list(b_cats)))
-            col = col.WherePasses(DB.BoundingBoxIntersectsFilter(outline)).WherePasses(DB.ElementIntersectsSolidFilter(s))
+            col = col.WherePasses(DB.BoundingBoxIntersectsFilter(outline))
+            hard_filter = DB.ElementIntersectsSolidFilter(s)
             for b in col:
                 bid = id_int(b)
                 if b_doc is doc and bid == id_int(a):
@@ -433,18 +653,39 @@ def clashes(ctx):
                 key = (id_int(a), bid) if link or id_int(a) < bid else (bid, id_int(a))
                 if key in seen:
                     continue
+                hard = hard_filter.PassesFilter(b)
+                distance = 0.0
+                point = None
+                if not hard:
+                    if not clr:
+                        continue
+                    other = b_solids(b)
+                    if not other:
+                        continue
+                    distance, pa, pb = _min_distance([s], other, samples)
+                    if distance is None or distance > clr:
+                        continue
+                    point = (pa + pb) * 0.5
+                else:
+                    point = _bbox_center_overlap(outline, b)
                 seen.add(key)
-                pair = {"a": core.element_brief(doc, a), "b": core.element_brief(b_doc, b)}
-                if compute_volume and len(pairs) < 50:
+                pair = {"a": core.element_brief(doc, a), "b": core.element_brief(b_doc, b),
+                        "type": "hard" if hard else "clearance",
+                        "distance": 0.0 if hard else U.from_internal(distance, unit, 1),
+                        "level": core.element_level(doc, a)}
+                hp = host_pt(point)
+                if hp is not None:
+                    pair["point"] = [U.from_internal(c, unit, 1) for c in (hp.X, hp.Y, hp.Z)]
+                if hard and compute_volume and len(pairs) < 50:
                     vol = 0.0
-                    for bs in _solids(b):
+                    for bs in b_solids(b):
                         try:
                             inter = DB.BooleanOperationsUtils.ExecuteBooleanOperation(
                                 s, bs, DB.BooleanOperationsType.Intersect)
                             vol += inter.Volume if inter else 0.0
                         except Exception:
                             continue
-                    pair["intersection_volume"] = U.from_internal(vol, U.length_unit_for("volume", ctx.unit), 6)
+                    pair["intersection_volume"] = U.from_internal(vol, U.length_unit_for("volume", unit), 6)
                 pairs.append(pair)
                 if len(pairs) >= max_pairs:
                     break
@@ -453,9 +694,21 @@ def clashes(ctx):
         if len(pairs) >= max_pairs:
             ctx.warn("Stopped at max_pairs={}".format(max_pairs))
             break
-    return {"elements_checked": checked, "set_a_count": len(a_elems), "clash_count": len(pairs),
-            "against_link": normalize_string(link.Name) if link else None, "clashes": pairs,
-            "note": "Hard (solid intersection) clashes only; clearance/soft clashes are not computed."}
+    grids = project_grids(doc, unit) if ctx.bool("locate", True) else []
+    CL.locate(pairs, grids)
+    out = {"elements_checked": checked, "set_a_count": len(a_elems), "clash_count": len(pairs),
+           "hard_count": len([p for p in pairs if p["type"] == "hard"]),
+           "clearance_count": len([p for p in pairs if p["type"] == "clearance"]),
+           "clearance": clearance, "unit": unit,
+           "against_link": normalize_string(link.Name) if link else None, "clashes": pairs,
+           "groups": dict((g, CL.group_clashes(pairs, g)) for g in group_by) or None,
+           "grids": grids if ctx.bool("include_grids", False) else None,
+           "document": normalize_string(doc.Title), "created": time.strftime("%Y-%m-%d %H:%M")}
+    if clearance:
+        out["note"] = ("Clearance distances are sampled ({0}x{0} points per face plus edges): they are never "
+                       "below the true distance, so pairs just inside the clearance can be missed - raise "
+                       "`samples` for critical checks.").format(samples)
+    return out
 
 
 # --------------------------------------------------------------------- snapshot

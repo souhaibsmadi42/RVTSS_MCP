@@ -4,7 +4,8 @@
 Routes:
     POST /parameters/project/   list project parameter bindings (categories, instance/type, shared GUID)
     POST /parameters/shared/    read_file | create_definitions | bind | create_file
-    POST /parameters/global/    list | create | set_value | set_formula | associate | dissociate
+    POST /parameters/global/    list | create | set_value | set_formula | associate | dissociate |
+                                label_dimensions | unlabel_dimensions
     POST /parameters/audit/     missing / empty / invalid values, wrong data types, duplicate definitions
     POST /parameters/export/    element parameter values to CSV
     POST /parameters/import/    CSV (ElementId column) back into the model
@@ -15,7 +16,9 @@ definition name already present in the file is reused, not duplicated;
 project parameters are created from shared definitions (the reliable cross-
 version path); bound parameters are extended with ReInsert, never replaced.
 """
+import io
 import os
+import json
 import logging
 
 from pyrevit import DB
@@ -32,6 +35,7 @@ from .pure import csvutil
 from .pure import filters as F
 from .pure import rules as R
 from .pure import units as U
+from .pure import mapping_presets as MP
 from .utils import normalize_string
 
 logger = logging.getLogger(__name__)
@@ -364,6 +368,10 @@ def global_parameters(ctx):
                 d["affected_elements"] = gp.GetAffectedElements().Count
             except Exception:
                 pass
+            try:
+                d["labeled_dimensions"] = [id_int(i) for i in gp.GetLabeledDimensions()]
+            except Exception:
+                pass
             out.append(d)
         return {"unit": unit, "global_parameters": sorted(out, key=lambda d: d["name"].lower())}
 
@@ -441,7 +449,27 @@ def global_parameters(ctx):
                     p.DissociateFromGlobalParameter()
                 done.append(id_int(e))
             return {"name": gp.Name, "action": action, "element_ids": done}
-        raise RvtssError("action must be list, create, set_value, set_formula, associate or dissociate")
+        if action in ("label_dimensions", "unlabel_dimensions"):
+            # GlobalParameter.CanLabelDimension / LabelDimension / UnlabelDimension
+            # (verified in the Revit 2025-2027 API reference)
+            done = []
+            for dim in core.get_elements(doc, ctx.list("element_ids")):
+                if not isinstance(dim, DB.Dimension):
+                    raise RvtssError("Element {} is not a dimension".format(id_int(dim)), status=400)
+                if action == "label_dimensions":
+                    if not gp.CanLabelDimension(dim.Id):
+                        raise RvtssError(
+                            "Dimension {} cannot be labelled with '{}'".format(id_int(dim), gp.Name), status=409,
+                            hint="Only single-segment linear/angular/radial dimensions whose type matches the "
+                                 "parameter (length vs angle) and that reference model geometry can be labelled.")
+                    gp.LabelDimension(dim.Id)
+                else:
+                    gp.UnlabelDimension(dim.Id)
+                done.append(id_int(dim))
+            return {"name": gp.Name, "action": action, "dimension_ids": done,
+                    "labeled_dimensions": [id_int(i) for i in gp.GetLabeledDimensions()]}
+        raise RvtssError("action must be list, create, set_value, set_formula, associate, dissociate, "
+                         "label_dimensions or unlabel_dimensions")
 
     res, fails = core.run_transaction(doc, "Global parameters: " + action, run, dry_run=dry)
     return core.commit_result(res, fails, dry)
@@ -544,6 +572,7 @@ def export_values(ctx):
     unit = ctx.unit
     header = ["ElementId", "UniqueId", "Category", "Family", "Type"] + names
     rows = []
+    column_units = {}
     for e in elements:
         b = core.element_brief(doc, e)
         row = [id_int(e), e.UniqueId, b.get("category"), b.get("family"), b.get("type")]
@@ -553,8 +582,18 @@ def export_values(ctx):
                 row.append(None)
                 continue
             r = read_param(doc, p, unit)
+            if r.get("unit") and n not in column_units:
+                column_units[n] = r["unit"]
             row.append(r.get("display", r.get("value")) if mode == "display" else r.get("value"))
         rows.append(row)
+    if ctx.get("format") == "json":
+        # structured rows for the MCP-side .xlsx export (raw values in column_units)
+        max_rows = ctx.int("max_rows", 20000)
+        out = {"columns": header, "rows": rows[:max_rows], "row_count": len(rows), "column_units": column_units,
+               "value_mode": mode, "unit": unit}
+        if len(rows) > max_rows:
+            out["truncated"] = True
+        return out
     text = csvutil.to_csv(header, rows)
     path = ctx.get("path")
     if path:
@@ -563,7 +602,8 @@ def export_values(ctx):
         if os.path.exists(path) and not ctx.bool("overwrite", False):
             raise RvtssError("File exists: {}".format(path), status=409, hint="Pass overwrite=true.")
         csvutil.write_file(path, text)
-    out = {"rows": len(rows), "columns": header, "path": path, "value_mode": mode, "unit": unit}
+    out = {"rows": len(rows), "columns": header, "path": path, "value_mode": mode, "unit": unit,
+           "column_units": column_units}
     if not path:
         if len(text) > 200000:
             raise RvtssError("Export is too large to return inline ({} rows)".format(len(rows)),
@@ -626,23 +666,56 @@ def import_values(ctx):
     return core.preview_status(out, preview)
 
 
+def _user_presets():
+    """Office presets: %APPDATA%/RVTSS/presets/<name>.json -> {name: {description, mappings}}."""
+    folder = os.path.join(core.rvtss_home(), "presets")
+    out = {}
+    if not os.path.isdir(folder):
+        return out
+    for f in os.listdir(folder):
+        if f.lower().endswith(".json"):
+            try:
+                with io.open(os.path.join(folder, f), encoding="utf-8") as fh:
+                    out[os.path.splitext(f)[0]] = json.load(fh)
+            except Exception as e:
+                logger.warning("Invalid mapping preset %s: %s", f, e)
+    return out
+
+
 def map_values(ctx):
     doc = ctx.doc
-    spec = query_spec(ctx.data)
+    mappings = ctx.list("mappings")
+    preset = ctx.get("preset")
+    if preset:
+        try:
+            mappings = MP.get_preset(preset, _user_presets()) + mappings
+        except MP.PresetError as e:
+            raise RvtssError(text_type(e), status=404)
+    if not mappings:
+        raise RvtssError("'mappings' or 'preset' is required: [{from: 'Old Name', to: 'New Name'}]",
+                         hint="Presets: " + ", ".join(sorted(MP.PRESETS)))
+    data = dict(ctx.data)
+    if preset and not query_spec(data):
+        # select the preset's categories only when every mapping is category-limited
+        cats = MP.preset_categories(mappings)
+        if not cats or [m for m in mappings if not m.get("categories")]:
+            raise RvtssError("Preset '{}' applies to all categories: select elements (categories, ...)".format(preset))
+        data["categories"] = cats
+    spec = query_spec(data)
     if not spec:
         raise RvtssError("Select elements (categories, element_ids, ...)")
-    mappings = ctx.list("mappings")
-    if not mappings:
-        raise RvtssError("'mappings' is required: [{from: 'Old Name', to: 'New Name'}]")
     elements = collect(ctx, spec)
     preview = core.confirm_gate(ctx, len(elements), "map_parameters")
     only_empty = ctx.bool("only_empty_target", False)
 
     def one(e):
         changes, skipped = [], []
+        cat = e.Category.Name if e.Category is not None else None
         for m in mappings:
+            if not MP.applies(m, cat):
+                continue
             src, _o = find_param(doc, e, m["from"])
-            dst, _o2 = find_param(doc, e, m["to"], allow_type=ctx.bool("allow_type", False))
+            dst, _o2 = find_param(doc, e, m["to"], allow_type=bool(m.get("allow_type", ctx.bool("allow_type", False))))
             if src is None or dst is None:
                 skipped.append({"mapping": m, "reason": "source missing" if src is None else "target missing"})
                 continue
@@ -672,9 +745,12 @@ def map_values(ctx):
     dry = preview or ctx.dry_run
     res, fails = core.run_transaction(doc, "Map parameters", lambda: core.batch(doc, elements, one, ctx.bool("atomic", False)),
                                       dry_run=dry)
-    out = core.commit_result({"elements": len(elements),
-                              "changed": len([r for r in res if r.get("changes")]),
-                              "results": res[:ctx.int("max_results", 100)]}, fails, dry)
+    summary = {"elements": len(elements), "changed": len([r for r in res if r.get("changes")]),
+               "results": res[:ctx.int("max_results", 100)]}
+    if preset:
+        summary["preset"] = preset
+        summary["unverified_targets"] = [m["to"] for m in mappings if m.get("verified") is False]
+    out = core.commit_result(summary, fails, dry)
     return core.preview_status(out, preview)
 
 

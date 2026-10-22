@@ -12,7 +12,7 @@ from ._common import LengthUnit, compact, DOC_HELP, call_with_progress, post_str
 Doc = Annotated[Optional[str], Field(description=DOC_HELP)]
 CheckName = Literal["warnings", "duplicates", "naming", "similar_family_names", "duplicate_types",
                     "unused_families", "in_place_families", "cad_imports", "links", "rooms",
-                    "views_not_on_sheets", "sheets", "required_parameters", "groups"]
+                    "views_not_on_sheets", "sheets", "required_parameters", "groups", "iso19650", "view_audit"]
 
 
 def register_qc_tools(mcp, revit_get, revit_post):
@@ -53,17 +53,24 @@ def register_qc_tools(mcp, revit_get, revit_post):
         max_pairs: int = 200,
         max_elements: int = 2000,
         compute_volume: bool = False,
+        clearance: Annotated[float, Field(ge=0, description="Soft clash distance in `unit` (0 = hard only)")] = 0.0,
+        group_by: Optional[List[Literal["pair", "type_pair", "level", "grid_zone"]]] = None,
         unit: LengthUnit = "mm",
+        dry_run: bool = False,
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Hard clashes (solid intersection) between two element sets, also against a Revit link.
+        """Hard and clearance clashes between two element sets (also against a link), with level, grid zone
+        and nearest grid intersection; export_clash_report writes CSV/HTML.
 
         Hard clash detection (solid intersection) between two element sets in the model or against a
-        loaded Revit link. Returns clashing pairs with ids, categories and types.
+        loaded Revit link; with clearance > 0 also pairs closer than the clearance (sampled distance).
+        Returns clashing pairs with ids, categories, types, type (hard/clearance), distance, level,
+        grid_zone and nearest_grid, grouped when group_by is given.
         """
         data = compact(set_a=set_a, set_b=set_b, max_pairs=max_pairs, max_elements=max_elements,
-                       compute_volume=compute_volume or None, unit=unit, document=document)
+                       compute_volume=compute_volume or None, clearance=clearance or None, group_by=group_by,
+                       unit=unit, dry_run=dry_run or None, document=document)
         response = await call_with_progress(revit_post, "/qc/clashes/", data, ctx, 600.0, "Clash check")
         return format_response(response)
 

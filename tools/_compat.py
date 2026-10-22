@@ -145,8 +145,9 @@ def annotations(read_only=False, destructive=False, idempotent=None, title=None)
 def compact_schema(schema):
     """Shrink a pydantic JSON schema without changing what it accepts.
 
-    Removes property titles, `"default": null` and the `{"type": "null"}` branch
-    of Optional fields (they are optional anyway). The SDK validates arguments
+    Removes property titles, `"default": null`, `"additionalProperties": true`
+    (the JSON Schema default) and the `{"type": "null"}` branch of Optional
+    fields (they are optional anyway). The SDK validates arguments
     with the pydantic model, not with this advertised copy.
     """
     if isinstance(schema, list):
@@ -173,6 +174,9 @@ def compact_schema(schema):
             out["anyOf"] = non_null
     if "default" in out and out["default"] is None:
         del out["default"]
+    if out.get("additionalProperties") is True:
+        # the JSON Schema default for objects; saying it costs ~27 chars per object
+        del out["additionalProperties"]
     return out
 
 

@@ -56,6 +56,20 @@ def rvtss_subdir(name):
     return path
 
 
+def load_qc_rules():
+    """(rules, error) from %APPDATA%/RVTSS/qc_rules.json; ({}, None) when the file does not exist."""
+    import io
+
+    path = os.path.join(rvtss_home(), "qc_rules.json")
+    if not os.path.isfile(path):
+        return {}, None
+    try:
+        with io.open(path, encoding="utf-8") as fh:
+            return json.load(fh), None
+    except Exception as e:
+        return {}, "qc_rules.json is invalid: {}".format(e)
+
+
 def load_config():
     """Optional %APPDATA%/RVTSS/config.json."""
     path = os.path.join(rvtss_home(), "config.json")
