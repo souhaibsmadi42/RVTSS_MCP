@@ -166,6 +166,28 @@ All changes are incremental: same folders, API name, port, transports and Claude
 | Static checks: pyflakes (new code clean); vermin – Revit-side code compatible with Python 2.7 and 3.4 (IronPython 2.7 / 3.4) | pass |
 | `tests/integration` (needs Revit) | **not run** – Revit is not available here |
 
+### Independent code review
+
+The Revit-side code was reviewed separately for Revit API misuse, wrong transaction state,
+geometry and IronPython problems. The review confirmed the transaction states for `LoadFamily`,
+`SaveAs`, `Close`, `EditFamily` and `NewFamilyDocument`, the `IFamilyLoadOptions` out-parameters,
+the reference-plane vectors, the section transform and the version switches.
+
+It found 8 defects and 3 minor ones. All were fixed in commit `641fc95`:
+
+* unit adaptation for angle, area and volume family values;
+* flex-test case isolation;
+* rename uniqueness scopes;
+* `CreateAreaPlan`;
+* global-parameter value parsing;
+* rotated clash outlines;
+* filters applied to explicit ids;
+* schedule filter value types;
+* elements without a location.
+
+The same day, built-in driving parameters (door and window Width and Height) were restored to the
+family tools (`3717528`).
+
 ## 7. Verification status
 
 Revit API behaviour cannot be executed outside Revit, so the stubs prove imports, registration and
