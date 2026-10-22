@@ -295,6 +295,28 @@ def family_param_info(doc, fm, fp, unit="mm", labels=None):
     return d
 
 
+def is_builtin(fp):
+    try:
+        return fp.Definition.BuiltInParameter != DB.BuiltInParameter.INVALID
+    except Exception:
+        return False
+
+
+def is_relevant(fp, include_all_builtin=False):
+    """User parameters plus built-in parameters that drive the family.
+
+    Door/window templates expose Width, Height, Thickness... as *built-in* family
+    parameters, so filtering out every built-in would hide the most important
+    ones. Only built-in text/identity data (Type Mark, Keynote, URL, ...) is noise.
+    """
+    if include_all_builtin or not is_builtin(fp):
+        return True
+    if fp.StorageType == DB.StorageType.String:
+        return False
+    group = (definition_group(fp.Definition) or "").lower()
+    return "identity" not in group and "ifc" not in group
+
+
 def ensure_current_type(fm, default_name="Default"):
     """Families without types cannot hold parameter values; create one if needed."""
     if fm.CurrentType is None:

@@ -25,7 +25,7 @@ from .params_util import family_parameter, set_family_value, family_type_value
 from .family_utils import (plan_view, elevation_view, find_ref_plane, reference_planes, plane_orientation,
                            plane_offset, describe_ref_plane, datum_reference, datum_orientation, datum_offset,
                            set_is_reference, solid_faces, forms, describe_form, combined_bbox, ref_level,
-                           ensure_current_type, labeled_dimensions)
+                           ensure_current_type, labeled_dimensions, is_relevant)
 from .pure import units as U
 from .utils import normalize_string
 
@@ -630,7 +630,7 @@ def flex_route(ctx):
             n = normalize_string(fp.Definition.Name)
             if fp.Formula or fp.IsReporting or definition_spec(fp.Definition)[1] != "length":
                 continue
-            if fp.Definition.BuiltInParameter != DB.BuiltInParameter.INVALID:
+            if not is_relevant(fp):
                 continue
             cur = family_type_value(fm, fm.CurrentType, fp, unit) if fm.CurrentType else None
             if not cur:

@@ -35,7 +35,7 @@ from .params_util import (family_parameter, require_family_parameter, set_family
                           lookup as lookup_param)
 from .family_utils import (family_param_info, labeled_dimensions, describe_ref_plane, reference_planes,
                            forms, describe_form, describe_dimension, ensure_current_type, find_family_type,
-                           family_name, ref_level)
+                           family_name, ref_level, is_builtin, is_relevant)
 from .pure import templates as T
 from .pure import formula as FORMULA
 from .pure import catalog as CATALOG
@@ -243,15 +243,14 @@ def family_info(ctx):
         except Exception:
             pass
     if "parameters" in include:
-        params = [family_param_info(doc, fm, fp, unit, labels) for fp in fm.Parameters]
-        params.sort(key=lambda p: (p["builtin"] is not None if "builtin" in p else False, p["name"].lower()))
-        if not ctx.bool("include_builtin", False):
-            params = [p for p in params if "builtin" not in p]
+        include_builtin = ctx.bool("include_builtin", False)
+        params = [family_param_info(doc, fm, fp, unit, labels) for fp in fm.Parameters
+                  if is_relevant(fp, include_builtin)]
+        params.sort(key=lambda p: ("builtin" in p, p["name"].lower()))
         out["parameters"] = params
     if "types" in include:
         max_types = ctx.int("max_types", 50)
-        names = [fp for fp in fm.Parameters if not ctx.bool("type_values_include_builtin", False)
-                 and fp.Definition.BuiltInParameter == DB.BuiltInParameter.INVALID]
+        names = [fp for fp in fm.Parameters if is_relevant(fp, ctx.bool("include_builtin", False))]
         types = []
         for t in list(fm.Types)[:max_types]:
             vals = {}
@@ -403,7 +402,7 @@ def family_parameters(ctx):
 
     def remove(item):
         fp = require_family_parameter(fm, item.get("name"))
-        if fp.Definition.BuiltInParameter != DB.BuiltInParameter.INVALID:
+        if is_builtin(fp):
             raise RvtssError("Built-in parameter '{}' cannot be removed".format(item.get("name")), status=409)
         fm.RemoveParameter(fp)
         return {"name": item.get("name"), "action": "removed"}
@@ -543,7 +542,7 @@ def family_types(ctx):
     unit = ctx.unit
     dry = ctx.dry_run
     if action == "list":
-        names = [fp for fp in fm.Parameters if fp.Definition.BuiltInParameter == DB.BuiltInParameter.INVALID]
+        names = [fp for fp in fm.Parameters if is_relevant(fp, ctx.bool("include_builtin", False))]
         only = set(ctx.list("parameters"))
         types = []
         for t in fm.Types:
@@ -628,8 +627,7 @@ def _catalog_columns(fm):
 
     cols = []
     for fp in fm.Parameters:
-        if fp.IsInstance or fp.IsReporting or fp.Formula or \
-                fp.Definition.BuiltInParameter != DB.BuiltInParameter.INVALID:
+        if fp.IsInstance or fp.IsReporting or fp.Formula or not is_relevant(fp):
             continue
         spec, kind = definition_spec(fp.Definition)
         cols.append((fp, {"name": normalize_string(fp.Definition.Name), "spec": spec,
@@ -756,9 +754,12 @@ def family_validate(ctx):
     fm = core.require_family(doc)
     findings = []
     labels = labeled_dimensions(doc)
-    params = [fp for fp in fm.Parameters if fp.Definition.BuiltInParameter == DB.BuiltInParameter.INVALID]
+    # user parameters for "drives nothing" checks (built-ins like door Width are driven by Revit itself)
+    params = [fp for fp in fm.Parameters if not is_builtin(fp)]
+    relevant = [fp for fp in fm.Parameters if is_relevant(fp)]
     names = [normalize_string(fp.Definition.Name) for fp in params]
-    formulas = dict((normalize_string(fp.Definition.Name), fp.Formula) for fp in params if fp.Formula)
+    relevant_names = [normalize_string(fp.Definition.Name) for fp in relevant]
+    formulas = dict((normalize_string(fp.Definition.Name), fp.Formula) for fp in relevant if fp.Formula)
 
     cat = doc.OwnerFamily.FamilyCategory
     expected = ctx.get("expected_category")
@@ -777,7 +778,7 @@ def family_validate(ctx):
 
     referenced = set()
     for f in formulas.values():
-        referenced.update(FORMULA.references(f, names))
+        referenced.update(FORMULA.references(f, relevant_names))
     unused = []
     for fp in params:
         n = normalize_string(fp.Definition.Name)
@@ -798,14 +799,14 @@ def family_validate(ctx):
         findings.append(R.finding("types", "error", "Family has no types",
                                   recommendation="Create at least one type with family_manage_types."))
     for t in types:
-        missing = [normalize_string(fp.Definition.Name) for fp in params
+        missing = [normalize_string(fp.Definition.Name) for fp in relevant
                    if not fp.IsInstance and not fp.Formula and not fp.IsReporting and not t.HasValue(fp)
                    and fp.StorageType != DB.StorageType.String]
         if missing:
             findings.append(R.finding("types", "warning", "Type '{}' has no value for: {}".format(
                 normalize_string(t.Name), ", ".join(missing[:10]))))
         if ctx.bool("check_dimension_values", True):
-            for fp in params:
+            for fp in relevant:
                 if fp.StorageType == DB.StorageType.Double and t.HasValue(fp):
                     from .compat import definition_spec
 
