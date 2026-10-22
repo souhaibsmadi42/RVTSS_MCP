@@ -14,6 +14,13 @@ def register_project_tools(mcp, revit_get, revit_post):
     """Register project information tools"""
 
     @mcp.tool(annotations=READ_ONLY)
+    async def get_session_info(ctx: Context = None) -> str:
+        """Revit version/build, RVTSS version, active document and view, selection count, ALL open
+        documents (projects and background family documents - use their title as `document`), linked
+        documents, shared parameter file and family template path. Call this first in a session."""
+        return await post(revit_post, "/session_info/", {}, ctx, timeout=20.0)
+
+    @mcp.tool(annotations=READ_ONLY)
     async def get_project_overview(
         include: Optional[List[Literal["info", "levels", "grids", "phases", "worksets", "design_options"]]] = None,
         unit: LengthUnit = "mm",

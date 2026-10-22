@@ -17,6 +17,9 @@ def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func
     from .element_tools import register_element_tools
     from .project_tools import register_project_tools
     from .family_editor_tools import register_family_editor_tools
+    from .parameter_tools import register_parameter_tools
+    from .documentation_tools import register_documentation_tools
+    from .qc_tools import register_qc_tools
 
     # Register tools from each module
     register_status_tools(mcp_server, revit_get_func)
@@ -32,3 +35,6 @@ def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func
     register_element_tools(mcp_server, revit_get_func, revit_post_func)
     register_project_tools(mcp_server, revit_get_func, revit_post_func)
     register_family_editor_tools(mcp_server, revit_get_func, revit_post_func)
+    register_parameter_tools(mcp_server, revit_get_func, revit_post_func)
+    register_documentation_tools(mcp_server, revit_get_func, revit_post_func)
+    register_qc_tools(mcp_server, revit_get_func, revit_post_func)

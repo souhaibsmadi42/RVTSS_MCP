@@ -23,15 +23,22 @@ def register_status_routes(api):
         try:
             from pyrevit import revit
             
+            import revit_mcp
+
             doc = revit.doc
             if doc:
-                return routes.make_response(data={
+                data = {
                     "status": "active",
                     "health": "healthy",
                     "revit_available": True,
                     "document_title": doc.Title if doc.Title else "Untitled",
-                    "api_name": "revit_mcp"
-                })
+                    "api_name": "revit_mcp",
+                    "rvtss_version": revit_mcp.RVTSS_VERSION,
+                }
+                if revit_mcp.REGISTRATION_ERRORS:
+                    data["health"] = "degraded"
+                    data["route_modules_failed"] = dict(revit_mcp.REGISTRATION_ERRORS)
+                return routes.make_response(data=data)
             else:
                 return routes.make_response(data={
                     "status": "unhealthy", 

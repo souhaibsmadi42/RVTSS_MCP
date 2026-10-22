@@ -342,7 +342,44 @@ def schedule_data(ctx):
             "row_count": len(records), "pagination": meta, "rows": page}
 
 
+def session_info(ctx):
+    from . import __version__ as base_version, RVTSS_VERSION
+    from .compat import REVIT_YEAR as year
+
+    docs = [core.describe_document(d) for d in core.all_documents(ctx.active_doc)]
+    active = ctx.active_doc
+    out = {"revit_version": year or None, "extension_version": base_version, "rvtss_version": RVTSS_VERSION,
+           "active_document": normalize_string(active.Title) if active is not None else None,
+           "open_documents": [d for d in docs if not d["is_linked"]],
+           "linked_documents": [d["title"] for d in docs if d["is_linked"]]}
+    try:
+        from pyrevit import HOST_APP
+
+        out["revit_build"] = HOST_APP.build
+        out["pyrevit_language"] = HOST_APP.language
+    except Exception:
+        pass
+    if ctx.uidoc is not None and active is not None:
+        try:
+            v = ctx.uidoc.ActiveView
+            out["active_view"] = {"id": id_int(v), "name": normalize_string(v.Name), "type": str(v.ViewType)}
+            out["selection_count"] = ctx.uidoc.Selection.GetElementIds().Count
+        except Exception:
+            pass
+    try:
+        out["shared_parameter_file"] = ctx.app.SharedParametersFilename or None
+        out["family_template_path"] = ctx.app.FamilyTemplatePath or None
+    except Exception:
+        pass
+    out["rvtss_data_folder"] = core.rvtss_home()
+    return out
+
+
 def register_project_data_routes(api):
+    @api.route("/session_info/", methods=["POST"])
+    def session_info_route(doc, uidoc, request):
+        return handle(doc, request, session_info, uidoc=uidoc, needs_doc=False)
+
     @api.route("/project_overview/", methods=["POST"])
     def project_overview_route(doc, request):
         return handle(doc, request, project_overview)
