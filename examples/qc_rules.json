@@ -1,0 +1,14 @@
+{
+  "naming": {
+    "views": {"pattern": "^(A|S|M|E|P)-", "severity": "warning", "description": "Views start with the discipline code, e.g. 'A-Level 1 Plan'"},
+    "sheets": {"pattern": "^[A-Z]-\\d{3}$", "field": "number", "severity": "error"},
+    "levels": {"pattern": "^(B\\d|L\\d{2}|RF)"},
+    "families": {"pattern": "^[A-Z]{3}_"},
+    "types": {"pattern": "^[^\\s].*[^\\s]$"}
+  },
+  "required_parameters": [
+    {"categories": ["Doors"], "parameters": ["Fire Rating", "Mark"], "severity": "error"},
+    {"categories": ["Rooms"], "parameters": ["Name", "Number", "Department"], "severity": "warning"}
+  ],
+  "sheet_parameters": ["Drawn By", "Checked By", "Sheet Issue Date"]
+}

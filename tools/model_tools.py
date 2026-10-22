@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """Model structure and hierarchy tools"""
 
-from ._compat import Context
+from ._compat import Context, READ_ONLY
 from .utils import format_response
 
 
 def register_model_tools(mcp, revit_get):
     """Register model structure tools"""
 
-    @mcp.tool()
+    @mcp.tool(annotations=READ_ONLY)
     async def list_levels(ctx: Context = None) -> str:
         """Get a list of all levels in the current Revit model"""
         response = await revit_get("/list_levels/", ctx)

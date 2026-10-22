@@ -1,0 +1,9 @@
+{
+  "family_template_dirs": [
+    "C:\\ProgramData\\Autodesk\\RVT 2025\\Family Templates\\English",
+    "\\\\server\\BIM\\Templates\\Families"
+  ],
+  "naming": {
+    "parameters": {"pattern": "^[A-Z][A-Za-z0-9 ]+$"}
+  }
+}

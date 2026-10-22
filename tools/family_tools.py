@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Family and placement tools"""
 
-from ._compat import Context
+from ._compat import Context, MODIFIES, READ_ONLY
 from typing import Dict, Any
 from .utils import format_response
 
@@ -9,7 +9,7 @@ from .utils import format_response
 def register_family_tools(mcp, revit_get, revit_post):
     """Register family-related tools"""
 
-    @mcp.tool()
+    @mcp.tool(annotations=MODIFIES)
     async def place_family(
         family_name: str,
         type_name: str = None,
@@ -47,7 +47,7 @@ def register_family_tools(mcp, revit_get, revit_post):
         response = await revit_post("/place_family/", data, ctx)
         return format_response(response)
 
-    @mcp.tool()
+    @mcp.tool(annotations=READ_ONLY)
     async def list_families(
         contains: str = None, limit: int = 50, ctx: Context = None
     ) -> str:
@@ -61,7 +61,7 @@ def register_family_tools(mcp, revit_get, revit_post):
         result = await revit_post("/list_families/", data, ctx)
         return format_response(result)
 
-    @mcp.tool()
+    @mcp.tool(annotations=READ_ONLY)
     async def list_family_categories(ctx: Context = None) -> str:
         """Get a list of all family categories in the current Revit model"""
         response = await revit_get("/list_family_categories/", ctx)

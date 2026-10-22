@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Code execution tools for the MCP server."""
 
-from ._compat import Context
+from ._compat import Context, DESTRUCTIVE
 from .utils import format_response
 
 
@@ -10,7 +10,7 @@ def register_code_execution_tools(mcp, revit_get, revit_post, revit_image=None):
     # Note: revit_get and revit_image are unused but kept for interface consistency
     _ = revit_get, revit_image  # Acknowledge unused parameters
 
-    @mcp.tool()
+    @mcp.tool(annotations=DESTRUCTIVE)
     async def execute_revit_code(
         code: str,
         description: str = "Code execution",

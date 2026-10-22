@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """Document management tools for Revit MCP Server"""
 
-from ._compat import Context
+from ._compat import Context, DESTRUCTIVE, MODIFIES
 from .utils import format_response
 
 
 def register_document_tools(mcp, revit_get, revit_post):
     """Register document management tools with the MCP server."""
 
-    @mcp.tool()
+    @mcp.tool(annotations=MODIFIES)
     async def open_document(
         ctx: Context,
         file_path: str,
@@ -34,7 +34,7 @@ def register_document_tools(mcp, revit_get, revit_post):
         response = await revit_post("/open_document/", data, ctx, timeout=120.0)
         return format_response(response)
 
-    @mcp.tool()
+    @mcp.tool(annotations=DESTRUCTIVE)
     async def close_document(
         ctx: Context,
         save: bool = False,
@@ -49,7 +49,7 @@ def register_document_tools(mcp, revit_get, revit_post):
         response = await revit_post("/close_document/", data, ctx)
         return format_response(response)
 
-    @mcp.tool()
+    @mcp.tool(annotations=MODIFIES)
     async def save_document(
         ctx: Context,
         file_path: str = None,
@@ -66,7 +66,7 @@ def register_document_tools(mcp, revit_get, revit_post):
         response = await revit_post("/save_document/", data, ctx)
         return format_response(response)
 
-    @mcp.tool()
+    @mcp.tool(annotations=MODIFIES)
     async def sync_with_central(
         ctx: Context,
         comment: str = "",

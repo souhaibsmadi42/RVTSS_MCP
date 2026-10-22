@@ -5,7 +5,7 @@ import os
 import subprocess
 import json
 import anyio
-from ._compat import Context
+from ._compat import Context, MODIFIES, READ_ONLY
 from .utils import format_response
 
 
@@ -148,7 +148,7 @@ async def _wait_for_revit_ready(revit_get, ctx, timeout, poll_interval=5):
 def register_launch_tools(mcp, revit_get):
     """Register Revit launch and discovery tools with the MCP server."""
 
-    @mcp.tool()
+    @mcp.tool(annotations=READ_ONLY)
     async def list_revit_installations(ctx: Context) -> str:
         """Discover all Revit versions installed on this system.
 
@@ -182,7 +182,7 @@ def register_launch_tools(mcp, revit_get):
             indent=2,
         )
 
-    @mcp.tool()
+    @mcp.tool(annotations=MODIFIES)
     async def launch_revit(
         ctx: Context,
         file_path: str = None,

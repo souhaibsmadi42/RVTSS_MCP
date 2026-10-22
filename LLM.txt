@@ -1,3 +1,28 @@
+# RVTSS additions (read first)
+
+RVTSS 2.0 (Suhaib Al Smadi) extends this project. When adding functionality, follow these conventions:
+
+- **Revit side** (`revit_mcp/`, IronPython 2.7/3.4 – no f-strings, no Python-3-only syntax):
+  - Keep explicit route signatures (pyRevit injects `doc`, `uidoc`, `request` by name and runs handlers
+    that take `doc`/`uidoc` in Revit API context) and delegate to `core.handle(doc, request, impl)`.
+  - `impl(ctx)` returns a dict; raise `core.RvtssError(message, status, hint=...)` for expected failures.
+  - Read inputs with `ctx.get/require/bool/int/float/list`; `ctx.doc` is the target document (`document`
+    field = title/path, default active); `ctx.unit` is the length unit for outputs/inputs (default `mm`).
+  - Modify the model only through `core.run_transaction(doc, name, func, dry_run=ctx.dry_run)` and
+    return `core.commit_result(result, failures, dry_run)`. Use `core.batch()` for lists and
+    `core.confirm_gate()` + `core.preview_status()` for large/destructive operations.
+  - Use `params_util.find/read/set_value` for parameters (unit-safe), `query.collect()` for element
+    selection, `compat.*` for version differences, and put Revit-independent logic in `revit_mcp/pure/`
+    with unit tests.
+  - Register the module in `startup.py` `ROUTE_MODULES`.
+- **MCP side** (`tools/`): import `Context` and annotations from `tools/_compat.py` (works with mcp 1.x
+  and 2.x); build payloads with `_common.compact(...)` and return `await _common.post(...)`; type
+  arguments with `Literal`/pydantic models so Claude gets strict schemas; register in `tools/__init__.py`.
+- Run `pytest tests/unit` (stub-based registration test verifies every tool endpoint has a route) and
+  regenerate `docs/TOOLS.md` with `python scripts/generate_tool_docs.py`.
+
+---
+
 # Simple Revit MCP
 
 ## **Context** | 

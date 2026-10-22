@@ -409,15 +409,24 @@ _CATEGORY_CACHE = {}
 
 
 def _category_map(doc):
-    key = doc.Title
+    """{lower-case display name: category id int}. Ids (not Category objects) are
+    cached so a cache entry can never hold objects of a closed document."""
+    key = (doc.Title, doc.PathName)
     cached = _CATEGORY_CACHE.get(key)
     if cached is not None:
         return cached
     m = {}
     for c in doc.Settings.Categories:
-        m[normalize_string(c.Name).lower()] = c
+        m[normalize_string(c.Name).lower()] = id_int(c.Id)
     _CATEGORY_CACHE[key] = m
     return m
+
+
+def _category_by_id(doc, cid):
+    try:
+        return DB.Category.GetCategory(doc, make_id(cid))
+    except Exception:
+        return None
 
 
 def resolve_category(doc, name):
@@ -425,12 +434,9 @@ def resolve_category(doc, name):
     if isinstance(name, DB.Category):
         return name
     if isinstance(name, int) or (isinstance(name, basestring) and name.lstrip("-").isdigit()):
-        try:
-            cat = DB.Category.GetCategory(doc, make_id(int(name)))
-            if cat:
-                return cat
-        except Exception:
-            pass
+        cat = _category_by_id(doc, int(name))
+        if cat:
+            return cat
     s = text_type(name).strip()
     candidates = [s if s.upper().startswith("OST_") else None, "OST_" + s.replace(" ", "")]
     for cand in candidates:
@@ -444,13 +450,16 @@ def resolve_category(doc, name):
                     return cat
             except Exception:
                 pass
-    m = _category_map(doc)
     low = s.lower()
-    for variant in (low, low + "s", low.rstrip("s"), low + "es"):
-        if variant in m:
-            return m[variant]
-    _CATEGORY_CACHE.pop(doc.Title, None)
-    raise not_found("Category", name, [c.Name for c in m.values()],
+    for attempt in (0, 1):
+        m = _category_map(doc)
+        for variant in (low, low + "s", low.rstrip("s"), low + "es"):
+            if variant in m:
+                cat = _category_by_id(doc, m[variant])
+                if cat is not None:
+                    return cat
+        _CATEGORY_CACHE.pop((doc.Title, doc.PathName), None)
+    raise not_found("Category", name, [c.Name for c in doc.Settings.Categories],
                     hint="Use the display name (e.g. 'Doors', 'Generic Models') or 'OST_Doors'.")
 
 

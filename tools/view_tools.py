@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """View-related tools for capturing and listing Revit views"""
 
-from ._compat import Context
+from ._compat import Context, READ_ONLY
 from .utils import format_response
 
 
 def register_view_tools(mcp, revit_get, revit_post, revit_image):
     """Register view-related tools"""
 
-    @mcp.tool()
+    @mcp.tool(annotations=READ_ONLY)
     async def get_revit_view(view_name: str, ctx: Context = None):
         """Export a specific Revit view as a PNG image.
 
@@ -17,13 +17,13 @@ def register_view_tools(mcp, revit_get, revit_post, revit_image):
         """
         return await revit_image(f"/get_view/{view_name}", ctx)
 
-    @mcp.tool()
+    @mcp.tool(annotations=READ_ONLY)
     async def list_revit_views(ctx: Context = None) -> str:
         """Get a list of all exportable views in the current Revit model"""
         response = await revit_get("/list_views/", ctx)
         return format_response(response)
 
-    @mcp.tool()
+    @mcp.tool(annotations=READ_ONLY)
     async def get_current_view_info(ctx: Context = None) -> str:
         """
         Get detailed information about the currently active view in Revit.
@@ -41,7 +41,7 @@ def register_view_tools(mcp, revit_get, revit_post, revit_image):
         response = await revit_get("/current_view_info/", ctx)
         return format_response(response)
 
-    @mcp.tool()
+    @mcp.tool(annotations=READ_ONLY)
     async def get_current_view_elements(
         limit: int = 5000,
         include_levels: bool = False,

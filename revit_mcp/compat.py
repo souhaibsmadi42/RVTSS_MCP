@@ -99,7 +99,10 @@ def spec_id(name):
     if key not in SPECS:
         raise ValueError("Unknown parameter type '{}'. Use one of: {}".format(name, ", ".join(spec_names())))
     forge_path, legacy, _ = SPECS[key]
-    if hasattr(DB, "SpecTypeId"):
+    # Specs and groups must come from the same API generation: Revit 2021 has
+    # SpecTypeId but its AddParameter / binding / creation overloads still take
+    # ParameterType + BuiltInParameterGroup.
+    if HAS_FORGE:
         try:
             return _resolve_path(DB.SpecTypeId, forge_path)
         except AttributeError:

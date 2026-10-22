@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Color tools"""
 
-from ._compat import Context
+from ._compat import Context, MODIFIES, READ_ONLY
 from typing import Dict, Any, Optional, List
 from .utils import format_response
 
@@ -9,7 +9,7 @@ from .utils import format_response
 def register_colors_tools(mcp, revit_get, revit_post, revit_image=None):
     """Register color tools with the MCP server."""
 
-    @mcp.tool()
+    @mcp.tool(annotations=MODIFIES)
     async def color_splash(
         category_name: str,
         parameter_name: str,
@@ -59,7 +59,7 @@ def register_colors_tools(mcp, revit_get, revit_post, revit_image=None):
                 await ctx.error(error_msg)
             return error_msg
 
-    @mcp.tool()
+    @mcp.tool(annotations=MODIFIES)
     async def clear_colors(category_name: str, ctx: Context = None) -> str:
         """
         Clear color overrides for elements in a category
@@ -88,7 +88,7 @@ def register_colors_tools(mcp, revit_get, revit_post, revit_image=None):
                 await ctx.error(error_msg)
             return error_msg
 
-    @mcp.tool()
+    @mcp.tool(annotations=READ_ONLY)
     async def list_category_parameters(category_name: str, ctx: Context = None) -> str:
         """
         Get available parameters for elements in a category
