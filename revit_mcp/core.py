@@ -103,7 +103,7 @@ def not_found(what, name, choices=None, hint=None):
 
 # --------------------------------------------------------------------- responses
 try:
-    INTEGER_TYPES = (int, long)  # noqa: F821  IronPython 2: Int64 arrives as long
+    INTEGER_TYPES = (int, long)  # noqa: F821  # novermin  IronPython 2: Int64 arrives as long
 except NameError:
     INTEGER_TYPES = (int,)
 
@@ -165,16 +165,19 @@ def error_response(message, status=400, hint=None, **extra):
 
 # ----------------------------------------------------------------------- request
 class Ctx(object):
-    def __init__(self, doc, uidoc, data):
+    def __init__(self, doc, uidoc, data, needs_doc=True):
         self.active_doc = doc
         self.uidoc = uidoc
         self.data = data or {}
-        self.doc = resolve_document(doc, self.data.get("document"))
+        if needs_doc or doc is not None or self.data.get("document"):
+            self.doc = resolve_document(doc, self.data.get("document"))
+        else:
+            self.doc = None
         self.warnings = []
 
     @property
     def app(self):
-        return self.doc.Application
+        return self.doc.Application if self.doc is not None else _host_app()
 
     def get(self, key, default=None):
         v = self.data.get(key, default)
@@ -266,7 +269,7 @@ def handle(doc, request, impl, uidoc=None, name=None, needs_doc=True):
         if needs_doc and doc is None and not data.get("document"):
             raise RvtssError("No active Revit document", status=503,
                              hint="Open a project or family in Revit (open_document) and retry.")
-        ctx = Ctx(doc, uidoc, data)
+        ctx = Ctx(doc, uidoc, data, needs_doc=needs_doc)
         result = impl(ctx)
         if result is None:
             result = {}
@@ -307,6 +310,7 @@ def revit_error_hint(e):
 def all_documents(doc):
     app = doc.Application if doc is not None else _host_app()
     return [d for d in app.Documents]
+
 
 
 def _host_app():

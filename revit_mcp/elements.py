@@ -19,7 +19,7 @@ from pyrevit import DB
 
 from . import core
 from .core import RvtssError, handle
-from .compat import make_id, id_int, is_valid_id, new_floor, text_type
+from .compat import id_int, is_valid_id, new_floor, text_type
 from .query import collect, query_spec, category_counts, selection_ids
 from .params_util import find as find_param, read as read_param, read_all, set_value
 from .pure import units as U

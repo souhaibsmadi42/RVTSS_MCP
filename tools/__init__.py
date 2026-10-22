@@ -16,6 +16,7 @@ def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func
     # RVTSS modules
     from .element_tools import register_element_tools
     from .project_tools import register_project_tools
+    from .family_editor_tools import register_family_editor_tools
 
     # Register tools from each module
     register_status_tools(mcp_server, revit_get_func)
@@ -30,3 +31,4 @@ def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func
     register_document_tools(mcp_server, revit_get_func, revit_post_func)
     register_element_tools(mcp_server, revit_get_func, revit_post_func)
     register_project_tools(mcp_server, revit_get_func, revit_post_func)
+    register_family_editor_tools(mcp_server, revit_get_func, revit_post_func)

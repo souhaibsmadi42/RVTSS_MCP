@@ -54,6 +54,14 @@ def register_routes():
 
         register_project_data_routes(api)
 
+        from revit_mcp.families import register_family_routes
+
+        register_family_routes(api)
+
+        from revit_mcp.family_geometry import register_family_geometry_routes
+
+        register_family_geometry_routes(api)
+
         logger.info("All MCP routes registered successfully")
 
     except Exception as e:
