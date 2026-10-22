@@ -45,6 +45,15 @@ def register_routes():
 
         register_document_routes(api)
 
+        # RVTSS modules
+        from revit_mcp.elements import register_elements_routes
+
+        register_elements_routes(api)
+
+        from revit_mcp.project_data import register_project_data_routes
+
+        register_project_data_routes(api)
+
         logger.info("All MCP routes registered successfully")
 
     except Exception as e:
