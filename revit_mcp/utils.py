@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 try:
-    unicode  # noqa: F821  IronPython 2.7
+    unicode  # noqa: F821  # novermin  IronPython 2.7
 except NameError:  # IronPython 3 / CPython: normalize_string raised NameError
     unicode = str
 
@@ -25,7 +25,7 @@ def normalize_string(text):
     if text is None:
         return u"Unnamed"
     # Already a unicode string (normal case for .NET System.String in IronPython)
-    if isinstance(text, unicode):
+    if isinstance(text, unicode):  # novermin (fallback defined above)
         return text.strip()
     # Byte string — decode with a permissive fallback
     if isinstance(text, str):
@@ -35,7 +35,7 @@ def normalize_string(text):
             return text.decode("latin-1").strip()
     # Any other type (.NET object, int, etc.) — convert via unicode()
     try:
-        return unicode(text).strip()
+        return unicode(text).strip()  # novermin
     except Exception:
         return u"Unnamed"
 

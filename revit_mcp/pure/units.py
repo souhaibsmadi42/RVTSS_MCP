@@ -76,18 +76,29 @@ def from_internal(value, unit, ndigits=None):
     return out
 
 
-def length_unit_for(kind, length_unit):
-    """Return the matching area/volume unit for a length unit (e.g. mm -> mm2)."""
-    base = normalize_unit(length_unit)
-    if kind == "length":
-        return base
-    if kind == "area":
-        return base + "2"
-    if kind == "volume":
-        return base + "3"
+def length_unit_for(kind, unit):
+    """Adapt a unit to a quantity kind: mm -> mm2 for area, m2 stays m2, any -> deg for angles.
+
+    A unit that already matches the kind is returned unchanged; an area/volume
+    unit is reduced to its length base first (m2 -> m3 for volumes). An angle
+    unit given for a dimensional kind falls back to millimetres.
+    """
     if kind == "angle":
-        return "deg"
-    return None
+        u = normalize_unit(unit) if unit else "deg"
+        return u if UNITS[u][0] == "angle" else "deg"
+    if kind not in ("length", "area", "volume"):
+        return None
+    u = normalize_unit(unit) if unit else "mm"
+    uk = UNITS[u][0]
+    if uk == kind or uk == "any":
+        return u
+    if uk == "angle":
+        base = "mm"
+    elif uk in ("area", "volume"):
+        base = u[:-1]
+    else:
+        base = u
+    return {"length": base, "area": base + "2", "volume": base + "3"}[kind]
 
 
 def point_from(values, unit):

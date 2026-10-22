@@ -366,17 +366,42 @@ def global_parameters(ctx):
         return {"unit": unit, "global_parameters": sorted(out, key=lambda d: d["name"].lower())}
 
     def set_val(gp, value, vunit):
+        from .params_util import _parse_bool
+
         spec, kind = definition_spec(gp.GetDefinition())
         if kind in ("length", "area", "volume", "angle"):
-            if vunit is None and not isinstance(value, (text_type, str)):
-                raise RvtssError("Global parameter '{}' is {}: pass value_unit".format(gp.Name, spec))
-            gp.SetValue(DB.DoubleParameterValue(U.to_internal(float(value), vunit)))
-        elif spec in ("integer", "yesno"):
-            gp.SetValue(DB.IntegerParameterValue(int(bool(value)) if spec == "yesno" else int(value)))
+            if vunit:
+                try:
+                    num = float(value)
+                except (TypeError, ValueError):
+                    raise RvtssError("Global parameter '{}' needs a number with value_unit".format(gp.Name))
+                gp.SetValue(DB.DoubleParameterValue(U.to_internal(num, U.length_unit_for(kind, vunit))))
+                return
+            text = text_type(value).strip() if value is not None else ""
+            try:
+                float(text)
+                is_bare_number = True
+            except ValueError:
+                is_bare_number = False
+            if is_bare_number or not text:
+                raise RvtssError("Global parameter '{}' is {}: pass value_unit (e.g. 'mm') or a string with "
+                                 "units such as '900 mm'".format(gp.Name, spec))
+            ok, parsed = DB.UnitFormatUtils.TryParse(doc.GetUnits(), gp.GetDefinition().GetDataType(), text)
+            if not ok:
+                raise RvtssError("Revit could not parse '{}' for '{}'".format(text, gp.Name))
+            gp.SetValue(DB.DoubleParameterValue(parsed))
+        elif spec == "yesno":
+            gp.SetValue(DB.IntegerParameterValue(1 if _parse_bool(value) else 0))
+        elif spec == "integer":
+            gp.SetValue(DB.IntegerParameterValue(int(value)))
         elif spec in ("text", "multiline_text", "url"):
             gp.SetValue(DB.StringParameterValue(text_type(value)))
         elif spec == "material":
             gp.SetValue(DB.ElementIdParameterValue(make_id(int(value))))
+        elif kind == "measurable":
+            if vunit != "internal":
+                raise RvtssError("Global parameter '{}' uses spec {}; pass value_unit='internal'".format(gp.Name, spec))
+            gp.SetValue(DB.DoubleParameterValue(float(value)))
         else:
             gp.SetValue(DB.DoubleParameterValue(float(value)))
 
@@ -459,7 +484,10 @@ def audit(ctx):
             p, _o = find_param(doc, e, r["name"], allow_type=allow_type)
             if p is None:
                 continue
-            raw = raw_value(p, r.get("unit") or "mm")
+            try:
+                raw = raw_value(p, r.get("unit") or "mm")
+            except Exception:
+                raw = None
             disp = p.AsValueString()
             if not F.match(r.get("op", "eq"), r.get("value"), raw, disp, True, bool(r.get("case_sensitive"))):
                 stats[r["name"]]["invalid"].append(eid)

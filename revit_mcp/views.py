@@ -14,7 +14,7 @@ import logging
 from System.Collections.Generic import List
 
 try:
-    from urllib.parse import unquote
+    from urllib.parse import unquote  # novermin (py2 fallback below)
 except ImportError:
     from urllib import unquote
 

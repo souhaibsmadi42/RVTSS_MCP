@@ -94,7 +94,7 @@ def raw_value(p, unit=None):
         v = p.AsDouble()
         spec, kind = definition_spec(p.Definition)
         if kind in ("length", "area", "volume", "angle") and unit:
-            target = U.length_unit_for(kind, unit) if kind != "angle" else "deg"
+            target = U.length_unit_for(kind, unit)
             return U.from_internal(v, target, 6)
         return v
     if st == DB.StorageType.ElementId:
@@ -111,7 +111,7 @@ def read(doc, p, unit="mm", meta=False):
     except Exception:
         info["value"] = None
     if p.StorageType == DB.StorageType.Double and kind in ("length", "area", "volume", "angle"):
-        info["unit"] = U.length_unit_for(kind, unit) if kind != "angle" else "deg"
+        info["unit"] = U.length_unit_for(kind, unit)
     elif p.StorageType == DB.StorageType.Double and kind == "measurable":
         info["unit"] = "internal"
     try:
@@ -319,7 +319,12 @@ def set_family_value(doc, fm, fp, value, unit=None):
                 raise RvtssError("'{}' has units ({}) but no unit was given".format(name, spec),
                                  hint="Add unit='mm' (or m, cm, ft, in, deg).")
             if unit and kind in ("length", "area", "volume", "angle"):
-                num = U.to_internal(num, U.normalize_unit(unit))
+                # the default unit is a length unit (ctx.unit): adapt it to the parameter's
+                # kind (mm -> mm2 for areas, -> deg for angles) instead of applying a length
+                # factor to an angle or area
+                num = U.to_internal(num, U.length_unit_for(kind, unit))
+            elif unit and kind == "measurable" and U.normalize_unit(unit) != "internal":
+                raise RvtssError("'{}' uses spec {}; pass unit='internal' or a string with units".format(name, spec))
             fm.Set(fp, num)
     elif st == DB.StorageType.ElementId:
         fm.Set(fp, _resolve_id_value(doc, fp, value))

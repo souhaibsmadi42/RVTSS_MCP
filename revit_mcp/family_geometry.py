@@ -557,7 +557,8 @@ def _bbox_size(doc, unit):
 
 
 def _flex(doc, fm, cases, unit, expect=None, tol=0.5):
-    """Apply each case in a committed transaction inside a TransactionGroup that is rolled back."""
+    """Apply each case in its own rolled-back TransactionGroup (inside an outer group that is
+    also rolled back) and measure the geometry while the case is applied."""
     results = []
     group = DB.TransactionGroup(doc, "RVTSS: flex test")
     group.Start()
@@ -565,46 +566,54 @@ def _flex(doc, fm, cases, unit, expect=None, tol=0.5):
         base = _bbox_size(doc, unit)
         for case in cases:
             entry = {"case": case.get("name") or case.get("type") or "case", "ok": True}
-            t, collector = core._start_tx(doc, "RVTSS: flex case")
+            # each case is isolated: its own group is rolled back after measuring, so cases
+            # never accumulate and every case starts from the original family state
+            case_group = DB.TransactionGroup(doc, "RVTSS: flex case")
+            case_group.Start()
             try:
-                if case.get("type"):
-                    from .family_utils import find_family_type
+                t, collector = core._start_tx(doc, "RVTSS: flex case")
+                try:
+                    if case.get("type"):
+                        from .family_utils import find_family_type
 
-                    fm.CurrentType = find_family_type(fm, case["type"])
-                for pname, val in (case.get("values") or {}).items():
-                    fp = family_parameter(fm, pname)
-                    if fp is None:
-                        raise RvtssError("Parameter '{}' not found".format(pname))
-                    v, u = (val.get("value"), val.get("unit", unit)) if isinstance(val, dict) else (val, unit)
-                    set_family_value(doc, fm, fp, v, u)
-                doc.Regenerate()
-                status = t.Commit()
-                if status != DB.TransactionStatus.Committed:
+                        fm.CurrentType = find_family_type(fm, case["type"])
+                    for pname, val in (case.get("values") or {}).items():
+                        fp = family_parameter(fm, pname)
+                        if fp is None:
+                            raise RvtssError("Parameter '{}' not found".format(pname))
+                        v, u = (val.get("value"), val.get("unit", unit)) if isinstance(val, dict) else (val, unit)
+                        set_family_value(doc, fm, fp, v, u)
+                    doc.Regenerate()
+                    status = t.Commit()
+                    if status != DB.TransactionStatus.Committed:
+                        entry["ok"] = False
+                        entry["errors"] = [m["message"] for m in collector.messages if m["severity"] != "Warning"]
+                except Exception as e:
+                    if t.HasStarted() and not t.HasEnded():
+                        t.RollBack()
                     entry["ok"] = False
-                    entry["errors"] = [m["message"] for m in collector.messages if m["severity"] != "Warning"]
-            except Exception as e:
-                if t.HasStarted() and not t.HasEnded():
-                    t.RollBack()
-                entry["ok"] = False
-                entry["errors"] = [e.message if isinstance(e, RvtssError) else normalize_string(text_type(e))]
-            if collector.messages:
-                entry["revit_messages"] = collector.messages[:10]
-            size = _bbox_size(doc, unit)
-            entry["bbox_size"] = size
-            entry["changed_from_base"] = size != base
-            if expect and entry["ok"] and size:
-                checks = {}
-                for axis, pname in expect.items():
-                    fp = family_parameter(fm, pname)
-                    if fp is None:
-                        continue
-                    want = family_type_value(fm, fm.CurrentType, fp, unit)
-                    got = size["xyz".index(axis)]
-                    checks[pname] = {"expected": want, "actual": got,
-                                     "pass": want is not None and abs(got - want) <= tol}
-                entry["checks"] = checks
-                if any(not c["pass"] for c in checks.values()):
-                    entry["ok"] = False
+                    entry["errors"] = [e.message if isinstance(e, RvtssError) else normalize_string(text_type(e))]
+                if collector.messages:
+                    entry["revit_messages"] = collector.messages[:10]
+                size = _bbox_size(doc, unit)
+                entry["bbox_size"] = size
+                entry["changed_from_base"] = size != base
+                if expect and entry["ok"] and size:
+                    checks = {}
+                    for axis, pname in expect.items():
+                        fp = family_parameter(fm, pname)
+                        if fp is None:
+                            continue
+                        want = family_type_value(fm, fm.CurrentType, fp, unit)
+                        got = size["xyz".index(axis)]
+                        checks[pname] = {"expected": want, "actual": got,
+                                         "pass": want is not None and abs(got - want) <= tol}
+                    entry["checks"] = checks
+                    if any(not c["pass"] for c in checks.values()):
+                        entry["ok"] = False
+            finally:
+                if case_group.HasStarted() and not case_group.HasEnded():
+                    case_group.RollBack()
             results.append(entry)
     finally:
         if group.HasStarted() and not group.HasEnded():

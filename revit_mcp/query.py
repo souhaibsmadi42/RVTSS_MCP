@@ -16,7 +16,7 @@ Query spec (all keys optional, combined with AND):
 """
 from pyrevit import DB
 
-from .compat import text_type
+from .compat import text_type, id_int
 from .core import (RvtssError, resolve_category, find_level, find_view, get_elements,
                    to_id_list, element_brief)
 from .params_util import find as find_param, raw_value
@@ -75,6 +75,24 @@ def collect(ctx, spec, max_scan=None):
     if ids:
         elements = get_elements(doc, ids)
         native = False
+        # explicit ids / selection: the collector filters below are applied here too
+        cats = spec.get("categories") or []
+        if isinstance(cats, (text_type, str)):
+            cats = [cats]
+        if cats:
+            cat_ids = set(id_int(resolve_category(doc, c).Id) for c in cats)
+            elements = [e for e in elements if e.Category is not None and id_int(e.Category.Id) in cat_ids]
+        if spec.get("class_name"):
+            cls = _api_class(spec["class_name"])
+            elements = [e for e in elements if isinstance(e, cls)]
+        if spec.get("level") is not None:
+            lid = find_level(doc, spec["level"]).Id
+            elements = [e for e in elements if getattr(e, "LevelId", None) is not None and e.LevelId == lid]
+        view = spec.get("view")
+        if view is not None and view != "":
+            v = find_view(doc, view, uidoc=ctx.uidoc if view == "active" else None)
+            visible = set(id_int(i) for i in DB.FilteredElementCollector(doc, v.Id).ToElementIds())
+            elements = [e for e in elements if id_int(e) in visible]
     else:
         view = spec.get("view")
         if view is not None and view != "":

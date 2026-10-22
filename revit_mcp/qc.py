@@ -411,10 +411,15 @@ def clashes(ctx):
         checked += 1
         for s in solids:
             bb = s.GetBoundingBox()
+            # the box is in the solid's own frame (bb.Transform may rotate): transform all 8
+            # corners so the world-aligned outline really encloses the solid
             t = bb.Transform
-            p0, p1 = t.OfPoint(bb.Min), t.OfPoint(bb.Max)
-            outline = DB.Outline(DB.XYZ(min(p0.X, p1.X), min(p0.Y, p1.Y), min(p0.Z, p1.Z)),
-                                 DB.XYZ(max(p0.X, p1.X), max(p0.Y, p1.Y), max(p0.Z, p1.Z)))
+            corners = [t.OfPoint(DB.XYZ(x, y, z)) for x in (bb.Min.X, bb.Max.X)
+                       for y in (bb.Min.Y, bb.Max.Y) for z in (bb.Min.Z, bb.Max.Z)]
+            outline = DB.Outline(DB.XYZ(min(c.X for c in corners), min(c.Y for c in corners),
+                                        min(c.Z for c in corners)),
+                                 DB.XYZ(max(c.X for c in corners), max(c.Y for c in corners),
+                                        max(c.Z for c in corners)))
             col = DB.FilteredElementCollector(b_doc).WhereElementIsNotElementType()
             if b_cats:
                 col = col.WherePasses(DB.ElementMulticategoryFilter(core.to_id_list(b_cats)))

@@ -44,6 +44,14 @@ class TestUnits:
     def test_length_unit_for(self):
         assert U.length_unit_for("area", "mm") == "mm2"
         assert U.length_unit_for("angle", "m") == "deg"
+        # units that already fit the kind are kept, others adapted (review finding)
+        assert U.length_unit_for("area", "m2") == "m2"
+        assert U.length_unit_for("volume", "m2") == "m3"
+        assert U.length_unit_for("length", "ft2") == "ft"
+        assert U.length_unit_for("length", "deg") == "mm"
+        assert U.length_unit_for("angle", "rad") == "rad"
+        assert U.length_unit_for("length", "internal") == "internal"
+        assert U.length_unit_for("number", "mm") is None
 
 
 # --------------------------------------------------------------- templates

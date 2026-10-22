@@ -73,9 +73,22 @@ def create_view(ctx):
     dry = ctx.dry_run
 
     def run():
-        if kind in ("floor_plan", "ceiling_plan", "structural_plan", "area_plan"):
+        if kind == "area_plan":
+            # area plans need an area scheme, not a view family type
+            level = core.find_level(doc, ctx.require("level"))
+            schemes = list(DB.FilteredElementCollector(doc).OfClass(DB.AreaScheme))
+            wanted = (ctx.get("area_scheme") or "").lower()
+            scheme = None
+            for sc in schemes:
+                if not wanted or normalize_string(sc.Name).lower() == wanted:
+                    scheme = sc
+                    break
+            if scheme is None:
+                raise core.not_found("Area scheme", ctx.get("area_scheme"), [sc.Name for sc in schemes])
+            v = DB.ViewPlan.CreateAreaPlan(doc, scheme.Id, level.Id)
+        elif kind in ("floor_plan", "ceiling_plan", "structural_plan"):
             fam = {"floor_plan": DB.ViewFamily.FloorPlan, "ceiling_plan": DB.ViewFamily.CeilingPlan,
-                   "structural_plan": DB.ViewFamily.StructuralPlan, "area_plan": DB.ViewFamily.AreaPlan}[kind]
+                   "structural_plan": DB.ViewFamily.StructuralPlan}[kind]
             level = core.find_level(doc, ctx.require("level"))
             v = DB.ViewPlan.Create(doc, _vft(doc, fam, ctx.get("view_family_type")).Id, level.Id)
         elif kind == "three_d":
@@ -328,7 +341,16 @@ def create_schedule(ctx):
             if fld is None:
                 raise RvtssError("Filter field '{}' must also be in fields".format(flt.get("field")))
             ftype = getattr(DB.ScheduleFilterType, flt.get("type", "Equal"))
-            definition.AddFilter(DB.ScheduleFilter(fld.FieldId, ftype, text_type(flt.get("value", ""))))
+            val = flt.get("value", "")
+            # ScheduleFilter takes a double (internal units) for numeric/dimensional fields,
+            # an int for integer/yes-no fields and a string for text fields
+            if isinstance(val, bool):
+                val = 1 if val else 0
+            elif isinstance(val, float) or (isinstance(val, int) and flt.get("unit")):
+                val = U.to_internal(val, flt["unit"]) if flt.get("unit") else float(val)
+            elif not isinstance(val, int):
+                val = text_type(val)
+            definition.AddFilter(DB.ScheduleFilter(fld.FieldId, ftype, val))
         definition.IsItemized = ctx.bool("itemized", True)
         return {"schedule_id": id_int(sched), "name": normalize_string(sched.Name), "fields": list(added),
                 "missing_fields": missing}
@@ -373,6 +395,19 @@ def _set_name(e, target, field, value):
         e.Name = value
 
 
+def _uniqueness_scope(e, target, field):
+    """Key within which Revit requires names to be unique; None = no uniqueness rule."""
+    if target == "rooms" or (target == "sheets" and field == "name"):
+        return None
+    if target == "family_types":
+        return ("family", id_int(e.Family.Id))
+    if target == "system_types":
+        return ("class", e.GetType().Name)
+    if target in ("views", "view_templates"):
+        return ("view_type", str(e.ViewType))
+    return ("all",)
+
+
 def batch_rename(ctx):
     import re
 
@@ -387,7 +422,11 @@ def batch_rename(ctx):
     elements = [e for e in RENAME_TARGETS[target](doc) if (not ids or id_int(e) in ids)]
     elements = [e for e in elements if rx is None or rx.search(_name_of(e, target, field))]
     plan, conflicts = [], []
-    existing = set(_name_of(e, target, field) for e in RENAME_TARGETS[target](doc))
+    existing = {}
+    for e in RENAME_TARGETS[target](doc):
+        scope = _uniqueness_scope(e, target, field)
+        if scope is not None:
+            existing.setdefault(scope, set()).add(_name_of(e, target, field))
     for e in elements:
         old = _name_of(e, target, field)
         try:
@@ -402,10 +441,21 @@ def batch_rename(ctx):
             conflicts.append({"id": id_int(e), "old": old, "new": new, "reason": "invalid characters {}".format(bad)})
             continue
         plan.append((e, old, new))
-    new_names = [n for _e, _o, n in plan]
-    unchanged = existing - set(o for _e, o, _n in plan)
+    # names that stay after the rename, and planned new names, per uniqueness scope
+    renamed_old = {}
+    planned = {}
     for e, old, new in plan:
-        if new in unchanged or new_names.count(new) > 1:
+        scope = _uniqueness_scope(e, target, field)
+        if scope is None:
+            continue
+        renamed_old.setdefault(scope, set()).add(old)
+        planned.setdefault(scope, []).append(new)
+    for e, old, new in plan:
+        scope = _uniqueness_scope(e, target, field)
+        if scope is None:
+            continue
+        staying = existing.get(scope, set()) - renamed_old.get(scope, set())
+        if new in staying or planned[scope].count(new) > 1:
             conflicts.append({"id": id_int(e), "old": old, "new": new, "reason": "name already used"})
     conflict_ids = set(c["id"] for c in conflicts)
     plan = [p for p in plan if id_int(p[0]) not in conflict_ids]

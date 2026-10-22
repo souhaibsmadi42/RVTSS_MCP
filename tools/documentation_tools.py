@@ -32,6 +32,7 @@ def register_documentation_tools(mcp, revit_get, revit_post):
         scale: Optional[int] = None,
         detail_level: Optional[Literal["coarse", "medium", "fine"]] = None,
         view_family_type: Optional[str] = None,
+        area_scheme: Annotated[Optional[str], Field(description="area_plan: area scheme name (default: first)")] = None,
         unit: LengthUnit = "mm",
         dry_run: bool = False,
         document: Doc = None,
@@ -42,7 +43,8 @@ def register_documentation_tools(mcp, revit_get, revit_post):
         data = compact(kind=kind, name=name, level=level, element_ids=element_ids, margin=margin, looking=looking,
                        plan_view=plan_view, point=point, facing=facing, source_view=source_view,
                        duplicate_option=duplicate_option, template=template, scale=scale, detail_level=detail_level,
-                       view_family_type=view_family_type, unit=unit, dry_run=dry_run or None, document=document)
+                       view_family_type=view_family_type, area_scheme=area_scheme, unit=unit,
+                       dry_run=dry_run or None, document=document)
         return await post(revit_post, "/views/create/", data, ctx, timeout=120.0)
 
     @mcp.tool(annotations=MODIFIES)
@@ -99,7 +101,7 @@ def register_documentation_tools(mcp, revit_get, revit_post):
         fields: Annotated[List[str], Field(description="Schedulable field names, e.g. ['Mark','Type','Width','Fire Rating']")],
         name: Optional[str] = None,
         sort_by: Optional[List[str]] = None,
-        filters: Annotated[Optional[List[Dict[str, Any]]], Field(description="[{field, type: 'Equal'|'Contains'|..., value}]")] = None,
+        filters: Annotated[Optional[List[Dict[str, Any]]], Field(description="[{field, type: 'Equal'|'Contains'|'GreaterThan'|..., value, unit?}] - numbers for numeric fields (with unit for lengths), text for text fields")] = None,
         itemized: bool = True,
         strict: bool = True,
         dry_run: bool = False,

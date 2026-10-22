@@ -256,8 +256,8 @@ def _sort_key(doc, mode):
     if mode in ("x", "y", "z", "xy", "yx"):
         def key(e):
             p = core.element_point(e)
-            if p is None:
-                return (0, 0, 0)
+            if p is None:  # keys must have one type per mode (IronPython 3 cannot compare tuple/float)
+                return (0.0, 0.0) if mode in ("xy", "yx") else 0.0
             if mode == "xy":
                 return (round(p.X, 3), round(p.Y, 3))
             if mode == "yx":
@@ -389,6 +389,9 @@ def transform_elements(ctx):
             if ctx.bool("each_about_own_center", False):
                 for e in elements:
                     p = core.element_point(e)
+                    if p is None:
+                        raise RvtssError("Element {} has no location or bounding box to rotate about".format(
+                            id_int(e)), hint="Pass 'center' and each_about_own_center=false.")
                     axis = DB.Line.CreateBound(p, p + DB.XYZ.BasisZ)
                     DB.ElementTransformUtils.RotateElement(doc, e.Id, axis, angle)
             else:
