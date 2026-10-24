@@ -82,7 +82,10 @@ Autodesk Revit 2021 – 2027
    `%APPDATA%\pyRevit\Extensions`. Remove or disable the old one.
 2. Clone this repository into the pyRevit extensions folder as a folder ending in `.extension` (see the
    quick start). You can instead add its parent folder under pyRevit Settings → Custom Extension Directories.
-   The extension shows up as **RVTSS** (tab `RVTSS`).
+   The extension shows up as **RVTSS** (tab `RVTSS`). If there is no RVTSS tab and `/revit_mcp/status/`
+   answers `Route does not exits`, the extension is disabled: pyRevit → Extensions → RVTSS → Enable, or set
+   `disabled = false` under `[RVTSS.extension]` in `%APPDATA%\pyRevit\pyRevit_config.ini`, then restart
+   Revit. (Copies cloned before this fix shipped with `extension.json` disabled by default.)
 3. pyRevit Settings → Routes: enable the Routes Server on port 48884, set the host to `127.0.0.1` unless
    Revit runs in a VM, then reload pyRevit.
 4. Install the MCP server dependencies (Python 3.11+). The package is `rvtss-mcp`:
