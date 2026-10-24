@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RVTSS Revit MCP</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="RVTSS connects Claude to your live Autodesk Revit model. Watch the 4-minute tutorial, install in five steps and read the user manual.">
+<meta property="og:title" content="RVTSS — Revit MCP for Claude">
+<meta property="og:description" content="Talk to your Revit model. 77 tools for model intelligence, editing, families, parameters, documentation and BIM QC.">
+<meta property="og:image" content="media/rvtss-tutorial-poster.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* hero: the film is the thesis */
+  .hero { position: relative; padding-block: 56px 40px; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: linear-gradient(180deg, #000 30%, transparent 95%);
+  }
+  .hero-top { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px 48px; align-items: end; }
+  .hero h1 { font-size: clamp(44px, 7vw, 92px); font-weight: 900; font-stretch: 118%; letter-spacing: -.025em; line-height: .98; margin-top: 14px; }
+  .hero h1 .grad { background: var(--brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { font-size: 19px; color: var(--muted); max-width: 52ch; margin: 0 0 22px; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 22px; font: 500 13px var(--f-mono); color: var(--muted); }
+  .facts b { color: var(--ink); font-weight: 700; }
+  @media (max-width: 860px) { .hero-top { grid-template-columns: 1fr; } }
+
+  /* the film as a drawing sheet with a dimension string */
+  .film { margin-top: 44px; }
+  .dim { display: flex; align-items: center; gap: 12px; font: 600 12px var(--f-mono); letter-spacing: .14em; color: var(--muted); margin-bottom: 10px; }
+  .dim::before, .dim::after { content: ""; height: 9px; flex: 1; border-left: 1px solid var(--muted); border-right: 1px solid var(--muted);
+    background: linear-gradient(var(--muted), var(--muted)) center / 100% 1px no-repeat; opacity: .55; }
+  .player { border: 1px solid var(--rule); border-radius: 14px; overflow: hidden; background: #000; aspect-ratio: 16 / 9; max-width: 100%;
+    box-shadow: 0 30px 90px -30px rgba(47, 200, 242, .28), 0 30px 90px -40px rgba(152, 120, 247, .35); }
+  .player video { width: 100%; height: 100%; }
+  .chapters { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; margin-top: 14px; padding: 0; list-style: none; }
+  .chapters button {
+    width: 100%; text-align: left; background: none; border: 1px solid transparent; border-radius: 8px; padding: 7px 10px; cursor: pointer;
+    color: var(--muted); font: 500 14px var(--f-body); display: flex; gap: 10px; align-items: baseline;
+  }
+  .chapters button span { font: 600 12px var(--f-mono); color: var(--cyan); font-variant-numeric: tabular-nums; }
+  .chapters button:hover, .chapters button.on { border-color: var(--rule); background: var(--sheet); color: var(--ink); }
+  .film-note { font-size: 14px; color: var(--muted); margin-top: 10px; }
+
+  section.block { padding-block: 72px 0; }
+  .block-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px 32px; margin-bottom: 30px; }
+  .block-head p { margin: 0; color: var(--muted); max-width: 56ch; }
+
+  /* requirements strip */
+  .needs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border: 1px solid var(--rule); border-radius: var(--radius); background: var(--sheet); margin-bottom: 26px; }
+  .needs div { padding: 16px 18px; border-left: 1px solid var(--rule); min-width: 0; }
+  .needs div:first-child { border-left: 0; }
+  .needs b { display: block; font: 700 17px var(--f-display); font-stretch: 105%; }
+  .needs span { font-size: 14px; color: var(--muted); }
+  @media (max-width: 760px) { .needs { grid-template-columns: 1fr 1fr; } .needs div:nth-child(3) { border-left: 0; } .needs div:nth-child(n+3) { border-top: 1px solid var(--rule); } }
+
+  /* install steps: a real sequence, so numbered */
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; display: grid; gap: 14px; }
+  .step { display: grid; grid-template-columns: 64px minmax(0, 1fr) minmax(0, 1.25fr); gap: 20px 28px; padding: 26px; background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--radius); }
+  .step .n { font: 900 40px/1 var(--f-display); font-stretch: 120%; background: var(--brand); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .step h3 { margin-bottom: 8px; }
+  .step p { margin: 0 0 8px; color: var(--muted); font-size: 16px; }
+  .step .warn { margin-top: 10px; font-size: 14.5px; color: var(--ink); border-left: 2px solid var(--warn); padding: 2px 0 2px 12px; }
+  .step .side { display: grid; gap: 10px; min-width: 0; align-content: start; }
+  .tabs { display: flex; gap: 6px; }
+  .tabs button { font: 600 13px var(--f-body); padding: 6px 12px; border-radius: 7px; border: 1px solid var(--rule); background: none; color: var(--muted); cursor: pointer; }
+  .tabs button[aria-selected="true"] { color: var(--ink); background: var(--sheet-2); border-color: var(--cyan); }
+  .ok-json .k { color: var(--cyan); } .ok-json .v { color: var(--ok); }
+  @media (max-width: 900px) { .step { grid-template-columns: 44px minmax(0, 1fr); } .step .side { grid-column: 1 / -1; } .step .n { font-size: 30px; } }
+
+  /* features */
+  .feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius); overflow: hidden; }
+  .feat { background: var(--sheet); padding: 24px 24px 22px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .feat .ask { font-size: 15.5px; color: var(--ink); margin: 0; }
+  .feat .ask::before { content: "“"; color: var(--cyan); }
+  .feat .ask::after { content: "”"; color: var(--cyan); }
+  .feat ul { margin: auto 0 0; padding: 12px 0 0; list-style: none; border-top: 1px dashed var(--rule); font: 500 12.5px/1.75 var(--f-mono); color: var(--muted); }
+  @media (max-width: 900px) { .feats { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .feats { grid-template-columns: 1fr; } }
+
+  /* profiles */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: var(--radius); background: var(--sheet); }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  th { font: 600 12px var(--f-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  td.num { font: 700 15px var(--f-mono); font-variant-numeric: tabular-nums; }
+  .bar { display: inline-block; height: 8px; border-radius: 4px; background: var(--brand); vertical-align: middle; margin-left: 10px; }
+
+  /* safety + help */
+  .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; }
+  @media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
+  .safe { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+  .safe li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 14px; }
+  .safe li svg { color: var(--ok); margin-top: 4px; }
+  .safe b { display: block; }
+  .safe span { color: var(--muted); font-size: 15.5px; }
+  details { border-bottom: 1px solid var(--rule); padding-block: 14px; }
+  details:first-of-type { border-top: 1px solid var(--rule); }
+  summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font: 700 18px var(--f-mono); color: var(--muted); }
+  details[open] summary::after { content: "−"; }
+  details p { margin: 10px 0 0; color: var(--muted); font-size: 15.5px; }
+
+  .manual-band { margin-top: 80px; padding: 36px; border: 1px solid var(--rule); border-radius: 14px; background: var(--sheet);
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px 36px; align-items: center; }
+  .manual-band p { margin: 8px 0 0; color: var(--muted); }
+  @media (max-width: 700px) { .manual-band { grid-template-columns: 1fr; padding: 24px; } }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="RVTSS home">
+      <svg width="28" height="28" viewBox="0 0 220 220" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fc8f2"/><stop offset="1" stop-color="#9878f7"/></linearGradient></defs><rect x="14" y="14" width="192" height="192" rx="40" fill="none" stroke="url(#lg)" stroke-width="18"/><path d="M58 162 L162 58" stroke="currentColor" stroke-width="16" stroke-linecap="round"/></svg>
+      RVTSS
+    </a>
+    <nav class="site-nav" aria-label="Main">
+      <a href="#tutorial">Tutorial</a>
+      <a href="#install">Install</a>
+      <a href="#features">Features</a>
+      <a class="keep" href="manual.html">Manual</a>
+      <a class="gh keep" href="https://github.com/souhaibsmadi42/RVTSS_MCP">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="tutorial">
+    <div class="wrap">
+      <div class="hero-top">
+        <div>
+          <div class="eyebrow">Revit MCP for Claude · v2.1</div>
+          <h1>Talk to your <span class="grad">Revit model.</span></h1>
+        </div>
+        <div>
+          <p class="lede">RVTSS lets Claude inspect, edit, document and check the Revit model you have open. You ask in plain language, and Claude runs the right tools inside Revit.</p>
+          <div class="ctas">
+            <a class="btn primary" href="#install">Install in 5 steps</a>
+            <a class="btn" href="manual.html">Read the manual</a>
+          </div>
+        </div>
+      </div>
+      <div class="facts"><span><b>77</b> tools</span><span><b>10</b> toolsets</span><span>Revit <b>2021–2027</b></span><span>pyRevit <b>4.8+</b></span><span><b>MIT</b> licence</span></div>
+
+      <div class="film">
+        <div class="dim">INSTALL &amp; USE TUTORIAL · 3:54</div>
+        <div class="player">
+          <video id="film" controls preload="metadata" playsinline poster="media/rvtss-tutorial-poster.jpg">
+            <source src="media/rvtss-tutorial.mp4" type="video/mp4">
+            <track kind="captions" src="media/rvtss-tutorial.vtt" srclang="en" label="English">
+            Your browser cannot play this video. <a href="media/rvtss-tutorial.mp4">Open the MP4</a>.
+          </video>
+        </div>
+        <ol class="chapters" id="chapters" aria-label="Chapters">
+          <li><button type="button" data-t="0"><span>0:00</span>Intro</button></li>
+          <li><button type="button" data-t="17.5"><span>0:17</span>What you need</button></li>
+          <li><button type="button" data-t="34.1"><span>0:34</span>How it works</button></li>
+          <li><button type="button" data-t="53.6"><span>0:53</span>1 · Install</button></li>
+          <li><button type="button" data-t="72.3"><span>1:12</span>2 · Routes</button></li>
+          <li><button type="button" data-t="91.1"><span>1:31</span>3 · Check</button></li>
+          <li><button type="button" data-t="108"><span>1:48</span>4 · Self-test</button></li>
+          <li><button type="button" data-t="123.3"><span>2:03</span>5 · Connect Claude</button></li>
+          <li><button type="button" data-t="143.1"><span>2:23</span>Toolsets</button></li>
+          <li><button type="button" data-t="161.1"><span>2:41</span>Using RVTSS</button></li>
+          <li><button type="button" data-t="177.9"><span>2:57</span>Features</button></li>
+          <li><button type="button" data-t="203.6"><span>3:23</span>Safety</button></li>
+          <li><button type="button" data-t="221"><span>3:41</span>You're ready</button></li>
+        </ol>
+        <p class="film-note">Narration and music made with ElevenLabs. English captions are available in the player (CC).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="install">
+    <div class="wrap">
+      <div class="block-head">
+        <div><div class="eyebrow">Installation</div><h2>Install in five steps</h2></div>
+        <p>About ten minutes on a Windows PC with Revit. Every command below has a copy button.</p>
+      </div>
+
+      <div class="needs" aria-label="Requirements">
+        <div><b>Autodesk Revit</b><span>2021 – 2027</span></div>
+        <div><b>pyRevit</b><span>4.8+ or 5.x, with Routes</span></div>
+        <div><b>Python 3.11+ &amp; uv</b><span><a href="https://docs.astral.sh/uv/getting-started/installation/">install uv</a></span></div>
+        <div><b>Claude</b><span>Desktop or Claude Code</span></div>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <div class="n">1</div>
+          <div>
+            <h3>Install the extension</h3>
+            <p>In PowerShell, clone RVTSS into your pyRevit extensions folder. The folder name must end in <code>.extension</code>.</p>
+            <p class="warn">Keep only one copy. Remove or disable any older Revit MCP extension (for example <code>revit-mcp-python.extension</code>) first, or the two will conflict.</p>
+          </div>
+          <div class="side">
+            <div class="code"><span class="lang">PowerShell</span><pre>cd "$env:APPDATA\pyRevit\Extensions"
+git clone https://github.com/souhaibsmadi42/RVTSS_MCP RVTSS.extension</pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="n">2</div>
+          <div>
+            <h3>Turn on pyRevit Routes</h3>
+            <p>In Revit: <b>pyRevit</b> tab → <b>Settings</b> → <b>Routes</b>. Enable <b>Routes Server</b>, set the host to <code>127.0.0.1</code>, keep port <code>48884</code>, then <b>Save Settings and Reload</b>.</p>
+            <p>A new <b>RVTSS</b> tab appears in the ribbon.</p>
+          </div>
+          <div class="side">
+            <div class="code"><span class="lang">Routes settings</span><pre>Routes Server   ON
+Host            127.0.0.1
+Port            48884</pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="n">3</div>
+          <div>
+            <h3>Check the server</h3>
+            <p>Open the status page in a browser while Revit is running. You should see <code>"health": "healthy"</code> and the RVTSS version.</p>
+            <p>If it says <code>Route does not exits</code>, enable the extension in pyRevit → Extensions → RVTSS, then restart Revit.</p>
+          </div>
+          <div class="side">
+            <div class="code"><span class="lang">Browser</span><pre>http://127.0.0.1:48884/revit_mcp/status/</pre></div>
+            <div class="code ok-json"><span class="lang">Expected</span><pre>{ <span class="k">"status"</span>: <span class="v">"active"</span>, <span class="k">"health"</span>: <span class="v">"healthy"</span>,
+  <span class="k">"rvtss_version"</span>: <span class="v">"2.1.0"</span>, <span class="k">"api_name"</span>: <span class="v">"revit_mcp"</span> }</pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="n">4</div>
+          <div>
+            <h3>Run the self-test</h3>
+            <p>On the <b>RVTSS</b> tab click <b>Diagnostics → Run Self-Test</b>. It works on a copy of the bundled test model and opens a pass/fail report. Your own files are never touched.</p>
+          </div>
+          <div class="side">
+            <div class="code"><span class="lang">Report written to</span><pre>%TEMP%\RVTSS_live\rvtss_live_report.md</pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <div class="n">5</div>
+          <div>
+            <h3>Connect Claude</h3>
+            <p>Install the dependencies with <code>uv sync</code>. Then register the MCP server in Claude Desktop (Settings → Developer → Edit Config) or with one Claude Code command.</p>
+            <p>Restart Claude. The RVTSS tools appear, and you can ask: <i>“Call get_session_info and tell me which model is open.”</i></p>
+          </div>
+          <div class="side">
+            <div class="code"><span class="lang">PowerShell</span><pre>cd "$env:APPDATA\pyRevit\Extensions\RVTSS.extension"
+uv sync</pre></div>
+            <div class="tabs" role="tablist" aria-label="Claude client">
+              <button type="button" role="tab" id="tab-desktop" aria-selected="true" aria-controls="pane-desktop">Claude Desktop</button>
+              <button type="button" role="tab" id="tab-code" aria-selected="false" aria-controls="pane-code">Claude Code</button>
+            </div>
+            <div class="code" id="pane-desktop" role="tabpanel" aria-labelledby="tab-desktop"><span class="lang">claude_desktop_config.json · replace &lt;you&gt;</span><pre>{
+  "mcpServers": {
+    "RVTSS Revit": {
+      "command": "uv",
+      "args": [
+        "run", "--project", "C:\\Users\\&lt;you&gt;\\AppData\\Roaming\\pyRevit\\Extensions\\RVTSS.extension",
+        "python", "C:\\Users\\&lt;you&gt;\\AppData\\Roaming\\pyRevit\\Extensions\\RVTSS.extension\\main.py"
+      ],
+      "env": { "RVTSS_TOOLSETS": "bim_coordinator" }
+    }
+  }
+}</pre></div>
+            <div class="code" id="pane-code" role="tabpanel" aria-labelledby="tab-code" hidden><span class="lang">PowerShell</span><pre>claude mcp add -s user RVTSS -- uv run --project "$env:APPDATA\pyRevit\Extensions\RVTSS.extension" python "$env:APPDATA\pyRevit\Extensions\RVTSS.extension\main.py"</pre></div>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="block-head">
+        <div><div class="eyebrow">Features</div><h2>What you can ask</h2></div>
+        <p>Six areas, 77 tools. Each card shows a request you can type and the tools Claude uses for it.</p>
+      </div>
+      <div class="feats">
+        <article class="feat">
+          <h3>Model intelligence</h3>
+          <p class="ask">Find all doors on Level 2 wider than 900 mm.</p>
+          <ul><li>find_elements</li><li>get_project_overview</li><li>get_schedule_data</li><li>get_model_warnings</li></ul>
+        </article>
+        <article class="feat">
+          <h3>Element editing</h3>
+          <p class="ask">Renumber the selected doors left to right as D01, D02… Dry run first.</p>
+          <ul><li>bulk_update_parameter</li><li>set_parameters</li><li>transform_elements</li><li>create_elements</li></ul>
+        </article>
+        <article class="feat">
+          <h3>Families (.rfa)</h3>
+          <p class="ask">Create a parametric door family with three sizes, flex-test it and load it.</p>
+          <ul><li>family_create</li><li>family_add_parameters</li><li>family_flex_test</li><li>family_load_into_project</li></ul>
+        </article>
+        <article class="feat">
+          <h3>Parameters</h3>
+          <p class="ask">Add the shared parameter “Asset Code” to Mechanical Equipment and export it to Excel.</p>
+          <ul><li>shared_parameters</li><li>global_parameters</li><li>audit_parameters</li><li>export_to_excel</li></ul>
+        </article>
+        <article class="feat">
+          <h3>Documentation</h3>
+          <p class="ask">Create sheet A-101 and place the Level 1 floor plan on it.</p>
+          <ul><li>create_view</li><li>manage_sheets</li><li>create_schedule</li><li>batch_rename</li></ul>
+        </article>
+        <article class="feat">
+          <h3>Coordination &amp; QC</h3>
+          <p class="ask">Check ducts against structural framing with 50 mm clearance and export an HTML report.</p>
+          <ul><li>check_clashes</li><li>export_clash_report</li><li>run_model_checks · ISO 19650</li><li>compare_models</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="profiles">
+    <div class="wrap">
+      <div class="block-head">
+        <div><div class="eyebrow">Toolsets</div><h2>Load only what you need</h2></div>
+        <p>Every tool costs context on every turn. Set <code>RVTSS_TOOLSETS</code> in the server's <code>env</code> to a profile.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Profile</th><th>Toolsets</th><th>Tools</th></tr></thead>
+          <tbody>
+            <tr><td><code>all</code> (default)</td><td>everything</td><td class="num">77<span class="bar" style="width:154px"></span></td></tr>
+            <tr><td><code>bim_coordinator</code></td><td>core, model, parameters, documentation, qc</td><td class="num">37<span class="bar" style="width:74px"></span></td></tr>
+            <tr><td><code>family_author</code></td><td>core, families, parameters</td><td class="num">33<span class="bar" style="width:66px"></span></td></tr>
+            <tr><td><code>modeler</code></td><td>core, model, edit, documentation</td><td class="num">30<span class="bar" style="width:60px"></span></td></tr>
+            <tr><td><code>minimal</code></td><td>core, model</td><td class="num">14<span class="bar" style="width:28px"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="safety">
+    <div class="wrap two">
+      <div>
+        <div class="eyebrow">Safety model</div>
+        <h2 style="margin-bottom:26px">Built to be safe</h2>
+        <ul class="safe">
+          <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><div><b>Transactions</b><span>Every change is named and can be undone in Revit. Errors roll back.</span></div></li>
+          <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><div><b>Dry runs</b><span>Revit validates the whole change, then rolls it back.</span></div></li>
+          <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><div><b>Confirmation</b><span>Deletions, imports, renames and edits over 100 elements show a preview first.</span></div></li>
+          <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><div><b>Units required</b><span>“900 mm”, never a bare 900. No feet/millimetre mix-ups.</span></div></li>
+          <li><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><div><b>Lock it down</b><span>Bind Routes to 127.0.0.1, add an <code>RVTSS_TOKEN</code>, or disable code execution.</span></div></li>
+        </ul>
+      </div>
+      <div>
+        <div class="eyebrow">Troubleshooting</div>
+        <h2 style="margin-bottom:26px">If something's off</h2>
+        <details><summary>“Route does not exits” or no RVTSS tab</summary><p>The extension is disabled. In Revit: pyRevit → Extensions → RVTSS → Enable, then restart Revit. Check that the folder name ends in <code>.extension</code>.</p></details>
+        <details><summary>Claude doesn't show the RVTSS tools</summary><p>Fully quit Claude Desktop and start it again. If <code>uv</code> isn't found, put its full path in <code>"command"</code>, for example <code>C:\\Users\\&lt;you&gt;\\.local\\bin\\uv.exe</code>. Check both paths in <code>args</code>.</p></details>
+        <details><summary>“Revit is busy”</summary><p>Close any open dialog in Revit and finish edit modes (sketch, group or family edit), then ask again. For very large models, raise <code>RVTSS_TIMEOUT</code>.</p></details>
+        <details><summary>Revit runs in a VM</summary><p>Set <code>REVIT_HOST</code> to the VM's address and <code>RVTSS_ALLOW_REMOTE=1</code> in the server's <code>env</code>. Add an <code>RVTSS_TOKEN</code> too.</p></details>
+        <p style="margin-top:18px;font-size:15px;color:var(--muted)">More answers in the <a href="manual.html#12-troubleshooting">manual's troubleshooting section</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="manual-band">
+      <div>
+        <div class="eyebrow">User manual</div>
+        <h2 style="font-size:30px;margin-top:6px">Everything in one place</h2>
+        <p>Installation, every tool, prompts, configuration, security and troubleshooting.</p>
+      </div>
+      <a class="btn primary" href="manual.html">Open the manual</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <span>RVTSS · Revit MCP for Claude · by Suhaib Al Smadi · MIT licence</span>
+    <span><a href="https://github.com/souhaibsmadi42/RVTSS_MCP">GitHub</a> · <a href="manual.html">Manual</a> · <a href="https://github.com/souhaibsmadi42/RVTSS_MCP/blob/main/docs/TOOLS.md">Tool reference</a></span>
+  </div>
+</footer>
+
+<script>
+  // copy buttons on every code block
+  document.querySelectorAll('.code').forEach(function (box) {
+    var btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'copy'; btn.textContent = 'Copy';
+    btn.addEventListener('click', function () {
+      var pre = box.querySelector('pre'), text = pre.innerText;
+      var done = function () { btn.textContent = 'Copied'; btn.classList.add('done'); setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1600); };
+      var fallback = function () { var r = document.createRange(); r.selectNodeContents(pre); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Press Ctrl+C'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+    });
+    box.appendChild(btn);
+  });
+  // client tabs
+  var tabs = document.querySelectorAll('[role="tab"]');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { var on = t === tab; t.setAttribute('aria-selected', on); document.getElementById(t.getAttribute('aria-controls')).hidden = !on; });
+    });
+  });
+  // chapter buttons seek the film; highlight the current chapter
+  var film = document.getElementById('film');
+  var chapterBtns = Array.prototype.slice.call(document.querySelectorAll('#chapters button'));
+  chapterBtns.forEach(function (b) {
+    b.addEventListener('click', function () { film.currentTime = parseFloat(b.dataset.t); film.play().catch(function () {}); });
+  });
+  film.addEventListener('timeupdate', function () {
+    var cur = 0;
+    chapterBtns.forEach(function (b, i) { if (film.currentTime >= parseFloat(b.dataset.t) - .05) cur = i; });
+    chapterBtns.forEach(function (b, i) { b.classList.toggle('on', i === cur && film.currentTime > 0); });
+  });
+</script>
+</body>
+</html>

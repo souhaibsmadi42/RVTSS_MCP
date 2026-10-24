@@ -1,0 +1,67 @@
+[
+ {
+  "id": "s01",
+  "title": "Intro",
+  "vo": "Meet RVTSS — the Revit MCP for Claude. It connects Claude directly to your live Revit model, so you can inspect, edit, and check your projects… just by asking. In the next few minutes, you'll install it, connect it, and run your first commands."
+ },
+ {
+  "id": "s02",
+  "title": "What you need",
+  "vo": "Before we start, you need four things. Autodesk Revit, version 2021 or newer. pyRevit, version 4.8 or newer. Python 3.11, with the uv package manager. And Claude — either Claude Desktop, or Claude Code."
+ },
+ {
+  "id": "s03",
+  "title": "How it works",
+  "vo": "Here's how it works. Claude talks to the RVTSS MCP server on your computer. The server sends requests to pyRevit Routes — a small web service running inside Revit, on port 48884. And Routes runs every command through the Revit API, safely, inside a transaction."
+ },
+ {
+  "id": "s04",
+  "title": "Step 1 · Install",
+  "vo": "Step one: install the extension. Open PowerShell, go to your pyRevit extensions folder, and clone the repository as RVTSS dot extension. Keep only ONE copy — if an older Revit MCP extension is installed, remove it first, or the two will conflict."
+ },
+ {
+  "id": "s05",
+  "title": "Step 2 · Routes",
+  "vo": "Step two: turn on Routes. In Revit, open the pyRevit tab, then Settings, then Routes. Enable the Routes Server, set the host to 127.0.0.1, save, and reload pyRevit. A new RVTSS tab appears in the ribbon."
+ },
+ {
+  "id": "s06",
+  "title": "Step 3 · Check",
+  "vo": "Step three: check the server. Open the status page shown on screen. You should see health: healthy, and the RVTSS version. If it says the route does not exist, enable the extension in pyRevit's extension manager, and restart Revit."
+ },
+ {
+  "id": "s07",
+  "title": "Step 4 · Self-test",
+  "vo": "Step four: run the self-test. On the RVTSS tab, click Diagnostics, then Run Self-Test. It works on a copy of the bundled test model — your own files are never touched — and opens a pass or fail report."
+ },
+ {
+  "id": "s08",
+  "title": "Step 5 · Connect Claude",
+  "vo": "Step five: connect Claude. In the extension folder, run uv sync. Then, in Claude Desktop, open Settings, Developer, Edit Config, and add the RVTSS server. Using Claude Code? One command does it. Restart Claude, and the RVTSS tools appear."
+ },
+ {
+  "id": "s09",
+  "title": "Toolsets",
+  "vo": "RVTSS has 77 tools in 10 toolsets. Every tool costs context, so load only what you need with the RVTSS TOOLSETS setting. Pick a profile: BIM coordinator, family author, modeler, or minimal… or keep the default, all."
+ },
+ {
+  "id": "s10",
+  "title": "Using it",
+  "vo": "Now, just talk to Claude. Give me an overview of this project. Find all doors on Level 2 wider than 900 millimetres. Check clashes between ducts and structural framing, and export a report. Claude picks the right tools, runs them in Revit, and reports back."
+ },
+ {
+  "id": "s11",
+  "title": "Features",
+  "vo": "Here's what's inside. Model intelligence, to find anything in your model. Element editing, with bulk updates. Full family creation. Shared, project, and global parameters. Documentation automation for views, sheets, and schedules. And coordination and QC: clash detection, ISO 19650 naming checks, and Excel and IFC exports."
+ },
+ {
+  "id": "s12",
+  "title": "Safety",
+  "vo": "And it's built to be safe. Every change runs in a named transaction you can undo. Dry runs let Revit validate a change, then roll it back. Large or destructive edits need your confirmation. Dimensions always need units. And you can lock it all down with a token."
+ },
+ {
+  "id": "s13",
+  "title": "Outro",
+  "vo": "That's it — you're ready. The full user manual and every link are on the RVTSS website. Install it, connect Claude… and start talking to your models."
+ }
+]

@@ -13,3 +13,7 @@ wheels/
 .env
 CLAUDE.md
 .mcp.json
+
+# tutorial render scratch
+media/tutorial-src/build/
+_site/

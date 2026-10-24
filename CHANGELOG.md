@@ -4,6 +4,16 @@ All notable changes to RVTSS. Details, verification status and design notes: [do
 
 ## Unreleased
 
+### Added
+* **Install & use tutorial** (`media/rvtss-tutorial.mp4`, 3:54, 1080p): a narrated motion-graphics walkthrough of
+  installation, connecting Claude, toolsets, usage, features and the safety model. Voiceover and music were made
+  with ElevenLabs. English captions are in `media/tutorial-src/captions.vtt`, and the render source is in
+  `media/tutorial-src/`.
+* **User manual** (`docs/USER_MANUAL.md`): installation step by step, usage examples, every tool by area,
+  prompts and resources, safety, security, configuration, troubleshooting, and updating.
+* **Website** (`website/`): a landing page with the tutorial (chapters, captions), install steps with copy
+  buttons, and the manual as HTML. It is deployed to GitHub Pages by `.github/workflows/pages.yml`.
+
 ### Fixed
 * `extension.json` now sets `default_enabled` to `True` and `builtin` to `False`. Recent pyRevit versions read
   this file and disabled a freshly cloned RVTSS, so no `revit_mcp` routes were registered and
