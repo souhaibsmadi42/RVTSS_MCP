@@ -3,10 +3,14 @@
     python website/build_site.py                 # regenerate website/manual.html from docs/USER_MANUAL.md
     python website/build_site.py --dist _site    # also assemble a deployable site (pages + media) in _site/
 
-Needs the `markdown` package (pip install markdown).
+Needs the `markdown` package (pip install markdown) to regenerate manual.html; without it the committed
+manual.html is used as is.
 """
 import argparse, html, os, re, shutil
-import markdown
+try:
+    import markdown
+except ImportError:
+    markdown = None
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WEB = os.path.join(ROOT, 'website')
@@ -71,6 +75,9 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('--dist', help='assemble a deployable site in this folder')
     a = ap.parse_args()
-    build_manual()
+    if markdown:
+        build_manual()
+    else:
+        print('markdown not installed: keeping the committed website/manual.html')
     if a.dist:
         build_dist(a.dist)
