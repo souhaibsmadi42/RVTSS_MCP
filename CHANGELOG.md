@@ -2,6 +2,13 @@
 
 All notable changes to RVTSS. Details, verification status and design notes: [docs/UPGRADE_REPORT.md](docs/UPGRADE_REPORT.md).
 
+## Unreleased
+
+### Fixed
+* `extension.json` now sets `default_enabled` to `True` and `builtin` to `False`. Recent pyRevit versions read
+  this file and disabled a freshly cloned RVTSS, so no `revit_mcp` routes were registered and
+  `/revit_mcp/status/` answered `Route does not exits`.
+
 ## 2.1.0 – 2026-10-22
 
 ### Added
