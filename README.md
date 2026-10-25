@@ -19,6 +19,7 @@ and keeps its API name (`revit_mcp`), port (48884), installation method and all 
 | What changed, verification status | [CHANGELOG.md](CHANGELOG.md) · [docs/UPGRADE_REPORT.md](docs/UPGRADE_REPORT.md) |
 | Original upstream documentation | [docs/UPSTREAM.md](docs/UPSTREAM.md) |
 | 40 s promo film | [media/rvtss-promo-40s.mp4](media/rvtss-promo-40s.mp4) |
+| 40 s vertical reel (9:16, for Reels / TikTok / Shorts) | [media/rvtss-reel-40s-9x16.mp4](media/rvtss-reel-40s-9x16.mp4) · [source](media/reel-src/README.md) |
 
 [![RVTSS promo (40 s) - click for the MP4 with sound](media/rvtss-promo-preview.gif)](media/rvtss-promo-40s.mp4)
 

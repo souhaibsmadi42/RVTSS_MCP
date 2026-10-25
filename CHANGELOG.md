@@ -4,6 +4,11 @@ All notable changes to RVTSS. Details, verification status and design notes: [do
 
 ## Unreleased
 
+### Added
+* A 40 s vertical reel (`media/rvtss-reel-40s-9x16.mp4`, 1080×1920, 60 fps) and its source in `media/reel-src/`.
+  The key art was generated with GPT Image 2.5. The type, motion, effects and the original soundtrack are rendered
+  from code.
+
 ### Fixed
 * `extension.json` now sets `default_enabled` to `True` and `builtin` to `False`. Recent pyRevit versions read
   this file and disabled a freshly cloned RVTSS, so no `revit_mcp` routes were registered and
