@@ -15,11 +15,13 @@ import os
 import sys
 
 TOOLSETS = {
-    "core": ["get_revit_status", "get_session_info", "find_elements", "get_element_details", "revit_selection"],
+    "core": ["get_revit_status", "get_session_info", "rvtss_health", "find_elements", "get_element_details",
+             "revit_selection"],
     "model": ["get_revit_model_info", "get_project_overview", "get_family_inventory", "find_views", "list_sheets",
-              "get_schedule_data", "list_links", "get_model_warnings", "get_revit_view"],
+              "get_schedule_data", "list_links", "get_model_warnings", "get_revit_view", "survey_change_impact",
+              "get_coordinates"],
     "edit": ["set_parameters", "bulk_update_parameter", "transform_elements", "delete_elements", "create_elements",
-             "manage_element_types"],
+             "manage_element_types", "batch_execute"],
     "families": ["family_list_templates", "family_create", "family_open", "family_get_info", "family_set_properties",
                  "family_add_parameters", "family_edit_parameters", "family_manage_types",
                  "family_create_reference_planes", "family_create_form", "family_add_dimension",
@@ -30,8 +32,16 @@ TOOLSETS = {
                    "export_parameters", "import_parameters", "map_parameters", "export_to_excel"],
     "documentation": ["create_view", "view_graphics", "manage_sheets", "create_schedule", "batch_rename",
                       "manage_groups", "manage_assemblies", "color_splash", "clear_colors",
-                      "list_category_parameters"],
-    "qc": ["run_model_checks", "check_clashes", "model_snapshot", "compare_models", "export_clash_report"],
+                      "list_category_parameters", "manage_view_filters", "manage_revisions"],
+    "qc": ["run_model_checks", "check_clashes", "model_snapshot", "compare_models", "export_clash_report",
+           "spatial_query"],
+    # v2.2 toolsets
+    "rooms": ["list_rooms", "get_room_details"],
+    "materials": ["list_materials", "material_takeoff", "manage_materials"],
+    "annotation": ["find_untagged_elements", "tag_elements", "create_text_notes"],
+    "export": ["list_export_settings", "export_documents"],
+    "mep": ["list_mep_systems", "get_mep_connectors", "find_mep_disconnects"],
+    "admin": ["manage_worksets", "purge_unused"],
     "launch": ["list_revit_installations", "launch_revit", "open_document", "close_document", "save_document",
                "sync_with_central"],
     "code": ["execute_revit_code"],
@@ -60,11 +70,18 @@ PROFILES = {
     "family_author": ["core", "families", "parameters"],
     "modeler": ["core", "model", "edit", "documentation"],
     "minimal": ["core", "model"],
+    # v2.2 profiles
+    "architect": ["core", "model", "edit", "documentation", "rooms", "materials", "annotation"],
+    "mep_coordinator": ["core", "model", "edit", "qc", "mep"],
+    "publisher": ["core", "model", "documentation", "annotation", "export"],
+    "auditor": ["core", "model", "qc", "rooms", "materials", "mep"],
 }
 
 TOOL_TO_SET = dict((tool, name) for name, tools in TOOLSETS.items() for tool in tools)
 # full docstrings of registered tools, served as rvtss://docs/tools/{name}
 TOOL_DOCS = {}
+# registered tool name -> True when annotated read-only (README allow list, read-only mode)
+TOOL_READ_ONLY = {}
 
 
 def enabled_toolsets(value=None):
@@ -101,12 +118,16 @@ def _supports(fn, name):
 class ToolsetServer(object):
     """Wraps the MCP server; tool modules register through it unchanged."""
 
-    def __init__(self, server, toolsets=None, structured=None):
+    def __init__(self, server, toolsets=None, structured=None, read_only=None):
+        from .guards import read_only_enabled
+
         self._server = server
         self.toolsets = enabled_toolsets() if toolsets is None else set(toolsets)
         self.structured = set(structured or ())
+        self.read_only = read_only_enabled() if read_only is None else bool(read_only)
         self.registered = []
         self.skipped = []
+        self.skipped_read_only = []
         self._can_unstructure = _supports(server.tool, "structured_output")
 
     def tool(self, *args, **kwargs):
@@ -116,6 +137,14 @@ class ToolsetServer(object):
             if toolset not in self.toolsets:
                 self.skipped.append(name)
                 return func
+            from .guards import is_read_only_annotation
+
+            read_only_tool = is_read_only_annotation(kwargs.get("annotations"))
+            if self.read_only and not read_only_tool:
+                # RVTSS_READ_ONLY: tools that change the model or write files are not even listed
+                self.skipped_read_only.append(name)
+                return func
+            TOOL_READ_ONLY[name] = read_only_tool
             doc = inspect.getdoc(func) or ""
             TOOL_DOCS[name] = doc
             kw = dict(kwargs)

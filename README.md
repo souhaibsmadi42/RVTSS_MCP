@@ -4,13 +4,30 @@
 pyRevit:
 * it creates and edits real family documents (`.rfa`);
 * it manages instance, type, family, shared, project and global parameters;
-* it automates documentation;
-* it runs BIM coordination and quality-control checks: clearance clashes, ISO 19650 naming, view audits,
-  family library audits, and Excel and IFC/COBie exports.
+* it automates documentation: views, view filters, sheets, revisions, schedules, tags and text;
+* it works with rooms, spaces, areas and materials (finish areas, quantity take-offs);
+* it exports PDF, DWG, DXF, IFC, NWC and schedule CSV;
+* it runs BIM coordination and quality-control checks: clearance clashes, MEP disconnects, ISO 19650 naming,
+  view audits, family library audits, change-impact surveys, and Excel and IFC/COBie exports.
 
 It is an upgrade of [mcp-server-for-revit-python](https://github.com/mcp-servers-for-revit/mcp-server-for-revit-python)
 and keeps its API name (`revit_mcp`), port (48884), installation method and all 20 original tools.
-**v2.1.0** has 77 tools in 10 toolsets, plus MCP resources and prompts.
+**v2.2.0** has 99 tools in 16 toolsets, plus MCP resources and 12 prompts.
+
+### New in 2.2
+
+* **22 new tools:** rooms/spaces/areas, materials and take-offs, tagging and untagged checks, text notes,
+  PDF/DWG/DXF/IFC/NWC/CSV export, MEP systems and open connectors, worksets, purge, rule-based view filters,
+  revisions, coordinates, spatial queries and a change-impact survey.
+* **`batch_execute`:** up to 20 edits as **one Revit undo step**: all succeed or everything is rolled back.
+* **Safety:** a **read-only mode** (`RVTSS_READ_ONLY`, MCP side and Revit side), unknown arguments refused
+  with *did you mean* (a misspelled `dryrun` can no longer run a change for real), a response-size guard, and
+  `rvtss_health` for one-call diagnosis.
+* **Prompts:** `getting_started`, `safe_change`, `room_documentation`, `issue_sheets`,
+  `mep_connectivity_review`.
+
+Several 2.2 ideas come from [bimwright/rvt-mcp](https://github.com/bimwright/rvt-mcp) (Apache-2.0), a C#
+Revit MCP. RVTSS re-implements them for pyRevit; no code was copied. See [NOTICE](NOTICE).
 
 | | |
 |---|---|
@@ -22,6 +39,7 @@ and keeps its API name (`revit_mcp`), port (48884), installation method and all 
 | Coordination features with examples | [docs/COORDINATION.md](docs/COORDINATION.md) |
 | What changed, verification status | [CHANGELOG.md](CHANGELOG.md) · [docs/UPGRADE_REPORT.md](docs/UPGRADE_REPORT.md) |
 | Original upstream documentation | [docs/UPSTREAM.md](docs/UPSTREAM.md) |
+| Agent-assisted install · security · contributing | [AGENTS.md](AGENTS.md) · [SECURITY.md](SECURITY.md) · [CONTRIBUTING.md](CONTRIBUTING.md) |
 | 40 s promo film | [media/rvtss-promo-40s.mp4](media/rvtss-promo-40s.mp4) |
 
 [![RVTSS install & use tutorial (3:54) - click to watch](media/rvtss-tutorial-poster.jpg)](media/rvtss-tutorial.mp4)
@@ -39,7 +57,8 @@ Promo film: [40 s MP4](media/rvtss-promo-40s.mp4).
 2. **Turn on Routes.** In pyRevit Settings → Routes, enable **Routes Server**, set the host to
    `127.0.0.1`, then reload pyRevit.
 3. **Check the server.** Open `http://127.0.0.1:48884/revit_mcp/status/`. It should show `"health":
-   "healthy"` and `"rvtss_version": "2.1.0"`.
+   "healthy"` and `"rvtss_version": "2.2.0"`. Once Claude is connected, `rvtss_health` checks the whole chain
+   and names the next step when something is wrong.
 4. **Run the self-test.** On the RVTSS tab, click **Diagnostics → Run Self-Test**. It works on a copy of
    the bundled test model and opens a pass/fail report.
 5. **Connect Claude.** Claude Desktop → Settings → Developer → Edit Config:
@@ -109,26 +128,38 @@ loaded.
 
 | Profile | Toolsets | Tools |
 |---|---|---|
-| `all` (default) | everything | 77 |
-| `bim_coordinator` | core, model, parameters, documentation, qc | 37 |
-| `family_author` | core, families, parameters | 33 |
-| `modeler` | core, model, edit, documentation | 30 |
-| `minimal` | core, model | 14 |
+| `all` (default) | everything | 99 |
+| `bim_coordinator` | core, model, parameters, documentation, qc | 43 |
+| `family_author` | core, families, parameters | 34 |
+| `modeler` | core, model, edit, documentation | 36 |
+| `minimal` | core, model | 17 |
+| `architect` (new) | core, model, edit, documentation, rooms, materials, annotation | 44 |
+| `mep_coordinator` (new) | core, model, edit, qc, mep | 33 |
+| `publisher` (new) | core, model, documentation, annotation, export | 34 |
+| `auditor` (new) | core, model, qc, rooms, materials, mep | 31 |
 
 **Toolsets:**
-* `core`: status, session, `find_elements`, element details, selection
-* `model`: overview, families, views, sheets, schedules, links, warnings, view image
-* `edit`: set and bulk parameters, transform, delete, create, types
+* `core`: status, health, session, `find_elements`, element details, selection
+* `model`: overview, families, views, sheets, schedules, links, warnings, view image, change-impact survey,
+  coordinates
+* `edit`: set and bulk parameters, transform, delete, create, types, `batch_execute`
 * `families`: the full `.rfa` workflow and the library audit
 * `parameters`: shared, project and global parameters, audit, CSV/Excel export, mapping presets
-* `documentation`: views, sheets, schedules, renames, groups, colours
-* `qc`: model checks, clashes, clash report, snapshots
+* `documentation`: views, view filters, sheets, revisions, schedules, renames, groups, colours
+* `qc`: model checks, clashes, clash report, spatial queries, snapshots
+* `rooms`: rooms, spaces and areas with status, boundaries, doors/windows and finish areas
+* `materials`: material list, quantity take-off, create/edit/assign
+* `annotation`: untagged-element check, tagging, text notes
+* `export`: PDF, DWG, DXF, IFC, NWC and schedule CSV
+* `mep`: systems, connectors, open connectors
+* `admin`: worksets, purge unused
 * `launch`: start Revit, open, save and sync documents
 * `code`: `execute_revit_code`
 * `legacy`: seven original tools superseded by newer ones, kept as deprecated aliases for one release
 
-In the default profile the tool list is about 71k characters. That is **40 % less** than v2.0, even with
-three more tools. With `bim_coordinator` it is roughly a third of v2.0.
+In the default profile the tool list is about 95k characters for 99 tools: **20 % less than v2.0's 74
+tools**, and the same size per tool as v2.1. With `bim_coordinator` it is about a third of v2.0. Clients with
+tool search (Claude Code) load tools on demand, so the full set costs little there.
 
 Long tool documentation is not sent on every turn; it lives in the MCP resource
 `rvtss://docs/tools/{name}`.
@@ -142,6 +173,9 @@ Long tool documentation is not sent on every turn; it lives in the MCP resource
 * `rvtss://docs/toolsets`
 
 **Prompts:**
+* `getting_started` (new): orient in the open model, read-only
+* `safe_change` (new): survey impact, agree the scope, dry run, one undo step, read back
+* `room_documentation` (new), `issue_sheets` (new), `mep_connectivity_review` (new)
 * `model_health_check`
 * `create_parametric_family`
 * `shared_parameter_rollout`
@@ -160,6 +194,77 @@ pyRevit Routes has no authentication of its own: anything that can reach port 48
 | `RVTSS_TOKEN` | Revit environment **and** MCP server environment (or `"token"` in `%APPDATA%\RVTSS\config.json`) | Every route except `/status/` and `/ping/` requires the same token. pyRevit does not pass HTTP headers to handlers, so the token travels in the JSON body or query string. Off by default. |
 | `RVTSS_ALLOW_CODE_EXECUTION=0` | Revit environment / config | Disables `execute_revit_code`. It is allowed by default for backward compatibility. Every call is logged with its full code (redacted) in `%APPDATA%\RVTSS\logs\code-*.log`. `transaction_mode="read_only"` refuses code that opens a transaction. |
 | `RVTSS_ALLOW_REMOTE=1` | MCP server environment | Needed when `REVIT_HOST` is not loopback (Revit in a VM). Without it the MCP server refuses to send commands to a remote host. |
+| `RVTSS_READ_ONLY=1` | MCP server environment | **Read-only mode** (new in 2.2): only tools annotated read-only are registered, so tools that change the model, save documents or make Revit write files (exports) are not even listed. Report tools that only write report files on the MCP machine (`export_clash_report`, `export_to_excel`) stay available. |
+| `RVTSS_READ_ONLY=1` | Revit environment (or `"read_only": true` in config.json) | Defence in depth: Revit refuses every model change, save, sync, family save and export, with HTTP 403. Dry runs and previews still work; `execute_revit_code` only accepts `read_only` / `dry_run`. |
+
+### Claude Code permissions
+
+Allow the read-only tools without prompts and keep the confirmation for everything else. Do not allow the
+broad `mcp__RVTSS__*` wildcard. The list is generated from the tool annotations (rename the `RVTSS` prefix if
+you registered the server under another name):
+
+<details>
+<summary>Read-only allow list</summary>
+
+<!-- BEGIN READ_ONLY_ALLOWLIST -->
+```json
+{
+  "permissions": {
+    "allow": [
+      "mcp__RVTSS__audit_family_library",
+      "mcp__RVTSS__audit_parameters",
+      "mcp__RVTSS__check_clashes",
+      "mcp__RVTSS__compare_models",
+      "mcp__RVTSS__export_clash_report",
+      "mcp__RVTSS__export_parameters",
+      "mcp__RVTSS__export_to_excel",
+      "mcp__RVTSS__family_flex_test",
+      "mcp__RVTSS__family_get_info",
+      "mcp__RVTSS__family_list_templates",
+      "mcp__RVTSS__family_validate",
+      "mcp__RVTSS__find_elements",
+      "mcp__RVTSS__find_mep_disconnects",
+      "mcp__RVTSS__find_untagged_elements",
+      "mcp__RVTSS__find_views",
+      "mcp__RVTSS__get_coordinates",
+      "mcp__RVTSS__get_current_view_elements",
+      "mcp__RVTSS__get_current_view_info",
+      "mcp__RVTSS__get_element_details",
+      "mcp__RVTSS__get_family_inventory",
+      "mcp__RVTSS__get_mep_connectors",
+      "mcp__RVTSS__get_model_warnings",
+      "mcp__RVTSS__get_project_overview",
+      "mcp__RVTSS__get_revit_model_info",
+      "mcp__RVTSS__get_revit_status",
+      "mcp__RVTSS__get_revit_view",
+      "mcp__RVTSS__get_room_details",
+      "mcp__RVTSS__get_schedule_data",
+      "mcp__RVTSS__get_session_info",
+      "mcp__RVTSS__list_category_parameters",
+      "mcp__RVTSS__list_export_settings",
+      "mcp__RVTSS__list_families",
+      "mcp__RVTSS__list_family_categories",
+      "mcp__RVTSS__list_levels",
+      "mcp__RVTSS__list_links",
+      "mcp__RVTSS__list_materials",
+      "mcp__RVTSS__list_mep_systems",
+      "mcp__RVTSS__list_project_parameters",
+      "mcp__RVTSS__list_revit_installations",
+      "mcp__RVTSS__list_revit_views",
+      "mcp__RVTSS__list_rooms",
+      "mcp__RVTSS__list_sheets",
+      "mcp__RVTSS__material_takeoff",
+      "mcp__RVTSS__run_model_checks",
+      "mcp__RVTSS__rvtss_health",
+      "mcp__RVTSS__spatial_query",
+      "mcp__RVTSS__survey_change_impact"
+    ]
+  }
+}
+```
+<!-- END READ_ONLY_ALLOWLIST -->
+
+</details>
 
 The audit log (`%APPDATA%\RVTSS\logs`):
 * redacts values that look like secrets;
@@ -171,7 +276,8 @@ The audit log (`%APPDATA%\RVTSS\logs`):
 
 * **In Revit, no terminal needed:** RVTSS tab → **Diagnostics → Run Self-Test**. It copies `tests/test.rvt`
   to `%TEMP%\RVTSS_live`, runs every group (status, original tools, read-only, editing with dry run then
-  real, family workflow, parameters on a scratch shared parameter file, QC and coordination), and writes
+  real, family workflow, parameters on a scratch shared parameter file, QC and coordination, and the v2.2
+  tools: read-only calls, dry runs and a batch that must roll back), and writes
   `rvtss_live_report.json` and `.md`. Your own shared parameter file is never touched.
 * **From a terminal**, against the running Routes server:
   ```powershell
@@ -190,7 +296,9 @@ The audit log (`%APPDATA%\RVTSS\logs`):
 | `RVTSS_REPORT_DIR` | MCP server env: clash reports and Excel files | `~/Documents/RVTSS/reports` |
 | `RVTSS_LOG_LEVEL` | MCP server env (stderr) | `WARNING` |
 | `RVTSS_CONFIRM_THRESHOLD` | **Revit** env: elements above which `confirm=true` is required | `100` |
-| `%APPDATA%\RVTSS\config.json` | token, code-execution flag, `family_template_dirs`, `naming.parameters.pattern` | optional |
+| `RVTSS_READ_ONLY` | MCP server env and/or **Revit** env: read-only mode (see [Security](#security)) | off |
+| `RVTSS_RESPONSE_WARN_KB` / `RVTSS_RESPONSE_BUDGET_KB` | MCP server env: results above the budget are summarised (status and scalars kept) with narrowing hints | `64` / `256` |
+| `%APPDATA%\RVTSS\config.json` | token, code-execution flag, `read_only`, `family_template_dirs`, `naming.parameters.pattern` | optional |
 | `%APPDATA%\RVTSS\qc_rules.json` | naming, **iso19650** scheme, required parameters, view-audit options ([example](docs/examples/qc_rules.iso19650.json)) | optional |
 | `%APPDATA%\RVTSS\presets\*.json` | office parameter-mapping presets for `map_parameters` | optional |
 | `%APPDATA%\RVTSS\logs`, `backups`, `snapshots` | audit logs, `.rfa` backups, model snapshots | created |
@@ -198,15 +306,18 @@ The audit log (`%APPDATA%\RVTSS\logs`):
 ## What Claude can do
 
 * **Model intelligence:**
-  * `get_session_info`, `get_project_overview`
+  * `rvtss_health`, `get_session_info`, `get_project_overview`
   * `find_elements` (filters with units, pagination, structured output)
   * `get_element_details`, `get_family_inventory`
   * `find_views`, `list_sheets`, `get_schedule_data`
-  * `list_links`, `get_model_warnings`
+  * `list_links`, `get_model_warnings`, `get_coordinates`
+  * `survey_change_impact`: before a change, what else it touches (type siblings, host/hosted, joins, groups,
+    rooms, tags, dimensions, dependents, levels, MEP connections), each group found / none / not checked
 * **Editing:**
   * `set_parameters`, `bulk_update_parameter` (numbering templates)
   * `transform_elements`, `create_elements`, `manage_element_types`
   * `delete_elements` (previews dependent elements)
+  * `batch_execute`: up to 20 of these edits as one undo step, all or nothing
 
   Destructive previews are confirmed through MCP elicitation where the client supports it.
 * **Families (`.rfa`)**, in this order:
@@ -227,13 +338,23 @@ The audit log (`%APPDATA%\RVTSS\logs`):
   * `export_parameters` / `import_parameters` (CSV), `export_to_excel` (`.xlsx`)
   * `map_parameters` (including IFC/COBie presets)
 * **Documentation:**
-  * `create_view`, `view_graphics`
-  * `manage_sheets`, `create_schedule`
+  * `create_view`, `view_graphics`, `manage_view_filters` (rule-based filters with overrides)
+  * `manage_sheets`, `manage_revisions`, `create_schedule`
   * `batch_rename`, `manage_groups`, `manage_assemblies`
+  * `find_untagged_elements`, `tag_elements` (rooms/spaces/areas too), `create_text_notes`
+* **Rooms and materials:**
+  * `list_rooms` (rooms, spaces, areas; unplaced / not enclosed / redundant), `get_room_details` (boundaries,
+    doors and windows, finish areas, contents)
+  * `list_materials`, `material_takeoff` (area and volume per material), `manage_materials`
+* **Export:** `list_export_settings`, `export_documents` (PDF, DWG, DXF, IFC, NWC, schedule CSV; one file
+  per sheet from a naming template, dry run first)
+* **MEP:** `list_mep_systems`, `get_mep_connectors`, `find_mep_disconnects`
+* **Model administration:** `manage_worksets`, `purge_unused` (preview first)
 * **Coordination and QC:**
   * `run_model_checks`: 16 checks, including `iso19650` and `view_audit`
   * `check_clashes`: hard and clearance clashes, grid zones, grouping
   * `export_clash_report`: CSV and HTML
+  * `spatial_query`: distances, elements in a box or near a point, ray casts
   * `model_snapshot` + `compare_models`
 
 ### Example: clash coordination round
@@ -242,6 +363,23 @@ The audit log (`%APPDATA%\RVTSS\logs`):
 check_clashes(set_a={categories: ["Ducts", "Pipes"]}, set_b={categories: ["Structural Framing"]}, dry_run=true)
 export_clash_report(set_a={categories: ["Ducts", "Pipes"]}, set_b={categories: ["Structural Framing"]},
                     clearance=50, group_by=["pair", "level", "grid_zone"])
+```
+
+### Example: retype doors and renumber them in one undo step
+
+```text
+survey_change_impact(element_ids=[1201, 1202], change_kind="instance")
+batch_execute(dry_run=true, commands=[
+    {tool: "manage_element_types", arguments: {action: "change_type", element_ids: [1201, 1202], type_id: 345}},
+    {tool: "set_parameters", arguments: {element_ids: [1201, 1202], parameter: "Mark", value: "D-01"}}])
+batch_execute(... same commands ...)          # after the user confirms
+```
+
+### Example: issue sheets as PDF
+
+```text
+export_documents(format="pdf", sheets=["A101", "A102"], naming="{number} - {name} [{revision}]", dry_run=true)
+export_documents(format="pdf", sheets=["A101", "A102"], naming="{number} - {name} [{revision}]")
 ```
 
 ### Example: parametric family with three types
@@ -279,8 +417,16 @@ family_load_into_project(document="RVTSS Door")
   * Shared parameter GUIDs are never rewritten.
   * Bindings are extended, never replaced.
   * The family library audit never saves.
+* **Atomic batches.** `batch_execute` runs several edits in one Revit transaction group: one undo step,
+  rolled back completely on the first failure (unless `continue_on_error`) or for `dry_run`.
+* **Arguments.** Unknown argument names are refused before anything reaches Revit, with *did you mean*
+  suggestions, so a misspelled `dryrun` or `confrim` cannot silently run a real change.
+* **Read-only mode.** `RVTSS_READ_ONLY=1` on the MCP server hides every modifying tool; on the Revit side it
+  refuses every change.
+* **Response size.** Results above `RVTSS_RESPONSE_BUDGET_KB` are summarised (status and scalar fields kept)
+  with hints to narrow the request, instead of flooding the context.
 * **Retries.** Requests that change the model are never retried. A timeout tells you whether Revit is busy
-  (a modal dialog or edit mode) or Routes is down.
+  (a modal dialog or edit mode) or Routes is down; `rvtss_health` names the next step.
 
 ## Tests
 
@@ -293,7 +439,7 @@ CI (`.github/workflows/ci.yml`) runs:
 * the unit tests on Python 3.11–3.13, against mcp 1.9.x and the latest 2.x;
 * pyflakes;
 * vermin (IronPython 2.7 / 3.4 compatibility of the Revit side);
-* a check that `docs/TOOLS.md` is up to date.
+* a check that `docs/TOOLS.md` and the README allow list are up to date.
 
 Revit API behaviour itself is verified by the self-test inside Revit; see the verification status in
 [docs/UPGRADE_REPORT.md](docs/UPGRADE_REPORT.md).

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Shared schema pieces and helpers for RVTSS tool modules."""
+import contextvars
 from typing import Any, Dict, List, Literal, Optional, Union
 
 from pydantic import BaseModel, Field
@@ -32,6 +33,18 @@ class ParameterUpdate(BaseModel):
         "auto", description="auto: instance parameter, falling back to the type parameter")
 
 
+class ElementScope(BaseModel):
+    """Element filters, combined with AND (as in find_elements)."""
+    categories: Optional[List[str]] = None
+    element_ids: Optional[List[int]] = None
+    level: Optional[str] = None
+    view: Optional[str] = Field(None, description="Visible in view (name, id, 'active')")
+    selection: Optional[bool] = None
+    class_name: Optional[str] = None
+    text: Optional[str] = None
+    param_filters: Optional[List[ParamFilter]] = None
+
+
 def dump(value):
     """pydantic model / list of models / dict -> plain JSON data."""
     if isinstance(value, BaseModel):
@@ -48,7 +61,24 @@ def compact(**kwargs) -> Dict[str, Any]:
     return {k: dump(v) for k, v in kwargs.items() if v is not None}
 
 
+# batch_execute (tools/batch_tools.py) runs tool functions with this set to a list:
+# the helpers below then record (endpoint, payload) instead of calling Revit, so
+# every sub-command is built and validated exactly like a direct tool call.
+BATCH_CAPTURE = contextvars.ContextVar("rvtss_batch_capture", default=None)
+CAPTURED = {"status": "captured", "message": "Recorded for batch_execute; not sent to Revit."}
+
+
+def _capture(endpoint, data):
+    sink = BATCH_CAPTURE.get()
+    if sink is None:
+        return False
+    sink.append((endpoint, dict(data or {})))
+    return True
+
+
 async def post(revit_post, endpoint, data, ctx=None, timeout=None):
+    if _capture(endpoint, data):
+        return format_response(dict(CAPTURED))
     if timeout is not None:
         response = await revit_post(endpoint, data, ctx, timeout=timeout)
     else:
@@ -72,7 +102,9 @@ async def post_structured(revit_post, endpoint, data, ctx=None, timeout=None):
     """Like post(), plus structuredContent (mcp 2.x) with the raw Revit response."""
     response = await call_with_progress(revit_post, endpoint, data, ctx, timeout, endpoint.strip("/"))
     payload, is_error = _as_data(response)
-    return structured_result(format_response(response), payload, is_error)
+    from .guards import guard_payload
+
+    return structured_result(format_response(response), guard_payload(payload), is_error)
 
 
 async def call_with_progress(revit_post, endpoint, data, ctx=None, timeout=None, label="Revit"):
@@ -84,6 +116,8 @@ async def call_with_progress(revit_post, endpoint, data, ctx=None, timeout=None,
     import asyncio
     import time
 
+    if _capture(endpoint, data):
+        return dict(CAPTURED)
     if ctx is None:
         if timeout is not None:
             return await revit_post(endpoint, data, ctx, timeout=timeout)

@@ -2,14 +2,15 @@
 
 Generated from the live tool registry by `scripts/generate_tool_docs.py` - do not edit by hand.
 
-77 tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. **Mode**: read-only / modifies / destructive (MCP tool annotations).
+99 tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. **Mode**: read-only / modifies / destructive (MCP tool annotations).
 
-Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Profiles: `all` = code, core, documentation, edit, families, launch, legacy, model, parameters, qc; `bim_coordinator` = core, model, parameters, documentation, qc; `family_author` = core, families, parameters; `minimal` = core, model; `modeler` = core, model, edit, documentation.
+Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Profiles: `all` = admin, annotation, code, core, documentation, edit, export, families, launch, legacy, materials, mep, model, parameters, qc, rooms; `architect` = core, model, edit, documentation, rooms, materials, annotation; `auditor` = core, model, qc, rooms, materials, mep; `bim_coordinator` = core, model, parameters, documentation, qc; `family_author` = core, families, parameters; `mep_coordinator` = core, model, edit, qc, mep; `minimal` = core, model; `modeler` = core, model, edit, documentation; `publisher` = core, model, documentation, annotation, export.
 
 ## Session & status
 
 | Tool | Toolset | Origin | Mode | Purpose |
 |---|---|---|---|---|
+| `rvtss_health` | core | new | read-only | Health of the whole chain (MCP server -> pyRevit Routes -> Revit) with the next step to fix it. |
 | `get_revit_status` | core | retained | read-only | Check if the Revit MCP API is active and responding |
 | `get_session_info` | core | new | read-only | Call first: Revit/pyRevit/RVTSS versions, active document and view, all open documents (use titles as `document`), security status, paths. |
 | `get_revit_model_info` | model | retained | read-only | Get comprehensive information about the current Revit model |
@@ -42,6 +43,8 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `get_schedule_data` | model | new | read-only | Read a schedule's table (column headers and rows as displayed), paginated. |
 | `list_category_parameters` | documentation | retained | read-only | Parameters available on a category's elements (for color_splash). |
 | `revit_selection` | core | new | modifies | Read the current Revit selection, or select/highlight elements for the user (active document only). |
+| `survey_change_impact` | model | new | read-only | Before a change: what else it touches - type siblings, host/hosted, joins, groups, rooms, tags, dimensions, dependents, views/sheets, levels, MEP connections. |
+| `get_coordinates` | model | new | read-only | Coordinate setup: internal origin, project base point, survey point, true north, project locations, link positions (internal and shared); converts points to shared coordinates. |
 
 ## Element editing
 
@@ -54,6 +57,7 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `create_elements` | edit | new | modifies | Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one transaction; returns new ids. |
 | `place_family` | legacy | retained | modifies | [Deprecated: use create_elements(kind='family_instance')] Place a family instance at a specified location in the Revit model. |
 | `manage_element_types` | edit | new | modifies | Project types: duplicate a type (optionally setting its parameters), rename it, list the types an element may switch to, or change elements to another type. |
+| `batch_execute` | edit | new | modifies | Run up to 20 RVTSS edits as ONE Revit undo step: all succeed or everything is rolled back. |
 | `color_splash` | documentation | retained | modifies | Color a category's elements in the active view by parameter value. |
 | `clear_colors` | documentation | retained | modifies | Clear color overrides for elements in a category |
 
@@ -99,11 +103,58 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 |---|---|---|---|---|
 | `create_view` | documentation | new | modifies | Create plans, 3D (optionally boxed to elements), sections, elevations, drafting views or duplicates, with name/template/scale. |
 | `view_graphics` | documentation | new | modifies | Per-view graphics: element/category overrides, hide/unhide, temporary isolate, category visibility, view templates, scale, detail level. |
+| `manage_view_filters` | documentation | new | modifies | Rule-based view filters: list (rules, where used), create, apply to views/templates with visibility and graphic overrides, remove, delete. |
 | `manage_sheets` | documentation | new | modifies | Create sheets (with title blocks) and place views or schedules on them. |
+| `manage_revisions` | documentation | new | modifies | Revisions: list (with the sheets showing them), create, update, assign/unassign to sheets, issue. |
 | `create_schedule` | documentation | new | modifies | Create a schedule for a category with fields, sorting and filters. |
 | `batch_rename` | documentation | new | modifies | Rename views/sheets/levels/families/types/rooms... with find/replace/regex/prefix/suffix/case; detects collisions. dry_run by default. |
 | `manage_groups` | documentation | new | modifies | List group types (instances, unused types), create a model group from elements, or ungroup. |
 | `manage_assemblies` | documentation | new | modifies | Assemblies: create, add/remove members, rename, create assembly views and sheet. |
+
+## Rooms, spaces & areas
+
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `list_rooms` | rooms | new | read-only | Rooms, MEP spaces or areas with number, name, level, phase, area, perimeter, volume and status. |
+| `get_room_details` | rooms | new | read-only | Room / space / area details: boundary segments, doors and windows, finish areas, contents. |
+
+## Materials
+
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `list_materials` | materials | new | read-only | Materials with class, colour, transparency, appearance asset, fill patterns and (optionally) usage. |
+| `material_takeoff` | materials | new | read-only | Quantity take-off by material: area and volume per material (and category / level / type). |
+| `manage_materials` | materials | new | modifies | Create, duplicate, rename or restyle materials, or assign one to elements, types or type layers. |
+
+## Annotation
+
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `find_untagged_elements` | annotation | new | read-only | Elements of the categories visible in a view that have no tag in that view (incl. room/space/area tags). |
+| `tag_elements` | annotation | new | modifies | Tag elements in a view - by ids or whole categories; rooms, spaces and areas get their own tags. |
+| `create_text_notes` | annotation | new | modifies | Place text notes in a view (one transaction; all or nothing). |
+
+## Export
+
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `list_export_settings` | export | new | read-only | Export options available in this model: DWG setups, PDF settings, sheet sets, IFC versions, NWC exporter. |
+| `export_documents` | export | new | modifies | Export sheets / views to PDF, DWG or DXF, the model to IFC or NWC, schedules to CSV. |
+
+## MEP
+
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `list_mep_systems` | mep | new | read-only | MEP systems: type, classification, element count, base equipment, well-connected flag. |
+| `get_mep_connectors` | mep | new | read-only | Connectors of MEP elements: domain, shape and size, flow direction, system, connected elements. |
+| `find_mep_disconnects` | mep | new | read-only | Open MEP connectors (nothing attached): missing fittings, caps, terminals or gaps, with location. |
+
+## Model administration
+
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `manage_worksets` | admin | new | modifies | Worksets: list with element counts, create, rename, move elements to a workset, set the active one. |
+| `purge_unused` | admin | new | destructive | Purge unused families, types, materials, templates... Previews the list until confirm=true. |
 
 ## Coordination & QC
 
@@ -112,6 +163,7 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `run_model_checks` | qc | new | read-only | BIM QC report (warnings, duplicates, naming, families/types, CAD, links, rooms, views, sheets, required parameters, groups) with severity, ids and fixes. |
 | `check_clashes` | qc | new | read-only | Hard and clearance clashes between two element sets (also against a link), with level, grid zone and nearest grid intersection; export_clash_report writes CSV/HTML. |
 | `export_clash_report` | qc | new | read-only | Clash check (hard + clearance) written to CSV/HTML: ids, levels, grid zone, nearest grid. |
+| `spatial_query` | qc | new | read-only | Geometry questions: distance between two elements, elements in a box or near a point, ray cast (e.g. what is below this point) in a 3D view. |
 | `model_snapshot` | qc | new | modifies | Save a JSON snapshot (ids, types, levels, locations, tracked parameters) for later compare_models. |
 | `compare_models` | qc | new | read-only | Change detection: snapshot vs live model or another snapshot (added/removed/modified), or match two element sets by location (design vs shop model). |
 | `audit_family_library` | families | new | read-only | Audit a folder of .rfa files (opened read-only, never saved): category, size, parameters, nested families, warnings, family_validate errors, naming. |
@@ -124,6 +176,16 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `execute_revit_code` | code | retained | destructive | Run IronPython in Revit (doc, uidoc, DB, revit; print output returned). Prefer dedicated tools; transaction_mode none/auto/dry_run/read_only. |
 
 ## Parameters
+
+### `rvtss_health`
+
+Toolset: `core`
+
+Health of the whole chain (MCP server -> pyRevit Routes -> Revit) with the next step to fix it.
+
+Answers even when Revit is closed or busy: MCP server version and settings (toolsets, read-only
+mode, token, remote host), whether pyRevit Routes answers /ping/ (no Revit API needed), and
+whether Revit has a document open (/status/). Call it first when a tool fails to connect.
 
 ### `get_revit_status`
 
@@ -541,6 +603,37 @@ Read the current Revit selection, or select/highlight elements for the user (act
 | `element_ids` | list of integer |  |  |  |
 | `zoom` | boolean |  | `False` | Zoom the view to the newly selected elements |
 
+### `survey_change_impact`
+
+Toolset: `model`
+
+Before a change: what else it touches - type siblings, host/hosted, joins, groups, rooms, tags,
+dimensions, dependents, views/sheets, levels, MEP connections.
+
+Each group is "found" (count + ids), "none" or "not_checked" (with the reason) - absence of
+evidence is never reported as none. requires_discussion lists what the user should agree to
+(shared type, group instances, hosted elements, dependent deletions); blind_spots lists what
+is never traced (links, schedules, intent). Read-only.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `element_ids` | list of integer | yes |  |  |
+| `change_kind` | `instance` \| `type` \| `move` \| `delete` \| `unknown` |  | `instance` | instance = edit these elements, type = edit their type definition, move, delete |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `get_coordinates`
+
+Toolset: `model`
+
+Coordinate setup: internal origin, project base point, survey point, true north, project locations,
+link positions (internal and shared); converts points to shared coordinates.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `points` | list of list of number |  |  | Internal [x, y, z] points to convert to shared coordinates |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
 ### `set_parameters`
 
 Toolset: `edit`
@@ -704,6 +797,34 @@ types an element may switch to, or change elements to another type.
 | `element_ids` | list of integer |  |  | change_type: elements to switch to the type |
 | `dry_run` | boolean |  | `False` |  |
 | `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `batch_execute`
+
+Toolset: `edit`
+
+Run up to 20 RVTSS edits as ONE Revit undo step: all succeed or everything is rolled back.
+
+Batchable tools: set_parameters, bulk_update_parameter, transform_elements, delete_elements,
+create_elements, manage_element_types, create_view, view_graphics, manage_sheets, create_schedule,
+batch_rename, manage_groups, global_parameters, map_parameters, tag_elements, create_text_notes,
+manage_materials, manage_view_filters, manage_revisions, manage_worksets.
+
+Example - type change plus marks, one undo step:
+    commands=[{tool: "manage_element_types", arguments: {action: "change_type", element_ids: [1,2],
+               type_id: 345}}, {tool: "set_parameters", arguments: {element_ids: [1,2],
+               parameter: "Mark", value: "D-01"}}]
+Rules: per-command dry_run is ignored (use the batch dry_run); a command that answers with a
+confirmation preview needs confirm=true in its own arguments; ids created by an earlier command
+are not known yet when the batch is built - create first, then batch the follow-up edits.
+Every sub-result is reported with its index; rolled_back=true means nothing was kept.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `commands` | list of BatchCommand | yes |  |  |
+| `continue_on_error` | boolean |  | `False` | Keep going after a failed command (its own transaction is still rolled back) |
+| `dry_run` | boolean |  | `False` | Run everything, report, then roll the whole group back |
+| `name` | string |  |  | Undo-step name shown in Revit |
 | `document` | string |  |  | Document title or path (default: active) |
 
 ### `color_splash`
@@ -1300,6 +1421,33 @@ and detail level. Warns when a view template controls the setting.
 | `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
+### `manage_view_filters`
+
+Toolset: `documentation`
+
+Rule-based view filters: list (rules, where used), create, apply to views/templates with visibility and
+graphic overrides, remove, delete.
+
+Example: create name='Fire doors' categories=['Doors'] rules=[{parameter: 'Fire Rating', op:
+'has_value'}] apply_to=['Level 1'] overrides={color: '#FF0000'}. Dimensional values are read in
+the rule's `unit` (default mm, m2 / m3 for areas / volumes).
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `list` \| `create` \| `apply` \| `remove` \| `delete` |  | `list` |  |
+| `filter` | string |  |  | Existing filter name or id |
+| `name` | string |  |  | create: new filter name |
+| `categories` | list of string |  |  |  |
+| `rules` | list of FilterRule |  |  |  |
+| `logic` | `and` \| `or` |  | `and` |  |
+| `apply_to` | list of string |  |  | Views or view templates (names / ids); default: active view |
+| `visible` | boolean |  |  |  |
+| `overrides` | FilterOverrides |  |  |  |
+| `contains` | string |  |  | list: name filter |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` | delete: required |
+| `document` | string |  |  | Document title or path (default: active) |
+
 ### `manage_sheets`
 
 Toolset: `documentation`
@@ -1315,6 +1463,27 @@ Create sheets (with title blocks) and place views or schedules on them.
 | `view` | integer or string |  |  | place_view: view or schedule |
 | `location` | list of number |  |  | place_view: [x, y] on the sheet in `unit` |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `manage_revisions`
+
+Toolset: `documentation`
+
+Revisions: list (with the sheets showing them), create, update, assign/unassign to sheets, issue.
+
+assign/unassign edit a sheet's additional revisions; revisions shown by clouds stay on the sheet.
+issue locks the revision.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `list` \| `create` \| `update` \| `assign` \| `unassign` \| `issue` |  | `list` |  |
+| `revision` | string |  |  | Revision id, sequence number or description |
+| `sheets` | list of string |  |  | Sheet numbers or ids |
+| `description` | string |  |  |  |
+| `date` | string |  |  |  |
+| `issued_to` | string |  |  |  |
+| `issued_by` | string |  |  |  |
 | `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
@@ -1398,6 +1567,279 @@ assembly views (3D, elevations/sections, parts list, material takeoff) plus an a
 | `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
+### `list_rooms`
+
+Toolset: `rooms`
+
+Rooms, MEP spaces or areas with number, name, level, phase, area, perimeter, volume and status.
+
+Status: placed, unplaced, not_enclosed, redundant (from Revit warnings; localised Revit reports
+not_enclosed_or_redundant). Totals by level and department are computed from placed items.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `kind` | `room` \| `space` \| `area` |  | `room` |  |
+| `level` | string |  |  |  |
+| `phase` | string |  |  |  |
+| `status` | list of `placed` \| `unplaced` \| `not_enclosed` \| `redundant` \| `not_enclosed_or_redundant` |  |  | e.g. ['unplaced','not_enclosed'] |
+| `contains` | string |  |  | Text in number or name |
+| `area_unit` | `m2` \| `mm2` \| `cm2` \| `ft2` \| `in2` |  | `m2` |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `offset` | integer |  | `0` |  |
+| `limit` | integer |  | `200` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `get_room_details`
+
+Toolset: `rooms`
+
+Room / space / area details: boundary segments, doors and windows, finish areas, contents.
+
+boundaries: segments with length and bounding element; openings: doors/windows whose From/To room
+is this room (room phase); finishes: estimated net wall area per bounding wall (length x unbounded
+height minus openings), floor and ceiling area; contents: family instances in the room.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `element_ids` | list of integer | yes |  |  |
+| `include` | list of `boundaries` \| `openings` \| `finishes` \| `contents` |  |  | Default: boundaries, openings, finishes |
+| `boundary_location` | `finish` \| `center` \| `core_center` \| `core_boundary` |  | `finish` |  |
+| `content_categories` | list of string |  |  | contents: only these categories |
+| `area_unit` | `m2` \| `mm2` \| `cm2` \| `ft2` \| `in2` |  | `m2` |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `list_materials`
+
+Toolset: `materials`
+
+Materials with class, colour, transparency, appearance asset, fill patterns and (optionally) usage.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `contains` | string |  |  |  |
+| `material_class` | string |  |  |  |
+| `include_usage` | boolean |  | `False` | Count model elements using each material (slower) |
+| `unused_only` | boolean |  | `False` | With include_usage: only materials no element uses |
+| `offset` | integer |  | `0` |  |
+| `limit` | integer |  | `200` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `material_takeoff`
+
+Toolset: `materials`
+
+Quantity take-off by material: area and volume per material (and category / level / type).
+
+Uses Revit's material quantities (GetMaterialArea / GetMaterialVolume) per element; painted
+faces are reported separately. Rows are sorted by volume.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `scope` | ElementScope | yes |  | Which elements, e.g. {categories: ['Walls','Floors']} |
+| `group_by` | list of `material` \| `category` \| `level` \| `type` |  |  |  |
+| `include_paint` | boolean |  | `True` |  |
+| `area_unit` | `m2` \| `ft2` \| `mm2` |  | `m2` |  |
+| `volume_unit` | `m3` \| `ft3` \| `mm3` |  | `m3` |  |
+| `offset` | integer |  | `0` |  |
+| `limit` | integer |  | `200` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `manage_materials`
+
+Toolset: `materials`
+
+Create, duplicate, rename or restyle materials, or assign one to elements, types or type layers.
+
+assign sets an instance/type material parameter (type parameters change every instance) or a
+compound-structure layer (layer_index). Large assignments return a preview until confirm=true.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `create` \| `duplicate` \| `rename` \| `set_properties` \| `assign` | yes |  |  |
+| `material` | string |  |  | Existing material name or id |
+| `name` | string |  |  | create / duplicate / rename: new name |
+| `properties` | MaterialProperties |  |  |  |
+| `element_ids` | list of integer |  |  | assign: elements or types |
+| `parameter` | string |  |  | assign: material parameter (default 'Material'; e.g. 'Structural Material') |
+| `layer_index` | integer |  |  | assign: compound-structure layer of the wall / floor / roof type (edits the type) |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `find_untagged_elements`
+
+Toolset: `annotation`
+
+Elements of the categories visible in a view that have no tag in that view (incl. room/space/area tags).
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `categories` | list of string | yes |  | e.g. ['Doors','Windows','Rooms'] |
+| `view` | string |  | `active` | View name, id or 'active' |
+| `limit` | integer |  | `200` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `tag_elements`
+
+Toolset: `annotation`
+
+Tag elements in a view - by ids or whole categories; rooms, spaces and areas get their own tags.
+
+Already-tagged elements are skipped. More than RVTSS_CONFIRM_THRESHOLD tags returns a preview
+until confirm=true. Needs a tag family loaded for each category (or tag_type).
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `view` | string |  | `active` | View name, id or 'active' |
+| `element_ids` | list of integer |  |  |  |
+| `categories` | list of string |  |  | Tag every element of these categories visible in the view |
+| `tag_type` | string |  |  | 'Family : Type', type name or id (default: the category's loaded tag) |
+| `skip_tagged` | boolean |  | `True` |  |
+| `leader` | boolean |  | `False` |  |
+| `orientation` | `horizontal` \| `vertical` |  | `horizontal` |  |
+| `offset` | list of number |  |  | [dx, dy] from the element point in `unit` |
+| `atomic` | boolean |  | `False` | false (default): skip elements that cannot be tagged |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `create_text_notes`
+
+Toolset: `annotation`
+
+Place text notes in a view (one transaction; all or nothing).
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `notes` | list of TextNoteSpec | yes |  |  |
+| `view` | string |  | `active` | View name, id or 'active' |
+| `text_type` | string |  |  | Default text note type for all notes |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `list_export_settings`
+
+Toolset: `export`
+
+Export options available in this model: DWG setups, PDF settings, sheet sets, IFC versions, NWC exporter.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `export_documents`
+
+Toolset: `export`
+
+Export sheets / views to PDF, DWG or DXF, the model to IFC or NWC, schedules to CSV.
+
+Default folder: ~/Documents/RVTSS/exports/<model> on the Revit machine. ifc_options passes IFC
+exporter options by name, e.g. {ExportBaseQuantities: true}.
+One file per sheet / view named from `naming` (default '{number} - {name}' for sheets),
+or one combined PDF. Existing files are kept unless overwrite=true. Run dry_run=true first to
+see the exact file list. PDF needs Revit 2022+; NWC needs Autodesk's NWC exporter add-in.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `format` | `pdf` \| `dwg` \| `dxf` \| `ifc` \| `nwc` \| `csv` | yes |  |  |
+| `sheets` | list of integer or string |  |  | Sheet numbers or ids |
+| `views` | list of integer or string |  |  | View names or ids (csv: schedules) |
+| `view_set` | string |  |  | Saved view/sheet set name |
+| `all_sheets` | boolean |  | `False` |  |
+| `folder` | string |  |  | Absolute folder on the Revit machine |
+| `naming` | string |  |  | File name template: {number} {name} {revision} {view_type} {date} {document} |
+| `file_name` | string |  |  | ifc / nwc / combined pdf: file name |
+| `combine` | boolean |  | `False` | pdf: one combined file |
+| `setup` | string |  |  | Saved DWG export setup or PDF export setting name |
+| `pdf_color` | `color` \| `grayscale` \| `black_line` |  |  |  |
+| `ifc_version` | string |  |  | e.g. IFC2x3CV2, IFC4RV (list_export_settings) |
+| `ifc_view` | string |  |  | ifc: export only what this view shows |
+| `ifc_options` | object |  |  | ifc: exporter options by name |
+| `nwc_view` | string |  |  | nwc: export only this view (default whole model) |
+| `delimiter` | string |  |  | csv: field delimiter (default ',') |
+| `overwrite` | boolean |  | `False` |  |
+| `dry_run` | boolean |  | `False` | Resolve targets and file names only |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `list_mep_systems`
+
+Toolset: `mep`
+
+MEP systems: type, classification, element count, base equipment, well-connected flag.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `domain` | `mechanical` \| `piping` \| `electrical` |  |  |  |
+| `contains` | string |  |  |  |
+| `include_elements` | boolean |  | `False` | Element ids per system (max 500) |
+| `offset` | integer |  | `0` |  |
+| `limit` | integer |  | `200` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `get_mep_connectors`
+
+Toolset: `mep`
+
+Connectors of MEP elements: domain, shape and size, flow direction, system, connected elements.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `element_ids` | list of integer | yes |  |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `find_mep_disconnects`
+
+Toolset: `mep`
+
+Open MEP connectors (nothing attached): missing fittings, caps, terminals or gaps, with location.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `scope` | ElementScope |  |  | Default: all duct / pipe / tray / conduit curves, fittings, accessories, equipment |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `offset` | integer |  | `0` |  |
+| `limit` | integer |  | `200` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `manage_worksets`
+
+Toolset: `admin`
+
+Worksets: list with element counts, create, rename, move elements to a workset, set the active one.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `list` \| `create` \| `rename` \| `move_elements` \| `set_active` |  | `list` |  |
+| `workset` | string |  |  | Workset name or id |
+| `name` | string |  |  | create / rename: new name |
+| `element_ids` | list of integer |  |  | move_elements |
+| `include_counts` | boolean |  | `True` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `purge_unused`
+
+Toolset: `admin`
+
+Purge unused families, types, materials, templates... Previews the list until confirm=true.
+
+Revit 2024+ uses Revit's own Purge Unused query; older versions purge unused loadable family
+types only. Always show the preview to the user before confirming.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `categories` | list of string |  |  | Only purge these categories |
+| `exclude_ids` | list of integer |  |  |  |
+| `passes` | integer |  | `1` | Repeat until nothing is left (nested families) |
+| `list_limit` | integer |  | `300` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
 ### `run_model_checks`
 
 Toolset: `qc`
@@ -1467,6 +1909,31 @@ written on the MCP machine. dry_run checks the sets and returns the planned file
 | `max_pairs` | integer |  | `500` |  |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `spatial_query`
+
+Toolset: `qc`
+
+Geometry questions: distance between two elements, elements in a box or near a point, ray cast
+(e.g. what is below this point) in a 3D view.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `mode` | `distance` \| `in_box` \| `near_point` \| `raycast` | yes |  |  |
+| `element_a` | integer |  |  | distance |
+| `element_b` | integer |  |  | distance |
+| `min` | list of number |  |  | in_box: [x, y, z] |
+| `max` | list of number |  |  | in_box: [x, y, z] |
+| `point` | list of number |  |  | near_point centre / raycast origin |
+| `radius` | number |  |  | near_point radius in `unit` (default 1000) |
+| `direction` | list of number |  |  | raycast direction (default [0,0,-1] = down) |
+| `view` | string |  |  | raycast: 3D view (default: first 3D view) |
+| `categories` | list of string |  |  |  |
+| `include_links` | boolean |  | `False` |  |
+| `exact` | boolean |  | `True` | distance: also the sampled surface distance |
+| `limit` | integer |  | `100` |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
 ### `model_snapshot`

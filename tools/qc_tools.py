@@ -7,7 +7,7 @@ from pydantic import Field
 from ._compat import Context, READ_ONLY, MODIFIES, structured_return
 from ._outputs import FindingsOut
 from .utils import format_response
-from ._common import LengthUnit, compact, DOC_HELP, call_with_progress, post_structured
+from ._common import LengthUnit, compact, DOC_HELP, call_with_progress, post, post_structured
 
 Doc = Annotated[Optional[str], Field(description=DOC_HELP)]
 CheckName = Literal["warnings", "duplicates", "naming", "similar_family_names", "duplicate_types",
@@ -127,3 +127,29 @@ def register_qc_tools(mcp, revit_get, revit_post):
                        tolerance=tolerance, max_items=max_items, document=document)
         response = await call_with_progress(revit_post, "/qc/compare/", data, ctx, 600.0, "Model comparison")
         return format_response(response)
+
+    @mcp.tool(annotations=READ_ONLY)
+    async def spatial_query(
+        mode: Literal["distance", "in_box", "near_point", "raycast"],
+        element_a: Annotated[Optional[int], Field(description="distance")] = None,
+        element_b: Annotated[Optional[int], Field(description="distance")] = None,
+        min: Annotated[Optional[List[float]], Field(description="in_box: [x, y, z]")] = None,
+        max: Annotated[Optional[List[float]], Field(description="in_box: [x, y, z]")] = None,
+        point: Annotated[Optional[List[float]], Field(description="near_point centre / raycast origin")] = None,
+        radius: Annotated[Optional[float], Field(description="near_point radius in `unit` (default 1000)")] = None,
+        direction: Annotated[Optional[List[float]], Field(description="raycast direction (default [0,0,-1] = down)")] = None,
+        view: Annotated[Optional[str], Field(description="raycast: 3D view (default: first 3D view)")] = None,
+        categories: Optional[List[str]] = None,
+        include_links: bool = False,
+        exact: Annotated[bool, Field(description="distance: also the sampled surface distance")] = True,
+        limit: Annotated[int, Field(ge=1, le=1000)] = 100,
+        unit: LengthUnit = "mm",
+        document: Doc = None,
+        ctx: Context = None,
+    ) -> str:
+        """Geometry questions: distance between two elements, elements in a box or near a point, ray cast
+        (e.g. what is below this point) in a 3D view."""
+        data = compact(mode=mode, element_a=element_a, element_b=element_b, min=min, max=max, point=point,
+                       radius=radius, direction=direction, view=view, categories=categories,
+                       include_links=include_links or None, exact=exact, limit=limit, unit=unit, document=document)
+        return await post(revit_post, "/spatial/query/", data, ctx, timeout=120.0)

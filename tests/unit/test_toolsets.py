@@ -105,10 +105,15 @@ def _payload(env=None):
     return json.loads(out.stdout.strip().splitlines()[-1])
 
 
-def test_default_payload_at_least_40_percent_smaller_than_v20():
+V21_CHARS_PER_TOOL = 71202 / 77.0  # docs/metrics/tool_payload_v2.1_phase6.json
+
+
+def test_default_payload_stays_compact():
+    """v2.2 adds 22 tools (99 in all): still smaller than v2.0's 74 tools, and per tool within 5 % of v2.1."""
     res = _payload({"RVTSS_TOOLSETS": ""})
-    assert res["tool_count"] >= 74
-    assert res["total_chars"] <= BASELINE_V20 * 0.6, res["total_chars"]
+    assert res["tool_count"] >= 99
+    assert res["total_chars"] <= BASELINE_V20 * 0.82, res["total_chars"]
+    assert res["total_chars"] / float(res["tool_count"]) <= V21_CHARS_PER_TOOL * 1.05, res["total_chars"]
 
 
 def test_profile_payload_is_smaller_still():

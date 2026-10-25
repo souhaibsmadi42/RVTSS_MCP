@@ -37,6 +37,10 @@ Working rules:
 4. Destructive or large operations return status "preview" until confirm=true is passed.
 5. Verify after changing: re-read the elements or run family_flex_test / family_validate.
 6. Never report a change as done unless the tool returned status "success".
+7. Before changing shared things (types, groups, levels, hosts) run survey_change_impact and agree the
+   scope. Several related edits that must succeed together: batch_execute (one Revit undo step).
+8. If a tool cannot reach Revit, call rvtss_health and follow its next_step. Never repeat a change
+   after a timeout without re-reading the model first.
 Families: family_list_templates -> family_create (or family_open) -> family_add_parameters ->
 family_build_parametric_box / family_create_reference_planes + family_create_form +
 family_add_dimension -> family_manage_types -> family_flex_test -> family_validate ->
@@ -210,6 +214,21 @@ async def ping_revit() -> Dict[str, Any]:
         return {"alive": False, "error": str(e) or type(e).__name__}
 
 
+async def health_probe() -> Dict[str, Any]:
+    """Server configuration + /ping/ for the rvtss_health tool (never sends the token itself)."""
+    from tools.guards import read_only_enabled
+    from tools.toolsets import enabled_toolsets
+
+    config = {"revit_url": BASE_URL, "revit_port": REVIT_PORT, "toolsets": sorted(enabled_toolsets()),
+              "read_only": read_only_enabled(), "token_configured": bool(RVTSS_TOKEN),
+              "remote_host": not _security.is_loopback(REVIT_HOST), "allow_remote": ALLOW_REMOTE,
+              "timeout_s": DEFAULT_TIMEOUT}
+    refused = _remote_refusal()
+    if refused:
+        return {"config": config, "ping": {"alive": False, "error": refused[len("Error: "):]}}
+    return {"config": config, "ping": await ping_revit()}
+
+
 async def _timeout_message(timeout, request_id):
     probe = await ping_revit()
     if probe.get("alive"):
@@ -364,7 +383,7 @@ async def _revit_call(method: str, endpoint: str, data: Dict = None, ctx: Contex
 
 # Register all tools BEFORE the main block
 from tools import register_tools
-toolset_server = register_tools(mcp, revit_get, revit_post, revit_image)
+toolset_server = register_tools(mcp, revit_get, revit_post, revit_image, health_probe=health_probe)
 
 
 async def run_combined_async():

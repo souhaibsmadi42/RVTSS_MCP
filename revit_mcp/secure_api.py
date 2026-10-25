@@ -5,6 +5,7 @@ Settings (environment of the Revit process, or %APPDATA%/RVTSS/config.json):
     RVTSS_TOKEN / "token"                                 shared secret; unset = no token (default)
     RVTSS_ALLOW_CODE_EXECUTION / "allow_code_execution"   default allowed (backward compatible)
     RVTSS_ALLOW_REMOTE / "allow_remote"                   acknowledge a Routes server reachable beyond loopback
+    RVTSS_READ_ONLY / "read_only"                         refuse every model/file change (dry runs still work)
 
 pyRevit Routes chooses API context and injects arguments by inspecting the
 handler's argument names (routes/server/handler.py), so the protecting wrapper
@@ -35,7 +36,9 @@ def settings():
     allow_code = S.parse_flag(os.environ.get("RVTSS_ALLOW_CODE_EXECUTION"),
                               S.parse_flag(cfg.get("allow_code_execution"), True))
     allow_remote = S.parse_flag(os.environ.get("RVTSS_ALLOW_REMOTE"), S.parse_flag(cfg.get("allow_remote"), False))
-    return {"token": token, "allow_code_execution": allow_code, "allow_remote": allow_remote}
+    read_only = S.parse_flag(os.environ.get("RVTSS_READ_ONLY"), S.parse_flag(cfg.get("read_only"), False))
+    return {"token": token, "allow_code_execution": allow_code, "allow_remote": allow_remote,
+            "read_only": bool(read_only)}
 
 
 def routes_host():
@@ -61,7 +64,7 @@ def security_status():
         warnings.append("Routes is reachable beyond loopback; set RVTSS_ALLOW_REMOTE=1 to acknowledge (VM setups).")
     return {"token_required": bool(st["token"]), "code_execution_allowed": st["allow_code_execution"],
             "routes_host": host or "0.0.0.0 (all interfaces)", "reachable_beyond_loopback": exposed,
-            "allow_remote": st["allow_remote"], "warnings": warnings}
+            "allow_remote": st["allow_remote"], "read_only": st["read_only"], "warnings": warnings}
 
 
 def _arg_names(func):

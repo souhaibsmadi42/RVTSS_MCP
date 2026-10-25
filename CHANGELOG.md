@@ -2,7 +2,59 @@
 
 All notable changes to RVTSS. Details, verification status and design notes: [docs/UPGRADE_REPORT.md](docs/UPGRADE_REPORT.md).
 
-## Unreleased
+## 2.2.0 – 2026-10-25
+
+Ideas ported from [bimwright/rvt-mcp](https://github.com/bimwright/rvt-mcp) (Apache-2.0, C#) and
+re-implemented for pyRevit; see [NOTICE](NOTICE). Revit-side behaviour of the new tools is covered by the
+in-Revit self-test (group `v22`) and has not yet been run in a live Revit session.
+
+### Added
+* **22 tools (99 in all) and six toolsets:**
+  * `rooms`: `list_rooms` (rooms, spaces, areas; placed / unplaced / not enclosed / redundant; totals by level
+    and department), `get_room_details` (boundary segments, doors and windows by From/To room, estimated
+    wall/floor/ceiling finish areas, contents).
+  * `materials`: `list_materials` (optional usage counts), `material_takeoff` (area and volume per material,
+    grouped by material / category / level / type), `manage_materials` (create, duplicate, rename, set
+    colour/patterns, assign to elements, types or compound-structure layers).
+  * `annotation`: `find_untagged_elements`, `tag_elements` (independent tags plus room, space and area
+    tags; skips tagged elements), `create_text_notes`.
+  * `export`: `list_export_settings`, `export_documents` (PDF on Revit 2022+, DWG, DXF, IFC, NWC, schedule
+    CSV; one file per sheet from a naming template, combined PDF, saved setups, dry-run file plan, never
+    overwrites without `overwrite=true`).
+  * `mep`: `list_mep_systems`, `get_mep_connectors`, `find_mep_disconnects`.
+  * `admin`: `manage_worksets` (counts, create, rename, move elements, set active), `purge_unused`
+    (Revit 2024+ purge query, unused family types before; preview until `confirm=true`).
+  * `model`: `survey_change_impact` (type siblings, host/hosted, joins, groups, rooms, tags, dimensions,
+    dependents, views/sheets, levels, MEP connections; every group *found*, *none* or *not checked*),
+    `get_coordinates` (base points, true north, links, internal → shared conversion).
+  * `documentation`: `manage_view_filters` (rule-based filters, overrides, where used), `manage_revisions`.
+  * `qc`: `spatial_query` (distance, in box, near point, ray cast).
+  * `core`: `rvtss_health` (MCP server → Routes → Revit, works with Revit closed, names the next step).
+  * `edit`: `batch_execute`.
+* **`batch_execute`:** up to 20 edits in one Revit TransactionGroup: one undo step, everything rolled back
+  on the first failure (unless `continue_on_error`) or for `dry_run`. Sub-commands are built and validated
+  by the real tools (payload capture), checked against an allow list on both sides, and must target the
+  same document.
+* **Read-only mode** `RVTSS_READ_ONLY`: on the MCP server only read-only tools are registered; in Revit
+  every change, save, sync, family save and export is refused with 403 (dry runs still work, code execution
+  only in `read_only` / `dry_run` mode).
+* **Argument guard:** unknown argument names are refused with `did_you_mean` before anything is sent
+  (pydantic used to drop them silently, so `dryrun=true` ran a real change).
+* **Response guard:** results above `RVTSS_RESPONSE_BUDGET_KB` (default 256) are summarised, keeping the
+  status and every scalar field, with narrowing hints; a note is added above `RVTSS_RESPONSE_WARN_KB`.
+* **Prompts:** `getting_started`, `safe_change`, `room_documentation`, `issue_sheets`,
+  `mep_connectivity_review` (12 in all).
+* **Profiles:** `architect`, `mep_coordinator`, `publisher`, `auditor`.
+* **Docs:** generated Claude Code read-only allow list in the README, `AGENTS.md` (agent-assisted install),
+  `SECURITY.md`, `CONTRIBUTING.md`, `NOTICE`.
+* Self-test group `v22`: read-only calls of the new tools, dry runs, an export plan, a purge preview and a
+  batch that must roll back.
+
+### Changed
+* The default tool list is 95k characters for 99 tools (v2.0: 119k for 74; v2.1: 71k for 77). The payload
+  test now checks the per-tool size against v2.1.
+* Server instructions mention `survey_change_impact`, `batch_execute` and `rvtss_health`.
+* `/status/` and `get_session_info` report `read_only` in the security block.
 
 ### Added
 * **Install & use tutorial** (`media/rvtss-tutorial.mp4`, 3:54, 1080p): a narrated motion-graphics walkthrough of

@@ -772,6 +772,11 @@ def color_elements_by_parameter(
         elements_colored = 0
         solid_fill_id = solid_fill_pattern_id(doc)
 
+        from .core import read_only_response
+
+        refused = read_only_response("color_splash")
+        if refused is not None:
+            return refused
         with DB.Transaction(doc, "Color Elements by Parameter") as t:
             t.Start()
 
@@ -935,6 +940,11 @@ def clear_element_colors(doc, category_name):
         # Get active view for clearing overrides
         active_view = doc.ActiveView
 
+        from .core import read_only_response
+
+        refused = read_only_response("clear_colors")
+        if refused is not None:
+            return refused
         with DB.Transaction(doc, "Clear Element Colors") as t:
             t.Start()
 

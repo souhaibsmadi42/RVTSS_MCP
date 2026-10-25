@@ -125,6 +125,14 @@ def register_code_execution_routes(api):
                                   "%APPDATA%/RVTSS/config.json). Use the dedicated RVTSS tools instead."},
                     status=403,
                 )
+            if _security_settings().get("read_only") and transaction_mode not in ("read_only", "dry_run"):
+                return routes.make_response(
+                    data={"status": "error", "read_only": True,
+                          "error": "RVTSS runs in read-only mode: only transaction_mode 'read_only' or "
+                                   "'dry_run' is allowed",
+                          "hint": "Both modes roll every change back. Unset RVTSS_READ_ONLY to allow changes."},
+                    status=403,
+                )
             logger.warning("execute_revit_code called (%s): %s", transaction_mode, description)
             audit_code(description, transaction_mode, code_to_execute)
 

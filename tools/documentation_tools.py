@@ -2,7 +2,7 @@
 """RVTSS documentation tools: views, graphics, sheets, schedules, renaming, groups, assemblies."""
 from typing import Annotated, Any, Dict, List, Literal, Optional, Union
 
-from pydantic import Field
+from pydantic import BaseModel, Field
 
 from ._compat import Context, MODIFIES, IDEMPOTENT
 from .utils import format_response
@@ -10,6 +10,24 @@ from ._common import LengthUnit, compact, post, DOC_HELP, call_with_progress
 
 Doc = Annotated[Optional[str], Field(description=DOC_HELP)]
 ViewRef = Annotated[Optional[Union[int, str]], Field(description="View id, exact name, or 'active'")]
+
+
+class FilterRule(BaseModel):
+    parameter: str = Field(description="Label or BuiltInParameter name")
+    op: Literal["equals", "not_equals", "contains", "not_contains", "begins_with", "not_begins_with", "ends_with",
+                "not_ends_with", "greater", "greater_or_equal", "less", "less_or_equal", "has_value",
+                "has_no_value"] = "equals"
+    value: Optional[Union[str, float, int, bool]] = None
+    unit: Optional[str] = None
+    type: Optional[Literal["string", "double", "integer", "element_id"]] = None
+
+
+class FilterOverrides(BaseModel):
+    color: Optional[str] = None
+    fill: bool = True
+    line_weight: Optional[int] = Field(None, ge=1, le=16)
+    halftone: Optional[bool] = None
+    transparency: Optional[int] = Field(None, ge=0, le=100)
 
 
 def register_documentation_tools(mcp, revit_get, revit_post):
@@ -191,3 +209,55 @@ def register_documentation_tools(mcp, revit_get, revit_post):
                        naming_category=naming_category, views=views, create_sheet=create_sheet or None,
                        dry_run=dry_run or None, document=document)
         return await post(revit_post, "/assemblies/manage/", data, ctx, timeout=120.0)
+
+    @mcp.tool(annotations=MODIFIES)
+    async def manage_view_filters(
+        action: Literal["list", "create", "apply", "remove", "delete"] = "list",
+        filter: Annotated[Optional[str], Field(description="Existing filter name or id")] = None,
+        name: Annotated[Optional[str], Field(description="create: new filter name")] = None,
+        categories: Optional[List[str]] = None,
+        rules: Optional[List[FilterRule]] = None,
+        logic: Literal["and", "or"] = "and",
+        apply_to: Annotated[Optional[List[str]], Field(description="Views or view templates (names / ids); "
+                                                                   "default: active view")] = None,
+        visible: Optional[bool] = None,
+        overrides: Optional[FilterOverrides] = None,
+        contains: Annotated[Optional[str], Field(description="list: name filter")] = None,
+        dry_run: bool = False,
+        confirm: Annotated[bool, Field(description="delete: required")] = False,
+        document: Doc = None,
+        ctx: Context = None,
+    ) -> str:
+        """Rule-based view filters: list (rules, where used), create, apply to views/templates with visibility and
+        graphic overrides, remove, delete.
+
+        Example: create name='Fire doors' categories=['Doors'] rules=[{parameter: 'Fire Rating', op:
+        'has_value'}] apply_to=['Level 1'] overrides={color: '#FF0000'}. Dimensional values are read in
+        the rule's `unit` (default mm, m2 / m3 for areas / volumes).
+        """
+        data = compact(action=action, filter=filter, name=name, categories=categories, rules=rules, logic=logic,
+                       apply_to=apply_to, visible=visible, overrides=overrides, contains=contains,
+                       dry_run=dry_run or None, confirm=confirm or None, document=document)
+        return await post(revit_post, "/views/filters/", data, ctx, timeout=120.0)
+
+    @mcp.tool(annotations=MODIFIES)
+    async def manage_revisions(
+        action: Literal["list", "create", "update", "assign", "unassign", "issue"] = "list",
+        revision: Annotated[Optional[str], Field(description="Revision id, sequence number or description")] = None,
+        sheets: Annotated[Optional[List[str]], Field(description="Sheet numbers or ids")] = None,
+        description: Optional[str] = None,
+        date: Optional[str] = None,
+        issued_to: Optional[str] = None,
+        issued_by: Optional[str] = None,
+        dry_run: bool = False,
+        document: Doc = None,
+        ctx: Context = None,
+    ) -> str:
+        """Revisions: list (with the sheets showing them), create, update, assign/unassign to sheets, issue.
+
+        assign/unassign edit a sheet's additional revisions; revisions shown by clouds stay on the sheet.
+        issue locks the revision.
+        """
+        data = compact(action=action, revision=revision, sheets=sheets, description=description, date=date,
+                       issued_to=issued_to, issued_by=issued_by, dry_run=dry_run or None, document=document)
+        return await post(revit_post, "/sheets/revisions/", data, ctx, timeout=120.0)

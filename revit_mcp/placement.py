@@ -177,6 +177,11 @@ def register_placement_routes(api):
                 )
 
             # Start a transaction
+            from .core import read_only_response
+
+            refused = read_only_response("place_family")
+            if refused is not None:
+                return refused
             transaction_name = "Place Family Instance via MCP"
             t = DB.Transaction(doc, transaction_name)
             t.Start()

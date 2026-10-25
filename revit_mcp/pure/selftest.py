@@ -606,6 +606,97 @@ def _preset_export(t):
     return {"preset_unverified": d.get("unverified_targets"), "rows": e.get("row_count")}
 
 
+# 9. v2.2 tools ----------------------------------------------------------------------------
+@step("v22", "rooms, materials, MEP, coordinates (read-only)", ["list_rooms", "get_room_details", "list_materials",
+                                                              "material_takeoff", "list_mep_systems",
+                                                              "find_mep_disconnects", "get_coordinates"])
+def _v22_read(t):
+    rooms = t.post("/rooms/list/", {"kind": "room", "limit": 5})
+    placed = [r for r in rooms.get("items") or [] if r.get("status") == "placed"]
+    if placed:
+        det = t.post("/rooms/details/", {"element_ids": [placed[0]["id"]]})
+        check(det.get("items") and "finishes" in det["items"][0], "room finishes missing", det)
+    mats = t.post("/materials/list/", {"limit": 5})
+    take = t.post("/materials/takeoff/", {"filter": {"categories": ["Walls"]}, "group_by": ["material"]})
+    check("rows" in take, "take-off rows missing", take)
+    t.post("/mep/systems/", {"limit": 5})
+    dis = t.post("/mep/disconnects/", {"limit": 5})
+    co = t.post("/coordinates/", {"points": [[0, 0, 0]]})
+    check(co.get("converted_points"), "point conversion missing", co)
+    return {"rooms": rooms.get("count"), "materials": mats.get("count"), "takeoff_rows": len(take["rows"]),
+            "open_connectors": dis.get("open_connectors"), "true_north": co.get("angle_to_true_north_deg")}
+
+
+@step("v22", "impact survey + spatial query", ["survey_change_impact", "spatial_query"])
+def _v22_impact(t):
+    ids = t.require("wall_ids", "no walls")
+    s = t.post("/impact/survey/", {"element_ids": ids[:1], "change_kind": "type"})
+    groups = s["elements"][0]["groups"]
+    check(groups["type"]["status"] == "found", "a wall must find its type siblings", s)
+    for g in groups.values():
+        check(g["status"] in ("found", "none", "not_checked"), "bad group status", g)
+    d = t.post("/spatial/query/", {"mode": "distance", "element_a": ids[0], "element_b": ids[-1]})
+    n = t.post("/spatial/query/", {"mode": "near_point", "point": [0, 0, 0], "radius": 100000, "limit": 5})
+    return {"type_instances": groups["type"]["count"], "center_distance": d.get("center_distance"),
+            "near": n.get("count")}
+
+
+@step("v22", "annotation, filters, revisions, worksets, export settings (read-only)",
+      ["find_untagged_elements", "manage_view_filters", "manage_revisions", "manage_worksets",
+       "list_export_settings"])
+def _v22_doc_read(t):
+    untagged = None
+    if t.state.get("plan_name"):
+        u = t.post("/annotation/untagged/", {"categories": ["Walls", "Doors"], "view": t.state["plan_name"]})
+        untagged = u.get("untagged_total")
+    f = t.post("/views/filters/", {"action": "list"})
+    r = t.post("/sheets/revisions/", {"action": "list"})
+    w = t.post("/worksets/manage/", {"action": "list"})
+    e = t.post("/export/settings/")
+    return {"untagged": untagged, "filters": f.get("count"), "revisions": r.get("count"),
+            "workshared": w.get("workshared"),
+            "dwg_setups": len(e.get("dwg_setups") or []), "nwc": e.get("navisworks_exporter_available")}
+
+
+@step("v22", "dry runs: filter, material, tags, export plan, purge preview",
+      ["manage_view_filters", "manage_materials", "tag_elements", "export_documents", "purge_unused"])
+def _v22_dry(t):
+    t.require_test_model()
+    t.post("/views/filters/", {"action": "create", "name": "RVTSS SelfTest " + t.stamp, "categories": ["Walls"],
+                               "rules": [{"parameter": "Comments", "op": "contains", "value": "RVTSS"}],
+                               "dry_run": True})
+    t.post("/materials/manage/", {"action": "create", "name": "RVTSS SelfTest " + t.stamp,
+                                  "properties": {"color": "#808080"}, "dry_run": True})
+    plan = t.require("plan_name", "no floor plan")
+    tg = t.post("/annotation/tag/", {"view": plan, "categories": ["Walls"], "dry_run": True})
+    check(tg.get("status") in ("dry_run", "preview"), "tag dry run expected", tg)
+    ex = t.post("/export/run/", {"format": "dwg", "views": [plan], "dry_run": True})
+    check(ex.get("status") == "dry_run" and ex.get("files"), "export plan expected", ex)
+    pg = t.post("/purge/", {})
+    check(pg.get("status") in ("preview", "success"), "purge must only preview without confirm", pg)
+    return {"tags_planned": tg.get("tagged"), "export_files": ex.get("file_count"), "purgeable": pg.get("candidates")}
+
+
+@step("v22", "batch_execute: dry run, then failure rolls back", ["batch_execute"])
+def _v22_batch(t):
+    t.require_test_model()
+    eid = t.require("wall_ids", "no walls")[0]
+    before = _comments(t, eid)
+    cmds = [{"index": 0, "tool": "set_parameters", "endpoint": "/set_parameters/",
+             "payload": {"updates": [{"element_id": eid, "parameter": "Comments", "value": "RVTSS batch"}]}},
+            {"index": 1, "tool": "create_view", "endpoint": "/views/create/",
+             "payload": {"kind": "drafting", "name": "RVTSS Batch " + t.stamp}}]
+    d = t.post("/batch/", {"commands": cmds, "dry_run": True})
+    check(d.get("status") == "dry_run" and d.get("succeeded") == 2, "batch dry run", d)
+    check(_comments(t, eid) == before, "batch dry run changed the model")
+    bad = cmds[:1] + [{"index": 1, "tool": "set_parameters", "endpoint": "/set_parameters/",
+                       "payload": {"updates": [{"element_id": 999999999, "parameter": "Comments", "value": "x"}]}}]
+    f = t.post("/batch/", {"commands": bad}, expect_error=True)
+    check(f.get("rolled_back") is True, "failed batch must roll back", f)
+    check(_comments(t, eid) == before, "rolled-back batch left a change behind")
+    return {"dry_run": d.get("succeeded"), "rolled_back": f.get("rolled_back")}
+
+
 # ------------------------------------------------------------------ runner
 def run(transport, scratch_dir, prepare_model=None, groups=None, log=None, environment=None):
     t = TestContext(transport, scratch_dir, prepare_model, log)

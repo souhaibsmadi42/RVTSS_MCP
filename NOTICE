@@ -1,0 +1,24 @@
+RVTSS - Revit MCP for Claude
+RVTSS additions by Suhaib Al Smadi. Distributed under the MIT License (see LICENSE).
+
+RVTSS is an upgrade of mcp-server-for-revit-python
+(https://github.com/mcp-servers-for-revit/mcp-server-for-revit-python),
+by Juan D. Rodriguez and Jean-Marc Couffin, MIT License.
+
+Design acknowledgement
+----------------------
+Several features added in RVTSS 2.2 were inspired by rvt-mcp by bimwright
+(https://github.com/bimwright/rvt-mcp), licensed under the Apache License 2.0:
+atomic batches in one transaction group, a read-only mode with a generated
+permission allow list, refusing unknown tool arguments with suggestions, a
+response-size guard, a one-call health check, a change-impact survey that
+reports unchecked relationships explicitly, and the getting-started /
+disciplined-change prompt workflows, as well as the scope of the rooms,
+materials, annotation, export, MEP, view filter and revision tools.
+
+rvt-mcp is a C# / .NET Revit add-in; RVTSS is IronPython on pyRevit Routes.
+The RVTSS implementations were written independently for this code base;
+no rvt-mcp source code is included in RVTSS.
+
+Revit and Autodesk are trademarks of Autodesk, Inc. RVTSS is not affiliated
+with, sponsored by, or endorsed by Autodesk, Inc. or bimwright.
