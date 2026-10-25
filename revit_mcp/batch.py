@@ -111,7 +111,7 @@ def run_batch(ctx):
         payload = dict((cmd or {}).get("payload") or {})
         payload.pop("dry_run", None)
         sub_doc = payload.get("document")
-        if sub_doc and core.resolve_document(ctx.active_doc, sub_doc) is not doc:
+        if sub_doc and not core.resolve_document(ctx.active_doc, sub_doc).Equals(doc):
             raise RvtssError("Command {} targets document '{}' but the batch runs on '{}'".format(
                 i, sub_doc, target_title), hint="A batch is one transaction group on one document.")
         if ctx.data.get("document"):
@@ -122,6 +122,7 @@ def run_batch(ctx):
     failed = False
     group = DB.TransactionGroup(doc, "RVTSS: " + (ctx.get("name") or "batch of {} commands".format(len(plan))))
     group.Start()
+    core.set_batch_state(True, dry)
     try:
         for index, tool, func, payload in plan:
             kwargs = {}
@@ -152,6 +153,8 @@ def run_batch(ctx):
         if group.HasStarted() and not group.HasEnded():
             group.RollBack()
         raise
+    finally:
+        core.set_batch_state(False)
     ran = len(results)
     out = {"commands": len(plan), "ran": ran, "succeeded": len([r for r in results if r["outcome"] == "ok"]),
            "failed": len([r for r in results if r["outcome"] != "ok"]), "rolled_back": rolled_back,

@@ -68,6 +68,57 @@ def _rule_parameter(doc, name, filterable):
                          hint="A filter rule can only use a parameter every chosen category has.")
 
 
+def _param_storage(doc, cat_ids, pid):
+    """(StorageType name, unit kind) of a filter parameter, read from one element of the categories."""
+    from .compat import definition_spec
+
+    for cid in cat_ids:
+        for col in (DB.FilteredElementCollector(doc).OfCategoryId(cid).WhereElementIsNotElementType(),
+                    DB.FilteredElementCollector(doc).OfCategoryId(cid).WhereElementIsElementType()):
+            for e in col:
+                p = None
+                try:
+                    if id_int(pid) < 0:
+                        import System
+
+                        p = e.get_Parameter(System.Enum.ToObject(DB.BuiltInParameter, id_int(pid)))
+                    else:
+                        for q in e.Parameters:
+                            if q.Id == pid:
+                                p = q
+                                break
+                except Exception:
+                    p = None
+                if p is not None:
+                    _name, kind = definition_spec(p.Definition)
+                    return str(p.StorageType), kind
+                break  # the first element of a category is representative
+    return None, None
+
+
+def _adapt_rule(doc, cat_ids, pid, r, default_unit, warn):
+    """Fit the rule's value type and unit to the parameter: doubles in project units, mm by default."""
+    r = dict(r)
+    storage, kind = _param_storage(doc, cat_ids, pid)
+    if r["kind"] in ("integer", "double") and storage == "Double":
+        r["kind"] = "double"
+        r["value"] = float(r["value"])
+        if kind in ("length", "area", "volume", "angle", "measurable"):
+            base = kind if kind != "measurable" else "length"
+            r["unit"] = U.length_unit_for(base, r.get("unit") or default_unit)
+        else:
+            r["unit"] = r.get("unit")  # plain number: no conversion unless a unit was given
+    elif r["kind"] == "double" and storage == "Integer" and not r.get("unit"):
+        r["kind"], r["value"] = "integer", int(r["value"])
+    elif r["kind"] == "integer" and storage == "ElementId":
+        r["kind"] = "element_id"
+    elif storage is None and r["kind"] == "double":
+        r["unit"] = r.get("unit") or default_unit
+        warn("Could not sample parameter '{}' on the categories; the value was read as a length in {}.".format(
+            r["parameter"], r["unit"]))
+    return r
+
+
 def _make_rule(doc, pid, r):
     fac = DB.ParameterFilterRuleFactory
     method = getattr(fac, FR.FACTORY[r["op"]], None)
@@ -214,7 +265,9 @@ def view_filters(ctx):
                     nr = FR.validate_rule(r)
                 except FR.RuleError as e:
                     raise RvtssError(text_type(e))
-                rules.append(_make_rule(doc, _rule_parameter(doc, nr["parameter"], filterable), nr))
+                pid = _rule_parameter(doc, nr["parameter"], filterable)
+                nr = _adapt_rule(doc, cat_ids, pid, nr, ctx.unit, ctx.warn)
+                rules.append(_make_rule(doc, pid, nr))
             if ctx.get("logic", "and") == "or":
                 from System.Collections.Generic import List
 
@@ -361,8 +414,16 @@ def revisions(ctx):
             sheets = _resolve_sheets(doc, ctx.list("sheets"))
             if not sheets:
                 raise RvtssError("{} needs sheets (numbers or ids)".format(action))
-            return {"revision": _describe_revision(r, None),
-                    action + "ed": _assign(doc, [r], sheets, action == "assign")}
+            out = {"revision": _describe_revision(r, None),
+                   action + "ed": _assign(doc, [r], sheets, action == "assign")}
+            if action == "unassign":
+                still = [normalize_string(s.SheetNumber) for s in sheets
+                         if r.Id in list(s.GetAllRevisionIds())]
+                if still:
+                    out["still_shown_by_clouds"] = still
+                    ctx.warn("The revision stays on {} because revision clouds in views on those sheets use it; "
+                             "delete or change the clouds to remove it.".format(", ".join(still)))
+            return out
         if action == "issue":
             r.Issued = True
             return {"revision": _describe_revision(r, None),

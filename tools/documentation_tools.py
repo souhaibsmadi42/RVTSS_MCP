@@ -232,7 +232,8 @@ def register_documentation_tools(mcp, revit_get, revit_post):
         graphic overrides, remove, delete.
 
         Example: create name='Fire doors' categories=['Doors'] rules=[{parameter: 'Fire Rating', op:
-        'has_value'}] apply_to=['Level 1'] overrides={color: '#FF0000'}. Dimensional values need `unit`.
+        'has_value'}] apply_to=['Level 1'] overrides={color: '#FF0000'}. Dimensional values are read in
+        the rule's `unit` (default mm, m2 / m3 for areas / volumes).
         """
         data = compact(action=action, filter=filter, name=name, categories=categories, rules=rules, logic=logic,
                        apply_to=apply_to, visible=visible, overrides=overrides, contains=contains,

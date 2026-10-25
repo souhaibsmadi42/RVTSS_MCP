@@ -126,6 +126,23 @@ def current_request_id():
     return getattr(_REQUEST, "id", None)
 
 
+_BATCH = threading.local()
+
+
+def set_batch_state(active, dry_run=False):
+    """batch.run_batch marks the commands it runs (on this thread) as part of a batch / a batch dry run."""
+    _BATCH.active = bool(active)
+    _BATCH.dry_run = bool(active and dry_run)
+
+
+def in_batch():
+    return getattr(_BATCH, "active", False)
+
+
+def in_batch_dry_run():
+    return getattr(_BATCH, "dry_run", False)
+
+
 def _audit_log(method, ok, duration, detail="", request_id=None):
     """One line per request; secret-looking values are redacted and the line is capped."""
     try:
@@ -449,8 +466,10 @@ def read_only_mode():
 
 
 def require_writable(action="This operation"):
-    """Refuse model / file changes in read-only mode (dry runs and previews do not call this)."""
-    if read_only_mode():
+    """Refuse model / file changes in read-only mode (dry runs and previews do not call this).
+
+    Commands of a batch dry run strip their own dry_run, but the whole group is rolled back, so they pass."""
+    if read_only_mode() and not in_batch_dry_run():
         raise RvtssError("{} is refused: RVTSS runs in read-only mode on this Revit machine".format(action),
                          status=403, read_only=True,
                          hint="Dry runs still work. Unset RVTSS_READ_ONLY (or 'read_only' in "

@@ -110,8 +110,11 @@ def takeoff(ctx):
     if not any(spec.get(k) for k in ("element_ids", "selection", "categories", "view", "level", "class_name")):
         raise RvtssError("Give a scope: categories, element_ids, view, level or selection",
                          hint="e.g. categories=['Walls','Floors'] for a structure take-off.")
-    area_unit = ctx.get("area_unit") or "m2"
-    volume_unit = ctx.get("volume_unit") or "m3"
+    try:
+        area_unit = U.length_unit_for("area", ctx.get("area_unit") or "m2")
+        volume_unit = U.length_unit_for("volume", ctx.get("volume_unit") or "m3")
+    except U.UnitError as e:
+        raise RvtssError(str(e))
     group_by = ctx.list("group_by") or ["material"]
     for g in group_by:
         if g not in ("material", "category", "level", "type"):
@@ -199,12 +202,12 @@ def find_material(doc, name_or_id):
 
 
 def _fill_pattern(doc, name, drafting=True):
+    """Cut patterns must be drafting patterns; surface patterns may be model or drafting (2019+)."""
     for fp in DB.FilteredElementCollector(doc).OfClass(DB.FillPatternElement):
         try:
             pat = fp.GetFillPattern()
             if normalize_string(fp.Name).lower() == text_type(name).lower() and \
-                    (pat.Target == (DB.FillPatternTarget.Drafting if drafting else DB.FillPatternTarget.Model)
-                     or pat.IsSolidFill):
+                    (not drafting or pat.Target == DB.FillPatternTarget.Drafting or pat.IsSolidFill):
                 return fp
         except Exception:
             continue

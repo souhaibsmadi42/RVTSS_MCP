@@ -114,8 +114,11 @@ def tag(ctx):
     cats = ctx.list("categories")
     if not ids and not cats:
         raise RvtssError("Give element_ids or categories (tagged in the view)")
-    elements = core.get_elements(doc, ids) if ids else []
-    seen = set(id_int(e) for e in elements)
+    elements, seen = [], set()
+    for e in (core.get_elements(doc, ids) if ids else []):
+        if id_int(e) not in seen:
+            seen.add(id_int(e))
+            elements.append(e)
     for name in cats:
         for e in _visible(doc, view, core.resolve_category(doc, name)):
             if id_int(e) not in seen:
@@ -191,7 +194,7 @@ def tag(ctx):
     if failed and any("tag family" in (r.get("error") or "").lower() or "no tag" in (r.get("error") or "").lower()
                       for r in failed):
         out["hint"] = "Load a tag family for the category (Insert > Load Family > Annotations) or pass tag_type."
-    return core.preview_status(out, preview)
+    return core.preview_status(out, preview and not ctx.dry_run)
 
 
 def text_notes(ctx):

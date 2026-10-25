@@ -11,7 +11,7 @@ from pyrevit import DB
 
 from . import core
 from .core import RvtssError, handle
-from .compat import id_int, text_type, REVIT_YEAR
+from .compat import id_int, text_type, REVIT_YEAR, bic_from_category
 from .utils import normalize_string, get_element_name
 
 logger = logging.getLogger(__name__)
@@ -70,8 +70,14 @@ def worksets(ctx):
         return {"workshared": True, "count": len(out), "worksets": out,
                 "empty": [d["name"] for d in out if d.get("element_count") == 0]}
     if action == "set_active":
-        core.require_writable("set_active workset")
         w = _find_workset(doc, ctx.require("workset"))
+        if core.in_batch():
+            raise RvtssError("set_active cannot run in batch_execute (it is not a transaction and cannot be "
+                             "rolled back)", hint="Call manage_worksets(action='set_active') on its own.")
+        if ctx.dry_run:
+            return {"status": "dry_run", "would_activate": normalize_string(w.Name),
+                    "message": "Dry run: the active workset was not changed."}
+        core.require_writable("set_active workset")
         table.SetActiveWorksetId(w.Id)
         return {"active_workset": normalize_string(w.Name)}
     dry = ctx.dry_run
@@ -134,11 +140,18 @@ def _unused_elements(doc):
     for fam in DB.FilteredElementCollector(doc).OfClass(DB.Family):
         if not fam.IsEditable or fam.IsInPlace:
             continue
+        cat = fam.FamilyCategory
+        # only model families: annotation families (tags, heads, titles) and profiles are used without a
+        # FamilyInstance, so "no instance" would wrongly mark them unused
+        if cat is None or cat.CategoryType != DB.CategoryType.Model or \
+                bic_from_category(cat) in ("OST_ProfileFamilies", "OST_DetailComponents"):
+            continue
         sids = list(fam.GetFamilySymbolIds())
         unused = [s for s in sids if id_int(s) not in used]
         # Revit keeps at least one type per family: delete the whole family when no type is used
         ids.extend([fam.Id] if unused and len(unused) == len(sids) else unused)
-    return ids, "unused loadable family types (Revit {} has no purge API)".format(REVIT_YEAR or "<2024")
+    return ids, ("unused loadable model family types (Revit {} has no purge API; annotation and profile "
+                 "families are not checked)".format(REVIT_YEAR or "<2024"))
 
 
 def purge(ctx):
@@ -175,25 +188,36 @@ def purge(ctx):
                                "confirm=true (optionally categories / exclude_ids to narrow it)."})
         return out
     passes = ctx.int("passes", 1, 1, 5)
-    deleted_total = []
+    core.require_writable("purge_unused")
+    deleted_total, fails = [], []
 
     def run():
         deleted = [id_int(i) for i in doc.Delete(core.to_id_list([e.Id for e, _c in candidates]))]
         return {"deleted": deleted}
 
-    res, fails = core.run_transaction(doc, "Purge unused", run)
-    deleted_total.extend(res.get("deleted", []))
-    for _ in range(passes - 1):
-        more, _m = _unused_elements(doc)
-        more = [i for i in more if id_int(i) not in exclude and (not cats or (
-            doc.GetElement(i) is not None and doc.GetElement(i).Category is not None
-            and normalize_string(doc.GetElement(i).Category.Name) in cats))]
-        if not more:
-            break
-        r, f = core.run_transaction(doc, "Purge unused (next pass)",
-                                    lambda: {"deleted": [id_int(i) for i in doc.Delete(core.to_id_list(more))]})
-        deleted_total.extend(r.get("deleted", []))
+    # all passes form one undo step; any failure rolls every pass back
+    group = DB.TransactionGroup(doc, "RVTSS: Purge unused")
+    group.Start()
+    try:
+        res, f = core.run_transaction(doc, "Purge unused", run)
+        deleted_total.extend(res.get("deleted", []))
         fails.extend(f)
+        for _ in range(passes - 1):
+            more, _m = _unused_elements(doc)
+            more = [i for i in more if id_int(i) not in exclude and (not cats or (
+                doc.GetElement(i) is not None and doc.GetElement(i).Category is not None
+                and normalize_string(doc.GetElement(i).Category.Name) in cats))]
+            if not more:
+                break
+            r, f = core.run_transaction(doc, "Purge unused (next pass)",
+                                        lambda: {"deleted": [id_int(i) for i in doc.Delete(core.to_id_list(more))]})
+            deleted_total.extend(r.get("deleted", []))
+            fails.extend(f)
+        group.Assimilate()
+    except Exception:
+        if group.HasStarted() and not group.HasEnded():
+            group.RollBack()
+        raise
     out = core.commit_result({"deleted_count": len(deleted_total), "deleted_ids": deleted_total[:500],
                               "method": method, "by_category": by_cat}, fails, False)
     out["note"] = "Deletion count includes dependent elements Revit removed with the purged ones. Undo is available."

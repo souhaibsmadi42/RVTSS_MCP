@@ -20,13 +20,40 @@ from .utils import normalize_string
 logger = logging.getLogger(__name__)
 
 
-def _shared(location, p, unit):
-    pos = location.GetProjectPosition(p)
-    return {"east_west": U.from_internal(pos.EastWest, unit, 1), "north_south": U.from_internal(pos.NorthSouth, unit, 1),
-            "elevation": U.from_internal(pos.Elevation, unit, 1)}
+class _SharedConverter(object):
+    """Internal -> shared coordinates through the active ProjectLocation transform.
+
+    ProjectLocation.GetProjectPosition is only documented for the origin, so points use
+    GetTotalTransform(). Its direction is checked against a base point whose shared position Revit
+    reports itself (survey point, then project base point); `verified` says whether that check ran.
+    """
+
+    def __init__(self, doc, location):
+        self.method = None
+        self.verified = False
+        tr = location.GetTotalTransform()
+        candidates = [("transform_inverse", tr.Inverse), ("transform", tr)]
+        self.transform = candidates[0][1]
+        self.method = candidates[0][0]
+        for getter in (DB.BasePoint.GetSurveyPoint, DB.BasePoint.GetProjectBasePoint):
+            try:
+                bp = getter(doc)
+                internal, shared = bp.Position, bp.SharedPosition
+            except Exception:
+                continue
+            for name, t in candidates:
+                if t.OfPoint(internal).DistanceTo(shared) < 1e-4:
+                    self.transform, self.method, self.verified = t, name, True
+                    return
+            return
+
+    def convert(self, p, unit):
+        q = self.transform.OfPoint(p)
+        return {"east_west": U.from_internal(q.X, unit, 1), "north_south": U.from_internal(q.Y, unit, 1),
+                "elevation": U.from_internal(q.Z, unit, 1)}
 
 
-def _base_point(getter, location, unit):
+def _base_point(getter, conv, unit):
     try:
         bp = getter()
     except Exception:
@@ -39,7 +66,7 @@ def _base_point(getter, location, unit):
         out["shared"] = core.xyz_list(bp.SharedPosition, unit)
     except Exception:
         try:
-            out["shared"] = _shared(location, bp.Position, unit)
+            out["shared"] = conv.convert(bp.Position, unit)
         except Exception:
             pass
     try:
@@ -55,15 +82,17 @@ def coordinates(ctx):
     core.require_project(doc)
     unit = ctx.unit
     loc = doc.ActiveProjectLocation
-    out = {"unit": unit, "active_location": normalize_string(loc.Name)}
+    conv = _SharedConverter(doc, loc)
+    out = {"unit": unit, "active_location": normalize_string(loc.Name),
+           "shared_conversion": {"method": conv.method, "verified_against_base_point": conv.verified}}
     try:
         origin_pos = loc.GetProjectPosition(DB.XYZ.Zero)
         out["angle_to_true_north_deg"] = round(math.degrees(origin_pos.Angle), 6)
-        out["internal_origin_in_shared"] = _shared(loc, DB.XYZ.Zero, unit)
+        out["internal_origin_in_shared"] = conv.convert(DB.XYZ.Zero, unit)
     except Exception as e:
         out["warnings"] = ["Project position unavailable: {}".format(e)]
-    out["project_base_point"] = _base_point(lambda: DB.BasePoint.GetProjectBasePoint(doc), loc, unit)
-    out["survey_point"] = _base_point(lambda: DB.BasePoint.GetSurveyPoint(doc), loc, unit)
+    out["project_base_point"] = _base_point(lambda: DB.BasePoint.GetProjectBasePoint(doc), conv, unit)
+    out["survey_point"] = _base_point(lambda: DB.BasePoint.GetSurveyPoint(doc), conv, unit)
     try:
         out["project_locations"] = [normalize_string(l.Name) for l in doc.ProjectLocations]
     except Exception:
@@ -81,7 +110,7 @@ def coordinates(ctx):
             tr = inst.GetTotalTransform()
             d["origin_internal"] = core.xyz_list(tr.Origin, unit)
             d["rotation_deg"] = round(math.degrees(math.atan2(tr.BasisX.Y, tr.BasisX.X)), 6)
-            d["origin_shared"] = _shared(loc, tr.Origin, unit)
+            d["origin_shared"] = conv.convert(tr.Origin, unit)
             d["is_identity"] = tr.IsIdentity
         except Exception:
             pass
@@ -96,11 +125,11 @@ def coordinates(ctx):
     out["links"] = links
     pts = ctx.list("points")
     if pts:
-        conv = []
+        converted = []
         for p in pts[:200]:
             x, y, z = U.point_from(p, unit)
-            conv.append({"internal": list(p), "shared": _shared(loc, DB.XYZ(x, y, z), unit)})
-        out["converted_points"] = conv
+            converted.append({"internal": list(p), "shared": conv.convert(DB.XYZ(x, y, z), unit)})
+        out["converted_points"] = converted
     return out
 
 
@@ -182,8 +211,10 @@ def spatial_query(ctx):
                 out["surface_distance_note"] = "no solid geometry on one of the elements"
         return out
     if mode == "in_box":
-        lo = DB.XYZ(*U.point_from(ctx.require("min"), unit))
-        hi = DB.XYZ(*U.point_from(ctx.require("max"), unit))
+        a = U.point_from(ctx.require("min"), unit)
+        b = U.point_from(ctx.require("max"), unit)
+        lo = DB.XYZ(min(a[0], b[0]), min(a[1], b[1]), min(a[2], b[2]))
+        hi = DB.XYZ(max(a[0], b[0]), max(a[1], b[1]), max(a[2], b[2]))
         found = _box_query(doc, lo, hi, cats, limit)
         return {"mode": mode, "count": len(found), "truncated": len(found) >= limit,
                 "elements": [core.element_brief(doc, e) for e in found]}

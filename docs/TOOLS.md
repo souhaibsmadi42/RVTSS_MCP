@@ -1429,7 +1429,8 @@ Rule-based view filters: list (rules, where used), create, apply to views/templa
 graphic overrides, remove, delete.
 
 Example: create name='Fire doors' categories=['Doors'] rules=[{parameter: 'Fire Rating', op:
-'has_value'}] apply_to=['Level 1'] overrides={color: '#FF0000'}. Dimensional values need `unit`.
+'has_value'}] apply_to=['Level 1'] overrides={color: '#FF0000'}. Dimensional values are read in
+the rule's `unit` (default mm, m2 / m3 for areas / volumes).
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|

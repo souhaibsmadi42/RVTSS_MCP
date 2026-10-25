@@ -647,13 +647,29 @@ Routes binds one Revit per port), MEP/structural element creation (`create_eleme
 
 ## Verified here
 
-* 304 unit tests on Python 3.13 with MCP SDK 2.3 (302 + 2 skipped on 1.9): guards, batch payload capture, read-only
+* 306 unit tests on Python 3.13 with MCP SDK 2.3 (304 + 2 skipped on 1.9): guards, batch payload capture, read-only
   registration, every new tool's payload, the Revit-side batch transaction group (assimilate / roll back /
   continue_on_error / dry run / preview / allow list) against stubs, Revit-side read-only refusals, input
   validation of every new route, pure helpers (spatial status, finish areas, export names, filter rules).
 * All 21 new routes register under the pyRevit stubs; every tool endpoint has a route.
 * pyflakes clean; vermin confirms IronPython 2.7 / 3.4 compatibility of the Revit side.
 * `docs/TOOLS.md` and the README allow list are generated identically on both SDK majors.
+
+## Independent review
+
+A second reviewer read the new Revit modules against the API. Fixed before release:
+* purge fallback (Revit < 2024) only considers model families; tag, annotation and profile families are used
+  without a FamilyInstance and would have been purged;
+* `manage_worksets(set_active)` honours `dry_run` and is refused inside `batch_execute`;
+* a batch dry run works in read-only mode (batch state on the request thread); documents compared with
+  `.Equals`;
+* all purge passes form one undo step;
+* MEP spaces use space logic (doors tested on both sides, `IsPointInSpace`); wall finishes count walls only;
+* area / volume units adapt to the quantity (`m` becomes `m2`); filter-rule values follow the parameter's
+  storage and spec, dimensional values default to mm;
+* point conversion uses the ProjectLocation transform, verified against a base point's shared position;
+* explicit tag dry runs are no longer reported as previews; duplicate ids are tagged once; `in_box` orders
+  the corners; `unassign` warns when clouds keep a revision on a sheet; surface patterns may be drafting.
 
 ## Needs a live Revit run
 

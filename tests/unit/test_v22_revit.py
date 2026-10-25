@@ -248,3 +248,60 @@ def test_filter_rules():
                 {"parameter": "x", "op": "contains", "value": 5}, {"parameter": "x", "op": "equals"}):
         with pytest.raises(FR.RuleError):
             FR.validate_rule(bad)
+
+
+def test_batch_dry_run_works_in_read_only_mode(rv, monkeypatch):
+    """Sub-commands lose their own dry_run inside a batch; the batch dry run must still pass read-only mode."""
+    _api, _rm, batch, core = rv
+    monkeypatch.setenv("RVTSS_READ_ONLY", "1")
+
+    def writer(doc, request):
+        try:
+            core.require_writable("edit")
+        except core.RvtssError as e:
+            return {"data": {"status": "error", "error": e.message}, "status": e.status}
+        return {"data": {"status": "success", "in_batch": core.in_batch()}, "status": 200}
+
+    monkeypatch.setitem(batch.ROUTE_TABLE, "/set_parameters/", writer)
+    monkeypatch.setitem(batch.ROUTE_TABLE, "/views/create/", writer)
+    monkeypatch.setattr(batch.DB, "TransactionGroup", FakeGroup)
+    data = _run(batch, core, {"commands": _cmds(), "dry_run": True})["data"]
+    assert data["status"] == "dry_run" and data["succeeded"] == 2
+    assert data["results"][0]["result"]["in_batch"] is True
+    assert core.in_batch() is False and core.in_batch_dry_run() is False  # state is cleared afterwards
+    with pytest.raises(core.RvtssError):
+        core.require_writable("edit")
+
+
+def test_set_active_workset_respects_dry_run_and_batches(rv, monkeypatch):
+    _api, _rm, _batch, core = rv
+    from revit_mcp import model_admin
+
+    class Workset(object):
+        Name = "MEP"
+        Id = 7
+
+    class Table(object):
+        activated = []
+
+        def SetActiveWorksetId(self, wid):
+            self.activated.append(wid)
+
+    class Doc(FakeDoc):
+        IsWorkshared = True
+
+        def GetWorksetTable(self):
+            return Table()
+
+    monkeypatch.setattr(model_admin, "_find_workset", lambda doc, key: Workset())
+    res = core.handle(Doc(), FakeRequest({"action": "set_active", "workset": "MEP", "dry_run": True}),
+                      model_admin.worksets)
+    assert res["data"]["status"] == "dry_run" and Table.activated == []
+    core.set_batch_state(True)
+    try:
+        res = core.handle(Doc(), FakeRequest({"action": "set_active", "workset": "MEP"}), model_admin.worksets)
+    finally:
+        core.set_batch_state(False)
+    assert res["data"]["status"] == "error" and "batch_execute" in res["data"]["error"] and Table.activated == []
+    core.handle(Doc(), FakeRequest({"action": "set_active", "workset": "MEP"}), model_admin.worksets)
+    assert Table.activated == [7]
