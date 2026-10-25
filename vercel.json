@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "python3 -m pip install markdown || true",
+  "buildCommand": "python3 website/build_site.py --dist _site",
+  "outputDirectory": "_site",
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/media/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
+    }
+  ]
+}

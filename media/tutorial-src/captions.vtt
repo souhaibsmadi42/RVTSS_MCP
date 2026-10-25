@@ -1,0 +1,306 @@
+WEBVTT
+
+1
+00:00:01.400 --> 00:00:03.582
+Meet RVTSS — the Revit MCP for Claude.
+
+2
+00:00:03.632 --> 00:00:06.296
+It connects Claude directly to your live Revit model,
+
+3
+00:00:06.346 --> 00:00:09.745
+so you can inspect, edit, and check your projects…
+
+4
+00:00:09.795 --> 00:00:11.499
+just by asking.
+
+5
+00:00:11.549 --> 00:00:15.579
+In the next few minutes, you'll install it, connect it,
+
+6
+00:00:15.629 --> 00:00:17.406
+and run your first commands.
+
+7
+00:00:17.906 --> 00:00:20.581
+Before we start, you need four things.
+
+8
+00:00:20.631 --> 00:00:24.085
+Autodesk Revit, version 2021 or newer.
+
+9
+00:00:24.135 --> 00:00:26.979
+pyRevit, version 4.8 or newer.
+
+10
+00:00:27.029 --> 00:00:29.829
+Python 3.11, with the uv package manager.
+
+11
+00:00:29.879 --> 00:00:34.053
+And Claude — either Claude Desktop, or Claude Code.
+
+12
+00:00:34.553 --> 00:00:35.933
+Here's how it works.
+
+13
+00:00:35.983 --> 00:00:40.140
+Claude talks to the RVTSS MCP server on your computer.
+
+14
+00:00:40.190 --> 00:00:42.989
+The server sends requests to pyRevit Routes
+
+15
+00:00:43.039 --> 00:00:47.856
+a small web service running inside Revit, on port 48884.
+
+16
+00:00:47.906 --> 00:00:51.906
+And Routes runs every command through the Revit API, safely,
+
+17
+00:00:51.956 --> 00:00:53.507
+inside a transaction.
+
+18
+00:00:54.007 --> 00:00:56.750
+Step one: install the extension.
+
+19
+00:00:56.800 --> 00:01:01.051
+Open PowerShell, go to your pyRevit extensions folder,
+
+20
+00:01:01.101 --> 00:01:05.003
+and clone the repository as RVTSS dot extension.
+
+21
+00:01:05.053 --> 00:01:06.988
+Keep only ONE copy
+
+22
+00:01:07.038 --> 00:01:10.431
+if an older Revit MCP extension is installed, remove it first,
+
+23
+00:01:10.481 --> 00:01:12.296
+or the two will conflict.
+
+24
+00:01:12.796 --> 00:01:15.382
+Step two: turn on Routes.
+
+25
+00:01:15.432 --> 00:01:20.122
+In Revit, open the pyRevit tab, then Settings, then Routes.
+
+26
+00:01:20.172 --> 00:01:26.268
+Enable the Routes Server, set the host to 127.0.0.1, save,
+
+27
+00:01:26.318 --> 00:01:27.871
+and reload pyRevit.
+
+28
+00:01:27.921 --> 00:01:31.019
+A new RVTSS tab appears in the ribbon.
+
+29
+00:01:31.519 --> 00:01:33.937
+Step three: check the server.
+
+30
+00:01:33.987 --> 00:01:36.324
+Open the status page shown on screen.
+
+31
+00:01:36.374 --> 00:01:41.466
+You should see health: healthy, and the RVTSS version.
+
+32
+00:01:41.516 --> 00:01:43.622
+If it says the route does not exist,
+
+33
+00:01:43.672 --> 00:01:46.368
+enable the extension in pyRevit's extension manager,
+
+34
+00:01:46.418 --> 00:01:47.930
+and restart Revit.
+
+35
+00:01:48.430 --> 00:01:51.251
+Step four: run the self-test.
+
+36
+00:01:51.301 --> 00:01:54.665
+On the RVTSS tab, click Diagnostics, then Run Self-Test.
+
+37
+00:01:54.715 --> 00:01:59.065
+It works on a copy of the bundled test model
+
+38
+00:01:59.115 --> 00:02:01.017
+your own files are never touched
+
+39
+00:02:01.067 --> 00:02:03.227
+and opens a pass or fail report.
+
+40
+00:02:03.728 --> 00:02:06.125
+Step five: connect Claude.
+
+41
+00:02:06.175 --> 00:02:08.950
+In the extension folder, run uv sync.
+
+42
+00:02:09.000 --> 00:02:14.839
+Then, in Claude Desktop, open Settings, Developer, Edit Config,
+
+43
+00:02:14.889 --> 00:02:17.200
+and add the RVTSS server.
+
+44
+00:02:17.250 --> 00:02:18.394
+Using Claude Code?
+
+45
+00:02:18.444 --> 00:02:19.823
+One command does it.
+
+46
+00:02:19.873 --> 00:02:23.028
+Restart Claude, and the RVTSS tools appear.
+
+47
+00:02:23.528 --> 00:02:25.991
+RVTSS has 77 tools in 10 toolsets.
+
+48
+00:02:26.041 --> 00:02:27.825
+Every tool costs context,
+
+49
+00:02:27.875 --> 00:02:32.514
+so load only what you need with the RVTSS TOOLSETS setting.
+
+50
+00:02:32.564 --> 00:02:37.289
+Pick a profile: BIM coordinator, family author, modeler,
+
+51
+00:02:37.339 --> 00:02:41.045
+or minimal… or keep the default, all.
+
+52
+00:02:41.545 --> 00:02:43.345
+Now, just talk to Claude.
+
+53
+00:02:43.395 --> 00:02:45.565
+Give me an overview of this project.
+
+54
+00:02:45.615 --> 00:02:49.535
+Find all doors on Level 2 wider than 900 millimetres.
+
+55
+00:02:49.585 --> 00:02:52.489
+Check clashes between ducts and structural framing,
+
+56
+00:02:52.539 --> 00:02:54.015
+and export a report.
+
+57
+00:02:54.065 --> 00:02:56.658
+Claude picks the right tools, runs them in Revit,
+
+58
+00:02:56.708 --> 00:02:57.869
+and reports back.
+
+59
+00:02:58.370 --> 00:02:59.915
+Here's what's inside.
+
+60
+00:02:59.965 --> 00:03:03.476
+Model intelligence, to find anything in your model.
+
+61
+00:03:03.526 --> 00:03:06.195
+Element editing, with bulk updates.
+
+62
+00:03:06.245 --> 00:03:08.060
+Full family creation.
+
+63
+00:03:08.110 --> 00:03:12.505
+Shared, project, and global parameters.
+
+64
+00:03:12.555 --> 00:03:17.156
+Documentation automation for views, sheets, and schedules.
+
+65
+00:03:17.206 --> 00:03:19.433
+And coordination and QC: clash detection,
+
+66
+00:03:19.483 --> 00:03:23.516
+ISO 19650 naming checks, and Excel and IFC exports.
+
+67
+00:03:24.016 --> 00:03:25.812
+And it's built to be safe.
+
+68
+00:03:25.862 --> 00:03:29.347
+Every change runs in a named transaction you can undo.
+
+69
+00:03:29.397 --> 00:03:32.966
+Dry runs let Revit validate a change, then roll it back.
+
+70
+00:03:33.016 --> 00:03:36.230
+Large or destructive edits need your confirmation.
+
+71
+00:03:36.280 --> 00:03:38.365
+Dimensions always need units.
+
+72
+00:03:38.415 --> 00:03:40.971
+And you can lock it all down with a token.
+
+73
+00:03:41.471 --> 00:03:43.267
+That's it — you're ready.
+
+74
+00:03:43.317 --> 00:03:47.412
+The full user manual and every link are on the RVTSS website.
+
+75
+00:03:47.462 --> 00:03:49.478
+Install it, connect Claude…
+
+76
+00:03:49.528 --> 00:03:51.368
+and start talking to your models.
+

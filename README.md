@@ -14,13 +14,20 @@ and keeps its API name (`revit_mcp`), port (48884), installation method and all 
 
 | | |
 |---|---|
+| **Website** (video + manual) | https://souhaibsmadi42.github.io/RVTSS_MCP/ |
+| **Install & use tutorial** (3:54, narrated) | [media/rvtss-tutorial.mp4](media/rvtss-tutorial.mp4) |
+| **40 s social reel** (vertical, captioned) | [media/rvtss-reel-40s.mp4](media/rvtss-reel-40s.mp4) |
+| **User manual** | [docs/USER_MANUAL.md](docs/USER_MANUAL.md) |
 | Tool reference (generated) | [docs/TOOLS.md](docs/TOOLS.md) |
 | Coordination features with examples | [docs/COORDINATION.md](docs/COORDINATION.md) |
 | What changed, verification status | [CHANGELOG.md](CHANGELOG.md) · [docs/UPGRADE_REPORT.md](docs/UPGRADE_REPORT.md) |
 | Original upstream documentation | [docs/UPSTREAM.md](docs/UPSTREAM.md) |
 | 40 s promo film | [media/rvtss-promo-40s.mp4](media/rvtss-promo-40s.mp4) |
 
-[![RVTSS promo (40 s) - click for the MP4 with sound](media/rvtss-promo-preview.gif)](media/rvtss-promo-40s.mp4)
+[![RVTSS install & use tutorial (3:54) - click to watch](media/rvtss-tutorial-poster.jpg)](media/rvtss-tutorial.mp4)
+
+New to RVTSS? Watch the [tutorial](media/rvtss-tutorial.mp4), then follow the [user manual](docs/USER_MANUAL.md).
+Promo film: [40 s MP4](media/rvtss-promo-40s.mp4).
 
 ## Quick start
 

@@ -1,0 +1,103 @@
+/* RVTSS website — shared styles for index.html and manual.html.
+   Layout concept: a Revit drawing set — blueprint-ruled grounds, sheets with hairline title-block labels,
+   one bold moment (the tutorial film), everything else quiet and readable. */
+:root {
+  --ground: #0a0d14;
+  --sheet: #10141f;
+  --sheet-2: #161b29;
+  --rule: #232b3d;
+  --ink: #eef1f8;
+  --muted: #97a0b8;
+  --cyan: #2fc8f2;
+  --violet: #9878f7;
+  --ok: #3fd29b;
+  --warn: #f2b84b;
+  --code-bg: #0c1019;
+  --grid: rgba(120, 150, 230, .07);
+  --brand: linear-gradient(90deg, #2fc8f2, #5b8cff 55%, #9878f7);
+  --f-display: 'Archivo', 'Arial Narrow', system-ui, sans-serif;
+  --f-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --radius: 10px;
+  --wrap: 1180px;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --ground: #f2f4f8; --sheet: #ffffff; --sheet-2: #f7f8fb; --rule: #d6dce7; --ink: #121826; --muted: #586378;
+    --cyan: #0a7fa8; --violet: #6a49d6; --ok: #11845a; --warn: #a36a00; --code-bg: #f4f6fa;
+    --grid: rgba(40, 70, 150, .07); color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --ground: #f2f4f8; --sheet: #ffffff; --sheet-2: #f7f8fb; --rule: #d6dce7; --ink: #121826; --muted: #586378;
+  --cyan: #0a7fa8; --violet: #6a49d6; --ok: #11845a; --warn: #a36a00; --code-bg: #f4f6fa;
+  --grid: rgba(40, 70, 150, .07); color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--ground); color: var(--ink);
+  font: 400 17px/1.65 var(--f-body); -webkit-font-smoothing: antialiased;
+}
+img, video { max-width: 100%; display: block; }
+a { color: var(--cyan); text-underline-offset: 3px; }
+a:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 4px; }
+code, pre, kbd { font-family: var(--f-mono); font-size: .88em; }
+:not(pre) > code { background: var(--sheet-2); border: 1px solid var(--rule); border-radius: 5px; padding: .08em .35em; overflow-wrap: anywhere; }
+
+.wrap {
+  max-width: var(--wrap); margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.eyebrow { font: 600 12.5px/1.2 var(--f-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; line-height: 1.08; margin: 0; }
+h2 { font-size: clamp(30px, 4vw, 44px); font-weight: 800; font-stretch: 112%; letter-spacing: -.01em; }
+h3 { font-size: 21px; font-weight: 700; font-stretch: 105%; }
+
+/* header */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--ground); }
+.site-head {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--ground) 86%, transparent);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.site-head .wrap { display: flex; align-items: center; gap: 24px; height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font: 800 19px var(--f-display); font-stretch: 112%; letter-spacing: .02em; }
+.brand svg { flex: none; }
+.site-nav { display: flex; gap: 22px; margin-left: auto; font-size: 15px; }
+.site-nav a { color: var(--muted); text-decoration: none; }
+.site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--ink); }
+.site-nav .gh { color: var(--ink); border: 1px solid var(--rule); border-radius: 8px; padding: 4px 12px; }
+@media (max-width: 720px) { .site-nav a:not(.keep) { display: none; } .site-nav { gap: 12px; } }
+
+/* buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 9px; padding: 12px 20px; border-radius: 9px;
+  font: 600 16px var(--f-body); text-decoration: none; border: 1px solid var(--rule); color: var(--ink); background: var(--sheet);
+  cursor: pointer;
+}
+.btn:hover { border-color: var(--cyan); color: var(--ink); }
+.btn.primary { background: var(--ink); color: var(--ground); border-color: var(--ink); }
+.btn.primary:hover { background: var(--cyan); border-color: var(--cyan); color: #04121a; }
+
+/* code blocks with copy */
+.code { position: relative; background: var(--code-bg); border: 1px solid var(--rule); border-radius: var(--radius); min-width: 0; }
+.code pre { margin: 0; padding: 16px 18px; overflow-x: auto; line-height: 1.6; font-size: 14px; color: var(--ink); }
+.code .copy {
+  position: absolute; top: 8px; right: 8px; font: 600 12px var(--f-mono); letter-spacing: .06em; text-transform: uppercase;
+  background: var(--sheet-2); color: var(--muted); border: 1px solid var(--rule); border-radius: 6px; padding: 5px 9px; cursor: pointer;
+}
+.code .copy:hover { color: var(--ink); border-color: var(--cyan); }
+.code .copy.done { color: var(--ok); border-color: var(--ok); }
+.code .lang { position: absolute; top: 10px; left: 16px; font: 600 11px var(--f-mono); letter-spacing: .14em; color: var(--muted); text-transform: uppercase; }
+.code .lang + pre { padding-top: 34px; }
+
+.site-foot { border-top: 1px solid var(--rule); margin-top: 96px; padding-block: 36px 48px; color: var(--muted); font-size: 14px; }
+.site-foot .wrap { display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between; }
+.site-foot a { color: var(--muted); }
