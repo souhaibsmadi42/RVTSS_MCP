@@ -19,6 +19,8 @@ MEDIA = {  # repo file -> published path
     'media/rvtss-tutorial.mp4': 'media/rvtss-tutorial.mp4',
     'media/rvtss-tutorial-poster.jpg': 'media/rvtss-tutorial-poster.jpg',
     'media/tutorial-src/captions.vtt': 'media/rvtss-tutorial.vtt',
+    'media/rvtss-reel-40s.mp4': 'media/rvtss-reel-40s.mp4',
+    'media/rvtss-reel-cover.jpg': 'media/rvtss-reel-cover.jpg',
 }
 
 

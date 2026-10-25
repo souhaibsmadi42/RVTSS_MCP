@@ -113,6 +113,11 @@
     display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px 36px; align-items: center; }
   .manual-band p { margin: 8px 0 0; color: var(--muted); }
   @media (max-width: 700px) { .manual-band { grid-template-columns: 1fr; padding: 24px; } }
+  .reel { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 28px 48px; align-items: center; }
+  .reel video { width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; border: 1px solid var(--rule); background: #000; }
+  .reel p { color: var(--muted); max-width: 52ch; }
+  .reel ul { margin: 0 0 22px; padding-left: 1.2em; color: var(--muted); }
+  @media (max-width: 700px) { .reel { grid-template-columns: 1fr; } .reel video { max-width: 320px; } }
 </style>
 </head>
 <body>
@@ -358,6 +363,21 @@ uv sync</pre></div>
         <details><summary>“Revit is busy”</summary><p>Close any open dialog in Revit and finish edit modes (sketch, group or family edit), then ask again. For very large models, raise <code>RVTSS_TIMEOUT</code>.</p></details>
         <details><summary>Revit runs in a VM</summary><p>Set <code>REVIT_HOST</code> to the VM's address and <code>RVTSS_ALLOW_REMOTE=1</code> in the server's <code>env</code>. Add an <code>RVTSS_TOKEN</code> too.</p></details>
         <p style="margin-top:18px;font-size:15px;color:var(--muted)">More answers in the <a href="manual.html#12-troubleshooting">manual's troubleshooting section</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="share">
+    <div class="wrap reel">
+      <video controls preload="none" playsinline poster="media/rvtss-reel-cover.jpg" aria-label="RVTSS 40-second reel">
+        <source src="media/rvtss-reel-40s.mp4" type="video/mp4">
+      </video>
+      <div>
+        <div class="eyebrow">Share it</div>
+        <h2 style="margin:8px 0 14px">The 40-second reel</h2>
+        <p>A vertical cut for Instagram Reels, TikTok, YouTube Shorts, LinkedIn and WhatsApp Status. It has burned-in captions, so it works with the sound off.</p>
+        <ul><li>1080 × 1920, 30 fps, exactly 40 s</li><li>Captions and buttons kept inside every platform's safe zone</li></ul>
+        <a class="btn" href="media/rvtss-reel-40s.mp4">Open the MP4</a>
       </div>
     </div>
   </section>

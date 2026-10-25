@@ -10,6 +10,7 @@ on:
       - "website/**"
       - "docs/USER_MANUAL.md"
       - "media/rvtss-tutorial*"
+      - "media/rvtss-reel*"
       - "media/tutorial-src/captions.vtt"
       - ".github/workflows/pages.yml"
   workflow_dispatch:

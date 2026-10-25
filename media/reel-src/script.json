@@ -1,0 +1,7 @@
+{
+ "id": "reel",
+ "voice": "fK3Sm9ujL18r46zw0ri0",
+ "model": "eleven_v4",
+ "prompt": "[excited] Your Revit model… can now talk to Claude! [confident] This is RVTSS, a free Revit MCP. Just ask. Find every door on Level 2 wider than 900 millimetres. Done. Check clashes between ducts and beams, and export a report. Done. Build parametric families, manage parameters, create sheets, and run ISO 19650 checks: 77 tools in total. And every change is a Revit transaction you can undo. Install it in five steps. Watch the full tutorial, and get RVTSS free on GitHub.",
+ "vo": "Your Revit model… can now talk to Claude! This is RVTSS, a free Revit MCP. Just ask. Find every door on Level 2 wider than 900 millimetres. Done. Check clashes between ducts and beams, and export a report. Done. Build parametric families, manage parameters, create sheets, and run ISO 19650 checks: 77 tools in total. And every change is a Revit transaction you can undo. Install it in five steps. Watch the full tutorial, and get RVTSS free on GitHub."
+}

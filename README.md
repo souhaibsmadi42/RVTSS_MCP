@@ -16,6 +16,7 @@ and keeps its API name (`revit_mcp`), port (48884), installation method and all 
 |---|---|
 | **Website** (video + manual) | https://souhaibsmadi42.github.io/RVTSS_MCP/ |
 | **Install & use tutorial** (3:54, narrated) | [media/rvtss-tutorial.mp4](media/rvtss-tutorial.mp4) |
+| **40 s social reel** (vertical, captioned) | [media/rvtss-reel-40s.mp4](media/rvtss-reel-40s.mp4) |
 | **User manual** | [docs/USER_MANUAL.md](docs/USER_MANUAL.md) |
 | Tool reference (generated) | [docs/TOOLS.md](docs/TOOLS.md) |
 | Coordination features with examples | [docs/COORDINATION.md](docs/COORDINATION.md) |

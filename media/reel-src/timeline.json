@@ -1,0 +1,79 @@
+{
+ "total": 40.0,
+ "vo": {
+  "id": "reel",
+  "vo": "Your Revit model… can now talk to Claude! This is RVTSS, a free Revit MCP. Just ask. Find every door on Level 2 wider than 900 millimetres. Done. Check clashes between ducts and beams, and export a report. Done. Build parametric families, manage parameters, create sheets, and run ISO 19650 checks: 77 tools in total. And every change is a Revit transaction you can undo. Install it in five steps. Watch the full tutorial, and get RVTSS free on GitHub.",
+  "start": 0.3,
+  "dur": 35.44,
+  "pauses": [
+   [
+    2.876,
+    3.297
+   ],
+   [
+    5.228,
+    5.388
+   ],
+   [
+    6.88,
+    7.25
+   ],
+   [
+    7.871,
+    8.07
+   ],
+   [
+    8.171,
+    8.346
+   ],
+   [
+    11.982,
+    12.385
+   ],
+   [
+    12.697,
+    13.021
+   ],
+   [
+    13.078,
+    13.286
+   ],
+   [
+    16.351,
+    16.834
+   ],
+   [
+    17.199,
+    17.456
+   ],
+   [
+    17.575,
+    17.779
+   ],
+   [
+    23.879,
+    24.199
+   ],
+   [
+    26.142,
+    26.344
+   ],
+   [
+    29.457,
+    29.973
+   ],
+   [
+    30.676,
+    30.828
+   ],
+   [
+    31.543,
+    31.884
+   ],
+   [
+    34.306,
+    34.446
+   ]
+  ]
+ }
+}

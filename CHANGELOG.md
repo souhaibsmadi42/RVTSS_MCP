@@ -9,6 +9,8 @@ All notable changes to RVTSS. Details, verification status and design notes: [do
   installation, connecting Claude, toolsets, usage, features and the safety model. Voiceover and music were made
   with ElevenLabs. English captions are in `media/tutorial-src/captions.vtt`, and the render source is in
   `media/tutorial-src/`.
+* **40 s social reel** (`media/rvtss-reel-40s.mp4`, 1080×1920, captions burned in) with a cover image, for
+  Reels, TikTok, Shorts, LinkedIn and WhatsApp Status. Its source is in `media/reel-src/`.
 * **User manual** (`docs/USER_MANUAL.md`): installation step by step, usage examples, every tool by area,
   prompts and resources, safety, security, configuration, troubleshooting, and updating.
 * **Website** (`website/`): a landing page with the tutorial (chapters, captions), install steps with copy
