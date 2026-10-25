@@ -25,7 +25,37 @@ ROUTE_MODULES = [
     ("revit_mcp.documentation", "register_documentation_routes"),
     ("revit_mcp.qc", "register_qc_routes"),
     ("revit_mcp.family_library", "register_family_library_routes"),
+    # RVTSS v2.2 modules
+    ("revit_mcp.batch", "register_batch_routes"),
+    ("revit_mcp.spaces", "register_spaces_routes"),
+    ("revit_mcp.materials", "register_materials_routes"),
+    ("revit_mcp.annotation", "register_annotation_routes"),
+    ("revit_mcp.exporting", "register_export_routes"),
+    ("revit_mcp.mep", "register_mep_routes"),
+    ("revit_mcp.model_admin", "register_model_admin_routes"),
+    ("revit_mcp.impact", "register_impact_routes"),
+    ("revit_mcp.spatial", "register_spatial_routes"),
+    ("revit_mcp.graphics", "register_graphics_routes"),
 ]
+
+
+class RecordingAPI(object):
+    """Records each raw route handler by path (batch.ROUTE_TABLE) before the token wrapper is applied."""
+
+    def __init__(self, api, table):
+        self._api = api
+        self._table = table
+
+    def route(self, path, methods=None):
+        real = self._api.route(path, methods=methods) if methods is not None else self._api.route(path)
+
+        def deco(func):
+            self._table[path] = func
+            return real(func)
+        return deco
+
+    def __getattr__(self, name):
+        return getattr(self._api, name)
 
 
 def register_all(api, secure=True):
@@ -45,6 +75,12 @@ def register_all(api, secure=True):
             errors["revit_mcp.secure_api"] = "{}: {} - no routes registered".format(type(e).__name__, e)
             logger.error("RVTSS token protection could not be enabled, routes NOT registered: %s", e)
             return errors
+    try:
+        from .batch import ROUTE_TABLE
+
+        api = RecordingAPI(api, ROUTE_TABLE)
+    except Exception as e:  # batch_execute unavailable, every other route still registers
+        errors["revit_mcp.batch(route table)"] = "{}: {}".format(type(e).__name__, e)
     for module_name, func_name in ROUTE_MODULES:
         try:
             module = importlib.import_module(module_name)

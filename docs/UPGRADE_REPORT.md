@@ -618,3 +618,49 @@ only optional arguments.
    codes.
 9. **Run Diagnostics → Run Self-Test** in Revit and keep `rvtss_live_report.md` / `.json` (they are written
    to `%TEMP%\RVTSS_live`).
+
+# v2.2
+
+## Source and approach
+
+[bimwright/rvt-mcp](https://github.com/bimwright/rvt-mcp) (Apache-2.0, C#/.NET, ~100k lines, 237 tools)
+was read in full and compared with RVTSS 2.1 tool by tool. RVTSS already covered families, parameters,
+documentation basics, clashes and QC better than rvt-mcp (rvt-mcp has no family editor). The gaps worth
+closing were picked by value for BIM work and re-implemented for pyRevit / IronPython; no code was copied
+(see `NOTICE`).
+
+| rvt-mcp idea | RVTSS 2.2 |
+|---|---|
+| `batch_execute` in one TransactionGroup | `batch_execute` (payload capture through the real tools, allow lists on both sides, same-document rule) |
+| `--read-only` + generated allow list | `RVTSS_READ_ONLY` (MCP and Revit side) + README allow list from annotations |
+| `INVALID_ARGUMENT` with `did_you_mean` | argument guard on the tool manager (unknown keys refused, not ignored) |
+| response guard / spill | response budget with summaries that keep status and scalars |
+| `revit_health` | `rvtss_health` |
+| `revit_survey_change_impact` | `survey_change_impact` (found / none / not_checked per group) |
+| getting_started / change / pre-issue prompts | `getting_started`, `safe_change`, `issue_sheets`, `room_documentation`, `mep_connectivity_review` |
+| rooms, materials, annotation, export, MEP, graphics, sheets, links, geometry toolsets | 21 tools in `rooms`, `materials`, `annotation`, `export`, `mep`, `admin`, plus `model` / `documentation` / `qc` additions |
+
+Not ported: ToolBaker (runtime C# compilation), toasts and ribbon UI, multi-instance targeting (pyRevit
+Routes binds one Revit per port), MEP/structural element creation (`create_elements` and
+`execute_revit_code` cover it), persistent change history (the audit log and `model_snapshot` /
+`compare_models` cover most of it).
+
+## Verified here
+
+* 304 unit tests on Python 3.13 with MCP SDK 2.3 (302 + 2 skipped on 1.9): guards, batch payload capture, read-only
+  registration, every new tool's payload, the Revit-side batch transaction group (assimilate / roll back /
+  continue_on_error / dry run / preview / allow list) against stubs, Revit-side read-only refusals, input
+  validation of every new route, pure helpers (spatial status, finish areas, export names, filter rules).
+* All 21 new routes register under the pyRevit stubs; every tool endpoint has a route.
+* pyflakes clean; vermin confirms IronPython 2.7 / 3.4 compatibility of the Revit side.
+* `docs/TOOLS.md` and the README allow list are generated identically on both SDK majors.
+
+## Needs a live Revit run
+
+The Revit API calls of the new modules (`spaces`, `materials`, `annotation`, `exporting`, `mep`,
+`model_admin`, `impact`, `spatial`, `graphics`, `batch`) were written against the Revit 2021–2027 API
+reference with version fallbacks, but have not run inside Revit yet. Run **Diagnostics → Run Self-Test**:
+group `v22` exercises them read-only or with dry runs, exports only a file plan, previews the purge and
+checks that a failing batch rolls back. Areas most likely to need adjustment: PDF export options on 2022,
+`IndependentTag.Create` overloads on 2021, filter-rule factories before 2023, IFC export inside a rolled-back
+transaction, `GetUnusedElements` (2024+).

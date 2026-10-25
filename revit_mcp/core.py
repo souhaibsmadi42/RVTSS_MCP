@@ -438,6 +438,34 @@ def require_family(doc):
     return doc.FamilyManager
 
 
+def read_only_mode():
+    """RVTSS_READ_ONLY (Revit environment) or "read_only": true in config.json."""
+    try:
+        from .secure_api import settings
+
+        return bool(settings().get("read_only"))
+    except Exception:
+        return False
+
+
+def require_writable(action="This operation"):
+    """Refuse model / file changes in read-only mode (dry runs and previews do not call this)."""
+    if read_only_mode():
+        raise RvtssError("{} is refused: RVTSS runs in read-only mode on this Revit machine".format(action),
+                         status=403, read_only=True,
+                         hint="Dry runs still work. Unset RVTSS_READ_ONLY (or 'read_only' in "
+                              "%APPDATA%/RVTSS/config.json) and restart Revit to allow changes.")
+
+
+def read_only_response(action="This operation"):
+    """For route handlers outside handle(): an error Response in read-only mode, else None."""
+    try:
+        require_writable(action)
+    except RvtssError as e:
+        return error_response(e.message, status=e.status, hint=e.hint, **e.extra)
+    return None
+
+
 def check_modifiable(doc):
     if doc.IsReadOnly:
         raise RvtssError("Document '{}' is read-only".format(doc.Title), status=409)
@@ -751,6 +779,8 @@ def run_transaction(doc, name, func, dry_run=False):
     If a transaction is already open on doc, func runs inside it.
     """
     check_modifiable(doc)
+    if not dry_run:
+        require_writable("'{}'".format(name))
     if doc.IsModifiable:
         return func(), []
     name = "RVTSS: " + name

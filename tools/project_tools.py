@@ -132,3 +132,35 @@ def register_project_tools(mcp, revit_get, revit_post):
         """Read a schedule's table (column headers and rows as displayed), paginated."""
         return await post_structured(revit_post, "/schedule_data/", compact(schedule=schedule, offset=offset, limit=limit,
                                                                   document=document), ctx, timeout=120.0)
+
+    @mcp.tool(annotations=READ_ONLY)
+    async def survey_change_impact(
+        element_ids: Annotated[List[int], Field(min_length=1, max_length=20)],
+        change_kind: Annotated[Literal["instance", "type", "move", "delete", "unknown"],
+                               Field(description="instance = edit these elements, type = edit their type "
+                                                 "definition, move, delete")] = "instance",
+        document: Doc = None,
+        ctx: Context = None,
+    ) -> str:
+        """Before a change: what else it touches - type siblings, host/hosted, joins, groups, rooms, tags,
+        dimensions, dependents, views/sheets, levels, MEP connections.
+
+        Each group is "found" (count + ids), "none" or "not_checked" (with the reason) - absence of
+        evidence is never reported as none. requires_discussion lists what the user should agree to
+        (shared type, group instances, hosted elements, dependent deletions); blind_spots lists what
+        is never traced (links, schedules, intent). Read-only.
+        """
+        return await post(revit_post, "/impact/survey/", compact(element_ids=element_ids, change_kind=change_kind,
+                                                                  document=document), ctx, timeout=180.0)
+
+    @mcp.tool(annotations=READ_ONLY)
+    async def get_coordinates(
+        points: Annotated[Optional[List[List[float]]], Field(description="Internal [x, y, z] points to convert to "
+                                                                         "shared coordinates")] = None,
+        unit: LengthUnit = "mm",
+        document: Doc = None,
+        ctx: Context = None,
+    ) -> str:
+        """Coordinate setup: internal origin, project base point, survey point, true north, project locations,
+        link positions (internal and shared); converts points to shared coordinates."""
+        return await post(revit_post, "/coordinates/", compact(points=points, unit=unit, document=document), ctx)

@@ -41,7 +41,7 @@ jobs:
         run: python -m pyflakes tools main.py revit_mcp tests scripts startup.py
       - name: vermin (Revit side must run on IronPython 2.7 and 3.4)
         run: vermin -q --no-tips -t=2.7- -t=3.4- --violations revit_mcp startup.py "RVTSS.tab"
-      - name: docs/TOOLS.md is up to date
+      - name: docs/TOOLS.md and the README allow list are up to date
         run: |
           python scripts/generate_tool_docs.py
-          git diff --exit-code -- docs/TOOLS.md || (echo "::error::docs/TOOLS.md is stale - run python scripts/generate_tool_docs.py" && exit 1)
+          git diff --exit-code -- docs/TOOLS.md README.md || (echo "::error::docs/TOOLS.md or README.md is stale - run python scripts/generate_tool_docs.py" && exit 1)

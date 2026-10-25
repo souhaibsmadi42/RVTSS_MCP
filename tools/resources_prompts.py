@@ -183,6 +183,88 @@ def bim_standards_audit(family_folder: str = "", preset: str = "ifc_overrides") 
 Report a pass/fail table per area and the top 10 fixes."""
 
 
+@_prompt("getting_started", "Orient in the open model (read-only): health, session, project, biggest categories")
+def getting_started() -> str:
+    return """Orient yourself in the Revit model. Read-only: change nothing.
+
+1. rvtss_health - if next_step is not empty, tell me what to fix and stop.
+2. get_session_info - active document and view, other open documents (ask me if the active one is not the
+   model I mean).
+3. get_project_overview(include=["info", "levels", "phases", "worksets"]) and get_revit_model_info.
+Report one block: Revit version, project name/number, active view, levels, phases, workshared yes/no, the 5
+largest element categories with counts and the warning count. End with 2-3 useful next steps for this model,
+naming the RVTSS toolset (RVTSS_TOOLSETS) a step needs if it is not loaded."""
+
+
+@_prompt("safe_change", "Disciplined model change: survey impact, agree scope, dry run, one undo step, read back")
+def safe_change(change: str, reason: str = "") -> str:
+    why = reason or "ask me; if I do not know, record 'unknown' - never invent one"
+    return f"""Make this model change safely: {change}
+Reason: {why}
+
+1. Resolve the targets to element ids (find_elements / get_element_details) and keep the BEFORE values with
+   units. Never treat an empty or vague request as the whole model; ask.
+2. survey_change_impact(element_ids=[...], change_kind=instance|type|move|delete). Report every group as found
+   (count, ids), none, or not checked (reason). Treat "not_checked" and blind_spots as unknown, never as safe.
+3. If requires_discussion is not empty (shared type, group instances, hosted elements, dependent deletions) or
+   the scope grows, STOP and agree the scope with me before planning.
+4. Propose the smallest change (reuse existing types; typed RVTSS tools only): targets, before -> after,
+   expected side effects, how to undo. Wait for my confirmation.
+5. Dry run it (dry_run=true, or batch_execute(..., dry_run=true) when several edits must succeed together)
+   and show the result. Apply only after I confirm; several edits go into ONE batch_execute (one undo step).
+6. Read back the same properties and compare before / intended / observed. After a timeout or unclear
+   result, re-read the model before doing anything else - never repeat a change blindly.
+Report: request | reason | scope agreed | survey summary | verification table | anything not verified.
+Do not use execute_revit_code for this unless no typed tool fits and I approved the exact code."""
+
+
+@_prompt("room_documentation", "Rooms: status problems, untagged rooms, tags (dry run first), finish areas")
+def room_documentation(level: str = "", view: str = "active") -> str:
+    lv = f' level="{level}"' if level else ""
+    return f"""Room documentation check{(' for level ' + level) if level else ''}.
+
+1. list_rooms(kind="room"{lv}) - report counts by status; list unplaced / not_enclosed / redundant rooms (ids,
+   number, name). These need a decision from me (delete, place, fix boundaries) - do not fix them.
+2. find_untagged_elements(categories=["Rooms"], view="{view}") - untagged placed rooms in that view.
+3. tag_elements(view="{view}", categories=["Rooms"], dry_run=true) - show how many tags would be created;
+   tag for real only after I confirm.
+4. get_room_details(element_ids=[up to 20 rooms], include=["finishes", "openings"]) - wall/floor/ceiling
+   finish areas (an estimate: say so) and doors per room.
+Report a table per level: rooms, total area, problems, untagged, then the finish summary."""
+
+
+@_prompt("issue_sheets", "Issue a sheet set: checks, revision, export plan (dry run), then PDF/DWG export")
+def issue_sheets(sheets: str, formats: str = "pdf", revision: str = "") -> str:
+    rev = (f'3. manage_revisions(action="assign", revision="{revision}", sheets=[...]) after I confirm.'
+           if revision else "3. manage_revisions(action=\"list\") - show which revisions each sheet carries.")
+    return f"""Issue sheets [{sheets}] as {formats}.
+
+1. list_sheets - resolve the exact sheet numbers; ask me about anything missing or ambiguous. A named sheet set:
+   use list_export_settings to see saved sets.
+2. For each sheet's main views: find_untagged_elements(categories=[...], view=...) - ask me which categories
+   must be tagged; report, do not tag automatically.
+{rev}
+4. export_documents(format=..., sheets=[...], dry_run=true) - show the folder and the exact file names.
+5. After I confirm: export_documents(... same arguments ...) for each format in [{formats}]. Report files,
+   sizes and failures. Never overwrite existing files unless I say so (overwrite=true).
+Report a checklist per sheet (views placed, untagged, revision, exported) - anything not checked is NOT VERIFIED."""
+
+
+@_prompt("mep_connectivity_review", "MEP review: systems, open connectors, clashes with structure")
+def mep_connectivity_review(domain: str = "", structure: str = "Structural Framing, Structural Columns") -> str:
+    dom = f'domain="{domain}"' if domain else ""
+    return f"""MEP connectivity review{(' (' + domain + ')') if domain else ''}. Read-only.
+
+1. list_mep_systems({dom}) - systems that are not well connected, systems with very few elements.
+2. find_mep_disconnects() - open connectors grouped by category and level; list the first 20 with location.
+3. get_mep_connectors(element_ids=[a few of them]) - confirm each is a real gap (not an intentional open end).
+4. check_clashes(set_a={{categories: ["Ducts", "Pipes", "Cable Trays", "Conduits"]}},
+   set_b={{categories: [{', '.join(json.dumps(c.strip()) for c in structure.split(','))}]}}, clearance=50,
+   group_by=["level", "grid_zone"]).
+Report: systems table, disconnects by level/category, clash groups, and the 5 most important fixes. Change
+nothing."""
+
+
 def register_prompts(mcp):
     for name, info in PROMPTS.items():
         mcp.prompt(name=name, description=info["description"])(info["fn"])

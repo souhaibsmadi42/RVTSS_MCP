@@ -158,6 +158,7 @@ def family_create(ctx):
     _r, fails = core.run_transaction(famdoc, "Set up new family", setup)
     backup = None
     if save_path:
+        core.require_writable("Saving the new family")
         if os.path.exists(save_path):
             backup = _backup(save_path)
         opts = DB.SaveAsOptions()
@@ -859,6 +860,7 @@ def _backup(path):
 def family_save(ctx):
     doc = ctx.doc
     core.require_family(doc)
+    core.require_writable("family_save")
     save_path = ctx.get("save_path")
     backup = None
     compact = ctx.bool("compact", False)
@@ -971,6 +973,8 @@ def family_close(ctx):
     if save and not doc.PathName:
         raise RvtssError("Family was never saved; use family_save with save_path first", status=409)
     title = normalize_string(doc.Title)
+    if save:
+        core.require_writable("family_close(save=true)")
     if save and doc.PathName and os.path.exists(doc.PathName):
         _backup(doc.PathName)
     doc.Close(save)

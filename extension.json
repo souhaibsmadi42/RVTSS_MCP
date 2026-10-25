@@ -4,7 +4,7 @@
     "type": "extension",
     "rocket_mode_compatible": "True",
     "name": "RVTSS",
-    "description": "RVTSS (Suhaib Al Smadi) - Revit MCP for Claude: model intelligence, family creation and editing, parameter management, documentation automation and BIM QC. Based on revit-mcp-python; uses the pyRevit Routes module to handle the communication.",
+    "description": "RVTSS (Suhaib Al Smadi) - Revit MCP for Claude: model intelligence, family creation and editing, parameter management, documentation automation, rooms, materials, tagging, PDF/DWG/IFC/NWC export, MEP connectivity and BIM QC. Based on revit-mcp-python; uses the pyRevit Routes module to handle the communication.",
     "author": "Suhaib Al Smadi (RVTSS) / Juan D. Rodriguez / Jean-Marc Couffin",
     "author_profile": "https://www.linkedin.com/in/juan-david-rodriguez-3abbb5218/ https://www.linkedin.com/in/jmcouffin/",
     "url": "https://github.com/souhaibsmadi42/RVTSS_MCP.git",

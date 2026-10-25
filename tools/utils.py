@@ -21,6 +21,8 @@ import json
 RECOVERABLE_STATUSES = frozenset({
     # Preview / dry-run outcomes -- confirm-gate previews and --dry_run runs
     "preview", "dry_run", "no_op",
+    # batch_execute with continue_on_error: some commands failed (and changed nothing)
+    "partial",
     # Empty-result outcomes -- the tool ran fine, nothing matched the query
     "no_walls", "no_axis_aligned_walls", "no_references_found",
     "no_elements_found", "no_rooms_found", "no_rooms_in_view",
@@ -70,6 +72,13 @@ def _format_recoverable(response):
 
 
 def format_response(response):
+    """Format a Revit response for an MCP tool, within the response budget (tools/guards.py)."""
+    from .guards import guard_text
+
+    return guard_text(_format_response(response), response)
+
+
+def _format_response(response):
     """Helper function to format API responses consistently for MCP tools.
 
     Args:

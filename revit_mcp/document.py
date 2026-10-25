@@ -157,6 +157,11 @@ def register_document_routes(api):
             )
 
             if save:
+                from .core import read_only_response
+
+                refused = read_only_response("close_document(save=true)")
+                if refused is not None:
+                    return refused
                 try:
                     doc.Save()
                 except Exception as save_err:
@@ -226,6 +231,11 @@ def register_document_routes(api):
                 logger.info(
                     "Saving document '{}' as: {}".format(doc_title, file_path)
                 )
+                from .core import read_only_response
+
+                refused = read_only_response("save_document")
+                if refused is not None:
+                    return refused
                 save_as_options = DB.SaveAsOptions()
                 save_as_options.OverwriteExistingFile = True
 
@@ -249,6 +259,11 @@ def register_document_routes(api):
             else:
                 # Save in place
                 logger.info("Saving document: {}".format(doc_title))
+                from .core import read_only_response
+
+                refused = read_only_response("save_document")
+                if refused is not None:
+                    return refused
                 doc.Save()
 
                 return routes.make_response(
@@ -311,6 +326,11 @@ def register_document_routes(api):
                 )
             )
 
+            from .core import read_only_response
+
+            refused = read_only_response("sync_with_central")
+            if refused is not None:
+                return refused
             # Build transact options
             transact_options = DB.TransactWithCentralOptions()
 
