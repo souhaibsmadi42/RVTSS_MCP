@@ -208,18 +208,27 @@ def register_element_tools(mcp, revit_get, revit_post):
             "wall: {kind:'wall', start, end, level, type?|type_id?, height?(3000), base_offset?, structural?, flip?}\n"
             "floor: {kind:'floor', boundary:[[x,y],...], level, type?|type_id?, structural?}\n"
             "family_instance: {kind:'family_instance', family, type|type_id, point:[x,y,z], level?, host_id?, rotation_deg?}\n"
-            "room: {kind:'room', level, point:[x,y], name?, number?}"))],
+            "room: {kind:'room', level, point:[x,y], name?, number?}\n"
+            "roof: {boundary, level, type?, slope_deg?, slope_edges?, base_offset?}\n"
+            "ceiling: {boundary, level, type?, height?}\n"
+            "column: {point, level, top_level?, base_offset?, top_offset?, family?, type?, rotation_deg?}\n"
+            "beam: {start, end, level, family?, type?}\n"
+            "foundation: {point, level, family?, type?, base_offset?}\n"
+            "wall_foundation: {wall_id, type?}"))],
         unit: LengthUnit = "mm",
         atomic: bool = True,
         dry_run: bool = False,
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one transaction;
-        returns new ids.
+        """Create levels, grids, walls, floors, family instances, rooms, roofs, ceilings, columns, beams and
+        foundations in one transaction; returns new ids.
 
-        Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one
-        transaction. Returns new element ids. Doors/windows need host_id of a wall.
+        Create levels, grids, walls, floors, family instances (hosted or not), rooms, footprint roofs,
+        ceilings (Revit 2022+), structural / architectural columns (from the family category), beams,
+        isolated and wall foundations in one transaction (one undo step). Returns new element ids.
+        Doors/windows need host_id of a wall. Without family/type the default type, or the first
+        loaded family of the category, is used.
         """
         data = compact(items=items, unit=unit, atomic=atomic, dry_run=dry_run or None, document=document)
         return await post(revit_post, "/create_elements/", data, ctx, timeout=180.0)

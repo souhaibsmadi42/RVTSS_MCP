@@ -38,7 +38,8 @@ TOOLSETS = {
     # v2.2 toolsets
     "rooms": ["list_rooms", "get_room_details"],
     "materials": ["list_materials", "material_takeoff", "manage_materials"],
-    "annotation": ["find_untagged_elements", "tag_elements", "create_text_notes"],
+    "annotation": ["find_untagged_elements", "tag_elements", "create_text_notes", "create_detailing",
+                   "list_annotation_types"],
     "export": ["list_export_settings", "export_documents"],
     "mep": ["list_mep_systems", "get_mep_connectors", "find_mep_disconnects"],
     "admin": ["manage_worksets", "purge_unused"],

@@ -196,6 +196,7 @@ pyRevit Routes has no authentication of its own: anything that can reach port 48
 | `RVTSS_ALLOW_REMOTE=1` | MCP server environment | Needed when `REVIT_HOST` is not loopback (Revit in a VM). Without it the MCP server refuses to send commands to a remote host. |
 | `RVTSS_READ_ONLY=1` | MCP server environment | **Read-only mode** (new in 2.2): only tools annotated read-only are registered, so tools that change the model, save documents or make Revit write files (exports) are not even listed. Report tools that only write report files on the MCP machine (`export_clash_report`, `export_to_excel`) stay available. |
 | `RVTSS_READ_ONLY=1` | Revit environment (or `"read_only": true` in config.json) | Defence in depth: Revit refuses every model change, save, sync, family save and export, with HTTP 403. Dry runs and previews still work; `execute_revit_code` only accepts `read_only` / `dry_run`. |
+| `RVTSS_ALLOW_SAVE=1` / `RVTSS_ALLOW_SYNC=1` | Revit environment (or `"allow_save"` / `"allow_sync": true` in config.json) | **New in 2.3: saving and synchronizing are off by default.** `save_document`, `close_document(save=true)` and `sync_with_central` return 403 `POLICY_DENIED` until allowed. `family_save` and exports are not affected. |
 
 ### Claude Code permissions
 
@@ -240,6 +241,7 @@ you registered the server under another name):
       "mcp__RVTSS__get_room_details",
       "mcp__RVTSS__get_schedule_data",
       "mcp__RVTSS__get_session_info",
+      "mcp__RVTSS__list_annotation_types",
       "mcp__RVTSS__list_category_parameters",
       "mcp__RVTSS__list_export_settings",
       "mcp__RVTSS__list_families",
@@ -342,6 +344,7 @@ The audit log (`%APPDATA%\RVTSS\logs`):
   * `manage_sheets`, `manage_revisions`, `create_schedule`
   * `batch_rename`, `manage_groups`, `manage_assemblies`
   * `find_untagged_elements`, `tag_elements` (rooms/spaces/areas too), `create_text_notes`
+  * `create_detailing` (dimensions, detail lines, filled regions) and `list_annotation_types` (v2.3)
 * **Rooms and materials:**
   * `list_rooms` (rooms, spaces, areas; unplaced / not enclosed / redundant), `get_room_details` (boundaries,
     doors and windows, finish areas, contents)

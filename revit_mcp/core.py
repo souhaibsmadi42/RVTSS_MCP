@@ -485,6 +485,31 @@ def read_only_response(action="This operation"):
     return None
 
 
+_FILE_POLICY = {
+    "save": ("allow_save", "RVTSS_ALLOW_SAVE", "Saving the document"),
+    "sync": ("allow_sync", "RVTSS_ALLOW_SYNC", "Synchronize with central"),
+}
+
+
+def file_policy_response(kind, action):
+    """v2.3: save and sync with central are off by default. Error Response unless allowed, else None.
+
+    Applies after read_only_response; family_save and exports are not affected."""
+    key, env, what = _FILE_POLICY[kind]
+    try:
+        from .secure_api import settings
+
+        allowed = bool(settings().get(key))
+    except Exception:
+        allowed = False
+    if allowed:
+        return None
+    return error_response(
+        "{} is refused: {} is off in the RVTSS policy ({})".format(action, what.lower(), key), status=403,
+        hint="Do it in Revit yourself, or set \"{}\": true in %APPDATA%/RVTSS/config.json (or {}=1 for Revit) "
+             "and restart Revit.".format(key, env), code="POLICY_DENIED", policy=key)
+
+
 def check_modifiable(doc):
     if doc.IsReadOnly:
         raise RvtssError("Document '{}' is read-only".format(doc.Title), status=409)

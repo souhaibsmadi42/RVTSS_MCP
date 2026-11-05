@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-"""RVTSS v2.2 annotation tools: untagged checks, tagging, text notes."""
-from typing import Annotated, List, Literal, Optional
+"""RVTSS annotation tools: untagged checks, tagging, text notes (v2.2); detailing, type lists (v2.3)."""
+from typing import Annotated, Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -75,3 +75,37 @@ def register_annotation_tools(mcp, revit_get, revit_post):
         return await post(revit_post, "/annotation/text/", compact(
             notes=notes, view=view, text_type=text_type, unit=unit, dry_run=dry_run or None, document=document),
             ctx, timeout=120.0)
+
+    @mcp.tool(annotations=MODIFIES)
+    async def create_detailing(
+        items: Annotated[List[Dict[str, Any]], Field(min_length=1, max_length=500, description=(
+            "Model points in `unit`, projected onto the view ([x,y] plans, [x,y,z] sections).\n"
+            "dimension: {element_ids (grids/levels/ref planes/walls/instances), start, end, type?, "
+            "wall_face?, instance_reference?}\n"
+            "detail_line: {start, end | points, closed?, line_style?}\n"
+            "filled_region: {boundary, type?}\nEach item needs kind."))],
+        view: ViewRef = "active",
+        unit: LengthUnit = "mm",
+        atomic: bool = True,
+        dry_run: bool = False,
+        document: Doc = None,
+        ctx: Context = None,
+    ) -> str:
+        """Dimensions, detail lines and filled regions in one view (one transaction, one undo step).
+
+        wall_face: exterior | interior. instance_reference: center_left_right | center_front_back |
+        left | right | front | back | top | bottom. Names come from list_annotation_types.
+        atomic=false keeps the items that succeed.
+        """
+        return await post(revit_post, "/annotation/detail/", compact(
+            items=items, view=view, unit=unit, atomic=atomic, dry_run=dry_run or None, document=document),
+            ctx, timeout=180.0)
+
+    @mcp.tool(annotations=READ_ONLY)
+    async def list_annotation_types(
+        kinds: Optional[List[Literal["text", "tag", "dimension", "filled_region", "line_style"]]] = None,
+        document: Doc = None,
+        ctx: Context = None,
+    ) -> str:
+        """Text note types, tag types (by category), dimension types, filled region types and line styles."""
+        return await post(revit_post, "/annotation/types/", compact(kinds=kinds, document=document), ctx)

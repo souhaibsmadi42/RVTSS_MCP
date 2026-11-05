@@ -157,9 +157,11 @@ def register_document_routes(api):
             )
 
             if save:
-                from .core import read_only_response
+                from .core import read_only_response, file_policy_response
 
                 refused = read_only_response("close_document(save=true)")
+                if refused is None:
+                    refused = file_policy_response("save", "close_document(save=true)")
                 if refused is not None:
                     return refused
                 try:
@@ -231,9 +233,11 @@ def register_document_routes(api):
                 logger.info(
                     "Saving document '{}' as: {}".format(doc_title, file_path)
                 )
-                from .core import read_only_response
+                from .core import read_only_response, file_policy_response
 
                 refused = read_only_response("save_document")
+                if refused is None:
+                    refused = file_policy_response("save", "save_document")
                 if refused is not None:
                     return refused
                 save_as_options = DB.SaveAsOptions()
@@ -259,9 +263,11 @@ def register_document_routes(api):
             else:
                 # Save in place
                 logger.info("Saving document: {}".format(doc_title))
-                from .core import read_only_response
+                from .core import read_only_response, file_policy_response
 
                 refused = read_only_response("save_document")
+                if refused is None:
+                    refused = file_policy_response("save", "save_document")
                 if refused is not None:
                     return refused
                 doc.Save()
@@ -326,9 +332,11 @@ def register_document_routes(api):
                 )
             )
 
-            from .core import read_only_response
+            from .core import read_only_response, file_policy_response
 
             refused = read_only_response("sync_with_central")
+            if refused is None:
+                refused = file_policy_response("sync", "sync_with_central")
             if refused is not None:
                 return refused
             # Build transact options

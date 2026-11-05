@@ -2,7 +2,7 @@
 
 Generated from the live tool registry by `scripts/generate_tool_docs.py` - do not edit by hand.
 
-99 tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. **Mode**: read-only / modifies / destructive (MCP tool annotations).
+101 tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. **Mode**: read-only / modifies / destructive (MCP tool annotations).
 
 Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Profiles: `all` = admin, annotation, code, core, documentation, edit, export, families, launch, legacy, materials, mep, model, parameters, qc, rooms; `architect` = core, model, edit, documentation, rooms, materials, annotation; `auditor` = core, model, qc, rooms, materials, mep; `bim_coordinator` = core, model, parameters, documentation, qc; `family_author` = core, families, parameters; `mep_coordinator` = core, model, edit, qc, mep; `minimal` = core, model; `modeler` = core, model, edit, documentation; `publisher` = core, model, documentation, annotation, export.
 
@@ -54,7 +54,7 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `bulk_update_parameter` | edit | new | modifies | Write one parameter on many elements (ids, selection or filters) with a value or a numbering template, e.g. selected doors left-to-right: parameter='Mark', selection=true, template='D{n:02}', sort_by='x'. Use dry_run first. |
 | `transform_elements` | edit | new | modifies | Move, copy, rotate or mirror elements. Copies return the new element ids. |
 | `delete_elements` | edit | new | destructive | Delete elements. Without confirm=true it only previews everything Revit would delete (incl. hosted/dependent elements); show the preview first. |
-| `create_elements` | edit | new | modifies | Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one transaction; returns new ids. |
+| `create_elements` | edit | new | modifies | Create levels, grids, walls, floors, family instances, rooms, roofs, ceilings, columns, beams and foundations in one transaction; returns new ids. |
 | `place_family` | legacy | retained | modifies | [Deprecated: use create_elements(kind='family_instance')] Place a family instance at a specified location in the Revit model. |
 | `manage_element_types` | edit | new | modifies | Project types: duplicate a type (optionally setting its parameters), rename it, list the types an element may switch to, or change elements to another type. |
 | `batch_execute` | edit | new | modifies | Run up to 20 RVTSS edits as ONE Revit undo step: all succeed or everything is rolled back. |
@@ -133,6 +133,8 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `find_untagged_elements` | annotation | new | read-only | Elements of the categories visible in a view that have no tag in that view (incl. room/space/area tags). |
 | `tag_elements` | annotation | new | modifies | Tag elements in a view - by ids or whole categories; rooms, spaces and areas get their own tags. |
 | `create_text_notes` | annotation | new | modifies | Place text notes in a view (one transaction; all or nothing). |
+| `create_detailing` | annotation | new | modifies | Dimensions, detail lines and filled regions in one view (one transaction, one undo step). |
+| `list_annotation_types` | annotation | new | read-only | Text note types, tag types (by category), dimension types, filled region types and line styles. |
 
 ## Export
 
@@ -737,15 +739,18 @@ doors, tags, dimensions...). Show the preview to the user before confirming.
 
 Toolset: `edit`
 
-Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one transaction;
-returns new ids.
+Create levels, grids, walls, floors, family instances, rooms, roofs, ceilings, columns, beams and
+foundations in one transaction; returns new ids.
 
-Create levels, grids, walls, floors, family instances (hosted or not) and rooms in one
-transaction. Returns new element ids. Doors/windows need host_id of a wall.
+Create levels, grids, walls, floors, family instances (hosted or not), rooms, footprint roofs,
+ceilings (Revit 2022+), structural / architectural columns (from the family category), beams,
+isolated and wall foundations in one transaction (one undo step). Returns new element ids.
+Doors/windows need host_id of a wall. Without family/type the default type, or the first
+loaded family of the category, is used.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `items` | list of object | yes |  | Items by kind (coordinates in `unit`): level: {kind:'level', elevation, name?, create_plan_view?} grid: {kind:'grid', start:[x,y], end:[x,y], name?} wall: {kind:'wall', start, end, level, type?\|type_id?, height?(3000), base_offset?, structural?, flip?} floor: {kind:'floor', boundary:[[x,y],...], level, type?\|type_id?, structural?} family_instance: {kind:'family_instance', family, type\|type_id, point:[x,y,z], level?, host_id?, rotation_deg?} room: {kind:'room', level, point:[x,y], name?, number?} |
+| `items` | list of object | yes |  | Items by kind (coordinates in `unit`): level: {kind:'level', elevation, name?, create_plan_view?} grid: {kind:'grid', start:[x,y], end:[x,y], name?} wall: {kind:'wall', start, end, level, type?\|type_id?, height?(3000), base_offset?, structural?, flip?} floor: {kind:'floor', boundary:[[x,y],...], level, type?\|type_id?, structural?} family_instance: {kind:'family_instance', family, type\|type_id, point:[x,y,z], level?, host_id?, rotation_deg?} room: {kind:'room', level, point:[x,y], name?, number?} roof: {boundary, level, type?, slope_deg?, slope_edges?, base_offset?} ceiling: {boundary, level, type?, height?} column: {point, level, top_level?, base_offset?, top_offset?, family?, type?, rotation_deg?} beam: {start, end, level, family?, type?} foundation: {point, level, family?, type?, base_offset?} wall_foundation: {wall_id, type?} |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `atomic` | boolean |  | `True` |  |
 | `dry_run` | boolean |  | `False` |  |
@@ -1718,6 +1723,36 @@ Place text notes in a view (one transaction; all or nothing).
 | `text_type` | string |  |  | Default text note type for all notes |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `create_detailing`
+
+Toolset: `annotation`
+
+Dimensions, detail lines and filled regions in one view (one transaction, one undo step).
+
+wall_face: exterior | interior. instance_reference: center_left_right | center_front_back |
+left | right | front | back | top | bottom. Names come from list_annotation_types.
+atomic=false keeps the items that succeed.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `items` | list of object | yes |  | Model points in `unit`, projected onto the view ([x,y] plans, [x,y,z] sections). dimension: {element_ids (grids/levels/ref planes/walls/instances), start, end, type?, wall_face?, instance_reference?} detail_line: {start, end \| points, closed?, line_style?} filled_region: {boundary, type?} Each item needs kind. |
+| `view` | string |  | `active` | View name, id or 'active' |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `atomic` | boolean |  | `True` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `list_annotation_types`
+
+Toolset: `annotation`
+
+Text note types, tag types (by category), dimension types, filled region types and line styles.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `kinds` | list of `text` \| `tag` \| `dimension` \| `filled_region` \| `line_style` |  |  |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
 ### `list_export_settings`

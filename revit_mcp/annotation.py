@@ -5,6 +5,8 @@ Routes:
     POST /annotation/untagged/   elements of categories visible in a view without a tag in that view
     POST /annotation/tag/        tag elements (by ids or category) - rooms/spaces/areas get their own tags
     POST /annotation/text/       place text notes
+    POST /annotation/detail/     dimensions, detail lines and filled regions in one view (v2.3)
+    POST /annotation/types/      text, tag, dimension, filled region types and line styles (v2.3)
 """
 import logging
 
@@ -226,7 +228,241 @@ def text_notes(ctx):
     return core.commit_result(res, fails, dry, {"view": normalize_string(view.Name), "view_id": id_int(view)})
 
 
+# ------------------------------------------------- detailing (v2.3): dimensions, lines, regions
+DETAIL_KINDS = ("dimension", "detail_line", "filled_region")
+_FI_REFS = {
+    "center_left_right": "CenterLeftRight", "center_front_back": "CenterFrontBack",
+    "center_elevation": "CenterElevation", "left": "Left", "right": "Right", "front": "Front",
+    "back": "Back", "top": "Top", "bottom": "Bottom",
+}
+
+
+def _on_plane(view, xyz):
+    """Project a model point onto the view plane ([x, y] is enough in plans)."""
+    n = view.ViewDirection
+    return xyz - n.Multiply((xyz - view.Origin).DotProduct(n))
+
+
+def _view_point(ctx, view, value, what="point"):
+    if value is None:
+        raise RvtssError("'{}' is required".format(what))
+    x, y, z = U.point_from(value, ctx.unit)
+    return _on_plane(view, DB.XYZ(x, y, z))
+
+
+def _segment(a, b):
+    if a.DistanceTo(b) < 1e-4:
+        raise RvtssError("Two consecutive points are the same (after projection onto the view)")
+    return DB.Line.CreateBound(a, b)
+
+
+def _named(doc, cls, name, default_group=None, what="type"):
+    types = list(DB.FilteredElementCollector(doc).OfClass(cls))
+    if name:
+        key = text_type(name).strip().lower()
+        for t in types:
+            if normalize_string(get_element_name(t)).lower() == key or text_type(id_int(t)) == key:
+                return t
+        raise core.not_found(what, name, [get_element_name(t) for t in types],
+                             hint="list_annotation_types lists the available names.")
+    if default_group is not None:
+        try:
+            t = doc.GetElement(doc.GetDefaultElementTypeId(default_group))
+            if t is not None:
+                return t
+        except Exception:
+            pass
+    if not types:
+        raise RvtssError("No {} exists in '{}'".format(what, doc.Title))
+    return types[0]
+
+
+def _line_styles(doc):
+    out = {}
+    try:
+        lines = doc.Settings.Categories.get_Item(DB.BuiltInCategory.OST_Lines)
+        for sub in lines.SubCategories:
+            gs = sub.GetGraphicsStyle(DB.GraphicsStyleType.Projection)
+            if gs is not None:
+                out[normalize_string(sub.Name)] = gs
+    except Exception as e:
+        logger.debug("line styles: %s", e)
+    return out
+
+
+def _dim_reference(e, item):
+    if isinstance(e, DB.Grid):
+        return DB.Reference(e)
+    if isinstance(e, DB.Level):
+        return e.GetPlaneReference()
+    if isinstance(e, DB.ReferencePlane):
+        return e.GetReference()
+    if isinstance(e, DB.Wall):
+        side = (item.get("wall_face") or "exterior").lower()
+        shell = DB.ShellLayerType.Interior if side == "interior" else DB.ShellLayerType.Exterior
+        faces = list(DB.HostObjectUtils.GetSideFaces(e, shell))
+        if not faces:
+            raise RvtssError("Wall {} has no {} face to dimension".format(id_int(e), side))
+        return faces[0]
+    if isinstance(e, DB.FamilyInstance):
+        name = _FI_REFS.get((item.get("instance_reference") or "center_left_right").lower())
+        if name is None:
+            raise RvtssError("instance_reference must be one of: {}".format(", ".join(sorted(_FI_REFS))))
+        refs = list(e.GetReferences(getattr(DB.FamilyInstanceReferenceType, name)))
+        if not refs:
+            raise RvtssError("Family instance {} has no '{}' reference".format(id_int(e), name),
+                             hint="Try another instance_reference, e.g. left / right / center_front_back.")
+        return refs[0]
+    raise RvtssError("Cannot dimension {} (id {}): use grids, levels, reference planes, walls or family "
+                     "instances".format(type(e).__name__, id_int(e)))
+
+
+def _dimension(ctx, view, item):
+    doc = ctx.doc
+    ids = item.get("element_ids") or []
+    if len(ids) < 2:
+        raise RvtssError("dimension: 'element_ids' needs at least 2 elements")
+    arr = DB.ReferenceArray()
+    for i in ids:
+        arr.Append(_dim_reference(core.get_element(doc, i), item))
+    line = _segment(_view_point(ctx, view, item.get("start"), "start"), _view_point(ctx, view, item.get("end"), "end"))
+    if item.get("type"):
+        dim = doc.Create.NewDimension(view, line, arr, _named(doc, DB.DimensionType, item["type"],
+                                                              what="Dimension type"))
+    else:
+        dim = doc.Create.NewDimension(view, line, arr)
+    if dim is None:
+        raise RvtssError("Revit could not create the dimension (are the references parallel and visible?)")
+    out = {"kind": "dimension", "id": id_int(dim)}
+    try:
+        if dim.Value is not None:
+            out["value"] = U.from_internal(dim.Value, ctx.unit, 2)
+    except Exception:
+        pass
+    return out
+
+
+def _detail_line(ctx, view, item):
+    doc = ctx.doc
+    raw = item.get("points") or [item.get("start"), item.get("end")]
+    pts = [_view_point(ctx, view, p) for p in raw]
+    if len(pts) < 2:
+        raise RvtssError("detail_line needs start/end or at least 2 points")
+    if item.get("closed") and len(pts) > 2:
+        pts.append(pts[0])
+    style = None
+    if item.get("line_style"):
+        styles = _line_styles(doc)
+        key = text_type(item["line_style"]).strip().lower()
+        style = next((gs for n, gs in styles.items() if n.lower() == key), None)
+        if style is None:
+            raise core.not_found("Line style", item["line_style"], list(styles))
+    ids = []
+    for a, b in zip(pts[:-1], pts[1:]):
+        dc = doc.Create.NewDetailCurve(view, _segment(a, b))
+        if style is not None:
+            dc.LineStyle = style
+        ids.append(id_int(dc))
+    return {"kind": "detail_line", "ids": ids}
+
+
+def _filled_region(ctx, view, item):
+    from System.Collections.Generic import List
+
+    doc = ctx.doc
+    pts = [_view_point(ctx, view, p) for p in item.get("boundary") or []]
+    if len(pts) < 3:
+        raise RvtssError("filled_region: 'boundary' needs at least 3 points")
+    loop = DB.CurveLoop()
+    for i in range(len(pts)):
+        loop.Append(_segment(pts[i], pts[(i + 1) % len(pts)]))
+    frt = _named(doc, DB.FilledRegionType, item.get("type"), DB.ElementTypeGroup.FilledRegionType,
+                 "Filled region type")
+    loops = List[DB.CurveLoop]()
+    loops.Add(loop)
+    fr = DB.FilledRegion.Create(doc, frt.Id, view.Id, loops)
+    return {"kind": "filled_region", "id": id_int(fr), "type": normalize_string(get_element_name(frt))}
+
+
+_DETAIL = {"dimension": _dimension, "detail_line": _detail_line, "filled_region": _filled_region}
+
+
+def detailing(ctx):
+    doc = ctx.doc
+    items = ctx.list("items")
+    if not items:
+        raise RvtssError("'items' is required: [{kind: 'detail_line', start: [x, y], end: [x, y]}, ...]")
+    if len(items) > 500:
+        raise RvtssError("At most 500 items per call")
+    view = _annotation_view(ctx)
+    dry = ctx.dry_run
+
+    def one(item):
+        kind = item.get("kind")
+        if kind not in _DETAIL:
+            raise RvtssError("Unknown kind '{}'. Use {}".format(kind, ", ".join(DETAIL_KINDS)))
+        return _DETAIL[kind](ctx, view, item)
+
+    def run():
+        return {"results": core.batch(doc, items, one, atomic=ctx.bool("atomic", True))}
+
+    res, fails = core.run_transaction(doc, "Detailing", run, dry_run=dry)
+    res["created"] = len([r for r in res["results"] if r.get("ok")])
+    return core.commit_result(res, fails, dry, {"view": normalize_string(view.Name), "view_id": id_int(view),
+                                               "unit": ctx.unit})
+
+
+def annotation_types(ctx):
+    doc = ctx.doc
+    wanted = set(ctx.list("kinds")) or {"text", "dimension", "filled_region", "line_style", "tag"}
+    out = {}
+
+    def brief(t):
+        return {"id": id_int(t), "name": normalize_string(get_element_name(t))}
+
+    if "text" in wanted:
+        out["text"] = [brief(t) for t in DB.FilteredElementCollector(doc).OfClass(DB.TextNoteType)]
+    if "dimension" in wanted:
+        dims = []
+        for t in DB.FilteredElementCollector(doc).OfClass(DB.DimensionType):
+            if not normalize_string(get_element_name(t)):
+                continue
+            d = brief(t)
+            try:
+                d["style"] = str(t.StyleType)
+            except Exception:
+                pass
+            dims.append(d)
+        out["dimension"] = dims
+    if "filled_region" in wanted:
+        out["filled_region"] = [brief(t) for t in DB.FilteredElementCollector(doc).OfClass(DB.FilledRegionType)]
+    if "line_style" in wanted:
+        out["line_style"] = sorted(_line_styles(doc))
+    if "tag" in wanted:
+        tags = {}
+        for s in DB.FilteredElementCollector(doc).OfClass(DB.FamilySymbol):
+            cat = s.Category
+            if cat is None:
+                continue
+            is_tag = getattr(cat, "IsTagCategory", None)
+            if is_tag is None:
+                is_tag = normalize_string(cat.Name).endswith("Tags")
+            if is_tag:
+                tags.setdefault(normalize_string(cat.Name), []).append(
+                    dict(brief(s), family=normalize_string(s.FamilyName)))
+        out["tag"] = tags
+    return out
+
+
 def register_annotation_routes(api):
+    @api.route("/annotation/detail/", methods=["POST"])
+    def annotation_detail_route(doc, uidoc, request):
+        return handle(doc, request, detailing, uidoc=uidoc)
+
+    @api.route("/annotation/types/", methods=["POST"])
+    def annotation_types_route(doc, request):
+        return handle(doc, request, annotation_types)
+
     @api.route("/annotation/untagged/", methods=["POST"])
     def annotation_untagged_route(doc, uidoc, request):
         return handle(doc, request, untagged, uidoc=uidoc)

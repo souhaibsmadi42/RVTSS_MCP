@@ -2,6 +2,27 @@
 
 All notable changes to RVTSS. Details, verification status and design notes: [docs/UPGRADE_REPORT.md](docs/UPGRADE_REPORT.md).
 
+## Unreleased (2.3)
+
+Closes gaps found in a feature comparison with other Revit MCP servers. All code is new.
+
+### Added
+* **Detailing:** `create_detailing` makes dimensions (grids, levels, reference planes, wall faces, family
+  instance references), detail lines (with line styles, open or closed) and filled regions in one view, in
+  one transaction. `list_annotation_types` lists text, tag, dimension and filled region types and line styles.
+* **Modelling:** `create_elements` also creates footprint roofs (with slope), ceilings (Revit 2022+),
+  structural and architectural columns, beams, isolated foundations and wall foundations.
+
+### Changed
+* **Saving and synchronizing are off by default.** `save_document`, `close_document(save=true)` and
+  `sync_with_central` return 403 `POLICY_DENIED` until `"allow_save"` / `"allow_sync": true` is set in
+  `%APPDATA%\RVTSS\config.json` (or `RVTSS_ALLOW_SAVE` / `RVTSS_ALLOW_SYNC` for Revit). `family_save` and
+  exports are unchanged. `/status/` and `get_session_info` report both settings.
+
+### Not verified
+* Unit tests (stub Revit), pyflakes and vermin pass; the new Revit-side code has not yet been run in a live
+  Revit session.
+
 ## 2.2.0 – 2026-10-25
 
 Ideas ported from [bimwright/rvt-mcp](https://github.com/bimwright/rvt-mcp) (Apache-2.0, C#) and

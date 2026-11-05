@@ -9,7 +9,8 @@ Routes:
     POST /bulk_update_parameter/  one parameter on many elements, value or template
     POST /transform_elements/     move / copy / rotate / mirror
     POST /delete_elements/        preview by default, confirm=true to delete
-    POST /create_elements/        levels, grids, walls, floors, family instances, rooms
+    POST /create_elements/        levels, grids, walls, floors, family instances, rooms, roofs, ceilings,
+                                  columns, beams, foundations, wall foundations
     POST /element_types/          duplicate / rename types, change element types
 """
 import math
@@ -560,8 +561,191 @@ def _create_one(ctx, item):
         if item.get("number"):
             r.get_Parameter(DB.BuiltInParameter.ROOM_NUMBER).Set(text_type(item["number"]))
         return {"kind": kind, "id": id_int(r)}
-    raise RvtssError("Unknown kind '{}'. Use level, grid, wall, floor, family_instance or room".format(kind),
-                     failed_item=item)
+    if kind in _STRUCTURE_KINDS:
+        return _STRUCTURE_KINDS[kind](ctx, item)
+    raise RvtssError("Unknown kind '{}'. Use level, grid, wall, floor, family_instance, room, roof, ceiling, "
+                     "column, beam, foundation or wall_foundation".format(kind), failed_item=item)
+
+
+# ---------------------------------------------------- roofs, ceilings, structure (2.2)
+def _outline(ctx, item, level):
+    """Closed boundary [[x, y], ...] at the level elevation -> list of lines."""
+    pts = [U.point_from(p, ctx.unit) for p in item.get("boundary") or []]
+    if len(pts) < 3:
+        raise RvtssError("'boundary' needs at least 3 points", failed_item=item)
+    z = level.Elevation
+    lines = []
+    for i in range(len(pts)):
+        a, b = pts[i], pts[(i + 1) % len(pts)]
+        pa, pb = DB.XYZ(a[0], a[1], z), DB.XYZ(b[0], b[1], z)
+        if pa.DistanceTo(pb) < 1e-4:
+            raise RvtssError("boundary has two equal consecutive points", failed_item=item)
+        lines.append(DB.Line.CreateBound(pa, pb))
+    return lines
+
+
+def _system_type(doc, item, cls, group, what):
+    if item.get("type") or item.get("type_id") is not None:
+        return core.find_type(doc, family=item.get("family"), type_name=item.get("type"),
+                              type_id=item.get("type_id"), of_class=cls)
+    t = None
+    if group is not None:
+        try:
+            t = doc.GetElement(doc.GetDefaultElementTypeId(group))
+        except Exception:
+            t = None
+    if t is None:
+        t = DB.FilteredElementCollector(doc).OfClass(cls).FirstElement()
+    if t is None:
+        raise RvtssError("No {} type exists in '{}'".format(what, doc.Title))
+    return t
+
+
+def _symbol(doc, item, categories, what):
+    """FamilySymbol from family/type/type_id, else the first loaded symbol of the categories."""
+    if item.get("type") or item.get("type_id") is not None or item.get("family"):
+        sym = core.find_type(doc, family=item.get("family"), type_name=item.get("type"),
+                             type_id=item.get("type_id"), of_class=DB.FamilySymbol)
+    else:
+        sym = None
+        for bic in categories:
+            sym = DB.FilteredElementCollector(doc).OfClass(DB.FamilySymbol).OfCategory(bic).FirstElement()
+            if sym is not None:
+                break
+        if sym is None:
+            raise RvtssError("No {} family is loaded in '{}'".format(what, doc.Title),
+                             hint="Load one (family_load_into_project) or pass family/type.")
+    if not sym.IsActive:
+        sym.Activate()
+        doc.Regenerate()
+    return sym
+
+
+def _set_param(e, bips, value):
+    for bip in bips:
+        p = e.get_Parameter(getattr(DB.BuiltInParameter, bip))
+        if p is not None and not p.IsReadOnly:
+            p.Set(value)
+            return True
+    return False
+
+
+def _level_point(ctx, item, level, key="point"):
+    v = item.get(key)
+    if v is None:
+        raise RvtssError("'{}' is required".format(key), failed_item=item)
+    x, y, z = U.point_from(v, ctx.unit)
+    return DB.XYZ(x, y, z if len(list(v)) == 3 else level.Elevation)
+
+
+def _roof(ctx, item):
+    import clr
+
+    doc = ctx.doc
+    level = core.find_level(doc, item.get("level"))
+    rt = _system_type(doc, item, DB.RoofType, DB.ElementTypeGroup.RoofType, "roof")
+    footprint = DB.CurveArray()
+    for ln in _outline(ctx, item, level):
+        footprint.Append(ln)
+    model_curves = clr.Reference[DB.ModelCurveArray]()
+    roof = doc.Create.NewFootPrintRoof(footprint, level, rt, model_curves)
+    slope = item.get("slope_deg")
+    sloped = []
+    if slope:
+        edges = item.get("slope_edges")
+        for i, mc in enumerate(model_curves.Value):
+            if edges is None or i in edges:
+                roof.set_DefinesSlope(mc, True)
+                roof.set_SlopeAngle(mc, math.tan(math.radians(float(slope))))
+                sloped.append(i)
+    if item.get("base_offset"):
+        _set_param(roof, ["ROOF_LEVEL_OFFSET_PARAM"], U.to_internal(item["base_offset"], ctx.unit))
+    return {"kind": "roof", "id": id_int(roof), "type": normalize_string(get_element_name(rt)),
+            "sloped_edges": sloped}
+
+
+def _ceiling(ctx, item):
+    from System.Collections.Generic import List
+
+    doc = ctx.doc
+    if not (hasattr(DB, "Ceiling") and hasattr(DB.Ceiling, "Create")):
+        raise RvtssError("Creating ceilings needs Revit 2022 or later")
+    level = core.find_level(doc, item.get("level"))
+    ct = _system_type(doc, item, DB.CeilingType, getattr(DB.ElementTypeGroup, "CeilingType", None), "ceiling")
+    loop = DB.CurveLoop()
+    for ln in _outline(ctx, item, level):
+        loop.Append(ln)
+    loops = List[DB.CurveLoop]()
+    loops.Add(loop)
+    c = DB.Ceiling.Create(doc, loops, ct.Id, level.Id)
+    if item.get("height") is not None:
+        _set_param(c, ["CEILING_HEIGHTABOVELEVEL_PARAM"], U.to_internal(item["height"], ctx.unit))
+    return {"kind": "ceiling", "id": id_int(c), "type": normalize_string(get_element_name(ct))}
+
+
+def _column(ctx, item):
+    doc = ctx.doc
+    base = core.find_level(doc, item.get("level") or item.get("base_level"))
+    sym = _symbol(doc, item, [DB.BuiltInCategory.OST_StructuralColumns, DB.BuiltInCategory.OST_Columns], "column")
+    structural = sym.Category is not None and id_int(sym.Category.Id) == int(DB.BuiltInCategory.OST_StructuralColumns)
+    st = DB.Structure.StructuralType.Column if structural else DB.Structure.StructuralType.NonStructural
+    pt = _level_point(ctx, item, base)
+    fi = doc.Create.NewFamilyInstance(pt, sym, base, st)
+    _set_param(fi, ["FAMILY_BASE_LEVEL_OFFSET_PARAM"], U.to_internal(item.get("base_offset", 0), ctx.unit))
+    if item.get("top_level") is not None:
+        top = core.find_level(doc, item.get("top_level"))
+        _set_param(fi, ["FAMILY_TOP_LEVEL_PARAM"], top.Id)
+    if item.get("top_offset") is not None:
+        _set_param(fi, ["FAMILY_TOP_LEVEL_OFFSET_PARAM"], U.to_internal(item["top_offset"], ctx.unit))
+    rot = float(item.get("rotation_deg", 0) or 0)
+    if rot:
+        doc.Regenerate()
+        DB.ElementTransformUtils.RotateElement(doc, fi.Id, DB.Line.CreateBound(pt, pt + DB.XYZ.BasisZ),
+                                               math.radians(rot))
+    return {"kind": "column", "id": id_int(fi), "structural": structural,
+            "family": normalize_string(sym.Family.Name), "type": normalize_string(get_element_name(sym))}
+
+
+def _beam(ctx, item):
+    doc = ctx.doc
+    level = core.find_level(doc, item.get("level"))
+    sym = _symbol(doc, item, [DB.BuiltInCategory.OST_StructuralFraming], "structural framing (beam)")
+    a, b = _level_point(ctx, item, level, "start"), _level_point(ctx, item, level, "end")
+    if a.DistanceTo(b) < 1e-4:
+        raise RvtssError("start and end are the same point", failed_item=item)
+    fi = doc.Create.NewFamilyInstance(DB.Line.CreateBound(a, b), sym, level, DB.Structure.StructuralType.Beam)
+    return {"kind": "beam", "id": id_int(fi), "family": normalize_string(sym.Family.Name),
+            "type": normalize_string(get_element_name(sym))}
+
+
+def _foundation(ctx, item):
+    doc = ctx.doc
+    level = core.find_level(doc, item.get("level"))
+    sym = _symbol(doc, item, [DB.BuiltInCategory.OST_StructuralFoundation], "structural foundation")
+    pt = _level_point(ctx, item, level)
+    fi = doc.Create.NewFamilyInstance(pt, sym, level, DB.Structure.StructuralType.Footing)
+    if item.get("base_offset") is not None:
+        _set_param(fi, ["INSTANCE_FREE_HOST_OFFSET_PARAM", "INSTANCE_ELEVATION_PARAM"],
+                   U.to_internal(item["base_offset"], ctx.unit))
+    return {"kind": "foundation", "id": id_int(fi), "family": normalize_string(sym.Family.Name),
+            "type": normalize_string(get_element_name(sym))}
+
+
+def _wall_foundation(ctx, item):
+    doc = ctx.doc
+    if item.get("wall_id") is None:
+        raise RvtssError("'wall_id' is required", failed_item=item)
+    wall = core.get_element(doc, item["wall_id"], "Wall")
+    if not isinstance(wall, DB.Wall):
+        raise RvtssError("Element {} is not a wall".format(item["wall_id"]))
+    ft = _system_type(doc, item, DB.WallFoundationType, None, "wall foundation")
+    wf = DB.WallFoundation.Create(doc, ft.Id, wall.Id)
+    return {"kind": "wall_foundation", "id": id_int(wf), "wall_id": id_int(wall),
+            "type": normalize_string(get_element_name(ft))}
+
+
+_STRUCTURE_KINDS = {"roof": _roof, "ceiling": _ceiling, "column": _column, "beam": _beam,
+                    "foundation": _foundation, "wall_foundation": _wall_foundation}
 
 
 def create_elements(ctx):

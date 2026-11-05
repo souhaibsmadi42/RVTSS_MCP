@@ -6,6 +6,8 @@ Settings (environment of the Revit process, or %APPDATA%/RVTSS/config.json):
     RVTSS_ALLOW_CODE_EXECUTION / "allow_code_execution"   default allowed (backward compatible)
     RVTSS_ALLOW_REMOTE / "allow_remote"                   acknowledge a Routes server reachable beyond loopback
     RVTSS_READ_ONLY / "read_only"                         refuse every model/file change (dry runs still work)
+    RVTSS_ALLOW_SAVE / "allow_save"                       allow save_document / close_document(save) (default off)
+    RVTSS_ALLOW_SYNC / "allow_sync"                       allow sync_with_central (default off)
 
 pyRevit Routes chooses API context and injects arguments by inspecting the
 handler's argument names (routes/server/handler.py), so the protecting wrapper
@@ -37,8 +39,10 @@ def settings():
                               S.parse_flag(cfg.get("allow_code_execution"), True))
     allow_remote = S.parse_flag(os.environ.get("RVTSS_ALLOW_REMOTE"), S.parse_flag(cfg.get("allow_remote"), False))
     read_only = S.parse_flag(os.environ.get("RVTSS_READ_ONLY"), S.parse_flag(cfg.get("read_only"), False))
+    allow_save = S.parse_flag(os.environ.get("RVTSS_ALLOW_SAVE"), S.parse_flag(cfg.get("allow_save"), False))
+    allow_sync = S.parse_flag(os.environ.get("RVTSS_ALLOW_SYNC"), S.parse_flag(cfg.get("allow_sync"), False))
     return {"token": token, "allow_code_execution": allow_code, "allow_remote": allow_remote,
-            "read_only": bool(read_only)}
+            "read_only": bool(read_only), "allow_save": bool(allow_save), "allow_sync": bool(allow_sync)}
 
 
 def routes_host():
@@ -64,7 +68,8 @@ def security_status():
         warnings.append("Routes is reachable beyond loopback; set RVTSS_ALLOW_REMOTE=1 to acknowledge (VM setups).")
     return {"token_required": bool(st["token"]), "code_execution_allowed": st["allow_code_execution"],
             "routes_host": host or "0.0.0.0 (all interfaces)", "reachable_beyond_loopback": exposed,
-            "allow_remote": st["allow_remote"], "read_only": st["read_only"], "warnings": warnings}
+            "allow_remote": st["allow_remote"], "read_only": st["read_only"], "allow_save": st["allow_save"],
+            "allow_sync": st["allow_sync"], "warnings": warnings}
 
 
 def _arg_names(func):
