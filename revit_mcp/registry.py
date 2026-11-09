@@ -41,6 +41,12 @@ ROUTE_MODULES = [
     ("revit_mcp.stairs", "register_stairs_routes"),
     ("revit_mcp.model_state", "register_model_state_routes"),
     ("revit_mcp.undo", "register_undo_routes"),
+    # RVTSS v2.4 modules
+    ("revit_mcp.commands", "register_command_routes"),
+    ("revit_mcp.view_setup", "register_view_setup_routes"),
+    ("revit_mcp.mep_edit", "register_mep_edit_routes"),
+    ("revit_mcp.modify", "register_modify_routes"),
+    ("revit_mcp.project_admin", "register_project_admin_routes"),
 ]
 
 

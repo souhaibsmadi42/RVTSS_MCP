@@ -2,9 +2,9 @@
 
 Generated from the live tool registry by `scripts/generate_tool_docs.py` - do not edit by hand.
 
-107 tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. **Mode**: read-only / modifies / destructive (MCP tool annotations).
+124 tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. **Mode**: read-only / modifies / destructive (MCP tool annotations).
 
-Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Profiles: `all` = admin, annotation, code, core, documentation, edit, export, families, launch, legacy, materials, mep, model, parameters, qc, rooms; `architect` = core, model, edit, documentation, rooms, materials, annotation; `auditor` = core, model, qc, rooms, materials, mep; `bim_coordinator` = core, model, parameters, documentation, qc; `family_author` = core, families, parameters; `mep_coordinator` = core, model, edit, qc, mep; `minimal` = core, model; `modeler` = core, model, edit, documentation; `publisher` = core, model, documentation, annotation, export.
+Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Profiles: `all` = admin, annotation, code, commands, core, documentation, edit, export, families, insert, launch, legacy, materials, mep, mep_edit, model, parameters, qc, rooms; `architect` = core, model, edit, documentation, rooms, materials, annotation, insert, commands; `auditor` = core, model, qc, rooms, materials, mep; `bim_coordinator` = core, model, parameters, documentation, qc; `family_author` = core, families, parameters; `mep_coordinator` = core, model, edit, qc, mep, mep_edit; `minimal` = core, model; `modeler` = core, model, edit, documentation, insert, commands; `publisher` = core, model, documentation, annotation, export.
 
 ## Session & status
 
@@ -62,6 +62,7 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `batch_execute` | edit | new | modifies | Run up to 20 RVTSS edits as ONE Revit undo step: all succeed or everything is rolled back. |
 | `selection_sets` | edit | new | modifies | Saved selection sets (Revit selection filters): list, save ids or the selection, load (select), delete. |
 | `undo_last_change` | edit | new | destructive | Undo the latest change in the model, only if RVTSS made it (status lists the latest steps). |
+| `modify_elements` | edit | new | modifies | Modify elements: align, offset, trim/extend to a corner, split, scale, flip, cut/uncut, paint, parts. |
 | `color_splash` | documentation | retained | modifies | Color a category's elements in the active view by parameter value. |
 | `clear_colors` | documentation | retained | modifies | Clear color overrides for elements in a category |
 
@@ -105,15 +106,18 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 
 | Tool | Toolset | Origin | Mode | Purpose |
 |---|---|---|---|---|
-| `create_view` | documentation | new | modifies | Create plans, 3D (optionally boxed to elements), sections, elevations, drafting views or duplicates, with name/template/scale. |
+| `create_view` | documentation | new | modifies | Create plans, 3D (optionally boxed to elements), sections, elevations, drafting views, callouts, legends or duplicates, with name/template/scale. |
 | `view_graphics` | documentation | new | modifies | Per-view graphics: element/category overrides, hide/unhide, temporary isolate, category visibility, view templates, scale, detail level. |
 | `manage_view_filters` | documentation | new | modifies | Rule-based view filters: list (rules, where used), create, apply to views/templates with visibility and graphic overrides, remove, delete. |
 | `manage_sheets` | documentation | new | modifies | Create sheets (with title blocks) and place views or schedules on them. |
 | `manage_revisions` | documentation | new | modifies | Revisions: list (with the sheets showing them), create, update, assign/unassign to sheets, issue. |
-| `create_schedule` | documentation | new | modifies | Create a schedule for a category with fields, sorting and filters. |
+| `create_schedule` | documentation | new | modifies | Create a schedule with fields, sorting and filters: by category, key schedule, material take-off, sheet list, view list or note block. |
 | `batch_rename` | documentation | new | modifies | Rename views/sheets/levels/families/types/rooms... with find/replace/regex/prefix/suffix/case; detects collisions. dry_run by default. |
 | `manage_groups` | documentation | new | modifies | List group types (instances, unused types), create a model group from elements, or ungroup. |
 | `manage_assemblies` | documentation | new | modifies | Assemblies: create, add/remove members, rename, create assembly views and sheet. |
+| `view_extents` | documentation | new | modifies | Crop region, 3D section box, plan view range and far clip of a view: read them or set them. |
+| `manage_view_templates` | documentation | new | destructive | View templates: list, create from a view, duplicate, apply to views, remove, delete, and choose the parameters a template controls. |
+| `manage_viewports` | documentation | new | destructive | Viewports on a sheet: list them (with schedules), move, change type, set the detail number, rotate or remove. Place views with manage_sheets. |
 
 ## Rooms, spaces & areas
 
@@ -137,8 +141,9 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `find_untagged_elements` | annotation | new | read-only | Elements of the categories visible in a view that have no tag in that view (incl. room/space/area tags). |
 | `tag_elements` | annotation | new | modifies | Tag elements in a view - by ids or whole categories; rooms, spaces and areas get their own tags. |
 | `create_text_notes` | annotation | new | modifies | Place text notes in a view (one transaction; all or nothing). |
-| `create_detailing` | annotation | new | modifies | Dimensions, detail lines and filled regions in one view (one transaction, one undo step). |
+| `create_detailing` | annotation | new | modifies | Dimensions, detail lines, filled and masking regions, revision clouds, spot dimensions and detail components in one view (one undo step). |
 | `list_annotation_types` | annotation | new | read-only | Text note types, tag types (by category), dimension types, filled region types and line styles. |
+| `replace_text` | annotation | new | modifies | Find and replace text in text notes, in some views or the whole model. dry_run by default. |
 
 ## Export
 
@@ -154,6 +159,17 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `list_mep_systems` | mep | new | read-only | MEP systems: type, classification, element count, base equipment, well-connected flag. |
 | `get_mep_connectors` | mep | new | read-only | Connectors of MEP elements: domain, shape and size, flow direction, system, connected elements. |
 | `find_mep_disconnects` | mep | new | read-only | Open MEP connectors (nothing attached): missing fittings, caps, terminals or gaps, with location. |
+| `mep_connect` | mep_edit | new | modifies | Connect MEP elements: join two ends, add an elbow / tee / cross / transition / union, cap open ends, disconnect. |
+| `create_mep_parts` | mep_edit | new | modifies | Create MEP parts: flex ducts and pipes, placeholders, an accessory or fitting inserted on a duct / pipe. |
+| `mep_insulation` | mep_edit | new | destructive | Insulation on ducts and pipes and lining on ducts: list, add (type and thickness), remove. |
+| `manage_mep_systems` | mep_edit | new | modifies | MEP systems: create a duct or piping system, add / remove elements, rename, set system types; circuits and panel schedules. |
+
+## Insert
+
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `insert_files` | insert | new | destructive | Link or import CAD (DWG, DXF, DGN, SAT, SKP), place an image, list, reload or delete CAD files. |
+| `load_family` | insert | new | modifies | Load family files (.rfa) from disk into the project, or a single type; reports the loaded types. |
 
 ## Model administration
 
@@ -163,6 +179,17 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `purge_unused` | admin | new | destructive | Purge unused families, types, materials, templates... Previews the list until confirm=true. |
 | `manage_phases` | admin | new | modifies | Phases, phase filters and design options: list, set element / view phases, elements of an option. |
 | `manage_links` | admin | new | modifies | Revit links: list status and paths, reload, unload, reload from another path, load a new link. |
+| `project_settings` | admin | new | modifies | Project information, project units, the starting view and the project location: read or set. |
+| `manage_styles` | admin | new | modifies | Object styles, subcategories, line styles, line patterns and fill patterns: list, set, create. |
+| `transfer_project_standards` | admin | new | modifies | Copy view templates, filters, materials, patterns and system types from another open document. |
+| `worksharing` | admin | new | modifies | Worksharing: element and workset ownership, relinquish, reload latest, shared coordinates with a link. |
+
+## Revit ribbon commands
+
+| Tool | Toolset | Origin | Mode | Purpose |
+|---|---|---|---|---|
+| `list_revit_commands` | commands | new | read-only | Revit's own ribbon commands (the buttons), searchable by words. Use with run_revit_command. |
+| `run_revit_command` | commands | new | modifies | Press a Revit ribbon button for the user: the command starts in Revit and the user completes it. |
 
 ## Coordination & QC
 
@@ -782,10 +809,13 @@ isolated and wall foundations, MEP runs (segments joined by elbows), wall / floo
 shafts and railings in one transaction (one undo step). Returns new element ids.
 Doors/windows need host_id of a wall. Without family/type the default type, or the first
 loaded family of the category, is used.
+v2.4: curtain grid lines, mullions and panel types, wall sweeps and reveals, model lines,
+reference planes, braces, trusses and beam systems. The Revit API cannot create ramps or model
+text in a project, or attach wall tops / bases; do those in Revit.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `items` | list of object | yes |  | Items by kind (coordinates in `unit`): level: {kind:'level', elevation, name?, create_plan_view?} grid: {kind:'grid', start:[x,y], end:[x,y], name?} wall: {kind:'wall', start, end, level, type?\|type_id?, height?(3000), base_offset?, structural?, flip?} floor: {kind:'floor', boundary:[[x,y],...], level, type?\|type_id?, structural?} family_instance: {kind:'family_instance', family, type\|type_id, point:[x,y,z], level?, host_id?, rotation_deg?} room: {kind:'room', level, point:[x,y], name?, number?} roof: {boundary, level, type?, slope_deg?, slope_edges?, base_offset?} ceiling: {boundary, level, type?, height?} column: {point, level, top_level?, base_offset?, top_offset?, family?, type?, rotation_deg?} beam: {start, end, level, family?, type?} foundation: {point, level, family?, type?, base_offset?} wall_foundation: {wall_id, type?} duct\|pipe\|cable_tray\|conduit: {points:[[x,y(,z)],...], level, offset?, type?, system_type? (duct/pipe), width?/height?/diameter?, fittings?(true: elbows at bends)} wall_opening: {wall_id, offset_along, width, height, sill?} opening: {host_id (floor/roof/ceiling), boundary} shaft: {boundary, level, top_level, base_offset?, top_offset?} railing: {points, level, type?} or {host_id (stairs/ramp), position?} space: {level, point, name?, number?}; area: {area_view, point, name?, number?} area_boundary: {area_view, points, closed?}; room_separation\|space_separation: {view, points, closed?} auto_rooms: {level} (a room in every closed region) rebar: {host_id, points:[[x,y,z],...], normal?, type?, style?, count?, spacing?} toposolid: {points:[[x,y,z],...], level, type?} (2024+) direct_shape: {vertices, faces:[[i,j,k],...]} or {obj_file, obj_unit?}; category?, name?, material? |
+| `items` | list of object | yes |  | Items by kind (coordinates in `unit`): level: {kind:'level', elevation, name?, create_plan_view?} grid: {kind:'grid', start:[x,y], end:[x,y], name?} wall: {kind:'wall', start, end, level, type?\|type_id?, height?(3000), base_offset?, structural?, flip?} floor: {kind:'floor', boundary:[[x,y],...], level, type?\|type_id?, structural?} family_instance: {kind:'family_instance', family, type\|type_id, point:[x,y,z], level?, host_id?, rotation_deg?} room: {kind:'room', level, point:[x,y], name?, number?} roof: {boundary, level, type?, slope_deg?, slope_edges?, base_offset?} ceiling: {boundary, level, type?, height?} column: {point, level, top_level?, base_offset?, top_offset?, family?, type?, rotation_deg?} beam: {start, end, level, family?, type?} foundation: {point, level, family?, type?, base_offset?} wall_foundation: {wall_id, type?} duct\|pipe\|cable_tray\|conduit: {points:[[x,y(,z)],...], level, offset?, type?, system_type? (duct/pipe), width?/height?/diameter?, fittings?(true: elbows at bends)} wall_opening: {wall_id, offset_along, width, height, sill?} opening: {host_id (floor/roof/ceiling), boundary} shaft: {boundary, level, top_level, base_offset?, top_offset?} railing: {points, level, type?} or {host_id (stairs/ramp), position?} space: {level, point, name?, number?}; area: {area_view, point, name?, number?} area_boundary: {area_view, points, closed?}; room_separation\|space_separation: {view, points, closed?} auto_rooms: {level} (a room in every closed region) rebar: {host_id, points:[[x,y,z],...], normal?, type?, style?, count?, spacing?} toposolid: {points:[[x,y,z],...], level, type?} (2024+) direct_shape: {vertices, faces:[[i,j,k],...]} or {obj_file, obj_unit?}; category?, name?, material? curtain_grid_line: {wall_id, direction:'vertical'\|'horizontal', offset_along \| height \| point} mullions: {wall_id, lines?:'all'\|'horizontal'\|'vertical' \| grid_line_ids, type?} curtain_panel_type: {wall_id \| panel_ids, type\|type_id, unpin?} wall_sweep\|reveal: {wall_id, distance, vertical?, side?:'exterior'\|'interior', from_top?, type?} model_line: {points \| start,end, level?, offset?, closed?, line_style?} reference_plane: {start, end, name?, level?, view?} foundation_isolated: as foundation; foundation_wall: as wall_foundation brace: {start:[x,y,z], end:[x,y,z], level, family?, type?}; truss: {start, end, level, offset?, type?} beam_system: {boundary, level, direction_edge?(0), is_3d?, family?, type?} |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `atomic` | boolean |  | `True` |  |
 | `dry_run` | boolean |  | `False` |  |
@@ -918,6 +948,53 @@ changed the model since. Re-read the elements afterwards.
 | `action` | `status` \| `undo` |  | `status` |  |
 | `expect_tool` | string |  |  | Only undo if the last step came from this tool |
 | `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `modify_elements`
+
+Toolset: `edit`
+
+Modify elements: align, offset, trim/extend to a corner, split, scale, flip, cut/uncut, paint, parts.
+
+One undo step per call; use dry_run first.
+align: move elements so their x / y / z matches reference_id or coordinate.
+offset: walls and other line-based elements sideways (keep_original=true offsets a copy).
+trim_extend: exactly two straight walls or lines, to their intersection.
+split: one duct, pipe or straight wall at a point (walls with inserts beyond the point are refused).
+scale: lengths of line-based elements and positions of point-based ones, in plan; type sizes
+(wall thickness, family sizes) and sketch-based elements (floors, roofs) do not scale.
+flip: walls, and the hand / facing / work plane of family instances.
+cut / uncut: the first id is cut by each of the others (void families or solids Revit lets cut).
+paint / remove_paint: a material on the faces of walls, floors, roofs... (not family instances).
+create_parts: parts from walls, floors, roofs; divide_parts: by divider_ids and / or lines.
+Move / copy / rotate / mirror / array / pin / join are in transform_elements. The Revit API cannot
+attach wall tops / bases, edit wall profiles, split faces or do linework; do those in Revit.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `operation` | `align` \| `offset` \| `trim_extend` \| `split` \| `scale` \| `flip` \| `cut` \| `uncut` \| `paint` \| `remove_paint` \| `create_parts` \| `divide_parts` | yes |  |  |
+| `element_ids` | list of integer | yes |  |  |
+| `axis` | `x` \| `y` \| `z` |  | `x` | align: the coordinate that is made equal |
+| `reference_id` | integer |  |  | align: line up with this element |
+| `coordinate` | number |  |  | align: or with this value on the axis |
+| `distance` | number |  |  | offset: distance in `unit`; positive = left of start -> end |
+| `keep_original` | boolean |  | `False` | offset: offset a copy |
+| `mode` | `corner` \| `single` |  | `corner` | trim_extend: corner = both meet; single = only the first id is trimmed / extended |
+| `point` | list of number |  |  | split: point on or near the element |
+| `parameter` | number |  |  | split: or 0-1 from its start |
+| `factor` | number |  |  | scale: 2 doubles lengths |
+| `center` | list of number |  |  | scale: centre (default: centroid) |
+| `flip` | `auto` \| `hand` \| `facing` \| `both` \| `work_plane` |  | `auto` |  |
+| `material` | integer or string |  |  | paint: material name or id |
+| `faces` | `all` \| `top` \| `bottom` \| `interior` \| `exterior` |  | `all` | paint / remove_paint: which faces (interior / exterior: walls) |
+| `divider_ids` | list of integer |  |  | divide_parts: levels, grids or reference planes that cut the parts |
+| `lines` | list of list of list of number |  |  | divide_parts: plan lines [[[x,y],[x,y]], ...] on `level` |
+| `level` | string |  |  |  |
+| `unpin` | boolean |  | `False` |  |
+| `atomic` | boolean |  |  |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
 ### `color_splash`
@@ -1457,15 +1534,18 @@ and targets that do not exist on an element are skipped. Office presets:
 
 Toolset: `documentation`
 
-Create plans, 3D (optionally boxed to elements), sections, elevations, drafting views or duplicates,
-with name/template/scale.
+Create plans, 3D (optionally boxed to elements), sections, elevations, drafting views, callouts,
+legends or duplicates, with name/template/scale.
 
 Create plans, 3D views (optionally section-boxed to elements), sections framing elements,
 elevations, drafting views, or duplicate a view - with name, template, scale and detail level.
+callout: a rectangle (min, max) in source_view; a detail view unless view_family_type names another.
+legend: the Revit API cannot create the first legend, so an existing one (source_view, or the first
+legend) is duplicated.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `kind` | `floor_plan` \| `ceiling_plan` \| `structural_plan` \| `area_plan` \| `three_d` \| `section` \| `elevation` \| `drafting` \| `duplicate` | yes |  |  |
+| `kind` | `floor_plan` \| `ceiling_plan` \| `structural_plan` \| `area_plan` \| `three_d` \| `section` \| `elevation` \| `drafting` \| `callout` \| `legend` \| `duplicate` | yes |  |  |
 | `name` | string |  |  |  |
 | `level` | string |  |  | plans: level name or id |
 | `element_ids` | list of integer |  |  | three_d: section box around them; section: framed elements |
@@ -1481,6 +1561,8 @@ elevations, drafting views, or duplicate a view - with name, template, scale and
 | `detail_level` | `coarse` \| `medium` \| `fine` |  |  |  |
 | `view_family_type` | string |  |  |  |
 | `area_scheme` | string |  |  | area_plan: area scheme name (default: first) |
+| `min` | list of number |  |  | callout: one corner in the parent view (source_view) |
+| `max` | list of number |  |  | callout: the opposite corner |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
@@ -1584,12 +1666,15 @@ issue locks the revision.
 
 Toolset: `documentation`
 
-Create a schedule for a category with fields, sorting and filters.
+Create a schedule with fields, sorting and filters: by category, key schedule, material take-off,
+sheet list, view list or note block.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `category` | string | yes |  |  |
-| `fields` | list of string | yes |  | Schedulable field names, e.g. ['Mark','Type','Width','Fire Rating'] |
+| `category` | string |  |  | Needed for kind category, key and material_takeoff |
+| `fields` | list of string |  |  | Schedulable field names, e.g. ['Mark','Type','Width','Fire Rating'] |
+| `kind` | `category` \| `key` \| `material_takeoff` \| `sheet_list` \| `view_list` \| `note_block` |  | `category` |  |
+| `family` | string |  |  | note_block: generic annotation family name |
 | `name` | string |  |  |  |
 | `sort_by` | list of string |  |  |  |
 | `filters` | list of object |  |  | [{field, type: 'Equal'\|'Contains'\|'GreaterThan'\|..., value, unit?}] - numbers for numeric fields (with unit for lengths), text for text fields |
@@ -1657,6 +1742,79 @@ assembly views (3D, elevations/sections, parts list, material takeoff) plus an a
 | `naming_category` | string |  |  |  |
 | `views` | list of `3d` \| `front` \| `back` \| `left` \| `right` \| `top` \| `bottom` \| `detail_front` \| `detail_side` \| `horizontal` \| `parts_list` \| `material_takeoff` |  |  | create_views: which assembly views to create |
 | `create_sheet` | boolean |  | `False` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `view_extents`
+
+Toolset: `documentation`
+
+Crop region, 3D section box, plan view range and far clip of a view: read them or set them.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `get` \| `set_crop` \| `set_section_box` \| `set_view_range` \| `set_far_clip` |  | `get` |  |
+| `view` | string |  | `active` | View name, id or 'active' |
+| `element_ids` | list of integer |  |  | set_crop / set_section_box: fit around these elements |
+| `margin` | number |  | `500` | Margin around element_ids in `unit` |
+| `min` | list of number |  |  | Box corner [x,y,z] instead of element_ids |
+| `max` | list of number |  |  |  |
+| `crop_active` | boolean |  |  |  |
+| `crop_visible` | boolean |  |  |  |
+| `annotation_crop` | boolean |  |  |  |
+| `enabled` | boolean |  |  | set_section_box: turn the box on or off |
+| `top` | number |  |  | set_view_range: offsets from each plane's level |
+| `cut` | number |  |  |  |
+| `bottom` | number |  |  |  |
+| `view_depth` | number |  |  |  |
+| `far_clip_offset` | number |  |  |  |
+| `far_clipping` | `no_clip` \| `clip_with_line` \| `clip_without_line` |  |  |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `manage_view_templates`
+
+Toolset: `documentation`
+
+View templates: list, create from a view, duplicate, apply to views, remove, delete, and choose the
+parameters a template controls.
+
+Deleting a template that views still use returns a preview until confirm=true.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `list` \| `create_from_view` \| `duplicate` \| `apply` \| `remove` \| `delete` \| `set_included` |  | `list` |  |
+| `template` | string |  |  | Template name or id |
+| `view` | string |  |  | create_from_view: the source view |
+| `views` | list of string |  |  | apply / remove: views (default: active) |
+| `name` | string |  |  | Name of the new template |
+| `once` | boolean |  | `False` | apply: copy the settings without assigning the template |
+| `include` | list of string |  |  | set_included: parameters the template controls |
+| `exclude` | list of string |  |  |  |
+| `parameters` | boolean |  | `False` | list: include each template's controlled parameters |
+| `atomic` | boolean |  | `True` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `manage_viewports`
+
+Toolset: `documentation`
+
+Viewports on a sheet: list them (with schedules), move, change type, set the detail number, rotate
+or remove. Place views with manage_sheets.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `list` \| `move` \| `set_type` \| `set_detail_number` \| `rotate` \| `remove` |  | `list` |  |
+| `sheet` | string |  |  | list: sheet number, name or id |
+| `viewport_id` | integer |  |  |  |
+| `location` | list of number |  |  | move: new centre [x, y] on the sheet |
+| `type` | string |  |  | set_type: viewport type name |
+| `detail_number` | string |  |  |  |
+| `rotation` | `none` \| `clockwise` \| `counterclockwise` |  |  |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
@@ -1817,7 +1975,8 @@ Place text notes in a view (one transaction; all or nothing).
 
 Toolset: `annotation`
 
-Dimensions, detail lines and filled regions in one view (one transaction, one undo step).
+Dimensions, detail lines, filled and masking regions, revision clouds, spot dimensions and detail
+components in one view (one undo step).
 
 wall_face: exterior | interior. instance_reference: center_left_right | center_front_back |
 left | right | front | back | top | bottom. Names come from list_annotation_types.
@@ -1825,7 +1984,7 @@ atomic=false keeps the items that succeed.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `items` | list of object | yes |  | Model points in `unit`, projected onto the view ([x,y] plans, [x,y,z] sections). dimension: {element_ids (grids/levels/ref planes/walls/instances), start, end, type?, wall_face?, instance_reference?} detail_line: {start, end \| points, closed?, line_style?} filled_region: {boundary, type?} Each item needs kind. |
+| `items` | list of object | yes |  | Model points in `unit`, projected onto the view ([x,y] plans, [x,y,z] sections). dimension: {element_ids (grids/levels/ref planes/walls/instances), start, end, type?, wall_face?, instance_reference?} detail_line: {start, end \| points, closed?, line_style?} filled_region: {boundary, type?} masking_region: {boundary} revision_cloud: {boundary, revision? (id, sequence, description or 'latest')} spot_elevation \| spot_coordinate: {element_id (floor/roof/ceiling), point, leader?, offset?} detail_component: {type ('Family : Type'), point \| start+end} - detail items and symbols Each item needs kind. |
 | `view` | string |  | `active` | View name, id or 'active' |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `atomic` | boolean |  | `True` |  |
@@ -1841,6 +2000,27 @@ Text note types, tag types (by category), dimension types, filled region types a
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `kinds` | list of `text` \| `tag` \| `dimension` \| `filled_region` \| `line_style` |  |  |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `replace_text`
+
+Toolset: `annotation`
+
+Find and replace text in text notes, in some views or the whole model. dry_run by default.
+
+The dry run lists every note with its old and new text. Mixed formatting inside a changed note
+(bold / italic runs) is lost, because Revit replaces the whole text.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `find` | string | yes |  |  |
+| `replace` | string |  | `` |  |
+| `views` | list of string |  |  | View names / ids / 'active' (default: the whole model) |
+| `regex` | boolean |  | `False` |  |
+| `match_case` | boolean |  | `False` |  |
+| `whole_word` | boolean |  | `False` |  |
+| `dry_run` | boolean |  | `True` |  |
+| `confirm` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
 ### `list_export_settings`
@@ -1928,6 +2108,148 @@ Open MEP connectors (nothing attached): missing fittings, caps, terminals or gap
 | `limit` | integer |  | `200` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
+### `mep_connect`
+
+Toolset: `mep_edit`
+
+Connect MEP elements: join two ends, add an elbow / tee / cross / transition / union, cap open ends, disconnect.
+
+The nearest free connectors of the elements are used. Fittings come from the routing preferences of
+the duct / pipe type; Revit refuses when no matching fitting is loaded. One undo step.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `connect` \| `elbow` \| `tee` \| `cross` \| `transition` \| `union` \| `cap` \| `disconnect` | yes |  |  |
+| `element_ids` | list of integer | yes |  | connect / elbow / transition / union: 2 elements; tee: [run 1, run 2, branch]; cross: [run 1, run 2, branch 1, branch 2]; cap: ducts or pipes; disconnect: 1 element (all) or 2 (between them) |
+| `tolerance` | number |  | `1.0` | connect: largest gap between the two ends, in `unit` |
+| `atomic` | boolean |  | `False` | cap: stop at the first failure |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `create_mep_parts`
+
+Toolset: `mep_edit`
+
+Create MEP parts: flex ducts and pipes, placeholders, an accessory or fitting inserted on a duct / pipe.
+
+insert_on_curve breaks the duct / pipe at the point, places the family instance and connects both
+sides; connection problems are reported per connector. Rigid runs: create_elements. One undo step.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `flex_duct` \| `flex_pipe` \| `duct_placeholder` \| `pipe_placeholder` \| `convert_placeholders` \| `insert_on_curve` \| `air_terminal_on_duct` | yes |  |  |
+| `points` | list of list of number |  |  | flex / placeholder: route [[x, y(, z)], ...]; z defaults to the level elevation + offset |
+| `level` | string |  |  |  |
+| `offset` | number |  |  | Height above the level in `unit` |
+| `type` | string |  |  | Flex duct / flex pipe / duct / pipe type; insert_on_curve: family type name |
+| `family` | string |  |  | insert_on_curve: family name |
+| `type_id` | integer |  |  | insert_on_curve: family type id |
+| `system_type` | string |  |  | Duct / piping system type (default: first) |
+| `diameter` | number |  |  | Round size in `unit` |
+| `host_id` | integer |  |  | insert_on_curve: the duct or pipe to break; air_terminal_on_duct: the duct |
+| `point` | list of number |  |  | insert_on_curve: [x, y, z] on the duct / pipe |
+| `terminal_id` | integer |  |  | air_terminal_on_duct: the air terminal |
+| `element_ids` | list of integer |  |  | convert_placeholders: placeholder ids |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `mep_insulation`
+
+Toolset: `mep_edit`
+
+Insulation on ducts and pipes and lining on ducts: list, add (type and thickness), remove.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `element_ids` | list of integer | yes |  | Ducts, pipes, their fittings and accessories |
+| `action` | `list` \| `add` \| `remove` |  | `list` |  |
+| `kind` | `insulation` \| `lining` |  | `insulation` | lining: ducts and duct fittings only |
+| `type` | string |  |  | Insulation / lining type name (default: first) |
+| `thickness` | number |  |  | add: thickness in `unit` |
+| `replace` | boolean |  | `False` | add: replace what is already there |
+| `atomic` | boolean |  | `False` |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `manage_mep_systems`
+
+Toolset: `mep_edit`
+
+MEP systems: create a duct or piping system, add / remove elements, rename, set system types; circuits and panel schedules.
+
+Reading systems: list_mep_systems. The Revit API has no automatic duct / pipe sizing; set sizes with
+set_parameters.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `create` \| `add_elements` \| `remove_elements` \| `rename` \| `set_system_type` \| `list_circuits` \| `create_circuit` \| `select_panel` \| `create_panel_schedule` | yes |  |  |
+| `element_ids` | list of integer |  |  |  |
+| `domain` | `mechanical` \| `piping` |  |  | create |
+| `system` | string |  |  | System name or id |
+| `name` | string |  |  | create / rename: system name |
+| `system_type` | string |  |  | Duct / piping system type name |
+| `circuit_type` | `power` \| `data` \| `telephone` \| `fire_alarm` \| `security` \| `nurse_call` \| `communication` \| `controls` |  |  | create_circuit (default power) |
+| `circuit_id` | integer |  |  |  |
+| `panel_id` | integer |  |  | Panel (electrical equipment) id |
+| `limit` | integer |  | `200` |  |
+| `atomic` | boolean |  | `False` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `insert_files`
+
+Toolset: `insert`
+
+Link or import CAD (DWG, DXF, DGN, SAT, SKP), place an image, list, reload or delete CAD files.
+
+dry_run checks the file and options without loading it. delete previews until confirm=true.
+Revit links (.rvt) are handled by manage_links.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `list` \| `link_cad` \| `import_cad` \| `place_image` \| `reload_cad` \| `delete` |  | `list` |  |
+| `path` | string |  |  | link_cad / import_cad: .dwg .dxf .dgn .sat .skp; place_image: .png .jpg .bmp .tif .pdf |
+| `view` | string |  |  | Host view (name, id; default: active) |
+| `placement` | `origin` \| `center` \| `shared` \| `site` |  | `origin` |  |
+| `import_unit` | `auto` \| `mm` \| `cm` \| `dm` \| `m` \| `ft` \| `in` |  | `auto` |  |
+| `color_mode` | `preserve` \| `invert` \| `black_white` |  | `preserve` |  |
+| `current_view_only` | boolean |  | `False` |  |
+| `visible_layers_only` | boolean |  | `False` |  |
+| `orient_to_view` | boolean |  | `False` |  |
+| `pin` | boolean |  | `True` |  |
+| `point` | list of number |  |  | place_image: centre [x, y] in `unit` |
+| `width` | number |  |  | place_image: width in `unit` |
+| `link` | string |  |  | reload_cad / delete: CAD name, instance id or type id |
+| `all_instances` | boolean |  | `True` | delete: remove the CAD type with every instance |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `load_family`
+
+Toolset: `insert`
+
+Load family files (.rfa) from disk into the project, or a single type; reports the loaded types.
+
+To load a family that is open in the family editor use family_load_into_project.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `paths` | list of string | yes |  | One or more .rfa files (max 100) |
+| `type` | string |  |  | Load only this type (single path) |
+| `overwrite` | boolean |  | `False` | Reload a family that is already in the document |
+| `overwrite_parameter_values` | boolean |  | `False` |  |
+| `atomic` | boolean |  | `False` | true: one failing file rolls everything back |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
 ### `manage_worksets`
 
 Toolset: `admin`
@@ -2000,6 +2322,131 @@ Revit links: list status and paths, reload, unload, reload from another path, lo
 | `placement` | `origin` \| `center` \| `shared` |  | `origin` |  |
 | `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
+
+### `project_settings`
+
+Toolset: `admin`
+
+Project information, project units, the starting view and the project location: read or set.
+
+Every set action returns the values before the change; ask for a dry run first on units and location.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `get` \| `set_info` \| `set_units` \| `set_starting_view` \| `set_location` |  | `get` |  |
+| `include` | list of `info` \| `units` \| `starting_view` \| `location` |  |  | get: sections (default: all) |
+| `values` | object |  |  | set_info: {name: text}, e.g. {'Number': 'P-001', 'Client Name': 'ACME'} |
+| `units` | object |  |  | set_units: {length\|area\|volume\|angle: {unit, rounding}}; units: mm cm m ft in ft_in m_cm / m2 ft2 / m3 ft3 l / deg rad |
+| `view` | string |  |  | set_starting_view: view name or id; 'none' = last opened |
+| `latitude` | number |  |  | set_location: degrees |
+| `longitude` | number |  |  | set_location: degrees |
+| `true_north_angle` | number |  |  | Angle from project north to true north, degrees |
+| `east_west` | number |  |  | Shared coordinates of the internal origin, in `unit` |
+| `north_south` | number |  |  |  |
+| `elevation` | number |  |  |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `manage_styles`
+
+Toolset: `admin`
+
+Object styles, subcategories, line styles, line patterns and fill patterns: list, set, create.
+
+set_object_style changes how a whole category prints in every view; show the dry run first.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `list_object_styles` \| `set_object_style` \| `create_subcategory` \| `create_line_style` \| `list_patterns` \| `create_line_pattern` \| `create_fill_pattern` |  | `list_object_styles` |  |
+| `category` | string |  |  | Category name, e.g. 'Walls' |
+| `subcategory` | string |  |  |  |
+| `category_type` | `model` \| `annotation` \| `all` |  | `model` |  |
+| `include_subcategories` | boolean |  |  |  |
+| `name` | string |  |  | create_*: new name |
+| `line_weight` | integer |  |  | Projection line weight |
+| `line_weight_cut` | integer |  |  |  |
+| `line_color` | string or list of integer |  |  | [r, g, b] or '#rrggbb' |
+| `line_pattern` | string |  |  | Line pattern name or 'Solid' |
+| `material` | string |  |  | Material name; 'none' clears it |
+| `segments` | list of object |  |  | create_line_pattern: [{type: dash\|dot\|space, length}], alternating, lengths in `unit` |
+| `target` | `drafting` \| `model` |  | `drafting` |  |
+| `angle` | number |  |  | create_fill_pattern: degrees |
+| `spacing` | number |  |  | create_fill_pattern: line spacing in `unit` |
+| `spacing2` | number |  |  | Second spacing = crosshatch |
+| `kinds` | list of `line` \| `fill` |  |  |  |
+| `limit` | integer |  | `80` |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `transfer_project_standards`
+
+Toolset: `admin`
+
+Copy view templates, filters, materials, patterns and system types from another open document.
+
+list shows what the source has that the target lacks. Existing names are skipped, never overwritten.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `source` | string | yes |  | Title or path of another OPEN document to copy from |
+| `action` | `list` \| `copy` |  | `list` |  |
+| `kinds` | list of `view_templates` \| `filters` \| `materials` \| `line_patterns` \| `fill_patterns` \| `text_types` \| `dimension_types` \| `filled_region_types` \| `wall_types` \| `floor_types` \| `ceiling_types` \| `roof_types` |  |  |  |
+| `names` | list of string |  |  | Only these names (default: all of the kinds) |
+| `skip_existing` | boolean |  | `True` | Skip names the target already has |
+| `on_duplicate_types` | `use_target` \| `abort` |  | `use_target` |  |
+| `limit` | integer |  | `100` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Target document (default: active) |
+
+### `worksharing`
+
+Toolset: `admin`
+
+Worksharing: element and workset ownership, relinquish, reload latest, shared coordinates with a link.
+
+relinquish and reload_latest talk to central and cannot be undone: they need RVTSS_ALLOW_SYNC, like
+sync_with_central. publish_coordinates changes the linked file and previews until confirm=true.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `status` \| `relinquish` \| `reload_latest` \| `acquire_coordinates` \| `publish_coordinates` |  | `status` |  |
+| `element_ids` | list of integer |  |  | status: who owns these (max 500) |
+| `link` | string |  |  | *_coordinates: Revit link name or instance id |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `list_revit_commands`
+
+Toolset: `commands`
+
+Revit's own ribbon commands (the buttons), searchable by words. Use with run_revit_command.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `contains` | string |  |  | Words to search for, e.g. 'curtain grid' |
+| `check_available` | boolean |  | `False` | Also ask Revit whether each command can start now |
+| `limit` | integer |  | `200` |  |
+
+### `run_revit_command`
+
+Toolset: `commands`
+
+Press a Revit ribbon button for the user: the command starts in Revit and the user completes it.
+
+For anything RVTSS has no dedicated tool for (scope boxes, design options, phases, rendering...).
+The command is queued and runs after this call returns; RVTSS cannot see its outcome, so re-read
+the model afterwards. Save, synchronize, close, undo and redo are refused: use their own tools.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `name` | string |  |  | Command name from list_revit_commands, e.g. 'ScopeBox' |
+| `command_id` | string |  |  | Raw command id instead of a name (add-in commands) |
+| `dry_run` | boolean |  | `False` | Only report whether the command can start now |
 
 ### `run_model_checks`
 

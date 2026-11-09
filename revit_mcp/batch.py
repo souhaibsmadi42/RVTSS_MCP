@@ -30,7 +30,7 @@ BATCHABLE_ENDPOINTS = (
     "/create_elements/", "/element_types/", "/views/create/", "/views/graphics/", "/sheets/manage/",
     "/schedules/create/", "/batch_rename/", "/groups/manage/", "/parameters/global/", "/parameters/map/",
     "/annotation/tag/", "/annotation/text/", "/materials/manage/", "/views/filters/", "/sheets/revisions/",
-    "/worksets/manage/",
+    "/worksets/manage/", "/modify/elements/", "/views/extents/", "/sheets/viewports/", "/annotation/detail/",
 )
 
 

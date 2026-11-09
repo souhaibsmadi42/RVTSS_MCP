@@ -26,6 +26,7 @@ BATCHABLE = (
     "manage_element_types", "create_view", "view_graphics", "manage_sheets", "create_schedule", "batch_rename",
     "manage_groups", "global_parameters", "map_parameters", "tag_elements", "create_text_notes",
     "manage_materials", "manage_view_filters", "manage_revisions", "manage_worksets",
+    "modify_elements", "view_extents", "manage_viewports", "create_detailing",
 )
 
 

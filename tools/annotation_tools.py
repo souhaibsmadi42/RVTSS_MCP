@@ -83,7 +83,11 @@ def register_annotation_tools(mcp, revit_get, revit_post):
             "dimension: {element_ids (grids/levels/ref planes/walls/instances), start, end, type?, "
             "wall_face?, instance_reference?}\n"
             "detail_line: {start, end | points, closed?, line_style?}\n"
-            "filled_region: {boundary, type?}\nEach item needs kind."))],
+            "filled_region: {boundary, type?}\nmasking_region: {boundary}\n"
+            "revision_cloud: {boundary, revision? (id, sequence, description or 'latest')}\n"
+            "spot_elevation | spot_coordinate: {element_id (floor/roof/ceiling), point, leader?, offset?}\n"
+            "detail_component: {type ('Family : Type'), point | start+end} - detail items and symbols\n"
+            "Each item needs kind."))],
         view: ViewRef = "active",
         unit: LengthUnit = "mm",
         atomic: bool = True,
@@ -91,7 +95,8 @@ def register_annotation_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Dimensions, detail lines and filled regions in one view (one transaction, one undo step).
+        """Dimensions, detail lines, filled and masking regions, revision clouds, spot dimensions and detail
+        components in one view (one undo step).
 
         wall_face: exterior | interior. instance_reference: center_left_right | center_front_back |
         left | right | front | back | top | bottom. Names come from list_annotation_types.
@@ -100,6 +105,30 @@ def register_annotation_tools(mcp, revit_get, revit_post):
         return await post(revit_post, "/annotation/detail/", compact(
             items=items, view=view, unit=unit, atomic=atomic, dry_run=dry_run or None, document=document),
             ctx, timeout=180.0)
+
+    @mcp.tool(annotations=MODIFIES)
+    async def replace_text(
+        find: str,
+        replace: str = "",
+        views: Annotated[Optional[List[str]], Field(description="View names / ids / 'active' (default: the "
+                                                                "whole model)")] = None,
+        regex: bool = False,
+        match_case: bool = False,
+        whole_word: bool = False,
+        dry_run: bool = True,
+        confirm: bool = False,
+        document: Doc = None,
+        ctx: Context = None,
+    ) -> str:
+        """Find and replace text in text notes, in some views or the whole model. dry_run by default.
+
+        The dry run lists every note with its old and new text. Mixed formatting inside a changed note
+        (bold / italic runs) is lost, because Revit replaces the whole text.
+        """
+        data = compact(find=find, replace=replace, views=views, regex=regex or None, match_case=match_case or None,
+                       whole_word=whole_word or None, dry_run=dry_run or None, confirm=confirm or None,
+                       document=document)
+        return await post_confirmable(revit_post, "/annotation/text/replace/", data, ctx, 300.0, "replace_text")
 
     @mcp.tool(annotations=READ_ONLY)
     async def list_annotation_types(

@@ -130,6 +130,42 @@ def create_view(ctx):
             v = marker.CreateElevation(doc, plan.Id, idx)
         elif kind == "drafting":
             v = DB.ViewDrafting.Create(doc, _vft(doc, DB.ViewFamily.Drafting, ctx.get("view_family_type")).Id)
+        elif kind == "callout":
+            # v2.4: a callout (detail view by default) of a rectangle in a plan, section or elevation
+            parent = core.find_view(doc, ctx.require("source_view"))
+            a = U.point_from(ctx.require("min"), unit)
+            b = U.point_from(ctx.require("max"), unit)
+            wanted = ctx.get("view_family_type")
+            vft = None
+            if wanted:
+                for t in DB.FilteredElementCollector(doc).OfClass(DB.ViewFamilyType):
+                    if normalize_string(t.Name).lower() == wanted.lower():
+                        vft = t
+                        break
+                if vft is None:
+                    raise core.not_found("View family type", wanted, [
+                        t.Name for t in DB.FilteredElementCollector(doc).OfClass(DB.ViewFamilyType)])
+            else:
+                vft = _vft(doc, DB.ViewFamily.Detail)
+            v = DB.ViewSection.CreateCallout(doc, parent.Id, vft.Id, DB.XYZ(a[0], a[1], a[2]),
+                                             DB.XYZ(b[0], b[1], b[2]))
+        elif kind == "legend":
+            # the Revit API cannot create a legend from nothing; an existing legend is duplicated
+            legends = [x for x in DB.FilteredElementCollector(doc).OfClass(DB.View)
+                       if x.ViewType == DB.ViewType.Legend and not x.IsTemplate]
+            if ctx.get("source_view"):
+                src = core.find_view(doc, ctx.get("source_view"))
+                if src.ViewType != DB.ViewType.Legend:
+                    raise RvtssError("source_view '{}' is not a legend".format(normalize_string(src.Name)))
+            elif legends:
+                src = legends[0]
+            else:
+                raise RvtssError("This model has no legend to copy; the Revit API cannot create the first one",
+                                 status=409, hint="Create one legend in Revit (View > Legends > Legend, or "
+                                                  "run_revit_command), then call this again.")
+            opt = DB.ViewDuplicateOption.WithDetailing if ctx.get("duplicate_option") == "with_detailing" \
+                else DB.ViewDuplicateOption.Duplicate
+            v = doc.GetElement(src.Duplicate(opt))
         elif kind == "duplicate":
             src = core.find_view(doc, ctx.require("source_view"))
             opt = {"duplicate": DB.ViewDuplicateOption.Duplicate, "with_detailing": DB.ViewDuplicateOption.WithDetailing,
@@ -139,7 +175,7 @@ def create_view(ctx):
             v = doc.GetElement(src.Duplicate(opt))
         else:
             raise RvtssError("kind must be floor_plan, ceiling_plan, structural_plan, area_plan, three_d, section, "
-                             "elevation, drafting or duplicate")
+                             "elevation, drafting, callout, legend or duplicate")
         if ctx.get("name"):
             v.Name = ctx.get("name")
         if ctx.get("template"):
@@ -307,17 +343,44 @@ def sheets_manage(ctx):
     return core.commit_result(res, fails, dry)
 
 
+SCHEDULE_KINDS = ("category", "key", "material_takeoff", "sheet_list", "view_list", "note_block")
+
+
 def create_schedule(ctx):
     doc = ctx.doc
     core.require_project(doc)
-    cat = core.resolve_category(doc, ctx.require("category"))
+    kind = ctx.get("kind", "category")
+    if kind not in SCHEDULE_KINDS:
+        raise RvtssError("kind must be one of: " + ", ".join(SCHEDULE_KINDS))
+    needs_cat = kind in ("category", "key", "material_takeoff")
+    cat = core.resolve_category(doc, ctx.require("category")) if needs_cat else None
     fields = ctx.list("fields")
-    if not fields:
+    if not fields and kind != "key":
         raise RvtssError("'fields' (parameter names) is required")
+    family = None
+    if kind == "note_block":
+        want = text_type(ctx.require("family")).strip().lower()
+        fams = [f for f in DB.FilteredElementCollector(doc).OfClass(DB.Family)]
+        family = next((f for f in fams if normalize_string(f.Name).lower() == want), None)
+        if family is None:
+            raise core.not_found("Annotation family", ctx.get("family"), [
+                f.Name for f in fams if f.FamilyCategory is not None and
+                id_int(f.FamilyCategory.Id) == int(DB.BuiltInCategory.OST_GenericAnnotation)])
     dry = ctx.dry_run
 
     def run():
-        sched = DB.ViewSchedule.CreateSchedule(doc, cat.Id)
+        if kind == "key":
+            sched = DB.ViewSchedule.CreateKeySchedule(doc, cat.Id)
+        elif kind == "material_takeoff":
+            sched = DB.ViewSchedule.CreateMaterialTakeoff(doc, cat.Id)
+        elif kind == "sheet_list":
+            sched = DB.ViewSchedule.CreateSheetList(doc)
+        elif kind == "view_list":
+            sched = DB.ViewSchedule.CreateViewList(doc)
+        elif kind == "note_block":
+            sched = DB.ViewSchedule.CreateNoteBlock(doc, family.Id)
+        else:
+            sched = DB.ViewSchedule.CreateSchedule(doc, cat.Id)
         if ctx.get("name"):
             sched.Name = ctx.get("name")
         definition = sched.Definition
@@ -330,7 +393,7 @@ def create_schedule(ctx):
                 continue
             added[f] = definition.AddField(sf)
         if missing and ctx.bool("strict", True):
-            raise RvtssError("Fields not schedulable for {}: {}".format(cat.Name, missing), status=404,
+            raise RvtssError("Fields not schedulable for {}: {}".format(cat.Name if cat else kind, missing), status=404,
                              available_sample=sorted(available)[:60])
         for s in ctx.list("sort_by"):
             fld = added.get(s)
@@ -352,8 +415,8 @@ def create_schedule(ctx):
                 val = text_type(val)
             definition.AddFilter(DB.ScheduleFilter(fld.FieldId, ftype, val))
         definition.IsItemized = ctx.bool("itemized", True)
-        return {"schedule_id": id_int(sched), "name": normalize_string(sched.Name), "fields": list(added),
-                "missing_fields": missing}
+        return {"schedule_id": id_int(sched), "name": normalize_string(sched.Name), "kind": kind,
+                "fields": list(added), "missing_fields": missing}
 
     res, fails = core.run_transaction(doc, "Create schedule", run, dry_run=dry)
     return core.commit_result(res, fails, dry)

@@ -41,6 +41,10 @@ def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func
     from .mep_tools import register_mep_tools
     from .admin_tools import register_admin_tools
     from .state_tools import register_state_tools
+    from .view_setup_tools import register_view_setup_tools
+    from .mep_edit_tools import register_mep_edit_tools
+    from .modify_tools import register_modify_tools
+    from .project_admin_tools import register_project_admin_tools
 
     # Register tools from each module
     register_status_tools(mcp_server, revit_get_func)
@@ -69,6 +73,10 @@ def register_tools(mcp_server, revit_get_func, revit_post_func, revit_image_func
     register_mep_tools(mcp_server, revit_get_func, revit_post_func)
     register_admin_tools(mcp_server, revit_get_func, revit_post_func)
     register_state_tools(mcp_server, revit_get_func, revit_post_func)
+    register_view_setup_tools(mcp_server, revit_get_func, revit_post_func)
+    register_mep_edit_tools(mcp_server, revit_get_func, revit_post_func)
+    register_modify_tools(mcp_server, revit_get_func, revit_post_func)
+    register_project_admin_tools(mcp_server, revit_get_func, revit_post_func)
 
     finalize_tools(server)
     from .guards import install_argument_guard

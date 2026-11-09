@@ -62,7 +62,7 @@ def main(argv=None):
     ap.add_argument("--api", default=os.environ.get("REVIT_API_NAME", "revit_mcp"))
     ap.add_argument("--token", default=os.environ.get("RVTSS_TOKEN"))
     ap.add_argument("--timeout", type=float, default=300.0)
-    ap.add_argument("--groups", nargs="*", help="status setup original read edit family parameters qc v22 v23")
+    ap.add_argument("--groups", nargs="*", help="status setup original read edit family parameters qc v22 v23 v24")
     ap.add_argument("--model", default=os.path.join(ROOT, "tests", "test.rvt"))
     ap.add_argument("--no-model", action="store_true", help="do not open the test model (read-only run)")
     ap.add_argument("--scratch", help="scratch folder on the Revit machine (default: Revit %%TEMP%%\\RVTSS_live)")

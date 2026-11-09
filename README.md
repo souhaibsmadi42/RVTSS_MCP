@@ -12,7 +12,32 @@ pyRevit:
 
 It is an upgrade of [mcp-server-for-revit-python](https://github.com/mcp-servers-for-revit/mcp-server-for-revit-python)
 and keeps its API name (`revit_mcp`), port (48884), installation method and all 20 original tools.
-**v2.3.0** has 107 tools in 16 toolsets, plus MCP resources and 12 prompts. It is verified live on Revit 2026 and 2027 (full self-test, 52 passed).
+**v2.4.0** has 124 tools in 19 toolsets, plus MCP resources and 12 prompts. v2.3 is verified live on Revit 2026 and 2027 (full self-test, 52 passed); **the v2.4 additions are unit-tested only and have not yet run in Revit** - run the self-test (group `v24`) before relying on them.
+
+### New in 2.4
+
+v2.4 follows Revit's ribbon tab by tab and adds what was missing.
+
+* **Any ribbon button:** `list_revit_commands` and `run_revit_command` start one of Revit's own commands
+  for the user (scope boxes, design options, phases, rendering...). Save, sync, close, undo and redo are
+  refused there and keep their own guarded tools.
+* **View:** `view_extents` (crop region, section box, view range, far clip), `manage_view_templates`,
+  `manage_viewports`; `create_view` makes callouts and legends; `create_schedule` makes key schedules,
+  material take-offs, sheet lists, view lists and note blocks.
+* **Annotate:** `create_detailing` adds masking regions, revision clouds, spot elevations and coordinates,
+  detail components and symbols; `replace_text` finds and replaces text in text notes.
+* **Modify:** `modify_elements` (align, offset, trim/extend, split, scale, flip, cut, paint, parts).
+* **Architecture and structure:** `create_elements` adds curtain grid lines, mullions, panel types, wall
+  sweeps and reveals, model lines, reference planes, braces, trusses and beam systems.
+* **Systems:** `mep_connect` (fittings, caps), `create_mep_parts` (flex, placeholders, accessories on a
+  run), `mep_insulation`, `manage_mep_systems` (systems, circuits, panel schedules).
+* **Insert:** `insert_files` (link or import CAD, images), `load_family`.
+* **Manage and collaborate:** `project_settings` (project information, units, starting view, location),
+  `manage_styles` (object styles, line and fill patterns), `transfer_project_standards`, `worksharing`
+  (status, relinquish, reload latest, shared coordinates).
+
+The Revit API cannot create phases, design options, scope boxes, ramps, the first legend or model text in
+a project, or attach wall tops; use `run_revit_command` for those.
 
 ### New in 2.3
 
@@ -70,7 +95,7 @@ Promo film: [40 s MP4](media/rvtss-promo-40s.mp4).
 2. **Turn on Routes.** In pyRevit Settings → Routes, enable **Routes Server**, set the host to
    `127.0.0.1`, then reload pyRevit.
 3. **Check the server.** Open `http://127.0.0.1:48884/revit_mcp/status/`. It should show `"health":
-   "healthy"` and `"rvtss_version": "2.3.0"`. Once Claude is connected, `rvtss_health` checks the whole chain
+   "healthy"` and `"rvtss_version": "2.4.0"`. Once Claude is connected, `rvtss_health` checks the whole chain
    and names the next step when something is wrong.
 4. **Run the self-test.** On the RVTSS tab, click **Diagnostics → Run Self-Test**. It works on a copy of
    the bundled test model and opens a pass/fail report.
@@ -146,38 +171,44 @@ loaded.
 
 | Profile | Toolsets | Tools |
 |---|---|---|
-| `all` (default) | everything | 107 |
-| `bim_coordinator` | core, model, parameters, documentation, qc | 44 |
+| `all` (default) | everything | 124 |
+| `bim_coordinator` | core, model, parameters, documentation, qc | 47 |
 | `family_author` | core, families, parameters | 34 |
-| `modeler` | core, model, edit, documentation | 40 |
+| `modeler` | core, model, edit, documentation, insert, commands | 48 |
 | `minimal` | core, model | 18 |
-| `architect` | core, model, edit, documentation, rooms, materials, annotation | 50 |
-| `mep_coordinator` | core, model, edit, qc, mep | 37 |
-| `publisher` | core, model, documentation, annotation, export | 37 |
+| `architect` | core, model, edit, documentation, rooms, materials, annotation, insert, commands | 59 |
+| `mep_coordinator` | core, model, edit, qc, mep, mep_edit | 42 |
+| `publisher` | core, model, documentation, annotation, export | 41 |
 | `auditor` | core, model, qc, rooms, materials, mep | 32 |
 
 **Toolsets:**
 * `core`: status, health, session, `find_elements`, element details, selection
 * `model`: overview, families, views, sheets, schedules, links, warnings, view image, element capture,
   change-impact survey, coordinates
-* `edit`: set and bulk parameters, transform, delete, create, stairs, types, `batch_execute`, selection
-  sets, undo
+* `edit`: set and bulk parameters, transform, modify (align, offset, trim, split...), delete, create,
+  stairs, types, `batch_execute`, selection sets, undo
 * `families`: the full `.rfa` workflow and the library audit
 * `parameters`: shared, project and global parameters, audit, CSV/Excel export, mapping presets
-* `documentation`: views, view filters, sheets, revisions, schedules, renames, groups, colours
+* `documentation`: views, view extents, view templates, view filters, sheets, viewports, revisions,
+  schedules, renames, groups, colours
 * `qc`: model checks, clashes, clash report, spatial queries, snapshots
 * `rooms`: rooms, spaces and areas with status, boundaries, doors/windows and finish areas
 * `materials`: material list, quantity take-off, create/edit/assign
-* `annotation`: untagged-element check, tagging, text notes, dimensions, detail lines, filled regions
+* `annotation`: untagged-element check, tagging, text notes and find/replace, dimensions, detail lines,
+  filled and masking regions, revision clouds, spot dimensions, detail components
 * `export`: PDF, DWG, DXF, IFC, NWC and schedule CSV
-* `mep`: systems, connectors, open connectors
-* `admin`: worksets, purge unused, phases and design options, Revit links
+* `mep`: systems, connectors, open connectors (read-only)
+* `mep_edit`: fittings and caps, flex and placeholders, insulation and lining, systems and circuits
+* `insert`: link or import CAD, images, load families
+* `commands`: list and start Revit's own ribbon commands
+* `admin`: worksets, purge unused, phases and design options, Revit links, project settings, object styles
+  and patterns, transfer project standards, worksharing
 * `launch`: start Revit, open, save and sync documents
 * `code`: `execute_revit_code`
 * `legacy`: seven original tools superseded by newer ones, kept as deprecated aliases for one release
 
-In the default profile the tool list is about 102k characters for 107 tools: **14 % less than v2.0's 74
-tools**, and the same size per tool as v2.1. With `bim_coordinator` it is about a third of v2.0. Clients with
+In the default profile the tool list is about 126k characters for 124 tools: 5 % more than v2.0's 74
+tools, for 50 more tools. A profile keeps it small: `bim_coordinator` is well under half of v2.0. Clients with
 tool search (Claude Code) load tools on demand, so the full set costs little there.
 
 Long tool documentation is not sent on every turn; it lives in the MCP resource
@@ -271,6 +302,7 @@ you registered the server under another name):
       "mcp__RVTSS__list_materials",
       "mcp__RVTSS__list_mep_systems",
       "mcp__RVTSS__list_project_parameters",
+      "mcp__RVTSS__list_revit_commands",
       "mcp__RVTSS__list_revit_installations",
       "mcp__RVTSS__list_revit_views",
       "mcp__RVTSS__list_rooms",
@@ -299,7 +331,7 @@ The audit log (`%APPDATA%\RVTSS\logs`):
 * **In Revit, no terminal needed:** RVTSS tab → **Diagnostics → Run Self-Test**. It copies `tests/test.rvt`
   to `%TEMP%\RVTSS_live`, runs every group (status, original tools, read-only, editing with dry run then
   real, family workflow, parameters on a scratch shared parameter file, QC and coordination, and the v2.2
-  and v2.3 tools: read-only calls, dry runs, a batch that must roll back and an undo), and writes
+  to v2.4 tools: read-only calls, dry runs, a batch that must roll back and an undo), and writes
   `rvtss_live_report.json` and `.md`. Your own shared parameter file is never touched.
 * **From a terminal**, against the running Routes server:
   ```powershell

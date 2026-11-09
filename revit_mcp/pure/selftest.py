@@ -858,6 +858,252 @@ def _v23_undo(t):
     return {"undone": (u.get("undoing") or {}).get("names")}
 
 
+# 10. v2.4 ---------------------------------------------------------------------------
+def _expected_refusal(data, *needles):
+    """True when a call failed for a reason the empty test template explains (no MEP types, no revision...)."""
+    msg = (data.get("error") or "").lower()
+    return any(n.lower() in msg for n in needles)
+
+
+@step("v24", "ribbon command launcher", ["list_revit_commands", "run_revit_command"])
+def _v24_commands(t):
+    d = t.post("/commands/list/", {"contains": "scope box"})
+    names = [c["name"] for c in d.get("commands") or []]
+    check("ScopeBox" in names, "ScopeBox not among Revit's postable commands", d)
+    total = t.post("/commands/list/", {"limit": 1}).get("count")
+    check(total and total > 100, "expected Revit's full command list", {"count": total})
+    dr = t.post("/commands/run/", {"name": "ScopeBox", "dry_run": True})
+    check(dr.get("status") == "dry_run" and "available_now" in dr, "command dry run", dr)
+    refused = t.post("/commands/run/", {"name": "Undo"}, expect_error=True)
+    check("undo_last_change" in (refused.get("hint") or ""), "Undo must be refused with a pointer", refused)
+    t.post("/commands/run/", {"name": "SynchronizeNow"}, expect_error=True)
+    return {"commands": total, "scope_box_available": dr.get("available_now")}
+
+
+@step("v24", "view extents: crop, view range, section box (dry run)", ["view_extents"])
+def _v24_extents(t):
+    t.require_test_model()
+    plan = t.require("plan_id", "no floor plan")
+    walls = t.require("seed_wall_ids", "no seeded walls")
+    g = t.post("/views/extents/", {"view": plan})
+    check("view_range" in g and "crop_active" in g, "plan extents incomplete", g)
+    vr = t.post("/views/extents/", {"action": "set_view_range", "view": plan, "cut": 1500, "dry_run": True})
+    check(vr.get("status") == "dry_run" and abs(vr["view_range"]["cut"]["offset"] - 1500) < 1, "view range", vr)
+    cr = t.post("/views/extents/", {"action": "set_crop", "view": plan, "element_ids": walls, "margin": 1000,
+                                    "dry_run": True})
+    check(cr.get("status") == "dry_run" and cr.get("crop_active") is True, "crop to elements", cr)
+    check(abs((cr["crop_max"][0] - cr["crop_min"][0]) - 10000) < 400, "crop width should be about 10 m", cr)
+    after = t.post("/views/extents/", {"view": plan})
+    check(after["view_range"]["cut"]["offset"] == g["view_range"]["cut"]["offset"], "dry run changed the view range")
+    out = {"cut_before": g["view_range"]["cut"]["offset"]}
+    v3 = t.post("/find_views/", {"view_types": ["ThreeD"], "limit": 5}).get("views") or []
+    if v3:
+        sb = t.post("/views/extents/", {"action": "set_section_box", "view": str(v3[0]["id"]),
+                                        "element_ids": walls, "dry_run": True})
+        check(sb.get("section_box_active") is True, "section box", sb)
+        out["section_box"] = True
+    return out
+
+
+@step("v24", "view templates: create from a view, apply, delete", ["manage_view_templates"])
+def _v24_templates(t):
+    t.require_test_model()
+    plan = t.require("plan_id", "no floor plan")
+    name = "RVTSS template " + t.stamp
+    c = t.post("/views/templates/", {"action": "create_from_view", "view": plan, "name": name})
+    check(c.get("template_id"), "template not created", c)
+    lst = t.post("/views/templates/", {"action": "list", "parameters": True})
+    mine = [x for x in lst.get("templates") or [] if x["name"] == name]
+    check(mine and mine[0].get("parameters"), "new template not listed with its parameters", lst)
+    ap = t.post("/views/templates/", {"action": "apply", "template": name, "views": [plan], "dry_run": True})
+    check(ap.get("status") == "dry_run" and ap["results"][0]["ok"], "apply dry run", ap)
+    t.post("/views/templates/", {"action": "delete", "template": name})
+    names = [x["name"] for x in t.post("/views/templates/", {"action": "list"}).get("templates") or []]
+    check(name not in names, "template was not deleted")
+    return {"templates": lst.get("count"), "controlled_parameters": len(mine[0]["parameters"])}
+
+
+@step("v24", "viewports: place a view, list, move, remove", ["manage_viewports", "manage_sheets", "create_view"])
+def _v24_viewports(t):
+    t.require_test_model()
+    plan = t.require("plan_id", "no floor plan")
+    v = t.post("/views/create/", {"kind": "duplicate", "source_view": plan, "name": "RVTSS vp " + t.stamp})
+    s = t.post("/sheets/manage/", {"action": "create", "number": "RV-" + t.stamp[-6:], "name": "RVTSS viewports"})
+    sheet_id = s["sheets"][0]["sheet_id"]
+    p = t.post("/sheets/manage/", {"action": "place_view", "sheet_id": sheet_id, "view": str(v["view_id"]),
+                                   "location": [300, 200]})
+    lst = t.post("/sheets/viewports/", {"action": "list", "sheet": str(sheet_id)})
+    check(len(lst.get("viewports") or []) == 1, "one viewport expected", lst)
+    m = t.post("/sheets/viewports/", {"action": "move", "viewport_id": p["viewport_id"], "location": [250, 180]})
+    c = m["viewport"]["center"]
+    check(abs(c[0] - 250) < 1 and abs(c[1] - 180) < 1, "viewport did not move", m)
+    t.post("/sheets/viewports/", {"action": "rotate", "viewport_id": p["viewport_id"], "rotation": "clockwise",
+                                  "dry_run": True})
+    t.post("/sheets/viewports/", {"action": "remove", "viewport_id": p["viewport_id"]})
+    left = t.post("/sheets/viewports/", {"action": "list", "sheet": str(sheet_id)})
+    check(not left.get("viewports"), "viewport was not removed", left)
+    return {"viewport_types": lst.get("viewport_types"), "moved_to": c}
+
+
+@step("v24", "callout, legend, schedule kinds (dry run)", ["create_view", "create_schedule"])
+def _v24_view_kinds(t):
+    t.require_test_model()
+    plan = t.require("plan_id", "no floor plan")
+    co = t.post("/views/create/", {"kind": "callout", "source_view": plan, "min": [1000, 1000],
+                                   "max": [4000, 3000], "dry_run": True})
+    check(co.get("status") == "dry_run" and co.get("view_id"), "callout", co)
+    out = {"callout": co.get("view_type")}
+    for kind, payload in (("sheet_list", {"fields": ["Sheet Number", "Sheet Name"]}),
+                          ("view_list", {"fields": ["View Name"]}),
+                          ("key", {"category": "Rooms"}),
+                          ("material_takeoff", {"category": "Walls", "fields": ["Material: Name"]})):
+        d = t.post("/schedules/create/", dict(payload, kind=kind, strict=False, dry_run=True))
+        check(d.get("status") == "dry_run" and d.get("schedule_id"), kind + " schedule", d)
+        out[kind] = d.get("fields")
+    _st, lg = t.transport("POST", "/views/create/", {"kind": "legend", "dry_run": True})
+    check(lg.get("status") == "dry_run" or _expected_refusal(lg, "no legend"), "legend", lg)
+    out["legend"] = lg.get("status") if lg.get("status") == "dry_run" else "no legend in the template"
+    return out
+
+
+@step("v24", "detailing: masking region, revision cloud, spot elevation (dry run)", ["create_detailing"])
+def _v24_detailing(t):
+    t.require_test_model()
+    plan = t.require("plan_id", "no floor plan")
+    box = [[1000, 1000], [2500, 1000], [2500, 2000], [1000, 2000]]
+    items = [{"kind": "masking_region", "boundary": box},
+             {"kind": "revision_cloud", "boundary": box},
+             {"kind": "spot_elevation", "element_id": t.state.get("seed_floor_id"), "point": [4000, 3000]}]
+    _st, d = t.transport("POST", "/annotation/detail/", {"view": plan, "items": items, "atomic": False,
+                                                        "dry_run": True})
+    check(d.get("status") == "dry_run" and len(d.get("results") or []) == 3, "detailing dry run", d)
+    out = {}
+    for item, r in zip(items, d["results"]):
+        if r.get("ok"):
+            out[item["kind"]] = "ok"
+            continue
+        # the empty template may have no masking type and no revision: anything else is a real failure
+        check(_expected_refusal(r, "no masking", "no revision", "is issued", "spot dimension", "not over the top"),
+              "%s failed: %s" % (item["kind"], r.get("error")), d)
+        out[item["kind"]] = r.get("error")
+    return out
+
+
+@step("v24", "find and replace in text notes", ["replace_text", "create_text_notes"])
+def _v24_replace_text(t):
+    t.require_test_model()
+    plan = t.require("plan_id", "no floor plan")
+    word = "RVTSSFIND" + t.stamp[-6:]
+    t.post("/annotation/text/", {"view": plan, "notes": [{"text": "Check " + word + " here", "point": [2000, 2000]},
+                                                         {"text": "nothing to see", "point": [2000, 2500]}]})
+    dr = t.post("/annotation/text/replace/", {"find": word, "replace": "done", "views": [plan], "dry_run": True})
+    check(dr.get("status") == "dry_run" and dr.get("text_notes_changed") == 1, "one note should match", dr)
+    again = t.post("/annotation/text/replace/", {"find": word, "replace": "done", "views": [plan], "dry_run": True})
+    check(again.get("text_notes_changed") == 1, "the dry run changed the text", again)
+    real = t.post("/annotation/text/replace/", {"find": word, "replace": "done", "views": [plan]})
+    check(real.get("status") == "success" and real["changed"][0]["new"] == "Check done here", "replace", real)
+    gone = t.post("/annotation/text/replace/", {"find": word, "replace": "x", "views": [plan], "dry_run": True})
+    check(gone.get("text_notes_changed") == 0, "the word is still there", gone)
+    return {"searched": dr.get("text_notes_searched"), "replacements": real.get("replacements")}
+
+
+@step("v24", "MEP editing: circuits, insulation, connect, placeholder", ["manage_mep_systems", "mep_insulation",
+                                                                        "mep_connect", "create_mep_parts"])
+def _v24_mep_edit(t):
+    t.require_test_model()
+    wall = t.require("seed_wall_ids", "no seeded walls")[0]
+    ci = t.post("/mep/systems/manage/", {"action": "list_circuits"})
+    ins = t.post("/mep/insulation/", {"action": "list", "element_ids": [wall]})
+    dc = t.post("/mep/connect/", {"action": "disconnect", "element_ids": [wall], "dry_run": True})
+    check(dc.get("status") == "dry_run", "disconnect dry run", dc)
+    _st, ph = t.transport("POST", "/mep/create/", {"action": "pipe_placeholder", "points": [[0, 0], [3000, 0]],
+                                                   "offset": 2700, "dry_run": True})
+    # an architectural template has no pipe types or piping systems
+    check(ph.get("status") == "dry_run" or _expected_refusal(ph, "no piping system", "no pipe type"),
+          "pipe placeholder", ph)
+    return {"circuits": ci.get("count"), "insulation": len(ins.get("insulation") or []),
+            "placeholder": ph.get("status") if ph.get("status") == "dry_run" else ph.get("error")}
+
+
+@step("v24", "modify: align, offset, trim, split, flip, scale, parts (dry run)", ["modify_elements",
+                                                                                 "create_elements"])
+def _v24_modify(t):
+    t.require_test_model()
+    level = t.require("seed_level", "no level")
+    made = t.post("/create_elements/", {"items": [
+        {"kind": "wall", "start": [12000, 0], "end": [18000, 0], "level": level, "height": 3000},
+        {"kind": "wall", "start": [15000, -2000], "end": [15000, 3000], "level": level, "height": 3000}]})
+    w1, w2 = [r["id"] for r in made["results"]]
+    out = {}
+    for op, payload in (("align", {"element_ids": [w2], "axis": "x", "coordinate": 16000}),
+                        ("offset", {"element_ids": [w1], "distance": 1000, "copy": True}),
+                        ("trim_extend", {"element_ids": [w1, w2]}),
+                        ("split", {"element_ids": [w1], "parameter": 0.5}),
+                        ("flip", {"element_ids": [w1]}),
+                        ("scale", {"element_ids": [w1], "factor": 2, "center": [12000, 0]}),
+                        ("create_parts", {"element_ids": [w1]})):
+        d = t.post("/modify/elements/", dict(payload, operation=op, dry_run=True))
+        check(d.get("status") == "dry_run", op + " dry run", d)
+        out[op] = "ok"
+    still = t.post("/element_details/", {"element_ids": [w1, w2]})
+    check(len(still.get("elements") or []) == 2, "a dry run removed or replaced the walls", still)
+    k = t.post("/create_elements/", {"items": [
+        {"kind": "model_line", "points": [[12000, 5000], [15000, 5000], [15000, 8000]], "level": level},
+        {"kind": "reference_plane", "start": [12000, -1000], "end": [18000, -1000], "name": "RVTSS RP " + t.stamp,
+         "view": t.state.get("plan_id")}], "atomic": False, "dry_run": True})
+    out["kinds"] = dict((it, "ok" if r.get("ok") else r.get("error"))
+                        for it, r in zip(("model_line", "reference_plane"), k.get("results") or []))
+    check(k["results"][0].get("ok"), "model_line failed", k)
+    return out
+
+
+@step("v24", "project settings, styles, CAD list, worksharing status", ["project_settings", "manage_styles",
+                                                                       "insert_files", "worksharing"])
+def _v24_admin(t):
+    t.require_test_model()
+    g = t.post("/project/settings/", {"action": "get"})
+    for payload in ({"action": "set_info", "values": {"Number": "RVTSS-TEST"}},
+                    {"action": "set_units", "units": {"length": {"unit": "mm", "rounding": 1}}},
+                    {"action": "set_location", "true_north_angle": 10}):
+        d = t.post("/project/settings/", dict(payload, dry_run=True))
+        check(d.get("status") == "dry_run", payload["action"] + " dry run", d)
+    pats = t.post("/styles/manage/", {"action": "list_patterns"})
+    for payload in ({"action": "create_line_pattern", "name": "RVTSS test " + t.stamp,
+                     "segments": [{"type": "dash", "length": 6}, {"type": "space", "length": 3}]},
+                    {"action": "create_fill_pattern", "name": "RVTSS hatch " + t.stamp, "spacing": 50, "angle": 45},
+                    {"action": "set_object_style", "category": "Walls", "line_weight": 3}):
+        d = t.post("/styles/manage/", dict(payload, dry_run=True))
+        check(d.get("status") == "dry_run", payload["action"] + " dry run", d)
+    cad = t.post("/insert/files/", {"action": "list"})
+    ws = t.post("/worksharing/", {"action": "status"})
+    check("workshared" in ws, "worksharing status", ws)
+    return {"settings_keys": sorted(k for k in g if k != "status")[:12], "pattern_keys": sorted(pats)[:6],
+            "cad_keys": sorted(cad)[:6], "workshared": ws.get("workshared")}
+
+
+@step("v24", "transfer project standards: list from another open document", ["transfer_project_standards"])
+def _v24_transfer(t):
+    t.require_test_model()
+    info = t.post("/session_info/")
+    docs = [d for d in (info.get("open_documents") or [])
+            if not d.get("is_family") and d.get("title") != info.get("active_document")]
+    if not docs:
+        raise StepSkipped("needs a second open project to copy from")
+    d = t.post("/standards/transfer/", {"source": docs[0]["title"], "action": "list"})
+    return {"source": docs[0]["title"], "keys": sorted(k for k in d if k != "status")[:10]}
+
+
+@step("v24", "load a family from disk (dry run)", ["load_family"])
+def _v24_load_family(t):
+    t.require_test_model()
+    path = t.state.get("family_path") or t.state.get("rfa_path")
+    if not path:
+        raise StepSkipped("no .rfa saved by the family workflow in this run")
+    d = t.post("/insert/family/", {"paths": [path], "dry_run": True})
+    check(d.get("status") == "dry_run", "load family dry run", d)
+    return {"path": path}
+
+
 # ------------------------------------------------------------------ runner
 def run(transport, scratch_dir, prepare_model=None, groups=None, log=None, environment=None):
     t = TestContext(transport, scratch_dir, prepare_model, log)

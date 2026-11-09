@@ -636,10 +636,14 @@ def _create_one(ctx, item):
         return {"kind": kind, "id": id_int(r)}
     if kind in _STRUCTURE_KINDS:
         return _STRUCTURE_KINDS[kind](ctx, item)
+    if kind in _MODELLING_KINDS:
+        return _MODELLING_KINDS[kind](ctx, item)
     raise RvtssError("Unknown kind '{}'. Use level, grid, wall, floor, family_instance, room, roof, ceiling, "
                      "column, beam, foundation, wall_foundation, duct, pipe, cable_tray, conduit, wall_opening, "
                      "opening, shaft, railing, space, area, area_boundary, room_separation, space_separation, auto_rooms, "
-                     "rebar, toposolid or direct_shape".format(kind), failed_item=item)
+                     "rebar, toposolid, direct_shape, curtain_grid_line, mullions, curtain_panel_type, wall_sweep, "
+                     "reveal, model_line, reference_plane, foundation_isolated, foundation_wall, brace, truss or "
+                     "beam_system".format(kind), failed_item=item)
 
 
 # ---------------------------------------------------- roofs, ceilings, structure (2.2)
@@ -1211,6 +1215,346 @@ _STRUCTURE_KINDS = {"roof": _roof, "ceiling": _ceiling, "column": _column, "beam
                     "space_separation": lambda c, i: _boundary_lines(c, i, "space_separation"),
                     "auto_rooms": _auto_rooms, "rebar": _rebar, "toposolid": _toposolid,
                     "direct_shape": _direct_shape}
+
+
+# ------------------- curtain walls, sweeps, model lines, reference planes, structure (2.4)
+def _wall_of(ctx, item, what):
+    if item.get("wall_id") is None:
+        raise RvtssError("'wall_id' is required", failed_item=item)
+    wall = core.get_element(ctx.doc, item["wall_id"], "Wall")
+    if not isinstance(wall, DB.Wall):
+        raise RvtssError("Element {} is not a wall ({} needs one)".format(item["wall_id"], what))
+    return wall
+
+
+def _curtain_grid(ctx, item, what):
+    wall = _wall_of(ctx, item, what)
+    grid = wall.CurtainGrid
+    if grid is None:
+        raise RvtssError("Wall {} is not a curtain wall".format(id_int(wall)),
+                         hint="Create the wall with a curtain wall type first.")
+    return wall, grid
+
+
+def _wall_base(doc, wall):
+    """(start point, direction, length, base z) of a straight wall."""
+    if not isinstance(wall.Location, DB.LocationCurve) or not isinstance(wall.Location.Curve, DB.Line):
+        raise RvtssError("Wall {} is not straight".format(id_int(wall)))
+    line = wall.Location.Curve
+    base = doc.GetElement(wall.LevelId)
+    z = base.Elevation if base is not None else line.GetEndPoint(0).Z
+    try:
+        z += wall.get_Parameter(DB.BuiltInParameter.WALL_BASE_OFFSET).AsDouble()
+    except Exception:
+        pass
+    return line.GetEndPoint(0), line.Direction, line.Length, z
+
+
+def _curtain_grid_line(ctx, item):
+    """A grid line on a curtain wall: vertical at 'offset_along' from the wall start, or horizontal at
+    'height' above the wall base ('point' [x, y, z] on the wall face works for both)."""
+    doc = ctx.doc
+    wall, grid = _curtain_grid(ctx, item, "curtain_grid_line")
+    direction = text_type(item.get("direction") or "vertical").lower()
+    if direction not in ("vertical", "horizontal"):
+        raise RvtssError("direction must be 'vertical' or 'horizontal'", failed_item=item)
+    if item.get("point") is not None:
+        pt = _pt(ctx, item, "point")
+    else:
+        p0, d, length, z0 = _wall_base(doc, wall)
+        if direction == "vertical":
+            if item.get("offset_along") is None:
+                raise RvtssError("a vertical grid line needs 'offset_along' (from the wall start) or 'point'",
+                                 failed_item=item)
+            a = U.to_internal(item["offset_along"], ctx.unit)
+            if a <= 0 or a >= length:
+                raise RvtssError("offset_along is outside the wall (length {:.0f} {})".format(
+                    U.from_internal(length, ctx.unit), ctx.unit), failed_item=item)
+            h = U.to_internal(item.get("height", 0), ctx.unit)
+            pt = DB.XYZ(p0.X + d.X * a, p0.Y + d.Y * a, z0 + h)
+        else:
+            if item.get("height") is None:
+                raise RvtssError("a horizontal grid line needs 'height' (above the wall base) or 'point'",
+                                 failed_item=item)
+            a = U.to_internal(item["offset_along"], ctx.unit) if item.get("offset_along") is not None \
+                else length / 2.0
+            pt = DB.XYZ(p0.X + d.X * a, p0.Y + d.Y * a, z0 + U.to_internal(item["height"], ctx.unit))
+    # U grid lines are the horizontal ones on a curtain wall, V grid lines the vertical ones
+    gl = grid.AddGridLine(direction == "horizontal", pt, bool(item.get("one_segment_only", False)))
+    if gl is None:
+        raise RvtssError("Revit did not add the grid line (is the point on the curtain wall?)", failed_item=item)
+    return {"kind": "curtain_grid_line", "id": id_int(gl), "wall_id": id_int(wall), "direction": direction}
+
+
+def _mullions(ctx, item):
+    """Mullions on the grid lines of a curtain wall (lines: all | horizontal | vertical, or grid_line_ids)."""
+    doc = ctx.doc
+    wall, grid = _curtain_grid(ctx, item, "mullions")
+    types = list(DB.FilteredElementCollector(doc).OfClass(DB.MullionType))
+    if not types:
+        raise RvtssError("No mullion type exists in '{}'".format(doc.Title),
+                         hint="Load or create a mullion type (rectangular / circular mullion) first.")
+    if item.get("type") or item.get("type_id") is not None:
+        mt = core.find_type(doc, family=item.get("family"), type_name=item.get("type"),
+                            type_id=item.get("type_id"), of_class=DB.MullionType)
+    else:
+        mt = types[0]
+    which = text_type(item.get("lines") or "all").lower()
+    if item.get("grid_line_ids"):
+        line_ids = [core.get_element(doc, i, "Curtain grid line").Id for i in item["grid_line_ids"]]
+    else:
+        line_ids = []
+        if which in ("all", "horizontal"):
+            line_ids.extend(grid.GetUGridLineIds())
+        if which in ("all", "vertical"):
+            line_ids.extend(grid.GetVGridLineIds())
+        if which not in ("all", "horizontal", "vertical"):
+            raise RvtssError("lines must be all, horizontal or vertical", failed_item=item)
+    if not line_ids:
+        raise RvtssError("Curtain wall {} has no grid lines".format(id_int(wall)),
+                         hint="Add them with kind='curtain_grid_line' first.")
+    created, errors = [], []
+    for lid in line_ids:
+        gl = doc.GetElement(lid)
+        try:
+            seg = None
+            for c in gl.AllSegmentCurves:
+                seg = c
+                break
+            if seg is None:
+                raise RvtssError("grid line has no segment")
+            for m in gl.AddMullions(seg, mt, False):
+                created.append(id_int(m))
+        except Exception as ex:   # e.g. mullions already exist on the line
+            errors.append({"grid_line_id": id_int(lid),
+                           "error": ex.message if isinstance(ex, RvtssError) else normalize_string(text_type(ex))})
+    if not created and errors:
+        raise RvtssError("No mullion was added: {}".format(errors[0]["error"]), failed_item=item, errors=errors[:20])
+    out = {"kind": "mullions", "ids": created, "wall_id": id_int(wall),
+           "type": normalize_string(get_element_name(mt)), "grid_lines": len(line_ids)}
+    if errors:
+        out["errors"] = errors[:20]
+    return out
+
+
+def _curtain_panel_type(ctx, item):
+    """Change the type of curtain panels: all panels of a curtain wall, or panel_ids."""
+    doc = ctx.doc
+    if item.get("panel_ids"):
+        panels = core.get_elements(doc, item["panel_ids"], "Panel")
+        wall_id = None
+    else:
+        wall, grid = _curtain_grid(ctx, item, "curtain_panel_type")
+        panels = [doc.GetElement(i) for i in grid.GetPanelIds()]
+        wall_id = id_int(wall)
+    if not (item.get("type") or item.get("type_id") is not None):
+        raise RvtssError("'type' (or type_id) is required: a panel type, a wall type or a curtain panel family "
+                         "type", failed_item=item)
+    t = core.find_type(doc, family=item.get("family"), type_name=item.get("type"), type_id=item.get("type_id"))
+    unpin = bool(item.get("unpin", False))
+    changed, skipped = [], []
+    for p in panels:
+        if p is None:
+            continue
+        if getattr(p, "Pinned", False):
+            if not unpin:
+                skipped.append({"id": id_int(p), "reason": "pinned (set by the curtain wall type); pass unpin=true"})
+                continue
+            p.Pinned = False
+        try:
+            if t.Id not in list(p.GetValidTypes()):
+                skipped.append({"id": id_int(p), "reason": "type is not valid for this panel"})
+                continue
+            p.ChangeTypeId(t.Id)
+            changed.append(id_int(p))
+        except Exception as ex:
+            skipped.append({"id": id_int(p), "reason": normalize_string(text_type(ex))})
+    if not changed:
+        raise RvtssError("No panel was changed", failed_item=item, skipped=skipped[:20])
+    return {"kind": "curtain_panel_type", "ids": changed, "wall_id": wall_id,
+            "type": normalize_string(get_element_name(t)), "skipped": skipped[:50]}
+
+
+def _wall_sweep(ctx, item, kind):
+    """A wall sweep or reveal: horizontal at 'distance' above the base, or vertical at 'distance' along the wall."""
+    doc = ctx.doc
+    wall = _wall_of(ctx, item, kind)
+    if not (hasattr(DB, "WallSweep") and hasattr(DB.WallSweep, "Create")):
+        raise RvtssError("Wall sweeps cannot be created through the API in this Revit version")
+    reveal = kind == "reveal"
+    bic = DB.BuiltInCategory.OST_Reveals if reveal else DB.BuiltInCategory.OST_Cornices
+    types = list(DB.FilteredElementCollector(doc).OfCategory(bic).WhereElementIsElementType())
+    if not types:
+        raise RvtssError("No {} type exists in '{}'".format("reveal" if reveal else "wall sweep", doc.Title),
+                         hint="Create a type in Revit (Architecture > Wall > Wall: {}) and load a profile "
+                              "family.".format("Reveal" if reveal else "Sweep"))
+    st = types[0]
+    if item.get("type_id") is not None:
+        st = core.find_type(doc, type_id=item["type_id"])
+    elif item.get("type"):
+        key = text_type(item["type"]).strip().lower()
+        match = [t for t in types if normalize_string(get_element_name(t)).lower() == key]
+        if not match:
+            raise not_found_type("{} type".format(kind), item["type"], [get_element_name(t) for t in types])
+        st = match[0]
+    vertical = bool(item.get("vertical", False))
+    info = DB.WallSweepInfo(DB.WallSweepType.Reveal if reveal else DB.WallSweepType.Sweep, vertical)
+    info.Distance = U.to_internal(item.get("distance", 0), ctx.unit)
+    side = text_type(item.get("side") or "exterior").lower()
+    info.WallSide = DB.WallSide.Interior if side == "interior" else DB.WallSide.Exterior
+    if not vertical:
+        info.DistanceMeasuredFrom = DB.DistanceMeasuredFrom.Top if item.get("from_top") \
+            else DB.DistanceMeasuredFrom.Base
+    if item.get("wall_offset") is not None:
+        info.WallOffset = U.to_internal(item["wall_offset"], ctx.unit)
+    ws = DB.WallSweep.Create(wall, st.Id, info)
+    return {"kind": kind, "id": id_int(ws), "wall_id": id_int(wall), "vertical": vertical,
+            "type": normalize_string(get_element_name(st))}
+
+
+def _model_line(ctx, item):
+    """Model lines on a horizontal plane: at 'level' (+ 'offset'), else at the z of the first point."""
+    doc = ctx.doc
+    raw = item.get("points") or ([item["start"], item["end"]] if item.get("start") and item.get("end") else None)
+    if not raw or len(raw) < 2:
+        raise RvtssError("'points' needs at least 2 points (or start and end)", failed_item=item)
+    if item.get("level") is not None:
+        z = core.find_level(doc, item["level"]).Elevation + U.to_internal(item.get("offset", 0), ctx.unit)
+    else:
+        z = U.point_from(raw[0], ctx.unit)[2]
+    pts = []
+    for p in raw:
+        x, y, _z = U.point_from(p, ctx.unit)
+        pts.append(DB.XYZ(x, y, z))
+    if item.get("closed") and len(pts) > 2:
+        pts.append(pts[0])
+    sp = DB.SketchPlane.Create(doc, DB.Plane.CreateByNormalAndOrigin(DB.XYZ.BasisZ, DB.XYZ(0, 0, z)))
+    style = None
+    if item.get("line_style"):
+        key = text_type(item["line_style"]).strip().lower()
+        cat = doc.Settings.Categories.get_Item(DB.BuiltInCategory.OST_Lines)
+        names = []
+        for sub in cat.SubCategories:
+            names.append(sub.Name)
+            if normalize_string(sub.Name).lower() == key:
+                style = sub.GetGraphicsStyle(DB.GraphicsStyleType.Projection)
+        if style is None:
+            raise core.not_found("Line style", item["line_style"], names)
+    creator = doc.FamilyCreate if doc.IsFamilyDocument else doc.Create
+    ids = []
+    for a, b in zip(pts, pts[1:]):
+        if a.DistanceTo(b) < 1e-4:
+            raise RvtssError("model_line has two equal consecutive points", failed_item=item)
+        mc = creator.NewModelCurve(DB.Line.CreateBound(a, b), sp)
+        if style is not None:
+            mc.LineStyle = style
+        ids.append(id_int(mc))
+    return {"kind": "model_line", "ids": ids, "sketch_plane_id": id_int(sp)}
+
+
+def _reference_plane(ctx, item):
+    """A vertical reference plane drawn in plan from start to end (shown in 'view', default the active view)."""
+    doc = ctx.doc
+    a, b = _pt(ctx, item, "start"), _pt(ctx, item, "end")
+    if item.get("level") is not None:
+        z = core.find_level(doc, item["level"]).Elevation
+        a, b = DB.XYZ(a.X, a.Y, z), DB.XYZ(b.X, b.Y, z)
+    if a.DistanceTo(b) < 1e-4:
+        raise RvtssError("start and end are the same point", failed_item=item)
+    view = core.find_view(doc, item.get("view"))
+    creator = doc.FamilyCreate if doc.IsFamilyDocument else doc.Create
+    rp = creator.NewReferencePlane(a, b, DB.XYZ.BasisZ, view)
+    if rp is None:
+        raise RvtssError("Revit did not create the reference plane (use a plan view)", failed_item=item)
+    if item.get("name"):
+        rp.Name = text_type(item["name"])
+    return {"kind": "reference_plane", "id": id_int(rp), "name": normalize_string(rp.Name),
+            "view_id": id_int(view)}
+
+
+def _brace(ctx, item):
+    """A structural brace between two 3D points (z defaults to the level elevation)."""
+    doc = ctx.doc
+    level = core.find_level(doc, item.get("level"))
+    sym = _symbol(doc, item, [DB.BuiltInCategory.OST_StructuralFraming], "structural framing (brace)")
+    a, b = _level_point(ctx, item, level, "start"), _level_point(ctx, item, level, "end")
+    if a.DistanceTo(b) < 1e-4:
+        raise RvtssError("start and end are the same point", failed_item=item)
+    fi = doc.Create.NewFamilyInstance(DB.Line.CreateBound(a, b), sym, level, DB.Structure.StructuralType.Brace)
+    return {"kind": "brace", "id": id_int(fi), "family": normalize_string(sym.Family.Name),
+            "type": normalize_string(get_element_name(sym))}
+
+
+def _truss(ctx, item):
+    from Autodesk.Revit.DB import Structure as S
+
+    doc = ctx.doc
+    core.require_project(doc)
+    level = core.find_level(doc, item.get("level"))
+    types = list(DB.FilteredElementCollector(doc).OfClass(S.TrussType))
+    if not types:
+        raise RvtssError("No truss family is loaded in '{}'".format(doc.Title),
+                         hint="Load one (Insert > Load Family > Structural Trusses), then retry.")
+    if item.get("type") or item.get("type_id") is not None:
+        tt = core.find_type(doc, family=item.get("family"), type_name=item.get("type"),
+                            type_id=item.get("type_id"), of_class=S.TrussType)
+    else:
+        tt = types[0]
+    z = level.Elevation + U.to_internal(item.get("offset", 0), ctx.unit)
+    a, b = _pt(ctx, item, "start"), _pt(ctx, item, "end")
+    a, b = DB.XYZ(a.X, a.Y, z), DB.XYZ(b.X, b.Y, z)
+    if a.DistanceTo(b) < 1e-4:
+        raise RvtssError("start and end are the same point", failed_item=item)
+    sp = DB.SketchPlane.Create(doc, DB.Plane.CreateByNormalAndOrigin(DB.XYZ.BasisZ, DB.XYZ(0, 0, z)))
+    tr = S.Truss.Create(doc, tt.Id, sp.Id, DB.Line.CreateBound(a, b))
+    return {"kind": "truss", "id": id_int(tr), "type": normalize_string(get_element_name(tt))}
+
+
+def _beam_system(ctx, item):
+    """A beam system inside a closed boundary; beams run parallel to boundary edge 'direction_edge' (0-based)."""
+    from System.Collections.Generic import List
+    from Autodesk.Revit.DB import Structure as S
+
+    doc = ctx.doc
+    core.require_project(doc)
+    level = core.find_level(doc, item.get("level"))
+    profile = List[DB.Curve]()
+    lines = _outline(ctx, item, level)
+    for ln in lines:
+        profile.Add(ln)
+    edge = int(item.get("direction_edge", 0) or 0)
+    if edge < 0 or edge >= len(lines):
+        raise RvtssError("direction_edge must be between 0 and {}".format(len(lines) - 1), failed_item=item)
+    bs = S.BeamSystem.Create(doc, profile, level, edge, bool(item.get("is_3d", False)))
+    out = {"kind": "beam_system", "id": id_int(bs)}
+    if item.get("type") or item.get("type_id") is not None or item.get("family"):
+        sym = _symbol(doc, item, [DB.BuiltInCategory.OST_StructuralFraming], "structural framing (beam)")
+        bs.BeamType = sym
+        out["beam_type"] = normalize_string(get_element_name(sym))
+    try:
+        doc.Regenerate()
+        out["beam_ids"] = [id_int(i) for i in bs.GetBeamIds()]
+    except Exception:
+        pass
+    return out
+
+
+def _alias(func, kind):
+    def call(ctx, item):
+        out = func(ctx, item)
+        out["kind"] = kind
+        return out
+    return call
+
+
+_MODELLING_KINDS = {"curtain_grid_line": _curtain_grid_line, "mullions": _mullions,
+                    "curtain_panel_type": _curtain_panel_type,
+                    "wall_sweep": lambda c, i: _wall_sweep(c, i, "wall_sweep"),
+                    "reveal": lambda c, i: _wall_sweep(c, i, "reveal"),
+                    "model_line": _model_line, "reference_plane": _reference_plane,
+                    "foundation_isolated": _alias(_foundation, "foundation_isolated"),
+                    "foundation_wall": _alias(_wall_foundation, "foundation_wall"),
+                    "brace": _brace, "truss": _truss, "beam_system": _beam_system}
 
 
 def create_elements(ctx):

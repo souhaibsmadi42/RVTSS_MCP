@@ -2,6 +2,46 @@
 
 All notable changes to RVTSS. Details, verification status and design notes: [docs/UPGRADE_REPORT.md](docs/UPGRADE_REPORT.md).
 
+## 2.4.0 – 2026-11-10
+
+Follows Revit's ribbon tab by tab and adds what RVTSS could not do. 124 tools in 19 toolsets.
+**Not yet verified in Revit:** every addition is unit-tested (396 tests) and passes the IronPython
+compatibility check, but none of the new Revit-side code has run in a live session. The self-test has a new
+group `v24`; run it before relying on these tools.
+
+### Added
+* **Ribbon command launcher:** `list_revit_commands` and `run_revit_command` queue one of Revit's own
+  commands for the user (scope boxes, design options, phases, rendering...). Save, synchronize, close, undo
+  and redo are refused there.
+* **View:** `view_extents` (crop region, 3D section box, plan view range, far clip),
+  `manage_view_templates` (list, create from a view, duplicate, apply, remove, delete, controlled
+  parameters), `manage_viewports` (list, move, type, detail number, rotate, remove).
+* **`create_view` kinds:** `callout`, `legend` (duplicates an existing legend).
+* **`create_schedule` kinds:** key schedule, material take-off, sheet list, view list, note block.
+* **`create_detailing` kinds:** masking regions, revision clouds, spot elevations and coordinates, detail
+  components and symbols.
+* **`replace_text`:** find and replace in text notes; dry run by default.
+* **`modify_elements`:** align, offset, trim/extend, split, scale, flip, cut/uncut, paint, create and
+  divide parts.
+* **`create_elements` kinds:** curtain grid lines, mullions, curtain panel types, wall sweeps and reveals,
+  model lines, reference planes, braces, trusses, beam systems.
+* **MEP editing (toolset `mep_edit`):** `mep_connect`, `create_mep_parts`, `mep_insulation`,
+  `manage_mep_systems`.
+* **Insert (toolset `insert`):** `insert_files` (link or import CAD, images), `load_family`.
+* **Manage and collaborate:** `project_settings`, `manage_styles`, `transfer_project_standards`,
+  `worksharing`. Relinquish and reload latest follow the existing sync policy (`RVTSS_ALLOW_SYNC`).
+* `batch_execute` accepts `modify_elements`, `view_extents`, `manage_viewports` and `create_detailing`.
+
+### Changed
+* Profiles: `modeler` and `architect` gain `insert` and `commands`; `mep_coordinator` gains `mep_edit`.
+* The default tool list is about 126k characters (5 % above v2.0's 74 tools). The payload test now caps the
+  total at 110 % of v2.0 and the size per tool at 110 % of v2.1.
+
+### Not possible through the Revit API
+Creating phases, design options, scope boxes, ramps, the first legend and model text in a project, attaching
+wall tops and bases, editing wall profiles, automatic duct and pipe sizing. `run_revit_command` starts
+Revit's own command for these. IFC links and point clouds are not implemented.
+
 ## 2.3.0 – 2026-11-07
 
 Closes gaps found in a feature comparison with other Revit MCP servers (a survey of

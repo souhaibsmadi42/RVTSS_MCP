@@ -36,7 +36,7 @@ def register_documentation_tools(mcp, revit_get, revit_post):
     @mcp.tool(annotations=MODIFIES)
     async def create_view(
         kind: Literal["floor_plan", "ceiling_plan", "structural_plan", "area_plan", "three_d", "section",
-                      "elevation", "drafting", "duplicate"],
+                      "elevation", "drafting", "callout", "legend", "duplicate"],
         name: Optional[str] = None,
         level: Annotated[Optional[str], Field(description="plans: level name or id")] = None,
         element_ids: Annotated[Optional[List[int]], Field(description="three_d: section box around them; section: framed elements")] = None,
@@ -52,21 +52,27 @@ def register_documentation_tools(mcp, revit_get, revit_post):
         detail_level: Optional[Literal["coarse", "medium", "fine"]] = None,
         view_family_type: Optional[str] = None,
         area_scheme: Annotated[Optional[str], Field(description="area_plan: area scheme name (default: first)")] = None,
+        min: Annotated[Optional[List[float]], Field(description="callout: one corner in the parent view "
+                                                                "(source_view)")] = None,
+        max: Annotated[Optional[List[float]], Field(description="callout: the opposite corner")] = None,
         unit: LengthUnit = "mm",
         dry_run: bool = False,
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Create plans, 3D (optionally boxed to elements), sections, elevations, drafting views or duplicates,
-        with name/template/scale.
+        """Create plans, 3D (optionally boxed to elements), sections, elevations, drafting views, callouts,
+        legends or duplicates, with name/template/scale.
 
         Create plans, 3D views (optionally section-boxed to elements), sections framing elements,
         elevations, drafting views, or duplicate a view - with name, template, scale and detail level.
+        callout: a rectangle (min, max) in source_view; a detail view unless view_family_type names another.
+        legend: the Revit API cannot create the first legend, so an existing one (source_view, or the first
+        legend) is duplicated.
         """
         data = compact(kind=kind, name=name, level=level, element_ids=element_ids, margin=margin, looking=looking,
                        plan_view=plan_view, point=point, facing=facing, source_view=source_view,
                        duplicate_option=duplicate_option, template=template, scale=scale, detail_level=detail_level,
-                       view_family_type=view_family_type, area_scheme=area_scheme, unit=unit,
+                       view_family_type=view_family_type, area_scheme=area_scheme, min=min, max=max, unit=unit,
                        dry_run=dry_run or None, document=document)
         return await post(revit_post, "/views/create/", data, ctx, timeout=120.0)
 
@@ -124,8 +130,11 @@ def register_documentation_tools(mcp, revit_get, revit_post):
 
     @mcp.tool(annotations=MODIFIES)
     async def create_schedule(
-        category: str,
-        fields: Annotated[List[str], Field(description="Schedulable field names, e.g. ['Mark','Type','Width','Fire Rating']")],
+        category: Annotated[Optional[str], Field(description="Needed for kind category, key and "
+                                                             "material_takeoff")] = None,
+        fields: Annotated[Optional[List[str]], Field(description="Schedulable field names, e.g. ['Mark','Type','Width','Fire Rating']")] = None,
+        kind: Literal["category", "key", "material_takeoff", "sheet_list", "view_list", "note_block"] = "category",
+        family: Annotated[Optional[str], Field(description="note_block: generic annotation family name")] = None,
         name: Optional[str] = None,
         sort_by: Optional[List[str]] = None,
         filters: Annotated[Optional[List[Dict[str, Any]]], Field(description="[{field, type: 'Equal'|'Contains'|'GreaterThan'|..., value, unit?}] - numbers for numeric fields (with unit for lengths), text for text fields")] = None,
@@ -135,8 +144,10 @@ def register_documentation_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Create a schedule for a category with fields, sorting and filters."""
-        data = compact(category=category, fields=fields, name=name, sort_by=sort_by, filters=filters,
+        """Create a schedule with fields, sorting and filters: by category, key schedule, material take-off,
+        sheet list, view list or note block."""
+        data = compact(category=category, fields=fields, kind=None if kind == "category" else kind, family=family,
+                       name=name, sort_by=sort_by, filters=filters,
                        itemized=itemized, strict=strict, dry_run=dry_run or None, document=document)
         return await post(revit_post, "/schedules/create/", data, ctx, timeout=120.0)
 

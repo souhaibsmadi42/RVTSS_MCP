@@ -229,7 +229,6 @@ def text_notes(ctx):
 
 
 # ------------------------------------------------- detailing (v2.3): dimensions, lines, regions
-DETAIL_KINDS = ("dimension", "detail_line", "filled_region")
 _FI_REFS = {
     "center_left_right": "CenterLeftRight", "center_front_back": "CenterFrontBack",
     "center_elevation": "CenterElevation", "left": "Left", "right": "Right", "front": "Front",
@@ -384,7 +383,211 @@ def _filled_region(ctx, view, item):
     return {"kind": "filled_region", "id": id_int(fr), "type": normalize_string(get_element_name(frt))}
 
 
-_DETAIL = {"dimension": _dimension, "detail_line": _detail_line, "filled_region": _filled_region}
+# ---- v2.4: masking regions, revision clouds, spot dimensions, detail components and symbols
+def _closed_loop(ctx, view, item, what):
+    pts = [_view_point(ctx, view, p) for p in item.get("boundary") or []]
+    if len(pts) < 3:
+        raise RvtssError("{}: 'boundary' needs at least 3 points".format(what))
+    return [_segment(pts[i], pts[(i + 1) % len(pts)]) for i in range(len(pts))]
+
+
+def _masking_region(ctx, view, item):
+    from System.Collections.Generic import List
+
+    doc = ctx.doc
+    types = list(DB.FilteredElementCollector(doc).OfClass(DB.FilledRegionType))
+    masking = None
+    for t in types:
+        try:
+            if t.IsMasking:
+                masking = t
+                break
+        except Exception:
+            continue
+    if masking is None:
+        raise RvtssError("No masking filled region type exists in '{}'".format(doc.Title), status=409,
+                         hint="Duplicate a filled region type in Revit and tick 'Masking', or draw one masking "
+                              "region by hand once.")
+    loop = DB.CurveLoop()
+    for seg in _closed_loop(ctx, view, item, "masking_region"):
+        loop.Append(seg)
+    loops = List[DB.CurveLoop]()
+    loops.Add(loop)
+    fr = DB.FilledRegion.Create(doc, masking.Id, view.Id, loops)
+    return {"kind": "masking_region", "id": id_int(fr)}
+
+
+def _revision(doc, ref):
+    ids = list(DB.Revision.GetAllRevisionIds(doc))
+    if not ids:
+        raise RvtssError("The project has no revision", status=409, hint="Create one with manage_revisions.")
+    revs = [doc.GetElement(i) for i in ids]
+    if ref in (None, "", "latest"):
+        return revs[-1]
+    key = text_type(ref).strip().lower()
+    for r in revs:
+        if text_type(id_int(r)) == key or text_type(r.SequenceNumber) == key or \
+                normalize_string(r.Description or "").lower() == key:
+            return r
+    raise core.not_found("Revision", ref, [normalize_string(r.Description or "") for r in revs],
+                         hint="Pass the revision id, its sequence number or its description.")
+
+
+def _revision_cloud(ctx, view, item):
+    from System.Collections.Generic import List
+
+    doc = ctx.doc
+    rev = _revision(doc, item.get("revision"))
+    if rev.Issued:
+        raise RvtssError("Revision '{}' is issued; clouds cannot be added to it".format(
+            normalize_string(rev.Description or "")), status=409)
+    curves = List[DB.Curve]()
+    for seg in _closed_loop(ctx, view, item, "revision_cloud"):
+        curves.Add(seg)
+    cloud = DB.RevisionCloud.Create(doc, view, rev.Id, curves)
+    return {"kind": "revision_cloud", "id": id_int(cloud), "revision": normalize_string(rev.Description or "")}
+
+
+def _top_face_reference(e):
+    try:
+        if isinstance(e, DB.RoofBase) or isinstance(e, DB.CeilingAndFloor):
+            refs = list(DB.HostObjectUtils.GetTopFaces(e))
+            if refs:
+                return refs[0]
+    except Exception:
+        pass
+    raise RvtssError("Spot dimensions are supported on floors, roofs, ceilings and toposolids (id {} is a {})".format(
+        id_int(e), type(e).__name__), hint="For other elements use run_revit_command('SpotElevation').")
+
+
+def _spot(ctx, view, item, coordinate):
+    doc = ctx.doc
+    e = core.get_element(doc, item.get("element_id"))
+    ref = _top_face_reference(e)
+    x, y, z = U.point_from(item.get("point") or [0, 0], ctx.unit)
+    origin = DB.XYZ(x, y, z)
+    try:
+        face = e.GetGeometryObjectFromReference(ref)
+        hit = face.Project(origin)
+        if hit is None:
+            raise RvtssError("point is not over the top face of element {}".format(id_int(e)))
+        origin = hit.XYZPoint
+    except RvtssError:
+        raise
+    except Exception as ex:
+        logger.debug("spot projection: %s", ex)
+    leader = bool(item.get("leader", False))
+    ox, oy, _oz = U.point_from(item.get("offset") or [600, 600], ctx.unit)
+    bend = DB.XYZ(origin.X + ox, origin.Y + oy, origin.Z)
+    end = DB.XYZ(bend.X + abs(ox), bend.Y, bend.Z)
+    make = doc.Create.NewSpotCoordinate if coordinate else doc.Create.NewSpotElevation
+    sd = make(view, ref, origin, bend, end, origin, leader)
+    if sd is None:
+        raise RvtssError("Revit created no spot dimension (is the face visible in this view?)")
+    return {"kind": "spot_coordinate" if coordinate else "spot_elevation", "id": id_int(sd)}
+
+
+def _spot_elevation(ctx, view, item):
+    return _spot(ctx, view, item, False)
+
+
+def _spot_coordinate(ctx, view, item):
+    return _spot(ctx, view, item, True)
+
+
+def _detail_component(ctx, view, item):
+    """Detail items and generic annotation symbols: a point, or start/end for line-based detail families."""
+    doc = ctx.doc
+    spec = item.get("type")
+    if not spec:
+        raise RvtssError("detail_component: 'type' is required ('Family : Type', type name or id)")
+    sym = _tag_type(doc, spec)
+    if not isinstance(sym, DB.FamilySymbol):
+        raise RvtssError("'{}' is not a loadable family type".format(spec))
+    if not sym.IsActive:
+        sym.Activate()
+        doc.Regenerate()
+    if item.get("start") is not None and item.get("end") is not None:
+        line = _segment(_view_point(ctx, view, item.get("start"), "start"),
+                        _view_point(ctx, view, item.get("end"), "end"))
+        inst = doc.Create.NewFamilyInstance(line, sym, view)
+    else:
+        inst = doc.Create.NewFamilyInstance(_view_point(ctx, view, item.get("point")), sym, view)
+    return {"kind": "detail_component", "id": id_int(inst),
+            "type": normalize_string(get_element_name(sym))}
+
+
+_DETAIL = {"dimension": _dimension, "detail_line": _detail_line, "filled_region": _filled_region,
+           "masking_region": _masking_region, "revision_cloud": _revision_cloud,
+           "spot_elevation": _spot_elevation, "spot_coordinate": _spot_coordinate,
+           "detail_component": _detail_component}
+DETAIL_KINDS = tuple(sorted(_DETAIL))
+
+
+# ---- v2.4: find and replace in text notes
+def replace_in_text(text, find, replace, regex=False, match_case=False, whole_word=False):
+    """(new text, number of replacements). Pure: unit-tested without Revit."""
+    import re
+
+    if not find:
+        raise ValueError("'find' must not be empty")
+    pattern = find if regex else re.escape(find)
+    if whole_word:
+        pattern = r"\b(?:" + pattern + r")\b"
+    flags = 0 if match_case else re.IGNORECASE
+    if regex:
+        return re.subn(pattern, replace, text, flags=flags)
+    return re.subn(pattern, lambda _m: replace, text, flags=flags)
+
+
+def replace_text(ctx):
+    import re
+
+    doc = ctx.doc
+    find = ctx.require("find")
+    replace = text_type(ctx.get("replace", ""))
+    regex, case, whole = ctx.bool("regex", False), ctx.bool("match_case", False), ctx.bool("whole_word", False)
+    try:
+        replace_in_text("", find, replace, regex, case, whole)
+    except (ValueError, re.error) as e:
+        raise RvtssError("Invalid find pattern: {}".format(e))
+    views = ctx.list("views")
+    if views:
+        notes, seen = [], set()
+        for v in views:
+            view = core.find_view(doc, v, uidoc=ctx.uidoc)
+            for n in DB.FilteredElementCollector(doc, view.Id).OfClass(DB.TextNote):
+                if id_int(n) not in seen:
+                    seen.add(id_int(n))
+                    notes.append(n)
+    else:
+        notes = list(DB.FilteredElementCollector(doc).OfClass(DB.TextNote))
+    plan = []
+    for n in notes:
+        old = n.Text or ""
+        new, count = replace_in_text(old, find, replace, regex, case, whole)
+        if count and new != old:
+            plan.append((n, old, new, count))
+    preview = core.confirm_gate(ctx, len(plan), "replace_text")
+    dry = preview or ctx.dry_run
+
+    def run():
+        done = []
+        for n, old, new, count in plan:
+            n.Text = new
+            owner = doc.GetElement(n.OwnerViewId)
+            done.append({"id": id_int(n), "view": normalize_string(owner.Name) if owner is not None else None,
+                         "old": normalize_string(old)[:200], "new": normalize_string(new)[:200],
+                         "replacements": count})
+        return {"changed": done[:300]}
+
+    res, fails = core.run_transaction(doc, "Replace text", run, dry_run=dry) if plan else ({"changed": []}, [])
+    out = core.commit_result(res, fails, dry, {
+        "text_notes_searched": len(notes), "text_notes_changed": len(plan),
+        "replacements": sum(p[3] for p in plan), "truncated": len(plan) > 300})
+    if plan:
+        ctx.warn("Setting a text note's text drops mixed formatting (bold / italic runs) inside that note.")
+    return core.preview_status(out, preview)
 
 
 def detailing(ctx):
@@ -458,6 +661,10 @@ def register_annotation_routes(api):
     @api.route("/annotation/detail/", methods=["POST"])
     def annotation_detail_route(doc, uidoc, request):
         return handle(doc, request, detailing, uidoc=uidoc)
+
+    @api.route("/annotation/text/replace/", methods=["POST"])
+    def annotation_text_replace_route(doc, uidoc, request):
+        return handle(doc, request, replace_text, uidoc=uidoc)
 
     @api.route("/annotation/types/", methods=["POST"])
     def annotation_types_route(doc, request):

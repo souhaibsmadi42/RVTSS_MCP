@@ -232,7 +232,16 @@ def register_element_tools(mcp, revit_get, revit_post):
             "auto_rooms: {level} (a room in every closed region)\n"
             "rebar: {host_id, points:[[x,y,z],...], normal?, type?, style?, count?, spacing?}\n"
             "toposolid: {points:[[x,y,z],...], level, type?} (2024+)\n"
-            "direct_shape: {vertices, faces:[[i,j,k],...]} or {obj_file, obj_unit?}; category?, name?, material?"))],
+            "direct_shape: {vertices, faces:[[i,j,k],...]} or {obj_file, obj_unit?}; category?, name?, material?\n"
+            "curtain_grid_line: {wall_id, direction:'vertical'|'horizontal', offset_along | height | point}\n"
+            "mullions: {wall_id, lines?:'all'|'horizontal'|'vertical' | grid_line_ids, type?}\n"
+            "curtain_panel_type: {wall_id | panel_ids, type|type_id, unpin?}\n"
+            "wall_sweep|reveal: {wall_id, distance, vertical?, side?:'exterior'|'interior', from_top?, type?}\n"
+            "model_line: {points | start,end, level?, offset?, closed?, line_style?}\n"
+            "reference_plane: {start, end, name?, level?, view?}\n"
+            "foundation_isolated: as foundation; foundation_wall: as wall_foundation\n"
+            "brace: {start:[x,y,z], end:[x,y,z], level, family?, type?}; truss: {start, end, level, offset?, type?}\n"
+            "beam_system: {boundary, level, direction_edge?(0), is_3d?, family?, type?}"))],
         unit: LengthUnit = "mm",
         atomic: bool = True,
         dry_run: bool = False,
@@ -248,6 +257,9 @@ def register_element_tools(mcp, revit_get, revit_post):
         shafts and railings in one transaction (one undo step). Returns new element ids.
         Doors/windows need host_id of a wall. Without family/type the default type, or the first
         loaded family of the category, is used.
+        v2.4: curtain grid lines, mullions and panel types, wall sweeps and reveals, model lines,
+        reference planes, braces, trusses and beam systems. The Revit API cannot create ramps or model
+        text in a project, or attach wall tops / bases; do those in Revit.
         """
         data = compact(items=items, unit=unit, atomic=atomic, dry_run=dry_run or None, document=document)
         return await post(revit_post, "/create_elements/", data, ctx, timeout=180.0)
