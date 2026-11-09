@@ -889,13 +889,16 @@ def _v24_extents(t):
     check("view_range" in g and "crop_active" in g, "plan extents incomplete", g)
     vr = t.post("/views/extents/", {"action": "set_view_range", "view": plan, "cut": 1500, "dry_run": True})
     check(vr.get("status") == "dry_run" and abs(vr["view_range"]["cut"]["offset"] - 1500) < 1, "view range", vr)
+    if g.get("scope_box"):  # Revit ignores a custom crop while a scope box controls it
+        t.post("/views/extents/", {"action": "set_crop", "view": plan, "element_ids": walls, "dry_run": True},
+               expect_error=True)
     cr = t.post("/views/extents/", {"action": "set_crop", "view": plan, "element_ids": walls, "margin": 1000,
-                                    "dry_run": True})
+                                    "scope_box": "none", "dry_run": True})
     check(cr.get("status") == "dry_run" and cr.get("crop_active") is True, "crop to elements", cr)
     check(abs((cr["crop_max"][0] - cr["crop_min"][0]) - 10000) < 400, "crop width should be about 10 m", cr)
     after = t.post("/views/extents/", {"view": plan})
     check(after["view_range"]["cut"]["offset"] == g["view_range"]["cut"]["offset"], "dry run changed the view range")
-    out = {"cut_before": g["view_range"]["cut"]["offset"]}
+    out = {"cut_before": g["view_range"]["cut"]["offset"], "scope_box": g.get("scope_box")}
     v3 = t.post("/find_views/", {"view_types": ["ThreeD"], "limit": 5}).get("views") or []
     if v3:
         sb = t.post("/views/extents/", {"action": "set_section_box", "view": str(v3[0]["id"]),

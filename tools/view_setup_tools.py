@@ -52,6 +52,8 @@ def register_view_setup_tools(mcp, revit_get, revit_post):
         margin: Annotated[float, Field(description="Margin around element_ids in `unit`")] = 500,
         min: Annotated[Optional[List[float]], Field(description="Box corner [x,y,z] instead of element_ids")] = None,
         max: Optional[List[float]] = None,
+        scope_box: Annotated[Optional[str], Field(description="set_crop: assign this scope box, or 'none' to "
+                                                              "detach (needed before a custom crop)")] = None,
         crop_active: Optional[bool] = None,
         crop_visible: Optional[bool] = None,
         annotation_crop: Optional[bool] = None,
@@ -70,7 +72,7 @@ def register_view_setup_tools(mcp, revit_get, revit_post):
         """Crop region, 3D section box, plan view range and far clip of a view: read them or set them."""
         return await post(revit_post, "/views/extents/", compact(
             action=action, view=view, element_ids=element_ids, margin=margin if element_ids else None, min=min,
-            max=max, crop_active=crop_active, crop_visible=crop_visible, annotation_crop=annotation_crop,
+            max=max, scope_box=scope_box, crop_active=crop_active, crop_visible=crop_visible, annotation_crop=annotation_crop,
             enabled=enabled, top=top, cut=cut, bottom=bottom, view_depth=view_depth,
             far_clip_offset=far_clip_offset, far_clipping=far_clipping, unit=unit, dry_run=dry_run or None,
             document=document), ctx, timeout=120.0)

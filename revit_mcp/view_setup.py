@@ -96,6 +96,11 @@ def _extents_info(ctx, view):
     out = {"view": normalize_string(view.Name), "view_id": id_int(view), "view_type": str(view.ViewType),
            "scale": getattr(view, "Scale", None), "unit": unit}
     out.update(_crop_info(view, unit))
+    try:
+        _p, sb = _scope_box_of(doc, view)
+        out["scope_box"] = normalize_string(sb.Name) if sb is not None else None
+    except Exception:
+        pass
     if isinstance(view, DB.View3D):
         out["section_box_active"] = bool(view.IsSectionBoxActive)
         if view.IsSectionBoxActive:
@@ -116,8 +121,45 @@ def _extents_info(ctx, view):
     return out
 
 
+def _scope_boxes(doc):
+    return list(DB.FilteredElementCollector(doc).OfCategory(DB.BuiltInCategory.OST_VolumeOfInterest)
+                .WhereElementIsNotElementType())
+
+
+def _scope_box_of(doc, view):
+    p = view.get_Parameter(DB.BuiltInParameter.VIEWER_VOLUME_OF_INTEREST_CROP)
+    if p is None or not is_valid_id(p.AsElementId()):
+        return p, None
+    return p, doc.GetElement(p.AsElementId())
+
+
 def _set_crop(ctx, view):
+    doc = ctx.doc
     box = _model_box(ctx)
+    sb_param, sb = _scope_box_of(doc, view)
+    wanted = ctx.get("scope_box")
+    if wanted is not None:
+        # assign an existing scope box (the Revit API cannot create one), or 'none' to detach
+        if sb_param is None or sb_param.IsReadOnly:
+            raise RvtssError("View '{}' cannot use a scope box".format(normalize_string(view.Name)), status=409)
+        if text_type(wanted).strip().lower() in ("none", ""):
+            sb_param.Set(DB.ElementId.InvalidElementId)
+        else:
+            key = text_type(wanted).strip().lower()
+            boxes = _scope_boxes(doc)
+            match = [b for b in boxes if normalize_string(b.Name).lower() == key or text_type(id_int(b)) == key]
+            if not match:
+                raise core.not_found("Scope box", wanted, [b.Name for b in boxes],
+                                     hint="Scope boxes are drawn in Revit: run_revit_command('ScopeBox').")
+            if box is not None:
+                raise RvtssError("Give either scope_box or a crop box (element_ids / min, max), not both")
+            sb_param.Set(match[0].Id)
+        sb = None
+    if box is not None and sb is not None:
+        # Revit silently ignores CropBox while a scope box controls the crop
+        raise RvtssError("The crop of '{}' is controlled by scope box '{}'".format(
+            normalize_string(view.Name), normalize_string(sb.Name)), status=409,
+            hint="Pass scope_box='none' to detach it in the same call, or edit the scope box in Revit.")
     if box is not None:
         bb = view.CropBox
         if bb is None:
@@ -320,7 +362,11 @@ def view_templates(ctx):
     template = _find_template(doc, ctx.require("template"))
     if action == "duplicate":
         def run():
-            t = doc.GetElement(template.Duplicate(DB.ViewDuplicateOption.Duplicate))
+            # View.Duplicate refuses templates ("View cannot be duplicated"): copy the element instead
+            new_ids = list(DB.ElementTransformUtils.CopyElement(doc, template.Id, DB.XYZ.Zero))
+            if not new_ids:
+                raise RvtssError("Revit did not copy the template", status=409)
+            t = doc.GetElement(new_ids[0])
             if ctx.get("name"):
                 t.Name = ctx.get("name")
             return {"template_id": id_int(t), "name": normalize_string(t.Name)}

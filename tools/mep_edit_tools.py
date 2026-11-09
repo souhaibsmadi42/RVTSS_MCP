@@ -17,7 +17,7 @@ def register_mep_edit_tools(mcp, revit_get, revit_post):
         action: Literal["connect", "elbow", "tee", "cross", "transition", "union", "cap", "disconnect"],
         element_ids: Annotated[List[int], Field(description=(
             "connect / elbow / transition / union: 2 elements; tee: [run 1, run 2, branch]; cross: [run 1, "
-            "run 2, branch 1, branch 2]; cap: ducts or pipes; disconnect: 1 element (all) or 2 (between them)"))],
+            "run 2, branch 1, branch 2]; cap: pipes (the API has none for ducts); disconnect: 1 element (all) or 2 (between them)"))],
         tolerance: Annotated[float, Field(description="connect: largest gap between the two ends, in `unit`")] = 1.0,
         atomic: Annotated[bool, Field(description="cap: stop at the first failure")] = False,
         unit: LengthUnit = "mm",

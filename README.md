@@ -12,7 +12,7 @@ pyRevit:
 
 It is an upgrade of [mcp-server-for-revit-python](https://github.com/mcp-servers-for-revit/mcp-server-for-revit-python)
 and keeps its API name (`revit_mcp`), port (48884), installation method and all 20 original tools.
-**v2.4.0** has 124 tools in 19 toolsets, plus MCP resources and 12 prompts. v2.3 is verified live on Revit 2026 and 2027 (full self-test, 52 passed); **the v2.4 additions are unit-tested only and have not yet run in Revit** - run the self-test (group `v24`) before relying on them.
+**v2.4.0** has 124 tools in 19 toolsets, plus MCP resources and 12 prompts. It is verified live on Revit 2026 and 2027: the full self-test (65 steps) passes with 0 failures on both. Kinds that need families the test template does not have (trusses, braces, isolated foundations, mullions, MEP fittings and pipe caps) were only checked to refuse cleanly.
 
 ### New in 2.4
 

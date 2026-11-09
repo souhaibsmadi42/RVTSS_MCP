@@ -123,7 +123,7 @@ def test_default_payload_stays_compact():
 
 def test_profile_payload_is_smaller_still():
     res = _payload({"RVTSS_TOOLSETS": "bim_coordinator"})
-    assert res["tool_count"] < 50 and res["total_chars"] < BASELINE_V20 * 0.4
+    assert res["tool_count"] < 50 and res["total_chars"] < BASELINE_V20 * 0.45  # v2.4: 47 tools, about 40 %
 
 
 def test_server_still_accepts_valid_arguments_after_compaction():

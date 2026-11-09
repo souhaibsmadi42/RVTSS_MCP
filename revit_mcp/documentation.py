@@ -414,7 +414,8 @@ def create_schedule(ctx):
             elif not isinstance(val, int):
                 val = text_type(val)
             definition.AddFilter(DB.ScheduleFilter(fld.FieldId, ftype, val))
-        definition.IsItemized = ctx.bool("itemized", True)
+        if kind != "key":  # Revit refuses IsItemized on key schedules
+            definition.IsItemized = ctx.bool("itemized", True)
         return {"schedule_id": id_int(sched), "name": normalize_string(sched.Name), "kind": kind,
                 "fields": list(added), "missing_fields": missing}
 

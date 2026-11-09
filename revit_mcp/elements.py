@@ -1491,13 +1491,27 @@ def _truss(ctx, item):
     doc = ctx.doc
     core.require_project(doc)
     level = core.find_level(doc, item.get("level"))
-    types = list(DB.FilteredElementCollector(doc).OfClass(S.TrussType))
+    # TrussType cannot be collected with OfClass ("not in Revit's native object model"): go by category
+    types = list(DB.FilteredElementCollector(doc).OfCategory(DB.BuiltInCategory.OST_Truss)
+                 .WhereElementIsElementType())
     if not types:
         raise RvtssError("No truss family is loaded in '{}'".format(doc.Title),
                          hint="Load one (Insert > Load Family > Structural Trusses), then retry.")
     if item.get("type") or item.get("type_id") is not None:
-        tt = core.find_type(doc, family=item.get("family"), type_name=item.get("type"),
-                            type_id=item.get("type_id"), of_class=S.TrussType)
+        fam_l = text_type(item.get("family") or "").strip().lower()
+        typ_l = text_type(item.get("type") or "").strip().lower()
+        tt = None
+        for t in types:
+            if item.get("type_id") is not None:
+                if id_int(t) == int(item["type_id"]):
+                    tt = t
+            elif (not fam_l or normalize_string(getattr(t, "FamilyName", "") or "").lower() == fam_l) and                     (not typ_l or normalize_string(get_element_name(t)).lower() == typ_l):
+                tt = t
+            if tt is not None:
+                break
+        if tt is None:
+            raise core.not_found("Truss type", item.get("type") or item.get("type_id") or item.get("family"),
+                                 [get_element_name(t) for t in types])
     else:
         tt = types[0]
     z = level.Elevation + U.to_internal(item.get("offset", 0), ctx.unit)
@@ -1513,7 +1527,6 @@ def _truss(ctx, item):
 def _beam_system(ctx, item):
     """A beam system inside a closed boundary; beams run parallel to boundary edge 'direction_edge' (0-based)."""
     from System.Collections.Generic import List
-    from Autodesk.Revit.DB import Structure as S
 
     doc = ctx.doc
     core.require_project(doc)
@@ -1525,7 +1538,7 @@ def _beam_system(ctx, item):
     edge = int(item.get("direction_edge", 0) or 0)
     if edge < 0 or edge >= len(lines):
         raise RvtssError("direction_edge must be between 0 and {}".format(len(lines) - 1), failed_item=item)
-    bs = S.BeamSystem.Create(doc, profile, level, edge, bool(item.get("is_3d", False)))
+    bs = DB.BeamSystem.Create(doc, profile, level, edge, bool(item.get("is_3d", False)))  # not in DB.Structure
     out = {"kind": "beam_system", "id": id_int(bs)}
     if item.get("type") or item.get("type_id") is not None or item.get("family"):
         sym = _symbol(doc, item, [DB.BuiltInCategory.OST_StructuralFraming], "structural framing (beam)")

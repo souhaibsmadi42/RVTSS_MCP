@@ -185,13 +185,20 @@ def connect(ctx):
             if before == 0:
                 return {"id": id_int(e), "open_ends": 0, "capped": 0}
             if fam == "duct":
-                from Autodesk.Revit.DB import Mechanical as M
-                M.MechanicalUtils.PlaceCapOnOpenEnds(doc, e.Id, DB.ElementId.InvalidElementId)
+                # checked live (Revit 2026): MechanicalUtils has no PlaceCapOnOpenEnds, only PlumbingUtils does
+                raise RvtssError("The Revit API caps open ends of pipes only, not ducts",
+                                 hint="Cap the duct in Revit (Modify | Ducts > Cap Open Ends), or place an end-cap "
+                                      "fitting with create_mep_parts(action='insert_on_curve').")
             elif fam == "pipe":
                 from Autodesk.Revit.DB import Plumbing as P
-                P.PlumbingUtils.PlaceCapOnOpenEnds(doc, e.Id, DB.ElementId.InvalidElementId)
+                try:
+                    P.PlumbingUtils.PlaceCapOnOpenEnds(doc, e.Id, DB.ElementId.InvalidElementId)
+                except Exception as ex:
+                    raise RvtssError("Revit could not cap pipe {}: {}".format(id_int(e), _err(ex)),
+                                     hint="The pipe type's routing preferences need a cap fitting: load a pipe "
+                                          "cap family and add it under Routing Preferences > Caps.")
             else:
-                raise RvtssError("caps exist for ducts and pipes only")
+                raise RvtssError("caps exist for pipes only")
             doc.Regenerate()
             return {"id": id_int(e), "open_ends": before, "capped": before - len(_open(e))}
 
@@ -358,6 +365,11 @@ def create_parts(ctx):
         from System.Collections.Generic import List
 
         level = core.find_level(doc, ctx.get("level"))
+        if level is None:  # default: the lowest level
+            levels = sorted(DB.FilteredElementCollector(doc).OfClass(DB.Level), key=lambda lv: lv.Elevation)
+            if not levels:
+                raise RvtssError("The project has no level", status=409)
+            level = levels[0]
         duct = action.endswith("duct") or action.startswith("duct")
         if duct:
             from Autodesk.Revit.DB import Mechanical as M

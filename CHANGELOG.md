@@ -5,9 +5,14 @@ All notable changes to RVTSS. Details, verification status and design notes: [do
 ## 2.4.0 – 2026-11-10
 
 Follows Revit's ribbon tab by tab and adds what RVTSS could not do. 124 tools in 19 toolsets.
-**Not yet verified in Revit:** every addition is unit-tested (396 tests) and passes the IronPython
-compatibility check, but none of the new Revit-side code has run in a live session. The self-test has a new
-group `v24`; run it before relying on these tools.
+**Verified live:** the full self-test, with a new group `v24` (12 steps), passes on Revit 2026 (65 passed,
+0 failed) and on a freshly started Revit 2027 (63 passed, 0 failed, 2 skipped: no document at start, no
+second project to copy standards from). A further probe ran 68 calls on the scratch model.
+
+**Checked only for a clean refusal**, because the test template has no such families: trusses, braces,
+isolated foundations, mullions, elbow / tee / cross fittings, pipe caps, air terminals, circuits and panel
+schedules. Publishing and acquiring shared coordinates, relinquish and reload latest need a workshared model
+with links and were not run.
 
 ### Added
 * **Ribbon command launcher:** `list_revit_commands` and `run_revit_command` queue one of Revit's own
@@ -32,10 +37,22 @@ group `v24`; run it before relying on these tools.
   `worksharing`. Relinquish and reload latest follow the existing sync policy (`RVTSS_ALLOW_SYNC`).
 * `batch_execute` accepts `modify_elements`, `view_extents`, `manage_viewports` and `create_detailing`.
 
+### Fixed (found by the first live run)
+* `view_extents(set_crop)` did nothing on views whose crop is controlled by a scope box: Revit ignores the
+  crop box silently. It now refuses with a hint; `scope_box='none'` detaches the box and `scope_box='<name>'`
+  assigns one. `get` reports the scope box.
+* Key schedules failed on `IsItemized`, which Revit refuses for them.
+* `create_mep_parts` flex and placeholder routes crashed without `level`; the lowest level is the default.
+* Truss types cannot be collected by class in the Revit API; they are now found by category.
+* `BeamSystem` is in `Autodesk.Revit.DB`, not `DB.Structure`.
+* `mep_connect(cap)`: the Revit API caps pipes only (`MechanicalUtils` has no cap method); ducts are refused
+  with a hint.
+* `manage_view_templates(duplicate)`: `View.Duplicate` refuses templates; the element is copied instead.
+
 ### Changed
 * Profiles: `modeler` and `architect` gain `insert` and `commands`; `mep_coordinator` gains `mep_edit`.
 * The default tool list is about 126k characters (5 % above v2.0's 74 tools). The payload test now caps the
-  total at 110 % of v2.0 and the size per tool at 110 % of v2.1.
+  total at 110 % of v2.0 and the size per tool at 110 % of v2.1; `bim_coordinator` is capped at 45 % of v2.0.
 
 ### Not possible through the Revit API
 Creating phases, design options, scope boxes, ramps, the first legend and model text in a project, attaching

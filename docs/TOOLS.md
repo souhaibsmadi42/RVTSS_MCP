@@ -1759,6 +1759,7 @@ Crop region, 3D section box, plan view range and far clip of a view: read them o
 | `margin` | number |  | `500` | Margin around element_ids in `unit` |
 | `min` | list of number |  |  | Box corner [x,y,z] instead of element_ids |
 | `max` | list of number |  |  |  |
+| `scope_box` | string |  |  | set_crop: assign this scope box, or 'none' to detach (needed before a custom crop) |
 | `crop_active` | boolean |  |  |  |
 | `crop_visible` | boolean |  |  |  |
 | `annotation_crop` | boolean |  |  |  |
@@ -2120,7 +2121,7 @@ the duct / pipe type; Revit refuses when no matching fitting is loaded. One undo
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `action` | `connect` \| `elbow` \| `tee` \| `cross` \| `transition` \| `union` \| `cap` \| `disconnect` | yes |  |  |
-| `element_ids` | list of integer | yes |  | connect / elbow / transition / union: 2 elements; tee: [run 1, run 2, branch]; cross: [run 1, run 2, branch 1, branch 2]; cap: ducts or pipes; disconnect: 1 element (all) or 2 (between them) |
+| `element_ids` | list of integer | yes |  | connect / elbow / transition / union: 2 elements; tee: [run 1, run 2, branch]; cross: [run 1, run 2, branch 1, branch 2]; cap: pipes (the API has none for ducts); disconnect: 1 element (all) or 2 (between them) |
 | `tolerance` | number |  | `1.0` | connect: largest gap between the two ends, in `unit` |
 | `atomic` | boolean |  | `False` | cap: stop at the first failure |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |

@@ -55,7 +55,7 @@ its API name, port and all 20 original tools.
 
 | Requirement | Version | Notes |
 |---|---|---|
-| **Autodesk Revit** | 2021 – 2027 | Windows. v2.3 is verified live on Revit 2026 and 2027; the v2.4 additions have not yet run in Revit (see [CHANGELOG.md](../CHANGELOG.md)). |
+| **Autodesk Revit** | 2021 – 2027 | Windows. The full self-test passes on Revit 2026 and 2027 (see [CHANGELOG.md](../CHANGELOG.md)). |
 | **pyRevit** | 4.8+ or 5.x | Provides the *Routes* web server that RVTSS runs on. [pyrevitlabs.io](https://pyrevitlabs.io) |
 | **Python** | 3.11 or newer | For the MCP server (runs outside Revit). |
 | **uv** | latest | Python package manager. Installs and runs the MCP server. |
@@ -412,7 +412,7 @@ Typical order: `family_list_templates` → `family_create` / `family_open` → `
 | Tool | | What it does |
 |---|---|---|
 | `create_view` | ✏️ | Plans, 3D (optionally boxed to elements), sections, elevations, drafting views, callouts, legends (copied from an existing one), duplicates. |
-| `view_extents` | ✏️ | Read or set a view's crop region, 3D section box, plan view range and far clip. |
+| `view_extents` | ✏️ | Read or set a view's crop region, 3D section box, plan view range and far clip; assign or detach a scope box. |
 | `manage_view_templates` | ⚠️ | List, create from a view, duplicate, apply, remove, delete, and choose the parameters a template controls. |
 | `manage_viewports` | ⚠️ | Viewports on a sheet: list, move, change type, set the detail number, rotate, remove. |
 | `view_graphics` | ✏️ | Overrides, hide/isolate, category visibility, templates, scale, detail level. |
@@ -454,7 +454,7 @@ Typical order: `family_list_templates` → `family_create` / `family_open` → `
 | `list_mep_systems` | 🔍 | Systems with type, classification, element count, base equipment and a well-connected flag. |
 | `get_mep_connectors` | 🔍 | Connectors of MEP elements: domain, shape and size, flow direction, system, connected elements. |
 | `find_mep_disconnects` | 🔍 | Open connectors (missing fittings, caps, terminals or gaps), with location. |
-| `mep_connect` | ✏️ | Connect open connectors; elbow, tee, cross, transition and union fittings; cap open ends; disconnect. |
+| `mep_connect` | ✏️ | Connect open connectors; elbow, tee, cross, transition and union fittings; cap open pipe ends; disconnect. Fittings need matching families in the type's routing preferences. |
 | `create_mep_parts` | ✏️ | Flex ducts and pipes, placeholders, an accessory or fitting inserted on a duct or pipe. |
 | `mep_insulation` | ⚠️ | List, add or remove insulation on ducts and pipes, and lining on ducts. |
 | `manage_mep_systems` | ✏️ | Create systems, add or remove elements, rename, set system types; circuits and panel schedules. Automatic sizing has no API. |
