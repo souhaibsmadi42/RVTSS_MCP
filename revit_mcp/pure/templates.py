@@ -87,8 +87,14 @@ UNIT_SYSTEM_HINTS = {
 }
 
 
+def _parts(path):
+    """Split on both separators: Windows paths must also work when tested on Linux."""
+    return [x for x in re.split(r"[\\/]", path or "") if x]
+
+
 def _normalise(name):
-    base = os.path.splitext(os.path.basename(name))[0].lower()
+    parts = _parts(name)
+    base = os.path.splitext(parts[-1] if parts else "")[0].lower()
     base = base.replace("_", " ").replace("-", " ")
     base = re.sub(r"\s+", " ", base)
     return " %s " % base
@@ -108,7 +114,10 @@ def score(path, kind, unit_system=None):
         return 0
     must, must_not = TEMPLATE_KINDS[kind]
     text = _normalise(path)
-    if not all(_contains_word(text, k) for k in must):
+    parts = _parts(path)
+    # Revit ships title blocks as "Titleblocks\A1 metric.rft": the folder name counts for the required words
+    folder = _normalise(parts[-2]) if len(parts) > 1 else " "
+    if not all(_contains_word(text, k) or _contains_word(folder, k) for k in must):
         return 0
     if any(_contains_word(text, k) for k in must_not):
         return 0
@@ -118,7 +127,7 @@ def score(path, kind, unit_system=None):
     if unit_system:
         hints = UNIT_SYSTEM_HINTS.get(unit_system, [])
         other = [h for us, hs in UNIT_SYSTEM_HINTS.items() if us != unit_system for h in hs]
-        low = os.path.basename(path).lower()
+        low = (parts[-1] if parts else "").lower()
         if any(h in low for h in hints):
             s += 3
         elif any(h in low for h in other):

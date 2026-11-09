@@ -81,7 +81,12 @@ def test_detailing_validation(rv, data, needle):
 def test_create_elements_knows_new_kinds(rv):
     from revit_mcp import elements
 
-    assert set(elements._STRUCTURE_KINDS) == {"roof", "ceiling", "column", "beam", "foundation", "wall_foundation"}
+    assert set(elements._STRUCTURE_KINDS) == {
+        "roof", "ceiling", "column", "beam", "foundation", "wall_foundation",
+        # v2.3 (second batch)
+        "duct", "pipe", "cable_tray", "conduit", "wall_opening", "opening", "shaft", "railing", "space", "area",
+        "area_boundary", "room_separation", "space_separation", "auto_rooms", "rebar", "toposolid",
+        "direct_shape"}
 
 
 # ---------------------------------------------------------------- MCP wrappers

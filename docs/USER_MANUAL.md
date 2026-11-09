@@ -1,6 +1,6 @@
 # RVTSS User Manual
 
-**RVTSS — Revit MCP for Claude** · version 2.1 · by Suhaib Al Smadi
+**RVTSS — Revit MCP for Claude** · version 2.3 · by Suhaib Al Smadi
 
 RVTSS connects Claude to the Autodesk Revit model you have open. You ask in plain language. Claude then
 runs RVTSS tools inside Revit to inspect, edit, document and check the model, and reports back.
@@ -35,13 +35,17 @@ runs RVTSS tools inside Revit to inspect, edit, document and check the model, an
 | Area | What you can ask Claude to do |
 |---|---|
 | **Model intelligence** | Summarise a project; find elements with combined filters; read element details, schedules, sheets, views, links and warnings. |
-| **Element editing** | Set parameters, renumber in bulk, move/copy/rotate/mirror, create levels, grids, walls, floors, rooms and family instances, delete with preview. |
+| **Element editing** | Set parameters, renumber in bulk, move/copy/rotate/mirror/array, pin and join; create levels, grids, walls, floors, roofs, ceilings, structure, ducts, pipes, openings, railings, stairs, rooms and family instances; delete with preview; several edits as one undo step; undo the last RVTSS change. |
 | **Families (.rfa)** | Create or open families, add parameters and formulas, build constrained geometry, manage types, flex-test, validate, save and load into the project. |
 | **Parameters** | Shared, project and global parameters; audits; CSV import/export; Excel export; mapping to your standard or to IFC/COBie. |
-| **Documentation** | Create views, sheets and schedules; graphic overrides; batch renaming; groups and assemblies; colour by parameter. |
-| **Coordination & QC** | 16 model checks (including ISO 19650 naming and view audit), hard and clearance clashes with CSV/HTML reports, model snapshots and change detection, family library audits. |
+| **Documentation** | Create views, sheets and schedules; graphic overrides and rule-based view filters; revisions; tags, text notes, dimensions, detail lines and filled regions; batch renaming; groups and assemblies; colour by parameter. |
+| **Rooms & materials** | Rooms, spaces and areas with status, boundaries and finish areas; material lists, quantity take-offs, create and assign materials. |
+| **Export** | PDF, DWG, DXF, IFC, NWC and schedule CSV, one file per sheet from a naming template. |
+| **MEP** | Systems, connectors and open (disconnected) connectors. |
+| **Model administration** | Worksets, purge unused, phases and design options, Revit links. |
+| **Coordination & QC** | 16 model checks (including ISO 19650 naming and view audit), hard and clearance clashes with CSV/HTML reports, spatial queries, change-impact surveys, model snapshots and change detection, family library audits. |
 
-**77 tools in 10 toolsets**, plus MCP resources and ready-made prompts. RVTSS is an upgrade of
+**107 tools in 16 toolsets**, plus MCP resources and 12 ready-made prompts. RVTSS is an upgrade of
 [mcp-server-for-revit-python](https://github.com/mcp-servers-for-revit/mcp-server-for-revit-python) and keeps
 its API name, port and all 20 original tools.
 
@@ -51,7 +55,7 @@ its API name, port and all 20 original tools.
 
 | Requirement | Version | Notes |
 |---|---|---|
-| **Autodesk Revit** | 2021 – 2027 | Windows. 2027 is supported by the API but not yet verified live. |
+| **Autodesk Revit** | 2021 – 2027 | Windows. The full self-test is verified live on Revit 2026 and 2027 (see [CHANGELOG.md](../CHANGELOG.md)). |
 | **pyRevit** | 4.8+ or 5.x | Provides the *Routes* web server that RVTSS runs on. [pyrevitlabs.io](https://pyrevitlabs.io) |
 | **Python** | 3.11 or newer | For the MCP server (runs outside Revit). |
 | **uv** | latest | Python package manager. Installs and runs the MCP server. |
@@ -132,8 +136,15 @@ http://127.0.0.1:48884/revit_mcp/status/
 You should see JSON containing:
 
 ```json
-{ "status": "active", "health": "healthy", "rvtss_version": "2.1.0", "api_name": "revit_mcp" }
+{ "status": "active", "health": "healthy", "rvtss_version": "2.3.0", "api_name": "revit_mcp" }
 ```
+
+Once Claude is connected, the `rvtss_health` tool checks the whole chain (MCP server → pyRevit Routes →
+Revit) and names the next step when something is wrong.
+
+*Shortcut:* `powershell -ExecutionPolicy Bypass -File scripts\install.ps1` checks pyRevit, extension copies,
+Routes, uv and the Claude entries in one table and changes nothing. With `-Apply -Client code` (or `desktop`)
+it fixes what is missing, asking before each change and keeping backups.
 
 ### Step 4 — Run the self-test (recommended)
 
@@ -142,7 +153,8 @@ On the **RVTSS** tab, click **Diagnostics → Run Self-Test**.
 * It copies the bundled test model (`tests/test.rvt`) to `%TEMP%\RVTSS_live` and works only on that copy.
   **Your own files and your shared parameter file are never touched.**
 * It runs every group: status, original tools, read-only tools, editing (dry run, then real), the family
-  workflow, parameters (on a scratch shared parameter file), and QC & coordination.
+  workflow, parameters (on a scratch shared parameter file), QC & coordination, and the v2.2 and v2.3 tools
+  (read-only calls, dry runs, a batch that must roll back, and an undo).
 * It writes `rvtss_live_report.json` and `.md` and opens a pass/fail report.
 
 ### Step 5 — Install the MCP server dependencies
@@ -236,9 +248,20 @@ Just describe what you want. Claude picks the tools. Some example requests:
   grouped by level and grid zone."
 * "Audit our sheet and view names against ISO 19650."
 * "Take a model snapshot now, so we can compare after the next design update."
+* "Before I change this wall type, what else would be affected?"
+
+**Rooms, materials, export and MEP**
+* "List the rooms on Level 1 that are not enclosed or not placed."
+* "Give me a material take-off of the walls by level."
+* "Tag every untagged door in the active view."
+* "Export all A-series sheets to PDF, one file per sheet — show me the plan first."
+* "Find open duct and pipe connectors and show me where they are."
+* "Show me these three elements in 3D so I can see how they meet."
 
 ### Good habits
 
+* **If something does not answer, ask for `rvtss_health`.** It says which link of the chain is broken and
+  what to do next.
 * **Start with `get_session_info`.** It confirms which model is active and lists all open documents. Use a
   document's title to target it when several are open.
 * **Ask for a dry run** on anything that changes many elements. Revit validates the whole change, then rolls
@@ -257,21 +280,34 @@ toolsets.
 
 | Profile | Toolsets | Tools | Best for |
 |---|---|---|---|
-| `all` *(default)* | everything | 77 | trying everything |
-| `bim_coordinator` | core, model, parameters, documentation, qc | 37 | coordinators, QC, documentation |
-| `family_author` | core, families, parameters | 33 | building and fixing families |
-| `modeler` | core, model, edit, documentation | 30 | everyday modelling edits |
-| `minimal` | core, model | 14 | read-only exploration |
+| `all` *(default)* | everything | 107 | trying everything |
+| `bim_coordinator` | core, model, parameters, documentation, qc | 44 | coordinators, QC, documentation |
+| `family_author` | core, families, parameters | 34 | building and fixing families |
+| `modeler` | core, model, edit, documentation | 40 | everyday modelling edits |
+| `minimal` | core, model | 18 | exploring a model |
+| `architect` | core, model, edit, documentation, rooms, materials, annotation | 50 | design and documentation |
+| `mep_coordinator` | core, model, edit, qc, mep | 37 | MEP coordination |
+| `publisher` | core, model, documentation, annotation, export | 37 | annotating and issuing sheets |
+| `auditor` | core, model, qc, rooms, materials, mep | 32 | model reviews |
+
+A profile limits which tools are loaded; it does not make them read-only. For review-only use, set
+`RVTSS_READ_ONLY=1` (see [Security](#10-security)).
 
 | Toolset | Contents |
 |---|---|
-| `core` *(always loaded)* | status, session, `find_elements`, element details, selection |
-| `model` | overview, families, views, sheets, schedules, links, warnings, view image |
-| `edit` | set and bulk parameters, transform, delete, create, types |
+| `core` *(always loaded)* | status, health, session, `find_elements`, element details, selection |
+| `model` | overview, families, views, sheets, schedules, links, warnings, view image, element capture, change-impact survey, coordinates |
+| `edit` | set and bulk parameters, transform, delete, create, stairs, types, `batch_execute`, selection sets, undo |
 | `families` | the full `.rfa` workflow and the library audit |
 | `parameters` | shared, project and global parameters, audit, CSV/Excel export, mapping presets |
-| `documentation` | views, sheets, schedules, renames, groups, colours |
-| `qc` | model checks, clashes, clash report, snapshots |
+| `documentation` | views, view filters, sheets, revisions, schedules, renames, groups, colours |
+| `qc` | model checks, clashes, clash report, spatial queries, snapshots |
+| `rooms` | rooms, spaces and areas with status, boundaries, doors/windows and finish areas |
+| `materials` | material list, quantity take-off, create/edit/assign |
+| `annotation` | untagged-element check, tagging, text notes, dimensions, detail lines, filled regions |
+| `export` | PDF, DWG, DXF, IFC, NWC and schedule CSV |
+| `mep` | systems, connectors, open connectors |
+| `admin` | worksets, purge unused, phases and design options, Revit links |
 | `launch` | start Revit, open, save, close and sync documents |
 | `code` | `execute_revit_code` (run IronPython in Revit) |
 | `legacy` | seven original tools superseded by newer ones (deprecated) |
@@ -288,14 +324,15 @@ is [docs/TOOLS.md](TOOLS.md).
 ### Session & status
 | Tool | | What it does |
 |---|---|---|
+| `rvtss_health` | 🔍 | Health of the whole chain (MCP server → pyRevit Routes → Revit) with the next step to fix it. |
 | `get_session_info` | 🔍 | **Call first.** Revit/pyRevit/RVTSS versions, active document and view, open documents, security status. |
 | `get_revit_status` | 🔍 | Is the Revit MCP API active and responding? |
 | `get_revit_model_info` | 🔍 | Comprehensive information about the current model. |
 | `list_revit_installations` | 🔍 | Revit versions installed on this PC. |
 | `launch_revit` | ✏️ | Start a Revit version (optionally with a file) and wait until Routes answers. |
-| `open_document` / `save_document` | ✏️ | Open or save a document. |
+| `open_document` / `save_document` | ✏️ | Open or save a document. Saving is off until `RVTSS_ALLOW_SAVE=1` (see [Security](#10-security)). |
 | `close_document` | ⚠️ | Close the active document. |
-| `sync_with_central` | ✏️ | Synchronise a workshared model with central. |
+| `sync_with_central` | ✏️ | Synchronise a workshared model with central. Off until `RVTSS_ALLOW_SYNC=1`. |
 
 ### Model intelligence
 | Tool | | What it does |
@@ -310,6 +347,9 @@ is [docs/TOOLS.md](TOOLS.md).
 | `list_links` | 🔍 | Revit links and CAD imports with status and position. |
 | `get_model_warnings` | 🔍 | Warnings grouped by description, with element ids. |
 | `get_revit_view` | 🔍 | Export a view as a PNG/JPG image. |
+| `capture_elements` | 🔍 | See elements: a temporary 3D view with a section box around them, returned as an image. Nothing is kept in the model. |
+| `survey_change_impact` | 🔍 | Before a change: what else it touches (type siblings, host/hosted, joins, groups, rooms, tags, dimensions, dependents, views/sheets, levels, MEP connections). |
+| `get_coordinates` | 🔍 | Internal origin, project base point, survey point, true north, project locations and link positions; converts points to shared coordinates. |
 | `revit_selection` | ✏️ | Read the selection, or select/highlight elements for you. |
 | `list_category_parameters` | 🔍 | Parameters available on a category (for colouring). |
 
@@ -318,10 +358,14 @@ is [docs/TOOLS.md](TOOLS.md).
 |---|---|---|
 | `set_parameters` | ✏️ | Set instance/type parameters, with before/after values. |
 | `bulk_update_parameter` | ✏️ | Write one parameter on many elements, or number them with a template (e.g. `D{n:02}`, sorted by x). |
-| `transform_elements` | ✏️ | Move, copy, rotate or mirror. |
-| `create_elements` | ✏️ | Levels, grids, walls, floors, family instances and rooms in one transaction. |
+| `transform_elements` | ✏️ | Move, copy, rotate, mirror, array (linear or radial copies), pin/unpin, join/unjoin/switch join. |
+| `create_elements` | ✏️ | Levels, grids, walls, floors, roofs, ceilings, structure, family instances, rooms, spaces and areas, ducts, pipes, cable trays, conduit, openings, shafts, railings, rebar, toposolids and DirectShape meshes, in one transaction. |
+| `create_stairs` | ✏️ | Component stairs between two levels from straight runs, with landings and optional railings. |
 | `manage_element_types` | ✏️ | Duplicate, rename or switch types. |
 | `delete_elements` | ⚠️ | Previews everything that would be deleted (including dependents); deletes only after confirmation. |
+| `batch_execute` | ✏️ | Up to 20 edits as **one Revit undo step**: all succeed or everything is rolled back. |
+| `undo_last_change` | ⚠️ | Undo the latest change in the model, only if RVTSS made it. |
+| `selection_sets` | ✏️ | Saved selection sets: list, save ids or the current selection, load, delete. |
 | `color_splash` / `clear_colors` | ✏️ | Colour a category by parameter value in the active view, or clear it. |
 
 ### Families (.rfa)
@@ -369,6 +413,47 @@ Typical order: `family_list_templates` → `family_create` / `family_open` → `
 | `create_schedule` | ✏️ | Schedules with fields, sorting and filters. |
 | `batch_rename` | ✏️ | Find/replace/regex/prefix/suffix renames with collision detection (dry run by default). |
 | `manage_groups` / `manage_assemblies` | ✏️ | Groups and assemblies, including assembly views and sheets. |
+| `manage_view_filters` | ✏️ | Rule-based view filters: list, create, apply to views or templates with visibility and graphic overrides, remove, delete. |
+| `manage_revisions` | ✏️ | Revisions: list (with the sheets showing them), create, update, assign to sheets, issue. |
+
+### Annotation
+| Tool | | What it does |
+|---|---|---|
+| `find_untagged_elements` | 🔍 | Elements visible in a view that have no tag there (rooms, spaces and areas too). |
+| `tag_elements` | ✏️ | Tag elements in a view, by ids or whole categories. |
+| `create_text_notes` | ✏️ | Place text notes in a view (all or nothing). |
+| `create_detailing` | ✏️ | Dimensions, detail lines and filled regions in one view, one undo step. |
+| `list_annotation_types` | 🔍 | Text note, tag, dimension and filled region types, and line styles. |
+
+### Rooms & materials
+| Tool | | What it does |
+|---|---|---|
+| `list_rooms` | 🔍 | Rooms, MEP spaces or areas with number, name, level, phase, area, perimeter, volume and status. |
+| `get_room_details` | 🔍 | Boundary segments, doors and windows, finish areas and contents. |
+| `list_materials` | 🔍 | Materials with class, colour, transparency, appearance asset, fill patterns and (optionally) usage. |
+| `material_takeoff` | 🔍 | Area and volume per material, and per category, level or type. |
+| `manage_materials` | ✏️ | Create, duplicate, rename or restyle materials, or assign one to elements, types or type layers. |
+
+### Export
+| Tool | | What it does |
+|---|---|---|
+| `list_export_settings` | 🔍 | DWG setups, PDF settings, sheet sets, IFC versions and the NWC exporter available in this model. |
+| `export_documents` | ✏️ | Sheets and views to PDF, DWG or DXF, the model to IFC or NWC, schedules to CSV. Ask for a dry run first. |
+
+### MEP
+| Tool | | What it does |
+|---|---|---|
+| `list_mep_systems` | 🔍 | Systems with type, classification, element count, base equipment and a well-connected flag. |
+| `get_mep_connectors` | 🔍 | Connectors of MEP elements: domain, shape and size, flow direction, system, connected elements. |
+| `find_mep_disconnects` | 🔍 | Open connectors (missing fittings, caps, terminals or gaps), with location. |
+
+### Model administration
+| Tool | | What it does |
+|---|---|---|
+| `manage_worksets` | ✏️ | List with element counts, create, rename, move elements to a workset, set the active one. |
+| `manage_phases` | ✏️ | Phases, phase filters and design options: list, set element or view phases, elements of an option. |
+| `manage_links` | ✏️ | Revit links: status and paths, reload, unload, reload from another path, load a new link. |
+| `purge_unused` | ⚠️ | Purge unused families, types, materials and templates. Previews the list until confirmed. |
 
 ### Coordination & QC
 | Tool | | What it does |
@@ -377,6 +462,14 @@ Typical order: `family_list_templates` → `family_create` / `family_open` → `
 | `check_clashes` | 🔍 | Hard and clearance clashes between two sets (or against a link), with level, grid zone and nearest grid intersection. |
 | `export_clash_report` | 🔍 | The same, written to CSV and HTML, grouped by pair, level or grid zone. |
 | `model_snapshot` / `compare_models` | ✏️ / 🔍 | Save a snapshot; detect added, removed and modified elements later. |
+| `spatial_query` | 🔍 | Distance between two elements, elements in a box or near a point, ray casts (for example, what is below this point). |
+
+### Legacy (deprecated)
+Seven original tools are kept for one release and marked deprecated: `list_families` and
+`list_family_categories` (use `get_family_inventory`), `list_revit_views` (use `find_views`),
+`get_current_view_elements` (use `find_elements` with `view='active'`), `get_current_view_info` (use
+`get_session_info`), `list_levels` (use `get_project_overview`) and `place_family` (use `create_elements`).
+These report lengths in decimal feet.
 
 ### Advanced
 | Tool | | What it does |
@@ -393,6 +486,11 @@ More worked examples for coordination: [docs/COORDINATION.md](COORDINATION.md).
 
 | Prompt | What it runs |
 |---|---|
+| `getting_started` | Orient in the open model, read-only. |
+| `safe_change` | Survey the impact, agree the scope, dry run, one undo step, read back. |
+| `room_documentation` | Room checks, tags and finishes. |
+| `issue_sheets` | Prepare and export sheets for an issue. |
+| `mep_connectivity_review` | Systems and open connectors. |
 | `model_health_check` | A full health review of the model. |
 | `create_parametric_family` | A family from description to loaded, flexed and validated. |
 | `shared_parameter_rollout` | Shared parameters to categories, reusing GUIDs. |
@@ -416,6 +514,14 @@ More worked examples for coordination: [docs/COORDINATION.md](COORDINATION.md).
 * **Units.** Dimensional values need a unit (`900 mm`). Bare numbers are rejected.
 * **Files.** `.rfa` files are backed up before overwriting. Shared parameter GUIDs are never rewritten.
   Bindings are extended, never replaced. The family library audit never saves.
+* **Atomic batches.** `batch_execute` runs several edits as one undo step and rolls everything back on the
+  first failure.
+* **Undo.** `undo_last_change` undoes the latest step only when RVTSS made it; your own edits are left alone.
+* **Arguments.** Unknown argument names are refused before anything reaches Revit, so a misspelled `dryrun`
+  cannot run a change for real.
+* **Saving.** Saving and synchronising are off by default (see [Security](#10-security)).
+* **Read-only mode.** `RVTSS_READ_ONLY=1` hides every modifying tool, or makes Revit refuse every change.
+* **Response size.** Very large results are summarised with hints to narrow the request.
 * **Retries.** Requests that change the model are never retried automatically.
 
 ---
@@ -430,6 +536,9 @@ pyRevit Routes has no authentication of its own: anything that can reach port 48
 | `RVTSS_TOKEN` | Revit environment **and** MCP server `env` (or `"token"` in `%APPDATA%\RVTSS\config.json`) | Every route except `/status/` and `/ping/` requires the same token. |
 | `RVTSS_ALLOW_CODE_EXECUTION=0` | Revit environment / config | Disables `execute_revit_code`. |
 | `RVTSS_ALLOW_REMOTE=1` | MCP server `env` | Needed only when Revit runs on another machine or a VM. |
+| `RVTSS_READ_ONLY=1` | MCP server `env` | Read-only mode: tools that change the model, save documents or export from Revit are not even listed. |
+| `RVTSS_READ_ONLY=1` | Revit environment (or `"read_only": true` in config.json) | Revit refuses every change, save, sync and export. Dry runs and previews still work. |
+| `RVTSS_ALLOW_SAVE=1` / `RVTSS_ALLOW_SYNC=1` | Revit environment (or `"allow_save"` / `"allow_sync": true` in config.json) | **Saving and synchronising are off by default.** `save_document`, `close_document(save=true)` and `sync_with_central` are refused until allowed. `family_save` and exports are not affected. |
 
 Audit logs live in `%APPDATA%\RVTSS\logs`. Secret-looking values are redacted, and files older than 30 days
 are deleted.
@@ -447,7 +556,10 @@ are deleted.
 | `RVTSS_REPORT_DIR` | MCP server env — clash reports, Excel files | `~/Documents/RVTSS/reports` |
 | `RVTSS_LOG_LEVEL` | MCP server env | `WARNING` |
 | `RVTSS_CONFIRM_THRESHOLD` | Revit env | `100` |
-| `%APPDATA%\RVTSS\config.json` | token, code execution, `family_template_dirs`, naming pattern | optional |
+| `RVTSS_READ_ONLY` | MCP server env and/or Revit env | off |
+| `RVTSS_ALLOW_SAVE` / `RVTSS_ALLOW_SYNC` | Revit env | off |
+| `RVTSS_RESPONSE_WARN_KB` / `RVTSS_RESPONSE_BUDGET_KB` | MCP server env — larger results are summarised | `64` / `256` |
+| `%APPDATA%\RVTSS\config.json` | token, code execution, `read_only`, `allow_save`, `allow_sync`, `family_template_dirs`, naming pattern | optional |
 | `%APPDATA%\RVTSS\qc_rules.json` | naming, ISO 19650 scheme, required parameters, view audit ([example](examples/qc_rules.iso19650.json)) | optional |
 | `%APPDATA%\RVTSS\presets\*.json` | office parameter-mapping presets for `map_parameters` | optional |
 

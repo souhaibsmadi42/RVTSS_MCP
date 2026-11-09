@@ -26,5 +26,17 @@ def register_routes():
         logger.info("All MCP routes registered successfully")
 
 
+def install_undo_listener():
+    """RVTSS v2.3: DocumentChanged ledger behind undo_last_change (never blocks route registration)."""
+    try:
+        from pyrevit import HOST_APP
+        from revit_mcp import undo
+
+        undo.install(HOST_APP.app)
+    except Exception as e:
+        logger.error("RVTSS undo listener not installed: %s", e)
+
+
 # Register all routes when the extension loads
 register_routes()
+install_undo_listener()

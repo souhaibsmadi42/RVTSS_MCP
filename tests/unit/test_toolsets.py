@@ -109,10 +109,12 @@ V21_CHARS_PER_TOOL = 71202 / 77.0  # docs/metrics/tool_payload_v2.1_phase6.json
 
 
 def test_default_payload_stays_compact():
-    """v2.2 adds 22 tools (99 in all): still smaller than v2.0's 74 tools, and per tool within 5 % of v2.1."""
+    """v2.3: 107 tools, still well below v2.0's 74 tools (119k), and per tool within 5 % of v2.1.
+
+    v2.2 (99 tools) was held to 82 % of v2.0; v2.3's six new tools raise the cap to 88 %."""
     res = _payload({"RVTSS_TOOLSETS": ""})
-    assert res["tool_count"] >= 99
-    assert res["total_chars"] <= BASELINE_V20 * 0.82, res["total_chars"]
+    assert res["tool_count"] >= 107
+    assert res["total_chars"] <= BASELINE_V20 * 0.88, res["total_chars"]
     assert res["total_chars"] / float(res["tool_count"]) <= V21_CHARS_PER_TOOL * 1.05, res["total_chars"]
 
 

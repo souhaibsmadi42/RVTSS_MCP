@@ -349,6 +349,10 @@ def parse_request(request):
     return data
 
 
+# the RVTSS request being handled (read by undo.py's DocumentChanged listener)
+ACTIVE_REQUEST = {"method": None, "seq": 0}
+
+
 def handle(doc, request, impl, uidoc=None, name=None, needs_doc=True):
     """Run ``impl(ctx)`` and turn its result / errors into a Routes response."""
     start = time.time()
@@ -359,7 +363,12 @@ def handle(doc, request, impl, uidoc=None, name=None, needs_doc=True):
             raise RvtssError("No active Revit document", status=503,
                              hint="Open a project or family in Revit (open_document) and retry.")
         ctx = Ctx(doc, uidoc, data, needs_doc=needs_doc)
-        result = impl(ctx)
+        ACTIVE_REQUEST["method"] = method
+        ACTIVE_REQUEST["seq"] = ACTIVE_REQUEST.get("seq", 0) + 1
+        try:
+            result = impl(ctx)
+        finally:
+            ACTIVE_REQUEST["method"] = None
         if result is None:
             result = {}
         if ctx.warnings:
@@ -750,7 +759,14 @@ def element_point(e):
     if isinstance(loc, DB.LocationPoint):
         return loc.Point
     if isinstance(loc, DB.LocationCurve):
-        return loc.Curve.Evaluate(0.5, True)
+        c = loc.Curve
+        if c.IsBound:
+            return c.Evaluate(0.5, True)
+        # unbound curves (e.g. some MEP / analytical elements) cannot be evaluated as normalized
+        try:
+            return c.Origin if isinstance(c, DB.Line) else c.Evaluate(0.0, False)
+        except Exception:
+            pass
     bb = e.get_BoundingBox(None)
     if bb:
         return (bb.Min + bb.Max) * 0.5
@@ -908,10 +924,12 @@ def commit_result(result, failures, dry_run, extra=None):
 def confirm_gate(ctx, count, action):
     """Big/destructive operations need confirm=true; otherwise force a dry run.
 
-    Returns True when the operation must run as a preview.
+    Returns True when the operation must run as a forced preview. An explicit dry_run is not a forced
+    preview: callers run it as a dry run (dry = preview or ctx.dry_run) and report status "dry_run",
+    not "preview ... re-run with confirm=true".
     """
     if ctx.confirmed or ctx.dry_run:
-        return ctx.dry_run
+        return False
     if count > CONFIRM_THRESHOLD:
         ctx.warn("{} affects {} elements (> {}). Showing a preview; re-run with confirm=true to apply.".format(
             action, count, CONFIRM_THRESHOLD))

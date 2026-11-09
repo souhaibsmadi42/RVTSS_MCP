@@ -66,13 +66,20 @@ def find_family_symbol_safely(doc, target_family_name, target_type_name=None):
     """
     Safely find a family symbol by name
     """
+    # symbol.Name can raise AttributeError in IronPython; one bad symbol used to end the whole
+    # search ("Family type not found" for a type that exists). Compare per symbol, safely.
+    fam_key = normalize_string(target_family_name).strip().lower()
+    type_key = normalize_string(target_type_name).strip().lower() if target_type_name else None
     try:
         collector = DB.FilteredElementCollector(doc).OfClass(DB.FamilySymbol)
-
         for symbol in collector:
-            if symbol.Family.Name == target_family_name:
-                if not target_type_name or symbol.Name == target_type_name:
+            try:
+                if normalize_string(symbol.Family.Name).strip().lower() != fam_key:
+                    continue
+                if type_key is None or normalize_string(get_element_name(symbol)).strip().lower() == type_key:
                     return symbol
+            except Exception:
+                continue
         return None
     except Exception as e:
         logger.error("Error finding family symbol: %s", str(e))

@@ -418,7 +418,7 @@ def global_parameters(ctx):
     def run():
         if action == "create":
             name = ctx.require("name")
-            if not DB.GlobalParameter.IsValidName(doc, name):
+            if not name.strip() or not DB.GlobalParametersManager.IsUniqueName(doc, name):
                 raise RvtssError("'{}' is not a valid/unique global parameter name".format(name), status=409)
             gp = DB.GlobalParameter.Create(doc, name, spec_id(ctx.get("type", "length")))
             if ctx.data.get("value") is not None:

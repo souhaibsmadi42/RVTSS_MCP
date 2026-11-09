@@ -233,7 +233,19 @@ parameter creation/binding (2021 legacy path vs 2022+ ForgeTypeId), `ElementId` 
 
 ## 10. Known limitations
 
-* Hard clashes only (solid intersection); no clearance/soft clashes and no clash grouping.
+*Updated for v2.3.0. Clearance clashes and clash grouping exist since v2.1; the v2.3 additions are listed
+last.*
+
+* The Revit API cannot create phases or design options; `manage_phases` lists and assigns them only.
+* `undo_last_change` undoes one Revit undo step and only when RVTSS made the latest step. Steps made before
+  the listener started (Revit start, pyRevit reload) are unknown to it, and a request that commits several
+  separate transactions (for example assembly naming) needs Ctrl+Z for the extra steps.
+* `create_stairs` builds straight runs with automatic landings; spiral and sketched runs are not offered.
+* MEP runs join segments with elbows from the routing preferences; tees, transitions and electrical circuits
+  are not created.
+* `capture_elements` works in project documents; use `get_revit_view` in the family editor.
+* Pyrevit Routes passes no HTTP headers to handlers, so a browser `Origin` check is not possible on the Revit
+  side. Keep the Routes host on 127.0.0.1 and set `RVTSS_TOKEN` on shared machines.
 * Non-shared project parameters are created through shared definitions (the reliable cross-version
   API path). Renaming or removing project parameter bindings and renaming shared parameters are not
   offered: these are Revit API limitations or would destroy data.

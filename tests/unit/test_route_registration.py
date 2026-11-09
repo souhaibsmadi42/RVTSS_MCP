@@ -140,8 +140,11 @@ def test_confirm_gate_forces_preview_over_threshold(registered):
     assert ctx.warnings
     ctx = core.Ctx(None, None, {"confirm": True}, needs_doc=False)
     assert core.confirm_gate(ctx, core.CONFIRM_THRESHOLD + 1, "op") is False
+    # an explicit dry run is not a forced preview: it must report status "dry_run" (live self-test)
     ctx = core.Ctx(None, None, {"dry_run": True, "confirm": True}, needs_doc=False)
-    assert core.confirm_gate(ctx, 1, "op") is True
+    assert core.confirm_gate(ctx, 1, "op") is False
+    ctx = core.Ctx(None, None, {"dry_run": True}, needs_doc=False)
+    assert core.confirm_gate(ctx, core.CONFIRM_THRESHOLD + 1, "op") is False
     out = core.preview_status({"status": "dry_run"}, True)
     assert out["status"] == "preview" and out["requires_confirmation"]
 

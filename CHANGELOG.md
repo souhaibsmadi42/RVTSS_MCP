@@ -2,9 +2,55 @@
 
 All notable changes to RVTSS. Details, verification status and design notes: [docs/UPGRADE_REPORT.md](docs/UPGRADE_REPORT.md).
 
-## Unreleased (2.3)
+## 2.3.0 – 2026-11-07
 
-Closes gaps found in a feature comparison with other Revit MCP servers. All code is new.
+Closes gaps found in a feature comparison with other Revit MCP servers (a survey of
+13 Revit MCP repositories on GitHub; ideas re-implemented, no code copied). **First release verified live:
+the full self-test passes on Revit 2026 and Revit 2027 (52 passed, 0 failed each).** 107 tools.
+
+### Added (second batch)
+* **`capture_elements`:** the AI can look at elements. A temporary 3D view with a section box around them
+  (orientation preset or eye/target, isolate, orange highlight, perspective, display style) is exported as
+  PNG/JPG and rolled back, so the model and its undo history do not change.
+* **`create_stairs`:** component stairs between two levels from straight runs, automatic landings, optional
+  railings; one undo step, dry run supported.
+* **`undo_last_change`:** undo the latest step, only if RVTSS made it. A DocumentChanged ledger records who
+  made each step (user, Ctrl+Z / Ctrl+Y and dry runs are tracked), then Revit's own Undo is posted.
+* **`manage_phases`** (phases, phase filters, design options; set element / view phase; elements of an option),
+  **`manage_links`** (list, reload, unload, reload from a path, load a link), **`selection_sets`** (save, load,
+  list, delete saved selections).
+* **`create_elements` kinds:** ducts, pipes, cable trays and conduit (multi-point runs joined by elbows),
+  wall openings, floor / roof / ceiling openings, shafts, railings, spaces, areas, area boundary and room /
+  space separation lines, automatic rooms (a room in every closed region), rebar from a polyline with a
+  fixed-number layout, toposolids (2024+) and DirectShape meshes (inline or .obj).
+* **`transform_elements` operations:** `array` (linear or radial copies), `pin` / `unpin`, `join` / `unjoin` /
+  `switch_join`.
+* **`scripts/install.ps1`:** one read-only check of pyRevit, extension copies, Routes, uv, the MCP
+  environment and the Claude Code / Desktop entries; `-Apply` fixes them after a yes per change, with
+  backups.
+* Self-test group `v23`; the test creates its own walls and floor in the copy of `tests/test.rvt` (an empty
+  template), so the editing steps that were skipped before now run.
+
+### Fixed (found by the first live run)
+* `place_family` never found a family type: `FamilySymbol.Name` raises in IronPython and the error ended the
+  search. Names are now read safely per symbol (case-insensitive).
+* `global_parameters(action='create')` called a method that does not exist (`GlobalParameter.IsValidName`);
+  it now uses `GlobalParametersManager.IsUniqueName`.
+* `family_create_form` sweeps always failed: Revit wants the profile in the XY plane at the origin and moves it
+  to the path itself.
+* An explicit `dry_run=true` came back as `status: preview` asking for `confirm=true` (set_parameters,
+  bulk_update_parameter, transform_elements, tag_elements, batch_rename, change_type).
+* `spatial_query` crashed on elements with an unbound location curve.
+* Footprint roofs (`create_elements` kind `roof`, added earlier in 2.3) failed with "Value cannot be null":
+  the out parameter of `NewFootPrintRoof` needs an instance in IronPython. Roofs are now in the self-test.
+* Title block family templates were never found on Windows (`Titleblocks\A1 metric.rft`): the folder name now
+  counts. CI on Linux hid it because a Windows path is one file name there.
+* Self-test: the first status check no longer fails before a document is open; views are addressed by id
+  (floor and ceiling plans share names); Model Text is not offered to the placement test.
+
+### Changed (second batch)
+* The default tool list is 102k characters for 107 tools (v2.0: 119k for 74); per tool still within 5 % of
+  v2.1. The payload test now allows 88 % of v2.0 (was 82 % for 99 tools).
 
 ### Added
 * **Detailing:** `create_detailing` makes dimensions (grids, levels, reference planes, wall faces, family
@@ -19,9 +65,10 @@ Closes gaps found in a feature comparison with other Revit MCP servers. All code
   `%APPDATA%\RVTSS\config.json` (or `RVTSS_ALLOW_SAVE` / `RVTSS_ALLOW_SYNC` for Revit). `family_save` and
   exports are unchanged. `/status/` and `get_session_info` report both settings.
 
-### Not verified
-* Unit tests (stub Revit), pyflakes and vermin pass; the new Revit-side code has not yet been run in a live
-  Revit session.
+### Verification
+* Unit tests: 325 passed. Live self-test (tests/live/run_live.py): 52 passed, 0 failed, 1 skipped (the
+  status check before a document is open) on Revit 2026 (build 20260731_1210) and Revit 2027 (build
+  20260527_1515), pyRevit 6.5.5, IronPython 2.7.12. Revit 2024 was not run.
 
 ## 2.2.0 – 2026-10-25
 

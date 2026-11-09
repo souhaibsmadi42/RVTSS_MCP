@@ -137,7 +137,16 @@ def step(group, name, tools):
 # 1. status --------------------------------------------------------------------
 @step("status", "routes status", ["get_revit_status"])
 def _status(t):
-    d = t.get("/status/")
+    status, d = t.transport("GET", "/status/", None)
+    if isinstance(d, dict) and "no active revit document" in (d.get("error") or "").lower():
+        # checked again by "setup / routes status with the test model" once a document is open
+        raise StepSkipped("no document open yet")
+    if status >= 400:
+        raise StepFailed((d or {}).get("error") or "HTTP %s" % status, d if isinstance(d, dict) else {})
+    return _check_status(d)
+
+
+def _check_status(d):
     check(d.get("health") in ("healthy", "degraded"), "unexpected health", d)
     check(d.get("health") != "degraded", "route modules failed: %s" % d.get("route_modules_failed"), d)
     return {"document": d.get("document_title"), "rvtss_version": d.get("rvtss_version")}
@@ -176,6 +185,38 @@ def _open_model(t):
     t.state["test_model_open"] = True
     t.state["test_model"] = path
     return {"path": path}
+
+
+@step("setup", "routes status with the test model", ["get_revit_status"])
+def _status_model(t):
+    t.require_test_model()
+    return _check_status(t.get("/status/"))
+
+
+@step("setup", "seed walls + floor in the test copy", ["create_elements", "find_views"])
+def _seed(t):
+    """The bundled test model is an empty template: give the later steps something to work on."""
+    t.require_test_model()
+    levels = sorted(t.post("/project_overview/", {"include": ["levels"]}).get("levels") or [],
+                    key=lambda lv: lv.get("elevation", 0))
+    check(levels, "no levels in the test model")
+    level = levels[0]["name"]
+    pts = [[0, 0], [8000, 0], [8000, 6000], [0, 6000]]
+    items = [{"kind": "wall", "start": pts[i], "end": pts[(i + 1) % 4], "level": level, "height": 3000}
+             for i in range(4)]
+    items.append({"kind": "floor", "boundary": pts, "level": level})
+    d = t.post("/create_elements/", {"items": items, "unit": "mm"})
+    check(d.get("created") == len(items), "seed elements not created", d)
+    res = d.get("results") or []
+    t.state["seed_wall_ids"] = [r["id"] for r in res if r.get("kind") == "wall"]
+    t.state["seed_floor_id"] = ([r["id"] for r in res if r.get("kind") == "floor"] or [None])[0]
+    t.state["seed_level"] = level
+    t.state["seed_top_level"] = levels[1]["name"] if len(levels) > 1 else None
+    # view names are not unique (floor plan and ceiling plan share them): later steps use the id
+    v = t.post("/find_views/", {"view_types": ["FloorPlan"], "limit": 50})
+    plans = [x for x in v.get("views") or [] if x.get("level") in (level, None)] or v.get("views") or []
+    t.state["plan_id"] = str(plans[0]["id"]) if plans else None
+    return {"level": level, "created": d.get("created"), "plan_id": t.state["plan_id"]}
 
 
 # 3. original tools --------------------------------------------------------------
@@ -239,10 +280,13 @@ def _exec(t):
 def _place(t):
     t.require_test_model()
     d = t.post("/find_elements/", {"categories": ["Furniture", "Generic Models", "Specialty Equipment"],
-                                   "include_types": True, "limit": 1})
-    if not d.get("elements"):
+                                   "include_types": True, "limit": 50})
+    # Model Text is a Generic Models "type" that cannot be placed as a family instance
+    types = [e for e in d.get("elements") or []
+             if e.get("family") and "model text" not in (e.get("family") or "").lower()]
+    if not types:
         raise StepSkipped("no furniture / generic model type loaded")
-    typ = d["elements"][0]
+    typ = types[0]
     p = t.post("/place_family/", {"family_name": typ.get("family"), "type_name": typ.get("name"),
                                   "location": {"x": 1000, "y": 1000, "z": 0}, "unit": "mm"})
     eid = p.get("element_id")
@@ -646,8 +690,9 @@ def _v22_impact(t):
        "list_export_settings"])
 def _v22_doc_read(t):
     untagged = None
-    if t.state.get("plan_name"):
-        u = t.post("/annotation/untagged/", {"categories": ["Walls", "Doors"], "view": t.state["plan_name"]})
+    plan = t.state.get("plan_id") or t.state.get("plan_name")
+    if plan:
+        u = t.post("/annotation/untagged/", {"categories": ["Walls", "Doors"], "view": plan})
         untagged = u.get("untagged_total")
     f = t.post("/views/filters/", {"action": "list"})
     r = t.post("/sheets/revisions/", {"action": "list"})
@@ -667,7 +712,7 @@ def _v22_dry(t):
                                "dry_run": True})
     t.post("/materials/manage/", {"action": "create", "name": "RVTSS SelfTest " + t.stamp,
                                   "properties": {"color": "#808080"}, "dry_run": True})
-    plan = t.require("plan_name", "no floor plan")
+    plan = t.state.get("plan_id") or t.require("plan_name", "no floor plan")
     tg = t.post("/annotation/tag/", {"view": plan, "categories": ["Walls"], "dry_run": True})
     check(tg.get("status") in ("dry_run", "preview"), "tag dry run expected", tg)
     ex = t.post("/export/run/", {"format": "dwg", "views": [plan], "dry_run": True})
@@ -695,6 +740,122 @@ def _v22_batch(t):
     check(f.get("rolled_back") is True, "failed batch must roll back", f)
     check(_comments(t, eid) == before, "rolled-back batch left a change behind")
     return {"dry_run": d.get("succeeded"), "rolled_back": f.get("rolled_back")}
+
+
+# 9. v2.3 ----------------------------------------------------------------------------
+@step("v23", "capture elements as a 3D image", ["capture_elements"])
+def _v23_capture(t):
+    ids = t.require("seed_wall_ids", "no seeded walls")
+    before = t.post("/find_views/", {"view_types": ["ThreeD"], "limit": 1000}).get("count")
+    d = t.post("/views/capture/", {"element_ids": ids, "orientation": "iso_se", "pixel_size": 512})
+    check(d.get("file_size_bytes", 0) > 1000 and d.get("image_data"), "no image", {"keys": list(d)})
+    after = t.post("/find_views/", {"view_types": ["ThreeD"], "limit": 1000}).get("count")
+    check(before == after, "the temporary 3D view was kept (%s -> %s views)" % (before, after))
+    return {"bytes": d["file_size_bytes"], "section_box": d.get("section_box")}
+
+
+@step("v23", "create_elements: openings, shaft, railing, space, rooms, mesh, MEP (dry run)", ["create_elements"])
+def _v23_kinds(t):
+    t.require_test_model()
+    walls = t.require("seed_wall_ids", "no seeded walls")
+    level, top = t.state["seed_level"], t.state.get("seed_top_level")
+    items = [
+        {"kind": "wall_opening", "wall_id": walls[0], "offset_along": 1000, "width": 900, "height": 2100},
+        {"kind": "opening", "host_id": t.state["seed_floor_id"],
+         "boundary": [[2000, 2000], [3000, 2000], [3000, 3000], [2000, 3000]]},
+        {"kind": "railing", "points": [[500, 500], [500, 5500]], "level": level},
+        {"kind": "roof", "boundary": [[0, 0], [8000, 0], [8000, 6000], [0, 6000]], "level": top or level,
+         "slope_deg": 20},
+        {"kind": "space", "level": level, "point": [4000, 3000], "name": "RVTSS space"},
+        {"kind": "auto_rooms", "level": level},
+        {"kind": "direct_shape", "name": "RVTSS tetra",
+         "vertices": [[0, 0, 0], [1000, 0, 0], [0, 1000, 0], [0, 0, 1000]],
+         "faces": [[0, 2, 1], [0, 1, 3], [0, 3, 2], [1, 2, 3]]},
+        {"kind": "duct", "points": [[1000, 1000], [6000, 1000], [6000, 5000]], "level": level, "offset": 2700},
+        {"kind": "pipe", "points": [[1000, 1500], [6000, 1500]], "level": level, "offset": 2500},
+        {"kind": "cable_tray", "points": [[1000, 2000], [6000, 2000]], "level": level, "offset": 2600},
+        {"kind": "conduit", "points": [[1000, 2200], [6000, 2200]], "level": level, "offset": 2600},
+        {"kind": "toposolid", "level": level, "points": [[-5000, -5000, -500], [15000, -5000, -500],
+                                                         [15000, 15000, -400], [-5000, 15000, -600]]},
+    ]
+    if top:
+        items.append({"kind": "shaft", "level": level, "top_level": top,
+                      "boundary": [[6500, 4500], [7500, 4500], [7500, 5500], [6500, 5500]]})
+    _status, d = t.transport("POST", "/create_elements/", {"items": items, "atomic": False, "dry_run": True})
+    res = dict((it["kind"], r) for it, r in zip(items, d.get("results") or []))
+    must = ["wall_opening", "opening", "railing", "roof", "space", "auto_rooms", "direct_shape"] + (["shaft"] if top else [])
+    bad = dict((k, (res.get(k) or {}).get("error") or d.get("error")) for k in must if not (res.get(k) or {}).get("ok"))
+    check(d.get("status") == "dry_run" and not bad, "kinds failed: %s" % bad, d)
+    optional = dict((k, "ok" if (res.get(k) or {}).get("ok") else (res.get(k) or {}).get("error"))
+                    for k in ("duct", "pipe", "cable_tray", "conduit", "toposolid"))
+    return {"ok": sorted(k for k in res if res[k].get("ok")), "mep_and_topo": optional}
+
+
+@step("v23", "transform: array, pin, join (dry run)", ["transform_elements"])
+def _v23_transform(t):
+    t.require_test_model()
+    walls = t.require("seed_wall_ids", "no seeded walls")
+    a = t.post("/transform_elements/", {"operation": "array", "element_ids": walls[:1], "vector": [0, 1000, 0],
+                                        "count": 3, "dry_run": True})
+    check(a.get("status") == "dry_run" and len(a.get("new_element_ids") or []) == 2, "array of 3 expected", a)
+    p = t.post("/transform_elements/", {"operation": "pin", "element_ids": walls[:2], "dry_run": True})
+    check(all(r["ok"] for r in p["results"]), "pin failed", p)
+    j = t.post("/transform_elements/", {"operation": "join", "element_ids": [t.state["seed_floor_id"], walls[0]],
+                                        "dry_run": True})
+    check(j["results"][0]["ok"], "join failed", j)
+    return {"array_new": len(a["new_element_ids"]), "joined": j["results"][0].get("joined")}
+
+
+@step("v23", "stairs between two levels (dry run)", ["create_stairs"])
+def _v23_stairs(t):
+    t.require_test_model()
+    top = t.require("seed_top_level", "only one level")
+    d = t.post("/stairs/create/", {"base_level": t.state["seed_level"], "top_level": top, "width": 1100,
+                                   "runs": [{"start": [1000, 4000], "end": [4000, 4000]},
+                                            {"start": [4000, 5200], "end": [1000, 5200]}],
+                                   "railings": True, "dry_run": True})
+    check(d.get("status") == "dry_run" and d.get("stairs_id") and len(d.get("run_ids") or []) == 2, "stairs", d)
+    return {"risers": d.get("risers"), "riser_height": d.get("riser_height"),
+            "landings": len(d.get("landing_ids") or [])}
+
+
+@step("v23", "phases, links, selection sets", ["manage_phases", "manage_links", "selection_sets"])
+def _v23_state(t):
+    t.require_test_model()
+    walls = t.require("seed_wall_ids", "no seeded walls")
+    ph = t.post("/phases/manage/", {"action": "list"})
+    check(ph.get("phases"), "no phases", ph)
+    sp = t.post("/phases/manage/", {"action": "set_element_phase", "element_ids": walls[:1],
+                                    "created": ph["phases"][-1]["name"], "dry_run": True})
+    check(sp.get("status") == "dry_run", "phase dry run", sp)
+    ln = t.post("/links/manage/", {"action": "list"})
+    name = "RVTSS set " + t.stamp
+    t.post("/selection_sets/", {"action": "save", "name": name, "element_ids": walls})
+    ld = t.post("/selection_sets/", {"action": "load", "name": name})
+    check(ld.get("count") == len(walls), "selection set count", ld)
+    t.post("/selection_sets/", {"action": "delete", "name": name})
+    return {"phases": len(ph["phases"]), "links": ln.get("count"), "set_count": ld.get("count")}
+
+
+@step("v23", "undo the last RVTSS change", ["undo_last_change", "set_parameters"])
+def _v23_undo(t):
+    t.require_test_model()
+    wall = t.require("seed_wall_ids", "no seeded walls")[0]
+    st = t.post("/undo/", {"action": "status"})
+    check(st.get("listening"), "undo listener not running", st)
+    before = _comments(t, wall)
+    t.post("/set_parameters/", {"updates": [{"element_id": wall, "parameter": "Comments", "value": "undo me"}]})
+    check(_comments(t, wall) == "undo me", "change not applied")
+    u = t.post("/undo/", {"action": "undo", "expect_tool": "set_parameters"})
+    check(u.get("status") == "posted", "undo not posted", u)
+    after = None
+    for _i in range(20):  # Revit runs the posted Undo once the request has returned
+        time.sleep(0.5)
+        after = _comments(t, wall)
+        if after == before:
+            break
+    check(after == before, "undo did not revert Comments (%r -> %r)" % (before, after))
+    return {"undone": (u.get("undoing") or {}).get("names")}
 
 
 # ------------------------------------------------------------------ runner

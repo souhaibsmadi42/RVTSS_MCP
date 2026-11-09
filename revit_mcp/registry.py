@@ -36,6 +36,11 @@ ROUTE_MODULES = [
     ("revit_mcp.impact", "register_impact_routes"),
     ("revit_mcp.spatial", "register_spatial_routes"),
     ("revit_mcp.graphics", "register_graphics_routes"),
+    # RVTSS v2.3 modules
+    ("revit_mcp.capture", "register_capture_routes"),
+    ("revit_mcp.stairs", "register_stairs_routes"),
+    ("revit_mcp.model_state", "register_model_state_routes"),
+    ("revit_mcp.undo", "register_undo_routes"),
 ]
 
 

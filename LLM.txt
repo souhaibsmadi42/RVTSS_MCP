@@ -1,6 +1,6 @@
 # RVTSS additions (read first)
 
-RVTSS 2.2 (Suhaib Al Smadi) extends this project. When adding functionality, follow these conventions:
+RVTSS 2.3 (Suhaib Al Smadi) extends this project. When adding functionality, follow these conventions:
 
 - **Revit side** (`revit_mcp/`, `startup.py`; IronPython 2.7/3.4 - no f-strings, walrus, type hints or
   pathlib; check with `vermin -t=2.7- -t=3.4- revit_mcp startup.py`):

@@ -277,10 +277,11 @@ def _create_form(ctx, doc, fm, item):
         if len(path_pts) < 2:
             raise RvtssError("sweep needs a 'path' of at least 2 points")
         path = [DB.Line.CreateBound(path_pts[i], path_pts[i + 1]) for i in range(len(path_pts) - 1)]
-        tangent = (path_pts[1] - path_pts[0]).Normalize()
-        v_axis = normal
-        u_axis = v_axis.CrossProduct(tangent).Normalize()
-        loops = _loops_from_profile(item["profile"], unit, path_pts[0], u_axis, v_axis, tangent, "local")
+        # NewSweep wants the profile drawn in the XY plane around the origin; Revit moves it to the
+        # start of the path, perpendicular to it (profile x across the path, y along the plane normal).
+        # A profile already placed at the path start fails with "conditions for the inputs not satisfied".
+        loops = _loops_from_profile(item["profile"], unit, DB.XYZ.Zero, DB.XYZ.BasisX, DB.XYZ.BasisY,
+                                    DB.XYZ.BasisZ, "local")
         profile = doc.Application.Create.NewCurveLoopsProfile(_curve_arr_arr(loops))
         form = create.NewSweep(solid, _curve_arr(path), sp, profile, 0, DB.ProfilePlaneLocation.Start)
     else:

@@ -158,10 +158,12 @@ def register_element_tools(mcp, revit_get, revit_post):
 
     @mcp.tool(annotations=MODIFIES)
     async def transform_elements(
-        operation: Literal["move", "copy", "rotate", "mirror"],
+        operation: Literal["move", "copy", "rotate", "mirror", "array", "pin", "unpin", "join", "unjoin",
+                           "switch_join"],
         element_ids: List[int],
-        vector: Annotated[Optional[List[float]], Field(description="[dx, dy, dz] for move/copy")] = None,
-        angle_deg: Annotated[Optional[float], Field(description="Rotation about the vertical axis")] = None,
+        vector: Annotated[Optional[List[float]], Field(description="[dx, dy, dz] for move/copy/linear array step")] = None,
+        angle_deg: Annotated[Optional[float], Field(description="Rotation, or radial array total angle")] = None,
+        count: Annotated[Optional[int], Field(description="array: number of items incl. the original")] = None,
         center: Annotated[Optional[List[float]], Field(description="Rotation centre / mirror plane origin (default: centroid)")] = None,
         each_about_own_center: bool = False,
         plane_normal: Annotated[Literal["x", "y"], Field(description="Mirror plane normal (vertical plane)")] = "x",
@@ -173,8 +175,12 @@ def register_element_tools(mcp, revit_get, revit_post):
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Move, copy, rotate or mirror elements. Copies return the new element ids."""
-        data = compact(operation=operation, element_ids=element_ids, vector=vector, angle_deg=angle_deg,
+        """Move, copy, rotate, mirror, array (linear/radial copies), pin/unpin, join/unjoin/switch_join elements.
+
+        Copies and arrays return the new element ids. join/unjoin/switch_join pair the first id with each
+        of the others (wall-floor, column-beam ...).
+        """
+        data = compact(operation=operation, element_ids=element_ids, vector=vector, angle_deg=angle_deg, count=count,
                        center=center, each_about_own_center=each_about_own_center or None,
                        plane_normal=plane_normal, mirror_copy=mirror_copy or None, unpin=unpin or None, unit=unit,
                        dry_run=dry_run or None, confirm=confirm or None, document=document)
@@ -214,19 +220,32 @@ def register_element_tools(mcp, revit_get, revit_post):
             "column: {point, level, top_level?, base_offset?, top_offset?, family?, type?, rotation_deg?}\n"
             "beam: {start, end, level, family?, type?}\n"
             "foundation: {point, level, family?, type?, base_offset?}\n"
-            "wall_foundation: {wall_id, type?}"))],
+            "wall_foundation: {wall_id, type?}\n"
+            "duct|pipe|cable_tray|conduit: {points:[[x,y(,z)],...], level, offset?, type?, system_type? (duct/pipe), "
+            "width?/height?/diameter?, fittings?(true: elbows at bends)}\n"
+            "wall_opening: {wall_id, offset_along, width, height, sill?}\n"
+            "opening: {host_id (floor/roof/ceiling), boundary}\n"
+            "shaft: {boundary, level, top_level, base_offset?, top_offset?}\n"
+            "railing: {points, level, type?} or {host_id (stairs/ramp), position?}\n"
+            "space: {level, point, name?, number?}; area: {area_view, point, name?, number?}\n"
+            "area_boundary: {area_view, points, closed?}; room_separation|space_separation: {view, points, closed?}\n"
+            "auto_rooms: {level} (a room in every closed region)\n"
+            "rebar: {host_id, points:[[x,y,z],...], normal?, type?, style?, count?, spacing?}\n"
+            "toposolid: {points:[[x,y,z],...], level, type?} (2024+)\n"
+            "direct_shape: {vertices, faces:[[i,j,k],...]} or {obj_file, obj_unit?}; category?, name?, material?"))],
         unit: LengthUnit = "mm",
         atomic: bool = True,
         dry_run: bool = False,
         document: Doc = None,
         ctx: Context = None,
     ) -> str:
-        """Create levels, grids, walls, floors, family instances, rooms, roofs, ceilings, columns, beams and
-        foundations in one transaction; returns new ids.
+        """Create levels, grids, walls, floors, family instances, rooms, roofs, ceilings, structure, ducts, pipes,
+        cable trays, conduit, openings, shafts and railings in one transaction; returns new ids.
 
         Create levels, grids, walls, floors, family instances (hosted or not), rooms, footprint roofs,
         ceilings (Revit 2022+), structural / architectural columns (from the family category), beams,
-        isolated and wall foundations in one transaction (one undo step). Returns new element ids.
+        isolated and wall foundations, MEP runs (segments joined by elbows), wall / floor / roof openings,
+        shafts and railings in one transaction (one undo step). Returns new element ids.
         Doors/windows need host_id of a wall. Without family/type the default type, or the first
         loaded family of the category, is used.
         """

@@ -12,7 +12,20 @@ pyRevit:
 
 It is an upgrade of [mcp-server-for-revit-python](https://github.com/mcp-servers-for-revit/mcp-server-for-revit-python)
 and keeps its API name (`revit_mcp`), port (48884), installation method and all 20 original tools.
-**v2.2.0** has 99 tools in 16 toolsets, plus MCP resources and 12 prompts.
+**v2.3.0** has 107 tools in 16 toolsets, plus MCP resources and 12 prompts. It is verified live on Revit 2026 and 2027 (full self-test, 52 passed).
+
+### New in 2.3
+
+* **New tools:** `capture_elements` (Claude looks at elements in a temporary 3D view), `create_stairs`,
+  `create_detailing` (dimensions, detail lines, filled regions), `list_annotation_types`, `manage_phases`,
+  `manage_links`, `selection_sets` and `undo_last_change` (undoes the latest step only when RVTSS made it).
+* **`create_elements`:** roofs, ceilings and structure; ducts, pipes, cable trays and conduit; openings,
+  shafts, railings, spaces, areas, automatic rooms, rebar, toposolids and DirectShape meshes.
+* **`transform_elements`:** array (linear or radial), pin / unpin, join / unjoin / switch join.
+* **Safety:** saving and synchronizing are **off by default** (`RVTSS_ALLOW_SAVE`, `RVTSS_ALLOW_SYNC`).
+* **Install check:** `scripts\install.ps1` reports the whole setup and fixes it with `-Apply`.
+
+Details: [CHANGELOG.md](CHANGELOG.md).
 
 ### New in 2.2
 
@@ -57,7 +70,7 @@ Promo film: [40 s MP4](media/rvtss-promo-40s.mp4).
 2. **Turn on Routes.** In pyRevit Settings → Routes, enable **Routes Server**, set the host to
    `127.0.0.1`, then reload pyRevit.
 3. **Check the server.** Open `http://127.0.0.1:48884/revit_mcp/status/`. It should show `"health":
-   "healthy"` and `"rvtss_version": "2.2.0"`. Once Claude is connected, `rvtss_health` checks the whole chain
+   "healthy"` and `"rvtss_version": "2.3.0"`. Once Claude is connected, `rvtss_health` checks the whole chain
    and names the next step when something is wrong.
 4. **Run the self-test.** On the RVTSS tab, click **Diagnostics → Run Self-Test**. It works on a copy of
    the bundled test model and opens a pass/fail report.
@@ -103,6 +116,11 @@ Autodesk Revit 2021 – 2027
 
 ## Installation
 
+**Quick check (v2.3):** after cloning, run
+`powershell -ExecutionPolicy Bypass -File scripts\install.ps1`. It reports pyRevit, extension copies,
+Routes, uv, the MCP environment and the Claude client entries, with the fix for each, and changes nothing.
+`-Apply -Client code` (or `desktop`) fixes what is missing after a yes per change, with backups.
+
 1. **Keep only one copy of the extension.** Two copies both register the `revit_mcp` API and conflict, for
    example `revit-mcp-python.extension` and `mcp-server-for-revit-python.extension` in
    `%APPDATA%\pyRevit\Extensions`. Remove or disable the old one.
@@ -128,36 +146,37 @@ loaded.
 
 | Profile | Toolsets | Tools |
 |---|---|---|
-| `all` (default) | everything | 99 |
-| `bim_coordinator` | core, model, parameters, documentation, qc | 43 |
+| `all` (default) | everything | 107 |
+| `bim_coordinator` | core, model, parameters, documentation, qc | 44 |
 | `family_author` | core, families, parameters | 34 |
-| `modeler` | core, model, edit, documentation | 36 |
-| `minimal` | core, model | 17 |
-| `architect` (new) | core, model, edit, documentation, rooms, materials, annotation | 44 |
-| `mep_coordinator` (new) | core, model, edit, qc, mep | 33 |
-| `publisher` (new) | core, model, documentation, annotation, export | 34 |
-| `auditor` (new) | core, model, qc, rooms, materials, mep | 31 |
+| `modeler` | core, model, edit, documentation | 40 |
+| `minimal` | core, model | 18 |
+| `architect` | core, model, edit, documentation, rooms, materials, annotation | 50 |
+| `mep_coordinator` | core, model, edit, qc, mep | 37 |
+| `publisher` | core, model, documentation, annotation, export | 37 |
+| `auditor` | core, model, qc, rooms, materials, mep | 32 |
 
 **Toolsets:**
 * `core`: status, health, session, `find_elements`, element details, selection
-* `model`: overview, families, views, sheets, schedules, links, warnings, view image, change-impact survey,
-  coordinates
-* `edit`: set and bulk parameters, transform, delete, create, types, `batch_execute`
+* `model`: overview, families, views, sheets, schedules, links, warnings, view image, element capture,
+  change-impact survey, coordinates
+* `edit`: set and bulk parameters, transform, delete, create, stairs, types, `batch_execute`, selection
+  sets, undo
 * `families`: the full `.rfa` workflow and the library audit
 * `parameters`: shared, project and global parameters, audit, CSV/Excel export, mapping presets
 * `documentation`: views, view filters, sheets, revisions, schedules, renames, groups, colours
 * `qc`: model checks, clashes, clash report, spatial queries, snapshots
 * `rooms`: rooms, spaces and areas with status, boundaries, doors/windows and finish areas
 * `materials`: material list, quantity take-off, create/edit/assign
-* `annotation`: untagged-element check, tagging, text notes
+* `annotation`: untagged-element check, tagging, text notes, dimensions, detail lines, filled regions
 * `export`: PDF, DWG, DXF, IFC, NWC and schedule CSV
 * `mep`: systems, connectors, open connectors
-* `admin`: worksets, purge unused
+* `admin`: worksets, purge unused, phases and design options, Revit links
 * `launch`: start Revit, open, save and sync documents
 * `code`: `execute_revit_code`
 * `legacy`: seven original tools superseded by newer ones, kept as deprecated aliases for one release
 
-In the default profile the tool list is about 95k characters for 99 tools: **20 % less than v2.0's 74
+In the default profile the tool list is about 102k characters for 107 tools: **14 % less than v2.0's 74
 tools**, and the same size per tool as v2.1. With `bim_coordinator` it is about a third of v2.0. Clients with
 tool search (Claude Code) load tools on demand, so the full set costs little there.
 
@@ -214,6 +233,7 @@ you registered the server under another name):
     "allow": [
       "mcp__RVTSS__audit_family_library",
       "mcp__RVTSS__audit_parameters",
+      "mcp__RVTSS__capture_elements",
       "mcp__RVTSS__check_clashes",
       "mcp__RVTSS__compare_models",
       "mcp__RVTSS__export_clash_report",
@@ -279,7 +299,7 @@ The audit log (`%APPDATA%\RVTSS\logs`):
 * **In Revit, no terminal needed:** RVTSS tab → **Diagnostics → Run Self-Test**. It copies `tests/test.rvt`
   to `%TEMP%\RVTSS_live`, runs every group (status, original tools, read-only, editing with dry run then
   real, family workflow, parameters on a scratch shared parameter file, QC and coordination, and the v2.2
-  tools: read-only calls, dry runs and a batch that must roll back), and writes
+  and v2.3 tools: read-only calls, dry runs, a batch that must roll back and an undo), and writes
   `rvtss_live_report.json` and `.md`. Your own shared parameter file is never touched.
 * **From a terminal**, against the running Routes server:
   ```powershell
@@ -313,13 +333,21 @@ The audit log (`%APPDATA%\RVTSS\logs`):
   * `get_element_details`, `get_family_inventory`
   * `find_views`, `list_sheets`, `get_schedule_data`
   * `list_links`, `get_model_warnings`, `get_coordinates`
+  * `capture_elements` (v2.3): look at elements in a temporary 3D view with a section box, returned as an
+    image; nothing is kept in the model
   * `survey_change_impact`: before a change, what else it touches (type siblings, host/hosted, joins, groups,
     rooms, tags, dimensions, dependents, levels, MEP connections), each group found / none / not checked
 * **Editing:**
   * `set_parameters`, `bulk_update_parameter` (numbering templates)
-  * `transform_elements`, `create_elements`, `manage_element_types`
+  * `transform_elements` (move, copy, rotate, mirror; v2.3: array, pin, join), `manage_element_types`
+  * `create_elements`: levels, grids, walls, floors, roofs, ceilings, families, structure; v2.3: ducts, pipes,
+    cable trays, conduit, openings, shafts, railings, spaces, areas, boundary lines, automatic rooms, rebar,
+    toposolids, DirectShape meshes
+  * `create_stairs` (v2.3): component stairs from straight runs with landings and railings
   * `delete_elements` (previews dependent elements)
   * `batch_execute`: up to 20 of these edits as one undo step, all or nothing
+  * `undo_last_change` (v2.3): undo the latest step, only when RVTSS made it
+  * `selection_sets` (v2.3): save, load and delete saved selections
 
   Destructive previews are confirmed through MCP elicitation where the client supports it.
 * **Families (`.rfa`)**, in this order:
@@ -352,7 +380,8 @@ The audit log (`%APPDATA%\RVTSS\logs`):
 * **Export:** `list_export_settings`, `export_documents` (PDF, DWG, DXF, IFC, NWC, schedule CSV; one file
   per sheet from a naming template, dry run first)
 * **MEP:** `list_mep_systems`, `get_mep_connectors`, `find_mep_disconnects`
-* **Model administration:** `manage_worksets`, `purge_unused` (preview first)
+* **Model administration:** `manage_worksets`, `purge_unused` (preview first), `manage_phases` (phases, phase
+  filters, design options), `manage_links` (reload, unload, load Revit links) (v2.3)
 * **Coordination and QC:**
   * `run_model_checks`: 16 checks, including `iso19650` and `view_audit`
   * `check_clashes`: hard and clearance clashes, grid zones, grouping

@@ -2,7 +2,7 @@
 
 Generated from the live tool registry by `scripts/generate_tool_docs.py` - do not edit by hand.
 
-101 tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. **Mode**: read-only / modifies / destructive (MCP tool annotations).
+107 tools. **Origin**: *retained* = from the original MCP (some improved), *new* = added by RVTSS. **Mode**: read-only / modifies / destructive (MCP tool annotations).
 
 Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Profiles: `all` = admin, annotation, code, core, documentation, edit, export, families, launch, legacy, materials, mep, model, parameters, qc, rooms; `architect` = core, model, edit, documentation, rooms, materials, annotation; `auditor` = core, model, qc, rooms, materials, mep; `bim_coordinator` = core, model, parameters, documentation, qc; `family_author` = core, families, parameters; `mep_coordinator` = core, model, edit, qc, mep; `minimal` = core, model; `modeler` = core, model, edit, documentation; `publisher` = core, model, documentation, annotation, export.
 
@@ -45,6 +45,7 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 | `revit_selection` | core | new | modifies | Read the current Revit selection, or select/highlight elements for the user (active document only). |
 | `survey_change_impact` | model | new | read-only | Before a change: what else it touches - type siblings, host/hosted, joins, groups, rooms, tags, dimensions, dependents, views/sheets, levels, MEP connections. |
 | `get_coordinates` | model | new | read-only | Coordinate setup: internal origin, project base point, survey point, true north, project locations, link positions (internal and shared); converts points to shared coordinates. |
+| `capture_elements` | model | new | read-only | See elements: a temporary 3D view with a section box around them, returned as an image. |
 
 ## Element editing
 
@@ -52,12 +53,15 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 |---|---|---|---|---|
 | `set_parameters` | edit | new | modifies | Set instance/type parameter values with before/after values. Dimensional numbers need `unit` (or '900 mm'); bare numbers are rejected. |
 | `bulk_update_parameter` | edit | new | modifies | Write one parameter on many elements (ids, selection or filters) with a value or a numbering template, e.g. selected doors left-to-right: parameter='Mark', selection=true, template='D{n:02}', sort_by='x'. Use dry_run first. |
-| `transform_elements` | edit | new | modifies | Move, copy, rotate or mirror elements. Copies return the new element ids. |
+| `transform_elements` | edit | new | modifies | Move, copy, rotate, mirror, array (linear/radial copies), pin/unpin, join/unjoin/switch_join elements. |
 | `delete_elements` | edit | new | destructive | Delete elements. Without confirm=true it only previews everything Revit would delete (incl. hosted/dependent elements); show the preview first. |
-| `create_elements` | edit | new | modifies | Create levels, grids, walls, floors, family instances, rooms, roofs, ceilings, columns, beams and foundations in one transaction; returns new ids. |
+| `create_elements` | edit | new | modifies | Create levels, grids, walls, floors, family instances, rooms, roofs, ceilings, structure, ducts, pipes, cable trays, conduit, openings, shafts and railings in one transaction; returns new ids. |
+| `create_stairs` | edit | new | modifies | Create component stairs between two levels from straight runs, with landings and optional railings. |
 | `place_family` | legacy | retained | modifies | [Deprecated: use create_elements(kind='family_instance')] Place a family instance at a specified location in the Revit model. |
 | `manage_element_types` | edit | new | modifies | Project types: duplicate a type (optionally setting its parameters), rename it, list the types an element may switch to, or change elements to another type. |
 | `batch_execute` | edit | new | modifies | Run up to 20 RVTSS edits as ONE Revit undo step: all succeed or everything is rolled back. |
+| `selection_sets` | edit | new | modifies | Saved selection sets (Revit selection filters): list, save ids or the selection, load (select), delete. |
+| `undo_last_change` | edit | new | destructive | Undo the latest change in the model, only if RVTSS made it (status lists the latest steps). |
 | `color_splash` | documentation | retained | modifies | Color a category's elements in the active view by parameter value. |
 | `clear_colors` | documentation | retained | modifies | Clear color overrides for elements in a category |
 
@@ -157,6 +161,8 @@ Select toolsets with `RVTSS_TOOLSETS` (comma list of toolsets or profiles). Prof
 |---|---|---|---|---|
 | `manage_worksets` | admin | new | modifies | Worksets: list with element counts, create, rename, move elements to a workset, set the active one. |
 | `purge_unused` | admin | new | destructive | Purge unused families, types, materials, templates... Previews the list until confirm=true. |
+| `manage_phases` | admin | new | modifies | Phases, phase filters and design options: list, set element / view phases, elements of an option. |
+| `manage_links` | admin | new | modifies | Revit links: list status and paths, reload, unload, reload from another path, load a new link. |
 
 ## Coordination & QC
 
@@ -636,6 +642,30 @@ link positions (internal and shared); converts points to shared coordinates.
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
+### `capture_elements`
+
+Toolset: `model`
+
+See elements: a temporary 3D view with a section box around them, returned as an image.
+
+Nothing is kept: the view is created and rolled back, so the model and undo history do not change.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `element_ids` | list of integer | yes |  |  |
+| `orientation` | `iso_se` \| `iso_sw` \| `iso_ne` \| `iso_nw` \| `top` \| `front` \| `back` \| `left` \| `right` |  | `iso_se` |  |
+| `margin` | number |  | `1000` | Section box margin around the elements in `unit` |
+| `isolate` | boolean |  | `False` |  |
+| `highlight` | boolean |  | `True` | Colour the elements orange (when not isolated) |
+| `display_style` | `shaded` \| `realistic` \| `hidden` \| `wireframe` |  | `shaded` |  |
+| `perspective` | boolean |  | `False` |  |
+| `eye` | list of number |  |  | Custom camera [x,y,z] (with target) |
+| `target` | list of number |  |  |  |
+| `image_format` | `png` \| `jpg` |  | `png` |  |
+| `pixel_size` | integer |  | `1024` |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
 ### `set_parameters`
 
 Toolset: `edit`
@@ -699,14 +729,18 @@ sort_by='x'. Use dry_run first.
 
 Toolset: `edit`
 
-Move, copy, rotate or mirror elements. Copies return the new element ids.
+Move, copy, rotate, mirror, array (linear/radial copies), pin/unpin, join/unjoin/switch_join elements.
+
+Copies and arrays return the new element ids. join/unjoin/switch_join pair the first id with each
+of the others (wall-floor, column-beam ...).
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `operation` | `move` \| `copy` \| `rotate` \| `mirror` | yes |  |  |
+| `operation` | `move` \| `copy` \| `rotate` \| `mirror` \| `array` \| `pin` \| `unpin` \| `join` \| `unjoin` \| `switch_join` | yes |  |  |
 | `element_ids` | list of integer | yes |  |  |
-| `vector` | list of number |  |  | [dx, dy, dz] for move/copy |
-| `angle_deg` | number |  |  | Rotation about the vertical axis |
+| `vector` | list of number |  |  | [dx, dy, dz] for move/copy/linear array step |
+| `angle_deg` | number |  |  | Rotation, or radial array total angle |
+| `count` | integer |  |  | array: number of items incl. the original |
 | `center` | list of number |  |  | Rotation centre / mirror plane origin (default: centroid) |
 | `each_about_own_center` | boolean |  | `False` |  |
 | `plane_normal` | `x` \| `y` |  | `x` | Mirror plane normal (vertical plane) |
@@ -739,20 +773,43 @@ doors, tags, dimensions...). Show the preview to the user before confirming.
 
 Toolset: `edit`
 
-Create levels, grids, walls, floors, family instances, rooms, roofs, ceilings, columns, beams and
-foundations in one transaction; returns new ids.
+Create levels, grids, walls, floors, family instances, rooms, roofs, ceilings, structure, ducts, pipes,
+cable trays, conduit, openings, shafts and railings in one transaction; returns new ids.
 
 Create levels, grids, walls, floors, family instances (hosted or not), rooms, footprint roofs,
 ceilings (Revit 2022+), structural / architectural columns (from the family category), beams,
-isolated and wall foundations in one transaction (one undo step). Returns new element ids.
+isolated and wall foundations, MEP runs (segments joined by elbows), wall / floor / roof openings,
+shafts and railings in one transaction (one undo step). Returns new element ids.
 Doors/windows need host_id of a wall. Without family/type the default type, or the first
 loaded family of the category, is used.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `items` | list of object | yes |  | Items by kind (coordinates in `unit`): level: {kind:'level', elevation, name?, create_plan_view?} grid: {kind:'grid', start:[x,y], end:[x,y], name?} wall: {kind:'wall', start, end, level, type?\|type_id?, height?(3000), base_offset?, structural?, flip?} floor: {kind:'floor', boundary:[[x,y],...], level, type?\|type_id?, structural?} family_instance: {kind:'family_instance', family, type\|type_id, point:[x,y,z], level?, host_id?, rotation_deg?} room: {kind:'room', level, point:[x,y], name?, number?} roof: {boundary, level, type?, slope_deg?, slope_edges?, base_offset?} ceiling: {boundary, level, type?, height?} column: {point, level, top_level?, base_offset?, top_offset?, family?, type?, rotation_deg?} beam: {start, end, level, family?, type?} foundation: {point, level, family?, type?, base_offset?} wall_foundation: {wall_id, type?} |
+| `items` | list of object | yes |  | Items by kind (coordinates in `unit`): level: {kind:'level', elevation, name?, create_plan_view?} grid: {kind:'grid', start:[x,y], end:[x,y], name?} wall: {kind:'wall', start, end, level, type?\|type_id?, height?(3000), base_offset?, structural?, flip?} floor: {kind:'floor', boundary:[[x,y],...], level, type?\|type_id?, structural?} family_instance: {kind:'family_instance', family, type\|type_id, point:[x,y,z], level?, host_id?, rotation_deg?} room: {kind:'room', level, point:[x,y], name?, number?} roof: {boundary, level, type?, slope_deg?, slope_edges?, base_offset?} ceiling: {boundary, level, type?, height?} column: {point, level, top_level?, base_offset?, top_offset?, family?, type?, rotation_deg?} beam: {start, end, level, family?, type?} foundation: {point, level, family?, type?, base_offset?} wall_foundation: {wall_id, type?} duct\|pipe\|cable_tray\|conduit: {points:[[x,y(,z)],...], level, offset?, type?, system_type? (duct/pipe), width?/height?/diameter?, fittings?(true: elbows at bends)} wall_opening: {wall_id, offset_along, width, height, sill?} opening: {host_id (floor/roof/ceiling), boundary} shaft: {boundary, level, top_level, base_offset?, top_offset?} railing: {points, level, type?} or {host_id (stairs/ramp), position?} space: {level, point, name?, number?}; area: {area_view, point, name?, number?} area_boundary: {area_view, points, closed?}; room_separation\|space_separation: {view, points, closed?} auto_rooms: {level} (a room in every closed region) rebar: {host_id, points:[[x,y,z],...], normal?, type?, style?, count?, spacing?} toposolid: {points:[[x,y,z],...], level, type?} (2024+) direct_shape: {vertices, faces:[[i,j,k],...]} or {obj_file, obj_unit?}; category?, name?, material? |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `atomic` | boolean |  | `True` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `create_stairs`
+
+Toolset: `edit`
+
+Create component stairs between two levels from straight runs, with landings and optional railings.
+
+One undo step. Revit spreads the risers between the levels; the result reports riser count and height.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `base_level` | string | yes |  |  |
+| `top_level` | string | yes |  |  |
+| `runs` | list of object | yes |  | Straight runs in walking order: [{start:[x,y], end:[x,y], width?}, ...]; landings are added between consecutive runs |
+| `width` | number |  |  | Default run width in `unit` |
+| `justification` | `center` \| `left` \| `right` |  | `center` |  |
+| `type` | string |  |  | Stairs type name (default: the project default) |
+| `landings` | boolean |  | `True` |  |
+| `railings` | boolean |  | `False` |  |
+| `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
@@ -830,6 +887,37 @@ Every sub-result is reported with its index; rolled_back=true means nothing was 
 | `continue_on_error` | boolean |  | `False` | Keep going after a failed command (its own transaction is still rolled back) |
 | `dry_run` | boolean |  | `False` | Run everything, report, then roll the whole group back |
 | `name` | string |  |  | Undo-step name shown in Revit |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `selection_sets`
+
+Toolset: `edit`
+
+Saved selection sets (Revit selection filters): list, save ids or the selection, load (select), delete.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `list` \| `save` \| `load` \| `delete` |  | `list` |  |
+| `name` | string |  |  |  |
+| `element_ids` | list of integer |  |  | save: ids (default: current selection) |
+| `overwrite` | boolean |  | `False` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `undo_last_change`
+
+Toolset: `edit`
+
+Undo the latest change in the model, only if RVTSS made it (status lists the latest steps).
+
+Uses Revit's own Undo, so the whole step (one RVTSS request) is reverted; refuses when the user
+changed the model since. Re-read the elements afterwards.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `status` \| `undo` |  | `status` |  |
+| `expect_tool` | string |  |  | Only undo if the last step came from this tool |
+| `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
 ### `color_splash`
@@ -1873,6 +1961,44 @@ types only. Always show the preview to the user before confirming.
 | `passes` | integer |  | `1` | Repeat until nothing is left (nested families) |
 | `list_limit` | integer |  | `300` |  |
 | `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `manage_phases`
+
+Toolset: `admin`
+
+Phases, phase filters and design options: list, set element / view phases, elements of an option.
+
+The Revit API cannot create phases or design options.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `list` \| `option_elements` \| `set_element_phase` \| `set_view_phase` |  | `list` |  |
+| `element_ids` | list of integer |  |  |  |
+| `created` | string |  |  | Phase created (name or id) |
+| `demolished` | string |  |  | Phase demolished; 'none' clears it |
+| `view` | string |  |  |  |
+| `phase` | string |  |  |  |
+| `phase_filter` | string |  |  |  |
+| `option` | string |  |  | Design option name or id |
+| `counts` | boolean |  | `False` |  |
+| `dry_run` | boolean |  | `False` |  |
+| `confirm` | boolean |  | `False` |  |
+| `document` | string |  |  | Document title or path (default: active) |
+
+### `manage_links`
+
+Toolset: `admin`
+
+Revit links: list status and paths, reload, unload, reload from another path, load a new link.
+
+| Argument | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `action` | `list` \| `reload` \| `unload` \| `reload_from` \| `load` |  | `list` |  |
+| `link` | string |  |  | Link name or type id |
+| `path` | string |  |  | reload_from / load: .rvt path |
+| `placement` | `origin` \| `center` \| `shared` |  | `origin` |  |
+| `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
 
 ### `run_model_checks`

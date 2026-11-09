@@ -10,7 +10,9 @@ Routes:
     POST /transform_elements/     move / copy / rotate / mirror
     POST /delete_elements/        preview by default, confirm=true to delete
     POST /create_elements/        levels, grids, walls, floors, family instances, rooms, roofs, ceilings,
-                                  columns, beams, foundations, wall foundations
+                                  columns, beams, foundations, wall foundations; (2.3) ducts, pipes,
+                                  cable trays, conduit, openings, shafts, railings, spaces, areas,
+                                  boundary lines, automatic rooms, rebar, toposolids, DirectShape meshes
     POST /element_types/          duplicate / rename types, change element types
 """
 import math
@@ -357,6 +359,8 @@ def transform_elements(ctx):
     elements = core.get_elements(doc, ctx.list("element_ids"))
     if not elements:
         raise RvtssError("element_ids is required")
+    if op in ("pin", "unpin", "join", "unjoin", "switch_join"):
+        return _modify_elements(ctx, doc, op, elements)
     pinned = [id_int(e) for e in elements if getattr(e, "Pinned", False)]
     if pinned and not ctx.bool("unpin", False):
         raise RvtssError("Pinned elements cannot be transformed: {}".format(pinned[:20]), status=409,
@@ -406,8 +410,30 @@ def transform_elements(ctx):
             res = DB.ElementTransformUtils.MirrorElements(doc, ids, plane, ctx.bool("mirror_copy", False))
             if res is not None:
                 new_ids = list(res)
+        elif op == "array":
+            # non-associative array: count-1 copies, linear (vector) or radial (angle_deg in total, center)
+            count = ctx.int("count", minimum=2, maximum=200)
+            if count is None:
+                raise RvtssError("array needs 'count' (2-200, including the originals)")
+            if ctx.get("vector") is not None:
+                step = _vector(ctx, "vector")
+                for i in range(1, count):
+                    new_ids.extend(DB.ElementTransformUtils.CopyElements(doc, ids, step * float(i)))
+            elif ctx.get("angle_deg") is not None:
+                c = center()
+                axis = DB.Line.CreateBound(c, c + DB.XYZ.BasisZ)
+                total = math.radians(ctx.float("angle_deg"))
+                full = abs(abs(ctx.float("angle_deg")) - 360.0) < 1e-6
+                step = total / (count if full else count - 1)
+                for i in range(1, count):
+                    copies = DB.ElementTransformUtils.CopyElements(doc, ids, DB.XYZ.Zero)
+                    DB.ElementTransformUtils.RotateElements(doc, copies, axis, step * i)
+                    new_ids.extend(copies)
+            else:
+                raise RvtssError("array needs 'vector' (linear) or 'angle_deg' (radial, about 'center')")
         else:
-            raise RvtssError("operation must be move, copy, rotate or mirror")
+            raise RvtssError("operation must be move, copy, rotate, mirror, array, pin, unpin, join, unjoin "
+                             "or switch_join")
         doc.Regenerate()
         moved = [{"id": id_int(e), "location": core.element_location(e, ctx.unit)} for e in elements[:50]]
         return {"operation": op, "count": len(elements), "new_element_ids": [id_int(i) for i in new_ids],
@@ -416,6 +442,53 @@ def transform_elements(ctx):
     dry = preview or ctx.dry_run
     result, failures = core.run_transaction(doc, "Transform " + op, run, dry_run=dry)
     return core.preview_status(core.commit_result(result, failures, dry, {"unit": ctx.unit}), preview)
+
+
+def _modify_elements(ctx, doc, op, elements):
+    """pin / unpin every element; join / unjoin / switch_join the first element with each of the others."""
+    if op in ("join", "unjoin", "switch_join") and len(elements) < 2:
+        raise RvtssError("{} needs at least 2 element_ids (the first is joined with each of the others)".format(op))
+    J = DB.JoinGeometryUtils
+
+    def run():
+        out = []
+        if op in ("pin", "unpin"):
+            for e in elements:
+                try:
+                    e.Pinned = op == "pin"
+                    out.append({"id": id_int(e), "ok": True, "pinned": e.Pinned})
+                except Exception as ex:
+                    out.append({"id": id_int(e), "ok": False, "error": normalize_string(text_type(ex))})
+            return {"operation": op, "results": out}
+        a = elements[0]
+        for b in elements[1:]:
+            r = {"pair": [id_int(a), id_int(b)]}
+            try:
+                joined = J.AreElementsJoined(doc, a, b)
+                if op == "join":
+                    if not joined:
+                        J.JoinGeometry(doc, a, b)
+                    r["joined"] = True
+                elif op == "unjoin":
+                    if joined:
+                        J.UnjoinGeometry(doc, a, b)
+                    r["joined"] = False
+                else:
+                    if not joined:
+                        raise RvtssError("elements are not joined")
+                    J.SwitchJoinOrder(doc, a, b)
+                    r["cutting_first"] = J.IsCuttingElementInJoin(doc, a, b)
+                r["ok"] = True
+            except Exception as ex:
+                r.update({"ok": False, "error": normalize_string(text_type(getattr(ex, "message", ex)))})
+            out.append(r)
+        if ctx.bool("atomic", False) and any(not r["ok"] for r in out):
+            raise RvtssError("{} failed for {} pair(s)".format(op, len([r for r in out if not r["ok"]])),
+                             results=out, hint="Nothing was changed (atomic=true).")
+        return {"operation": op, "results": out}
+
+    result, failures = core.run_transaction(doc, op.replace("_", " ").title(), run, dry_run=ctx.dry_run)
+    return core.commit_result(result, failures, ctx.dry_run)
 
 
 def delete_elements(ctx):
@@ -564,7 +637,9 @@ def _create_one(ctx, item):
     if kind in _STRUCTURE_KINDS:
         return _STRUCTURE_KINDS[kind](ctx, item)
     raise RvtssError("Unknown kind '{}'. Use level, grid, wall, floor, family_instance, room, roof, ceiling, "
-                     "column, beam, foundation or wall_foundation".format(kind), failed_item=item)
+                     "column, beam, foundation, wall_foundation, duct, pipe, cable_tray, conduit, wall_opening, "
+                     "opening, shaft, railing, space, area, area_boundary, room_separation, space_separation, auto_rooms, "
+                     "rebar, toposolid or direct_shape".format(kind), failed_item=item)
 
 
 # ---------------------------------------------------- roofs, ceilings, structure (2.2)
@@ -647,7 +722,8 @@ def _roof(ctx, item):
     footprint = DB.CurveArray()
     for ln in _outline(ctx, item, level):
         footprint.Append(ln)
-    model_curves = clr.Reference[DB.ModelCurveArray]()
+    # the out parameter must hold an instance: an empty Reference fails with "Value cannot be null"
+    model_curves = clr.Reference[DB.ModelCurveArray](DB.ModelCurveArray())
     roof = doc.Create.NewFootPrintRoof(footprint, level, rt, model_curves)
     slope = item.get("slope_deg")
     sloped = []
@@ -744,8 +820,397 @@ def _wall_foundation(ctx, item):
             "type": normalize_string(get_element_name(ft))}
 
 
+# ------------------------------------------- MEP, openings, shafts, railings (2.3)
+def _route_points(ctx, item, level):
+    """'points' [[x,y(,z)],...] (or start/end) -> XYZ list. z defaults to level elevation + 'offset'."""
+    raw = item.get("points") or ([item["start"], item["end"]] if item.get("start") and item.get("end") else None)
+    if not raw or len(raw) < 2:
+        raise RvtssError("'points' needs at least 2 points (or start and end)", failed_item=item)
+    off = U.to_internal(item.get("offset", 0), ctx.unit)
+    pts = []
+    for p in raw:
+        x, y, z = U.point_from(p, ctx.unit)
+        pts.append(DB.XYZ(x, y, z if len(list(p)) == 3 else level.Elevation + off))
+    for a, b in zip(pts, pts[1:]):
+        if a.DistanceTo(b) < 1e-4:
+            raise RvtssError("route has two equal consecutive points", failed_item=item)
+    return pts
+
+
+def _end_connector(curve_el, point):
+    best, dist = None, None
+    for c in curve_el.ConnectorManager.Connectors:
+        d = c.Origin.DistanceTo(point)
+        if dist is None or d < dist:
+            best, dist = c, d
+    return best
+
+
+def _mep_system_type(doc, item, cls, what):
+    name = item.get("system_type")
+    types = list(DB.FilteredElementCollector(doc).OfClass(cls))
+    if not types:
+        raise RvtssError("No {} system type exists in '{}'".format(what, doc.Title),
+                         hint="Use a project started from an MEP template, or load the system types.")
+    if name:
+        for t in types:
+            if normalize_string(get_element_name(t)).lower() == text_type(name).strip().lower():
+                return t
+        raise not_found_type(what + " system type", name, [get_element_name(t) for t in types])
+    return types[0]
+
+
+def not_found_type(what, name, names):
+    return RvtssError("{} '{}' not found".format(what, name), status=404,
+                      available=sorted(set(normalize_string(n) for n in names))[:50])
+
+
+def _set_size(ctx, el, item, mapping):
+    """mapping: {'width': [BIP, ...], ...}; values in ctx.unit."""
+    done = {}
+    for key, bips in mapping.items():
+        if item.get(key) is not None:
+            if _set_param(el, bips, U.to_internal(item[key], ctx.unit)):
+                done[key] = item[key]
+    return done
+
+
+def _mep_run(ctx, item, kind):
+    doc = ctx.doc
+    core.require_project(doc)
+    level = core.find_level(doc, item.get("level"))
+    pts = _route_points(ctx, item, level)
+    if kind == "duct":
+        from Autodesk.Revit.DB import Mechanical as M
+        st = _mep_system_type(doc, item, M.MechanicalSystemType, "duct")
+        tt = _system_type(doc, item, M.DuctType, None, "duct")
+        make = lambda a, b: M.Duct.Create(doc, st.Id, tt.Id, level.Id, a, b)  # noqa: E731
+        sizes = {"width": ["RBS_CURVE_WIDTH_PARAM"], "height": ["RBS_CURVE_HEIGHT_PARAM"],
+                 "diameter": ["RBS_CURVE_DIAMETER_PARAM"]}
+    elif kind == "pipe":
+        from Autodesk.Revit.DB import Plumbing as P
+        st = _mep_system_type(doc, item, P.PipingSystemType, "piping")
+        tt = _system_type(doc, item, P.PipeType, None, "pipe")
+        make = lambda a, b: P.Pipe.Create(doc, st.Id, tt.Id, level.Id, a, b)  # noqa: E731
+        sizes = {"diameter": ["RBS_PIPE_DIAMETER_PARAM"]}
+    elif kind == "cable_tray":
+        from Autodesk.Revit.DB import Electrical as E
+        tt = _system_type(doc, item, E.CableTrayType, None, "cable tray")
+        make = lambda a, b: E.CableTray.Create(doc, tt.Id, a, b, level.Id)  # noqa: E731
+        sizes = {"width": ["RBS_CABLETRAY_WIDTH_PARAM"], "height": ["RBS_CABLETRAY_HEIGHT_PARAM"]}
+    else:  # conduit
+        from Autodesk.Revit.DB import Electrical as E
+        tt = _system_type(doc, item, E.ConduitType, None, "conduit")
+        make = lambda a, b: E.Conduit.Create(doc, tt.Id, a, b, level.Id)  # noqa: E731
+        sizes = {"diameter": ["RBS_CONDUIT_DIAMETER_PARAM"]}
+    segs = []
+    for a, b in zip(pts, pts[1:]):
+        s = make(a, b)
+        _set_size(ctx, s, item, sizes)
+        segs.append(s)
+    fittings, fitting_errors = [], []
+    if item.get("fittings", True) and len(segs) > 1:
+        doc.Regenerate()
+        for i in range(len(segs) - 1):
+            joint = pts[i + 1]
+            try:
+                f = doc.Create.NewElbowFitting(_end_connector(segs[i], joint), _end_connector(segs[i + 1], joint))
+                fittings.append(id_int(f))
+            except Exception as ex:  # routing preferences without an elbow, too-short segment, ...
+                fitting_errors.append({"joint": i + 1, "error": normalize_string(text_type(ex))})
+    out = {"kind": kind, "id": id_int(segs[0]), "segment_ids": [id_int(s) for s in segs],
+           "type": normalize_string(get_element_name(tt)), "fitting_ids": fittings}
+    if kind in ("duct", "pipe"):
+        out["system_type"] = normalize_string(get_element_name(st))
+    if fitting_errors:
+        out["fitting_errors"] = fitting_errors
+    return out
+
+
+def _wall_opening(ctx, item):
+    """Rectangular opening in a straight wall: offset along the wall from its start, width, sill, height."""
+    doc = ctx.doc
+    wall = core.get_element(doc, item.get("wall_id"), "Wall")
+    if not isinstance(wall, DB.Wall) or not isinstance(wall.Location, DB.LocationCurve):
+        raise RvtssError("Element {} is not a wall with a location line".format(item.get("wall_id")))
+    line = wall.Location.Curve
+    if not isinstance(line, DB.Line):
+        raise RvtssError("wall_opening needs a straight wall")
+    for key in ("offset_along", "width", "height"):
+        if item.get(key) is None:
+            raise RvtssError("'{}' is required".format(key), failed_item=item)
+    p0 = line.GetEndPoint(0)
+    d = line.Direction
+    base = doc.GetElement(wall.LevelId)
+    z0 = base.Elevation if base else p0.Z
+    try:
+        z0 += wall.get_Parameter(DB.BuiltInParameter.WALL_BASE_OFFSET).AsDouble()
+    except Exception:
+        pass
+    a = U.to_internal(item["offset_along"], ctx.unit)
+    w = U.to_internal(item["width"], ctx.unit)
+    sill = U.to_internal(item.get("sill", 0), ctx.unit)
+    h = U.to_internal(item["height"], ctx.unit)
+    if a < 0 or a + w > line.Length + 1e-6:
+        raise RvtssError("Opening runs past the wall end (wall length {:.0f} {})".format(
+            U.from_internal(line.Length, ctx.unit), ctx.unit), failed_item=item)
+    pa = DB.XYZ(p0.X + d.X * a, p0.Y + d.Y * a, z0 + sill)
+    pb = DB.XYZ(p0.X + d.X * (a + w), p0.Y + d.Y * (a + w), z0 + sill + h)
+    op = doc.Create.NewOpening(wall, pa, pb)
+    return {"kind": "wall_opening", "id": id_int(op), "wall_id": id_int(wall)}
+
+
+def _host_opening(ctx, item):
+    """Opening cut perpendicular through a floor, roof or ceiling from a plan boundary."""
+    doc = ctx.doc
+    host = core.get_element(doc, item.get("host_id"), "Host")
+    lv = doc.GetElement(host.LevelId) if is_valid_id(host.LevelId) else None
+    z = lv.Elevation if lv is not None else 0.0
+    prof = DB.CurveArray()
+    pts = [U.point_from(p, ctx.unit) for p in item.get("boundary") or []]
+    if len(pts) < 3:
+        raise RvtssError("'boundary' needs at least 3 points", failed_item=item)
+    for i in range(len(pts)):
+        a, b = pts[i], pts[(i + 1) % len(pts)]
+        prof.Append(DB.Line.CreateBound(DB.XYZ(a[0], a[1], z), DB.XYZ(b[0], b[1], z)))
+    op = doc.Create.NewOpening(host, prof, True)
+    return {"kind": "opening", "id": id_int(op), "host_id": id_int(host)}
+
+
+def _shaft(ctx, item):
+    doc = ctx.doc
+    core.require_project(doc)
+    bottom = core.find_level(doc, item.get("level") or item.get("base_level"))
+    top = core.find_level(doc, item.get("top_level"))
+    prof = DB.CurveArray()
+    for ln in _outline(ctx, item, bottom):
+        prof.Append(ln)
+    op = doc.Create.NewOpening(bottom, top, prof)
+    if item.get("base_offset") is not None:
+        _set_param(op, ["WALL_BASE_OFFSET"], U.to_internal(item["base_offset"], ctx.unit))
+    if item.get("top_offset") is not None:
+        _set_param(op, ["WALL_TOP_OFFSET"], U.to_internal(item["top_offset"], ctx.unit))
+    return {"kind": "shaft", "id": id_int(op)}
+
+
+def _railing(ctx, item):
+    from Autodesk.Revit.DB import Architecture as A
+
+    doc = ctx.doc
+    core.require_project(doc)
+    rt = _system_type(doc, item, A.RailingType, None, "railing")
+    if item.get("host_id") is not None:  # stairs or ramp
+        host = core.get_element(doc, item["host_id"], "Stairs/ramp")
+        pos = getattr(A.RailingPlacementPosition, item.get("position", "treads").title(), A.RailingPlacementPosition.Treads)
+        ids = A.Railing.Create(doc, host.Id, rt.Id, pos)
+        return {"kind": "railing", "ids": [id_int(i) for i in ids], "type": normalize_string(get_element_name(rt))}
+    level = core.find_level(doc, item.get("level"))
+    pts = _route_points(ctx, item, level)
+    loop = DB.CurveLoop()
+    for a, b in zip(pts, pts[1:]):
+        loop.Append(DB.Line.CreateBound(a, b))
+    r = A.Railing.Create(doc, loop, rt.Id, level.Id)
+    return {"kind": "railing", "id": id_int(r), "type": normalize_string(get_element_name(rt))}
+
+
+# ------------------------------- spaces, areas, boundaries, rebar, toposolid, mesh (2.3)
+def _named_spatial(el, item):
+    if item.get("name"):
+        _set_param(el, ["ROOM_NAME"], text_type(item["name"]))
+    if item.get("number") is not None:
+        _set_param(el, ["ROOM_NUMBER"], text_type(item["number"]))
+
+
+def _space(ctx, item):
+    doc = ctx.doc
+    core.require_project(doc)
+    level = core.find_level(doc, item.get("level"))
+    x, y, _z = U.point_from(item.get("point"), ctx.unit)
+    sp = doc.Create.NewSpace(level, DB.UV(x, y))
+    _named_spatial(sp, item)
+    return {"kind": "space", "id": id_int(sp)}
+
+
+def _area_view(ctx, item):
+    v = core.find_view(ctx.doc, item.get("area_view") or item.get("view"), default_active=True, uidoc=ctx.uidoc)
+    if not isinstance(v, DB.ViewPlan) or v.ViewType != DB.ViewType.AreaPlan:
+        raise RvtssError("'area_view' must be an area plan (got {})".format(v.ViewType),
+                         hint="Create one with create_view(kind='area_plan').")
+    return v
+
+
+def _area(ctx, item):
+    doc = ctx.doc
+    v = _area_view(ctx, item)
+    x, y, _z = U.point_from(item.get("point"), ctx.unit)
+    a = doc.Create.NewArea(v, DB.UV(x, y))
+    _named_spatial(a, item)
+    return {"kind": "area", "id": id_int(a), "area_view_id": id_int(v)}
+
+
+def _boundary_lines(ctx, item, kind):
+    """area_boundary (area plan) or room_separation / space_separation (plan view) lines from 'points'."""
+    doc = ctx.doc
+    if kind == "area_boundary":
+        v = _area_view(ctx, item)
+        z = v.GenLevel.Elevation if v.GenLevel else 0.0
+    else:
+        v = core.find_view(doc, item.get("view"), default_active=True, uidoc=ctx.uidoc)
+        if not isinstance(v, DB.ViewPlan) or v.GenLevel is None:
+            raise RvtssError("'view' must be a floor plan for {} lines".format(kind))
+        z = v.GenLevel.Elevation
+    raw = item.get("points") or []
+    if len(raw) < 2:
+        raise RvtssError("'points' needs at least 2 points", failed_item=item)
+    pts = [U.point_from(p, ctx.unit) for p in raw]
+    if item.get("closed"):
+        pts.append(pts[0])
+    curves = DB.CurveArray()
+    for a, b in zip(pts, pts[1:]):
+        curves.Append(DB.Line.CreateBound(DB.XYZ(a[0], a[1], z), DB.XYZ(b[0], b[1], z)))
+    sp = DB.SketchPlane.Create(doc, DB.Plane.CreateByNormalAndOrigin(DB.XYZ.BasisZ, DB.XYZ(0, 0, z)))
+    ids = []
+    if kind == "area_boundary":
+        for c in curves:
+            ids.append(id_int(doc.Create.NewAreaBoundaryLine(sp, c, v)))
+    elif kind == "room_separation":
+        ids = [id_int(m) for m in doc.Create.NewRoomBoundaryLines(sp, curves, v)]
+    else:
+        ids = [id_int(m) for m in doc.Create.NewSpaceBoundaryLines(sp, curves, v)]
+    return {"kind": kind, "ids": ids, "view_id": id_int(v)}
+
+
+def _auto_rooms(ctx, item):
+    doc = ctx.doc
+    core.require_project(doc)
+    level = core.find_level(doc, item.get("level"))
+    ids = list(doc.Create.NewRooms2(level))
+    return {"kind": "auto_rooms", "ids": [id_int(i) for i in ids], "count": len(ids)}
+
+
+def _rebar(ctx, item):
+    """Rebar from a polyline in a host (beam, column, wall, floor, foundation), optional fixed-number layout."""
+    from System.Collections.Generic import List
+    from Autodesk.Revit.DB import Structure as S
+
+    doc = ctx.doc
+    host = core.get_element(doc, item.get("host_id"), "Host")
+    if not S.RebarHostData.IsValidHost(host):
+        raise RvtssError("Element {} cannot host rebar".format(id_int(host)))
+    bt = _system_type(doc, item, S.RebarBarType, None, "rebar bar")
+    raw = item.get("points") or []
+    if len(raw) < 2:
+        raise RvtssError("'points' needs at least 2 [x, y, z] points (bar centre line)", failed_item=item)
+    pts = [DB.XYZ(*U.point_from(p, ctx.unit)) for p in raw]
+    curves = List[DB.Curve]()
+    for a, b in zip(pts, pts[1:]):
+        curves.Add(DB.Line.CreateBound(a, b))
+    nx, ny, nz = item.get("normal") or [0, 0, 1]
+    normal = DB.XYZ(float(nx), float(ny), float(nz)).Normalize()
+    style = S.RebarStyle.StirrupTie if item.get("style") == "stirrup_tie" else S.RebarStyle.Standard
+    bar = S.Rebar.CreateFromCurves(doc, style, bt, None, None, host, normal, curves,
+                                   S.RebarHookOrientation.Left, S.RebarHookOrientation.Left, True, True)
+    if bar is None:
+        raise RvtssError("Revit could not create the bar (curves outside the host or not planar?)")
+    out = {"kind": "rebar", "id": id_int(bar), "bar_type": normalize_string(get_element_name(bt))}
+    if item.get("count"):
+        n = int(item["count"])
+        spacing = U.to_internal(item.get("spacing", 200), ctx.unit)
+        acc = bar.GetShapeDrivenAccessor() if hasattr(bar, "GetShapeDrivenAccessor") else bar
+        acc.SetLayoutAsFixedNumber(n, spacing * (n - 1), True, True, True)
+        out["layout"] = {"count": n, "spacing": item.get("spacing", 200)}
+    return out
+
+
+def _toposolid(ctx, item):
+    from System.Collections.Generic import List
+
+    doc = ctx.doc
+    core.require_project(doc)
+    if not hasattr(DB, "Toposolid"):
+        raise RvtssError("Toposolids need Revit 2024 or later")
+    level = core.find_level(doc, item.get("level"))
+    tt = _system_type(doc, item, DB.ToposolidType, None, "toposolid")
+    raw = item.get("points") or []
+    if len(raw) < 3:
+        raise RvtssError("'points' needs at least 3 [x, y, z] survey points", failed_item=item)
+    pts = List[DB.XYZ]()
+    for p in raw:
+        pts.Add(DB.XYZ(*U.point_from(p, ctx.unit)))
+    ts = DB.Toposolid.Create(doc, pts, tt.Id, level.Id)
+    return {"kind": "toposolid", "id": id_int(ts), "type": normalize_string(get_element_name(tt))}
+
+
+def _read_obj(path, limit=200000):
+    verts, faces = [], []
+    with open(path) as fh:
+        for line in fh:
+            parts = line.split()
+            if not parts:
+                continue
+            if parts[0] == "v" and len(parts) >= 4:
+                verts.append([float(parts[1]), float(parts[2]), float(parts[3])])
+            elif parts[0] == "f" and len(parts) >= 4:
+                faces.append([int(x.split("/")[0]) - 1 for x in parts[1:]])
+                if len(faces) > limit:
+                    raise RvtssError("Mesh has more than {} faces".format(limit))
+    return verts, faces
+
+
+def _direct_shape(ctx, item):
+    """DirectShape mesh: inline vertices/faces (in `unit`, faces = vertex index lists) or an .obj file."""
+    from System.Collections.Generic import List
+
+    doc = ctx.doc
+    if item.get("obj_file"):
+        verts, faces = _read_obj(item["obj_file"])
+        scale = U.to_internal(1.0, item.get("obj_unit") or ctx.unit)
+        verts = [[v[0] * scale, v[1] * scale, v[2] * scale] for v in verts]
+    else:
+        verts = [list(U.point_from(v, ctx.unit)) for v in item.get("vertices") or []]
+        faces = item.get("faces") or []
+    if len(verts) < 3 or not faces:
+        raise RvtssError("direct_shape needs 'vertices' + 'faces' or 'obj_file'", failed_item=item)
+    cat = core.resolve_category(doc, item.get("category") or "Generic Models")
+    mat = DB.ElementId.InvalidElementId
+    if item.get("material"):
+        m = [x for x in DB.FilteredElementCollector(doc).OfClass(DB.Material)
+             if normalize_string(x.Name).lower() == text_type(item["material"]).strip().lower()]
+        if m:
+            mat = m[0].Id
+    b = DB.TessellatedShapeBuilder()
+    b.OpenConnectedFaceSet(False)
+    for f in faces:
+        loop = List[DB.XYZ]()
+        for i in f:
+            v = verts[int(i)]
+            loop.Add(DB.XYZ(v[0], v[1], v[2]))
+        b.AddFace(DB.TessellatedFace(loop, mat))
+    b.CloseConnectedFaceSet()
+    b.Target = DB.TessellatedShapeBuilderTarget.AnyGeometry
+    b.Fallback = DB.TessellatedShapeBuilderFallback.Mesh
+    b.Build()
+    res = b.GetBuildResult()
+    ds = DB.DirectShape.CreateElement(doc, cat.Id)
+    ds.SetShape(res.GetGeometricalObjects())
+    if item.get("name"):
+        ds.Name = text_type(item["name"])
+    return {"kind": "direct_shape", "id": id_int(ds), "faces": len(faces),
+            "outcome": text_type(res.Outcome), "category": normalize_string(cat.Name)}
+
+
 _STRUCTURE_KINDS = {"roof": _roof, "ceiling": _ceiling, "column": _column, "beam": _beam,
-                    "foundation": _foundation, "wall_foundation": _wall_foundation}
+                    "foundation": _foundation, "wall_foundation": _wall_foundation,
+                    "duct": lambda c, i: _mep_run(c, i, "duct"), "pipe": lambda c, i: _mep_run(c, i, "pipe"),
+                    "cable_tray": lambda c, i: _mep_run(c, i, "cable_tray"),
+                    "conduit": lambda c, i: _mep_run(c, i, "conduit"),
+                    "wall_opening": _wall_opening, "opening": _host_opening, "shaft": _shaft,
+                    "railing": _railing, "space": _space, "area": _area,
+                    "area_boundary": lambda c, i: _boundary_lines(c, i, "area_boundary"),
+                    "room_separation": lambda c, i: _boundary_lines(c, i, "room_separation"),
+                    "space_separation": lambda c, i: _boundary_lines(c, i, "space_separation"),
+                    "auto_rooms": _auto_rooms, "rebar": _rebar, "toposolid": _toposolid,
+                    "direct_shape": _direct_shape}
 
 
 def create_elements(ctx):

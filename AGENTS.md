@@ -17,6 +17,9 @@ and ask before writing** anything outside the RVTSS folder.
 
 ## 1. Inspect (read-only)
 
+Shortcut: `powershell -ExecutionPolicy Bypass -File scripts\install.ps1` prints the checks below in one
+table and changes nothing. Its `-Apply` mode asks before each change; still show the user the plan first.
+
 Report what you find before changing anything:
 
 1. pyRevit installed? `pyrevit env` (or look for `%APPDATA%\pyRevit-Master` / `%PROGRAMDATA%\pyRevit`).
