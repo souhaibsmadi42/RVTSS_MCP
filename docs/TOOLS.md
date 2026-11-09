@@ -815,7 +815,7 @@ text in a project, or attach wall tops / bases; do those in Revit.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `items` | list of object | yes |  | Items by kind (coordinates in `unit`): level: {kind:'level', elevation, name?, create_plan_view?} grid: {kind:'grid', start:[x,y], end:[x,y], name?} wall: {kind:'wall', start, end, level, type?\|type_id?, height?(3000), base_offset?, structural?, flip?} floor: {kind:'floor', boundary:[[x,y],...], level, type?\|type_id?, structural?} family_instance: {kind:'family_instance', family, type\|type_id, point:[x,y,z], level?, host_id?, rotation_deg?} room: {kind:'room', level, point:[x,y], name?, number?} roof: {boundary, level, type?, slope_deg?, slope_edges?, base_offset?} ceiling: {boundary, level, type?, height?} column: {point, level, top_level?, base_offset?, top_offset?, family?, type?, rotation_deg?} beam: {start, end, level, family?, type?} foundation: {point, level, family?, type?, base_offset?} wall_foundation: {wall_id, type?} duct\|pipe\|cable_tray\|conduit: {points:[[x,y(,z)],...], level, offset?, type?, system_type? (duct/pipe), width?/height?/diameter?, fittings?(true: elbows at bends)} wall_opening: {wall_id, offset_along, width, height, sill?} opening: {host_id (floor/roof/ceiling), boundary} shaft: {boundary, level, top_level, base_offset?, top_offset?} railing: {points, level, type?} or {host_id (stairs/ramp), position?} space: {level, point, name?, number?}; area: {area_view, point, name?, number?} area_boundary: {area_view, points, closed?}; room_separation\|space_separation: {view, points, closed?} auto_rooms: {level} (a room in every closed region) rebar: {host_id, points:[[x,y,z],...], normal?, type?, style?, count?, spacing?} toposolid: {points:[[x,y,z],...], level, type?} (2024+) direct_shape: {vertices, faces:[[i,j,k],...]} or {obj_file, obj_unit?}; category?, name?, material? curtain_grid_line: {wall_id, direction:'vertical'\|'horizontal', offset_along \| height \| point} mullions: {wall_id, lines?:'all'\|'horizontal'\|'vertical' \| grid_line_ids, type?} curtain_panel_type: {wall_id \| panel_ids, type\|type_id, unpin?} wall_sweep\|reveal: {wall_id, distance, vertical?, side?:'exterior'\|'interior', from_top?, type?} model_line: {points \| start,end, level?, offset?, closed?, line_style?} reference_plane: {start, end, name?, level?, view?} foundation_isolated: as foundation; foundation_wall: as wall_foundation brace: {start:[x,y,z], end:[x,y,z], level, family?, type?}; truss: {start, end, level, offset?, type?} beam_system: {boundary, level, direction_edge?(0), is_3d?, family?, type?} |
+| `items` | list of object | yes |  | Items, each {kind:'<name>', ...}; coordinates in `unit`: level: {elevation, name?, create_plan_view?} grid: {start:[x,y], end:[x,y], name?} wall: {start, end, level, type?\|type_id?, height?(3000), base_offset?, structural?, flip?} floor: {boundary:[[x,y],...], level, type?\|type_id?, structural?} family_instance: {family, type\|type_id, point:[x,y,z], level?, host_id?, rotation_deg?} room: {level, point:[x,y], name?, number?} roof: {boundary, level, type?, slope_deg?, slope_edges?, base_offset?} ceiling: {boundary, level, type?, height?} column: {point, level, top_level?, base_offset?, top_offset?, family?, type?, rotation_deg?} beam: {start, end, level, family?, type?} foundation: {point, level, family?, type?, base_offset?} wall_foundation: {wall_id, type?} duct\|pipe\|cable_tray\|conduit: {points:[[x,y(,z)],...], level, offset?, type?, system_type? (duct/pipe), width?/height?/diameter?, fittings?(true: elbows at bends)} wall_opening: {wall_id, offset_along, width, height, sill?} opening: {host_id (floor/roof/ceiling), boundary} shaft: {boundary, level, top_level, base_offset?, top_offset?} railing: {points, level, type?} or {host_id (stairs/ramp), position?} space: {level, point, name?, number?}; area: {area_view, point, name?, number?} area_boundary: {area_view, points, closed?}; room_separation\|space_separation: {view, points, closed?} auto_rooms: {level} (a room in every closed region) rebar: {host_id, points:[[x,y,z],...], normal?, type?, style?, count?, spacing?} toposolid: {points:[[x,y,z],...], level, type?} (2024+) direct_shape: {vertices, faces:[[i,j,k],...]} or {obj_file, obj_unit?}; category?, name?, material? curtain_grid_line: {wall_id, direction:'vertical'\|'horizontal', offset_along \| height \| point} mullions: {wall_id, lines?:'all'\|'horizontal'\|'vertical' \| grid_line_ids, type?} curtain_panel_type: {wall_id \| panel_ids, type\|type_id, unpin?} wall_sweep\|reveal: {wall_id, distance, vertical?, side?:'exterior'\|'interior', from_top?, type?} model_line: {points \| start,end, level?, offset?, closed?, line_style?} reference_plane: {start, end, name?, level?, view?} foundation_isolated: as foundation; foundation_wall: as wall_foundation brace: {start:[x,y,z], end:[x,y,z], level, family?, type?}; truss: {start, end, level, offset?, type?} beam_system: {boundary, level, direction_edge?(0), is_3d?, family?, type?} |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `atomic` | boolean |  | `True` |  |
 | `dry_run` | boolean |  | `False` |  |
@@ -974,21 +974,21 @@ attach wall tops / bases, edit wall profiles, split faces or do linework; do tho
 |---|---|---|---|---|
 | `operation` | `align` \| `offset` \| `trim_extend` \| `split` \| `scale` \| `flip` \| `cut` \| `uncut` \| `paint` \| `remove_paint` \| `create_parts` \| `divide_parts` | yes |  |  |
 | `element_ids` | list of integer | yes |  |  |
-| `axis` | `x` \| `y` \| `z` |  | `x` | align: the coordinate that is made equal |
-| `reference_id` | integer |  |  | align: line up with this element |
-| `coordinate` | number |  |  | align: or with this value on the axis |
-| `distance` | number |  |  | offset: distance in `unit`; positive = left of start -> end |
+| `axis` | `x` \| `y` \| `z` |  | `x` | align axis |
+| `reference_id` | integer |  |  | align to this element |
+| `coordinate` | number |  |  | or to this value |
+| `distance` | number |  |  | offset; positive = left of start -> end |
 | `keep_original` | boolean |  | `False` | offset: offset a copy |
-| `mode` | `corner` \| `single` |  | `corner` | trim_extend: corner = both meet; single = only the first id is trimmed / extended |
-| `point` | list of number |  |  | split: point on or near the element |
-| `parameter` | number |  |  | split: or 0-1 from its start |
-| `factor` | number |  |  | scale: 2 doubles lengths |
-| `center` | list of number |  |  | scale: centre (default: centroid) |
+| `mode` | `corner` \| `single` |  | `corner` | single: only the first id changes |
+| `point` | list of number |  |  | split point |
+| `parameter` | number |  |  | or 0-1 along it |
+| `factor` | number |  |  | scale factor |
+| `center` | list of number |  |  | scale centre |
 | `flip` | `auto` \| `hand` \| `facing` \| `both` \| `work_plane` |  | `auto` |  |
-| `material` | integer or string |  |  | paint: material name or id |
-| `faces` | `all` \| `top` \| `bottom` \| `interior` \| `exterior` |  | `all` | paint / remove_paint: which faces (interior / exterior: walls) |
-| `divider_ids` | list of integer |  |  | divide_parts: levels, grids or reference planes that cut the parts |
-| `lines` | list of list of list of number |  |  | divide_parts: plan lines [[[x,y],[x,y]], ...] on `level` |
+| `material` | integer or string |  |  | paint material |
+| `faces` | `all` \| `top` \| `bottom` \| `interior` \| `exterior` |  | `all` | faces to paint |
+| `divider_ids` | list of integer |  |  | divide_parts: levels, grids, ref planes |
+| `lines` | list of list of list of number |  |  | divide_parts: [[[x,y],[x,y]], ...] on level |
 | `level` | string |  |  |  |
 | `unpin` | boolean |  | `False` |  |
 | `atomic` | boolean |  |  |  |
@@ -1751,20 +1751,23 @@ Toolset: `documentation`
 
 Crop region, 3D section box, plan view range and far clip of a view: read them or set them.
 
+set_crop fits the crop to element_ids (+ margin) or min / max; a view whose crop is controlled by a
+scope box needs scope_box='none' in the same call. set_section_box: enabled turns the box on or off.
+
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `action` | `get` \| `set_crop` \| `set_section_box` \| `set_view_range` \| `set_far_clip` |  | `get` |  |
 | `view` | string |  | `active` | View name, id or 'active' |
-| `element_ids` | list of integer |  |  | set_crop / set_section_box: fit around these elements |
-| `margin` | number |  | `500` | Margin around element_ids in `unit` |
-| `min` | list of number |  |  | Box corner [x,y,z] instead of element_ids |
+| `element_ids` | list of integer |  |  | Fit the crop / section box to them |
+| `margin` | number |  | `500` |  |
+| `min` | list of number |  |  | Or box corners [x,y,z] |
 | `max` | list of number |  |  |  |
-| `scope_box` | string |  |  | set_crop: assign this scope box, or 'none' to detach (needed before a custom crop) |
+| `scope_box` | string |  |  | Scope box name, or 'none' to detach |
 | `crop_active` | boolean |  |  |  |
 | `crop_visible` | boolean |  |  |  |
 | `annotation_crop` | boolean |  |  |  |
-| `enabled` | boolean |  |  | set_section_box: turn the box on or off |
-| `top` | number |  |  | set_view_range: offsets from each plane's level |
+| `enabled` | boolean |  |  |  |
+| `top` | number |  |  | View range offsets from the level |
 | `cut` | number |  |  |  |
 | `bottom` | number |  |  |  |
 | `view_depth` | number |  |  |  |
@@ -1781,19 +1784,21 @@ Toolset: `documentation`
 View templates: list, create from a view, duplicate, apply to views, remove, delete, and choose the
 parameters a template controls.
 
-Deleting a template that views still use returns a preview until confirm=true.
+create_from_view uses view and name; apply / remove take views (default: active). list with
+parameters=true shows what each template controls. Deleting a template that views still use
+returns a preview until confirm=true.
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `action` | `list` \| `create_from_view` \| `duplicate` \| `apply` \| `remove` \| `delete` \| `set_included` |  | `list` |  |
 | `template` | string |  |  | Template name or id |
-| `view` | string |  |  | create_from_view: the source view |
-| `views` | list of string |  |  | apply / remove: views (default: active) |
-| `name` | string |  |  | Name of the new template |
-| `once` | boolean |  | `False` | apply: copy the settings without assigning the template |
-| `include` | list of string |  |  | set_included: parameters the template controls |
+| `view` | string |  |  | View name, id or 'active' |
+| `views` | list of string |  |  |  |
+| `name` | string |  |  |  |
+| `once` | boolean |  | `False` | apply: copy settings, do not assign |
+| `include` | list of string |  |  | Parameter names to control |
 | `exclude` | list of string |  |  |  |
-| `parameters` | boolean |  | `False` | list: include each template's controlled parameters |
+| `parameters` | boolean |  | `False` |  |
 | `atomic` | boolean |  | `True` |  |
 | `dry_run` | boolean |  | `False` |  |
 | `confirm` | boolean |  | `False` |  |
@@ -1809,10 +1814,10 @@ or remove. Place views with manage_sheets.
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `action` | `list` \| `move` \| `set_type` \| `set_detail_number` \| `rotate` \| `remove` |  | `list` |  |
-| `sheet` | string |  |  | list: sheet number, name or id |
+| `sheet` | string |  |  | Sheet number, name or id |
 | `viewport_id` | integer |  |  |  |
-| `location` | list of number |  |  | move: new centre [x, y] on the sheet |
-| `type` | string |  |  | set_type: viewport type name |
+| `location` | list of number |  |  | New centre [x, y] |
+| `type` | string |  |  |  |
 | `detail_number` | string |  |  |  |
 | `rotation` | `none` \| `clockwise` \| `counterclockwise` |  |  |  |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
@@ -2141,18 +2146,18 @@ sides; connection problems are reported per connector. Rigid runs: create_elemen
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `action` | `flex_duct` \| `flex_pipe` \| `duct_placeholder` \| `pipe_placeholder` \| `convert_placeholders` \| `insert_on_curve` \| `air_terminal_on_duct` | yes |  |  |
-| `points` | list of list of number |  |  | flex / placeholder: route [[x, y(, z)], ...]; z defaults to the level elevation + offset |
+| `points` | list of list of number |  |  | Route [[x, y(, z)], ...] |
 | `level` | string |  |  |  |
 | `offset` | number |  |  | Height above the level in `unit` |
-| `type` | string |  |  | Flex duct / flex pipe / duct / pipe type; insert_on_curve: family type name |
-| `family` | string |  |  | insert_on_curve: family name |
-| `type_id` | integer |  |  | insert_on_curve: family type id |
+| `type` | string |  |  | Type name |
+| `family` | string |  |  | Family name |
+| `type_id` | integer |  |  | Family type id |
 | `system_type` | string |  |  | Duct / piping system type (default: first) |
 | `diameter` | number |  |  | Round size in `unit` |
-| `host_id` | integer |  |  | insert_on_curve: the duct or pipe to break; air_terminal_on_duct: the duct |
-| `point` | list of number |  |  | insert_on_curve: [x, y, z] on the duct / pipe |
-| `terminal_id` | integer |  |  | air_terminal_on_duct: the air terminal |
-| `element_ids` | list of integer |  |  | convert_placeholders: placeholder ids |
+| `host_id` | integer |  |  | Duct or pipe to break / connect to |
+| `point` | list of number |  |  | Point on the host |
+| `terminal_id` | integer |  |  | Air terminal id |
+| `element_ids` | list of integer |  |  | Placeholder ids |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
 | `document` | string |  |  | Document title or path (default: active) |
@@ -2215,8 +2220,8 @@ Revit links (.rvt) are handled by manage_links.
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `action` | `list` \| `link_cad` \| `import_cad` \| `place_image` \| `reload_cad` \| `delete` |  | `list` |  |
-| `path` | string |  |  | link_cad / import_cad: .dwg .dxf .dgn .sat .skp; place_image: .png .jpg .bmp .tif .pdf |
-| `view` | string |  |  | Host view (name, id; default: active) |
+| `path` | string |  |  | CAD or image file |
+| `view` | string |  |  | Host view |
 | `placement` | `origin` \| `center` \| `shared` \| `site` |  | `origin` |  |
 | `import_unit` | `auto` \| `mm` \| `cm` \| `dm` \| `m` \| `ft` \| `in` |  | `auto` |  |
 | `color_mode` | `preserve` \| `invert` \| `black_white` |  | `preserve` |  |
@@ -2224,10 +2229,10 @@ Revit links (.rvt) are handled by manage_links.
 | `visible_layers_only` | boolean |  | `False` |  |
 | `orient_to_view` | boolean |  | `False` |  |
 | `pin` | boolean |  | `True` |  |
-| `point` | list of number |  |  | place_image: centre [x, y] in `unit` |
-| `width` | number |  |  | place_image: width in `unit` |
-| `link` | string |  |  | reload_cad / delete: CAD name, instance id or type id |
-| `all_instances` | boolean |  | `True` | delete: remove the CAD type with every instance |
+| `point` | list of number |  |  | Image centre [x, y] |
+| `width` | number |  |  | Image width |
+| `link` | string |  |  | CAD name or id |
+| `all_instances` | boolean |  | `True` | delete: all |
 | `unit` | `mm` \| `cm` \| `m` \| `ft` \| `in` |  | `mm` |  |
 | `dry_run` | boolean |  | `False` |  |
 | `confirm` | boolean |  | `False` |  |
@@ -2370,10 +2375,10 @@ set_object_style changes how a whole category prints in every view; show the dry
 | `line_color` | string or list of integer |  |  | [r, g, b] or '#rrggbb' |
 | `line_pattern` | string |  |  | Line pattern name or 'Solid' |
 | `material` | string |  |  | Material name; 'none' clears it |
-| `segments` | list of object |  |  | create_line_pattern: [{type: dash\|dot\|space, length}], alternating, lengths in `unit` |
+| `segments` | list of object |  |  | [{type: dash\|dot\|space, length}] |
 | `target` | `drafting` \| `model` |  | `drafting` |  |
-| `angle` | number |  |  | create_fill_pattern: degrees |
-| `spacing` | number |  |  | create_fill_pattern: line spacing in `unit` |
+| `angle` | number |  |  | Fill pattern angle, degrees |
+| `spacing` | number |  |  | Line spacing |
 | `spacing2` | number |  |  | Second spacing = crosshatch |
 | `kinds` | list of `line` \| `fill` |  |  |  |
 | `limit` | integer |  | `80` |  |
@@ -2429,8 +2434,8 @@ Revit's own ribbon commands (the buttons), searchable by words. Use with run_rev
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `contains` | string |  |  | Words to search for, e.g. 'curtain grid' |
-| `check_available` | boolean |  | `False` | Also ask Revit whether each command can start now |
+| `contains` | string |  |  | Words, e.g. 'curtain grid' |
+| `check_available` | boolean |  | `False` |  |
 | `limit` | integer |  | `200` |  |
 
 ### `run_revit_command`
@@ -2445,9 +2450,9 @@ the model afterwards. Save, synchronize, close, undo and redo are refused: use t
 
 | Argument | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `name` | string |  |  | Command name from list_revit_commands, e.g. 'ScopeBox' |
-| `command_id` | string |  |  | Raw command id instead of a name (add-in commands) |
-| `dry_run` | boolean |  | `False` | Only report whether the command can start now |
+| `name` | string |  |  | From list_revit_commands, e.g. 'ScopeBox' |
+| `command_id` | string |  |  | Or a raw command id |
+| `dry_run` | boolean |  | `False` |  |
 
 ### `run_model_checks`
 

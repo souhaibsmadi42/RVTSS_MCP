@@ -208,13 +208,13 @@ def register_element_tools(mcp, revit_get, revit_post):
     @mcp.tool(annotations=MODIFIES)
     async def create_elements(
         items: Annotated[List[Dict[str, Any]], Field(description=(
-            "Items by kind (coordinates in `unit`):\n"
-            "level: {kind:'level', elevation, name?, create_plan_view?}\n"
-            "grid: {kind:'grid', start:[x,y], end:[x,y], name?}\n"
-            "wall: {kind:'wall', start, end, level, type?|type_id?, height?(3000), base_offset?, structural?, flip?}\n"
-            "floor: {kind:'floor', boundary:[[x,y],...], level, type?|type_id?, structural?}\n"
-            "family_instance: {kind:'family_instance', family, type|type_id, point:[x,y,z], level?, host_id?, rotation_deg?}\n"
-            "room: {kind:'room', level, point:[x,y], name?, number?}\n"
+            "Items, each {kind:'<name>', ...}; coordinates in `unit`:\n"
+            "level: {elevation, name?, create_plan_view?}\n"
+            "grid: {start:[x,y], end:[x,y], name?}\n"
+            "wall: {start, end, level, type?|type_id?, height?(3000), base_offset?, structural?, flip?}\n"
+            "floor: {boundary:[[x,y],...], level, type?|type_id?, structural?}\n"
+            "family_instance: {family, type|type_id, point:[x,y,z], level?, host_id?, rotation_deg?}\n"
+            "room: {level, point:[x,y], name?, number?}\n"
             "roof: {boundary, level, type?, slope_deg?, slope_edges?, base_offset?}\n"
             "ceiling: {boundary, level, type?, height?}\n"
             "column: {point, level, top_level?, base_offset?, top_offset?, family?, type?, rotation_deg?}\n"
