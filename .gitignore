@@ -17,3 +17,6 @@ CLAUDE.md
 # tutorial render scratch
 media/tutorial-src/build/
 _site/
+
+# Windows installer (installer/build.ps1)
+installer/Output/
