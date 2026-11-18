@@ -2,6 +2,26 @@
 
 All notable changes to RVTSS. Details, verification status and design notes: [docs/UPGRADE_REPORT.md](docs/UPGRADE_REPORT.md).
 
+## Unreleased
+
+### Added
+* **RVTSS Host (`host/`): the Revit side as a C# add-in, no pyRevit needed.** It serves the same 120 routes
+  on `127.0.0.1:48885`; the MCP server is unchanged and reaches it with `REVIT_PORT=48885`. Builds for Revit
+  2024 (.NET Framework 4.8), 2025 (.NET 8), 2026 and 2027. Details, status per Revit version and the list of
+  intended differences: [host/README.md](host/README.md).
+  **Verified live:** the self-test passes on Revit 2026 (65 passed) and 2027 (63 passed, 2 skipped); on Revit
+  2024 it gives the same result as pyRevit on a 2024 model (64 passed, 1 failed in both). 1,034 read-only and
+  dry-run requests give the same answers as pyRevit on Revit 2026, apart from the documented differences.
+  Revit 2025 was not run.
+* **Ribbon:** tab *RVTSS Host → Diagnostics → Run Self-Test* in the add-in.
+* **Installer:** installs the add-in for every Revit 2024-2027 found; the pyRevit extension is now an
+  optional task.
+
+### Changed
+* `execute_revit_code` runs Python 3 (IronPython 3.4) in the add-in; the pyRevit extension keeps 2.7.
+* `installer\build.ps1` finds the managed Python with `--system`, so a `.venv` in the checkout no longer
+  ends up in the payload.
+
 ## 2.4.0 – 2026-11-10
 
 Follows Revit's ribbon tab by tab and adds what RVTSS could not do. 124 tools in 19 toolsets.

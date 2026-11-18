@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Shell: the add-in Revit loads. HTTP server, main-thread dispatcher and the loader for RvtssHost.Impl. -->
+  <PropertyGroup>
+    <AssemblyName>RvtssHost</AssemblyName>
+    <RootNamespace>RvtssHost</RootNamespace>
+  </PropertyGroup>
+</Project>

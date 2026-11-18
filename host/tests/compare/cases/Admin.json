@@ -1,0 +1,1271 @@
+[
+ {
+  "name": "cmd list limit",
+  "path": "/commands/list/",
+  "body": {
+   "limit": 6
+  }
+ },
+ {
+  "name": "cmd list contains wall",
+  "path": "/commands/list/",
+  "body": {
+   "contains": "wall",
+   "limit": 8
+  }
+ },
+ {
+  "name": "cmd list contains save blocked",
+  "path": "/commands/list/",
+  "body": {
+   "contains": "save",
+   "limit": 30
+  }
+ },
+ {
+  "name": "cmd list undo blocked check",
+  "path": "/commands/list/",
+  "body": {
+   "contains": "undo redo",
+   "check_available": true
+  }
+ },
+ {
+  "name": "cmd list synchronize",
+  "path": "/commands/list/",
+  "body": {
+   "contains": "synchro reload relinq",
+   "limit": 30
+  }
+ },
+ {
+  "name": "cmd list close exit",
+  "path": "/commands/list/",
+  "body": {
+   "contains": "close",
+   "limit": 30
+  }
+ },
+ {
+  "name": "cmd list check_available",
+  "path": "/commands/list/",
+  "body": {
+   "contains": "structural column",
+   "check_available": true,
+   "limit": 5
+  }
+ },
+ {
+  "name": "cmd list nothing",
+  "path": "/commands/list/",
+  "body": {
+   "contains": "zzzzqq"
+  }
+ },
+ {
+  "name": "cmd run missing",
+  "path": "/commands/run/",
+  "body": {}
+ },
+ {
+  "name": "cmd run unknown name",
+  "path": "/commands/run/",
+  "body": {
+   "name": "Wal"
+  }
+ },
+ {
+  "name": "cmd run unknown name 2",
+  "path": "/commands/run/",
+  "body": {
+   "name": "xyzzy"
+  }
+ },
+ {
+  "name": "cmd run unknown id",
+  "path": "/commands/run/",
+  "body": {
+   "command_id": "ID_NOPE_NOPE"
+  }
+ },
+ {
+  "name": "cmd run blocked undo",
+  "path": "/commands/run/",
+  "body": {
+   "name": "Undo"
+  }
+ },
+ {
+  "name": "cmd run blocked save",
+  "path": "/commands/run/",
+  "body": {
+   "name": "save"
+  }
+ },
+ {
+  "name": "cmd run blocked saveas",
+  "path": "/commands/run/",
+  "body": {
+   "name": "Save As Project"
+  }
+ },
+ {
+  "name": "cmd run blocked exit",
+  "path": "/commands/run/",
+  "body": {
+   "name": "ExitRevit",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "cmd run dry_run",
+  "path": "/commands/run/",
+  "body": {
+   "name": "Wall",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "cmd run dry_run spaced",
+  "path": "/commands/run/",
+  "body": {
+   "name": "Structural Column",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "undo status",
+  "path": "/undo/",
+  "body": {},
+  "ignore": [
+   "latest_steps",
+   "can_undo"
+  ]
+ },
+ {
+  "name": "undo status limit",
+  "path": "/undo/",
+  "body": {
+   "action": "status",
+   "limit": 2
+  },
+  "ignore": [
+   "latest_steps",
+   "can_undo"
+  ]
+ },
+ {
+  "name": "undo bad action",
+  "path": "/undo/",
+  "body": {
+   "action": "redo"
+  }
+ },
+ {
+  "name": "undo dry_run",
+  "path": "/undo/",
+  "body": {
+   "action": "undo",
+   "dry_run": true
+  },
+  "ignore": [
+   "error",
+   "status",
+   "would_undo",
+   "hint"
+  ]
+ },
+ {
+  "name": "phases list",
+  "path": "/phases/manage/",
+  "body": {}
+ },
+ {
+  "name": "phases list counts",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "list",
+   "counts": true
+  }
+ },
+ {
+  "name": "phases bad action",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "x"
+  }
+ },
+ {
+  "name": "phases option_elements missing option",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "option_elements"
+  }
+ },
+ {
+  "name": "phases option_elements unknown",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "option_elements",
+   "option": "Nope"
+  }
+ },
+ {
+  "name": "phases set_element_phase no ids",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "set_element_phase"
+  }
+ },
+ {
+  "name": "phases set_element_phase bad id",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "set_element_phase",
+   "element_ids": [
+    999999999
+   ],
+   "created": "New Construction"
+  }
+ },
+ {
+  "name": "phases set_element_phase unknown phase",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "set_element_phase",
+   "element_ids": [
+    210619
+   ],
+   "created": "Nope phase"
+  }
+ },
+ {
+  "name": "phases set_element_phase dry",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "set_element_phase",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "created": "New Construction",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "phases set_element_phase dry demolished none",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "set_element_phase",
+   "element_ids": [
+    210619
+   ],
+   "demolished": "none",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "phases set_element_phase dry demolished empty",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "set_element_phase",
+   "element_ids": [
+    210619
+   ],
+   "demolished": "",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "phases set_view_phase dry",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "set_view_phase",
+   "view": 13073,
+   "phase": "New Construction",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "phases set_view_phase unknown filter",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "set_view_phase",
+   "view": 13073,
+   "phase_filter": "Nope",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "phases set_view_phase unknown view",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "set_view_phase",
+   "view": "Nope view",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "links list",
+  "path": "/links/manage/",
+  "body": {}
+ },
+ {
+  "name": "links bad action",
+  "path": "/links/manage/",
+  "body": {
+   "action": "x"
+  }
+ },
+ {
+  "name": "links reload missing link",
+  "path": "/links/manage/",
+  "body": {
+   "action": "reload"
+  }
+ },
+ {
+  "name": "links reload unknown link",
+  "path": "/links/manage/",
+  "body": {
+   "action": "reload",
+   "link": "nolink"
+  }
+ },
+ {
+  "name": "links unload unknown link dry",
+  "path": "/links/manage/",
+  "body": {
+   "action": "unload",
+   "link": "nolink",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "links load missing path",
+  "path": "/links/manage/",
+  "body": {
+   "action": "load"
+  }
+ },
+ {
+  "name": "selsets list",
+  "path": "/selection_sets/",
+  "body": {}
+ },
+ {
+  "name": "selsets missing name",
+  "path": "/selection_sets/",
+  "body": {
+   "action": "load"
+  }
+ },
+ {
+  "name": "selsets load unknown",
+  "path": "/selection_sets/",
+  "body": {
+   "action": "load",
+   "name": "no such set"
+  }
+ },
+ {
+  "name": "selsets delete unknown",
+  "path": "/selection_sets/",
+  "body": {
+   "action": "delete",
+   "name": "no such set"
+  }
+ },
+ {
+  "name": "selsets bad action",
+  "path": "/selection_sets/",
+  "body": {
+   "action": "x",
+   "name": "a"
+  }
+ },
+ {
+  "name": "selsets save bad ids",
+  "path": "/selection_sets/",
+  "body": {
+   "action": "save",
+   "name": "tmp set",
+   "element_ids": [
+    999999999
+   ]
+  }
+ },
+ {
+  "name": "selsets save dry",
+  "path": "/selection_sets/",
+  "body": {
+   "action": "save",
+   "name": "tmp rvtss set",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  },
+  "ignore": [
+   "id"
+  ]
+ },
+ {
+  "name": "insert files list",
+  "path": "/insert/files/",
+  "body": {}
+ },
+ {
+  "name": "insert files bad action",
+  "path": "/insert/files/",
+  "body": {
+   "action": "x"
+  }
+ },
+ {
+  "name": "insert files link no path",
+  "path": "/insert/files/",
+  "body": {
+   "action": "link_cad"
+  }
+ },
+ {
+  "name": "insert files link missing file",
+  "path": "/insert/files/",
+  "body": {
+   "action": "link_cad",
+   "path": "C:\\nonexistent\\a.dwg"
+  }
+ },
+ {
+  "name": "insert files link wrong ext",
+  "path": "/insert/files/",
+  "body": {
+   "action": "import_cad",
+   "path": "C:\\Windows\\win.ini"
+  }
+ },
+ {
+  "name": "insert files place_image missing",
+  "path": "/insert/files/",
+  "body": {
+   "action": "place_image",
+   "path": "C:\\nonexistent\\a.png"
+  }
+ },
+ {
+  "name": "insert files place_image wrong ext",
+  "path": "/insert/files/",
+  "body": {
+   "action": "place_image",
+   "path": "C:\\Windows\\win.ini"
+  }
+ },
+ {
+  "name": "insert files reload_cad missing link",
+  "path": "/insert/files/",
+  "body": {
+   "action": "reload_cad"
+  }
+ },
+ {
+  "name": "insert files reload_cad unknown",
+  "path": "/insert/files/",
+  "body": {
+   "action": "reload_cad",
+   "link": "nothing"
+  }
+ },
+ {
+  "name": "insert files delete unknown",
+  "path": "/insert/files/",
+  "body": {
+   "action": "delete",
+   "link": "nothing"
+  }
+ },
+ {
+  "name": "insert family none",
+  "path": "/insert/family/",
+  "body": {}
+ },
+ {
+  "name": "insert family missing file",
+  "path": "/insert/family/",
+  "body": {
+   "paths": [
+    "C:\\nonexistent\\a.rfa"
+   ]
+  }
+ },
+ {
+  "name": "insert family single path key",
+  "path": "/insert/family/",
+  "body": {
+   "path": "C:\\nonexistent\\a.rfa"
+  }
+ },
+ {
+  "name": "insert family wrong ext",
+  "path": "/insert/family/",
+  "body": {
+   "paths": [
+    "C:\\Windows\\win.ini"
+   ]
+  }
+ },
+ {
+  "name": "insert family too many",
+  "path": "/insert/family/",
+  "body": {
+   "paths": [
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a",
+    "a"
+   ]
+  }
+ },
+ {
+  "name": "project get",
+  "path": "/project/settings/",
+  "body": {}
+ },
+ {
+  "name": "project get ft",
+  "path": "/project/settings/",
+  "body": {
+   "action": "get",
+   "include": [
+    "location",
+    "starting_view"
+   ],
+   "unit": "ft"
+  }
+ },
+ {
+  "name": "project get info only",
+  "path": "/project/settings/",
+  "body": {
+   "action": "get",
+   "include": [
+    "info",
+    "units"
+   ]
+  }
+ },
+ {
+  "name": "project bad action",
+  "path": "/project/settings/",
+  "body": {
+   "action": "x"
+  }
+ },
+ {
+  "name": "project set_info no values",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_info"
+  }
+ },
+ {
+  "name": "project set_info dry",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_info",
+   "values": {
+    "Number": "P-1",
+    "Client Name": "ACME",
+    "issue_date": 5,
+    "Nope param": "x"
+   },
+   "atomic": false,
+   "dry_run": true
+  },
+  "unordered": [
+   "changed",
+   "failed"
+  ]
+ },
+ {
+  "name": "project set_info dry atomic fail",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_info",
+   "values": {
+    "Number": "P-1",
+    "Nope param": "x"
+   },
+   "dry_run": true
+  },
+  "unordered": [
+   "failed"
+  ]
+ },
+ {
+  "name": "project set_units none",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_units"
+  }
+ },
+ {
+  "name": "project set_units bad quantity",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_units",
+   "units": {
+    "speed": "mm"
+   }
+  }
+ },
+ {
+  "name": "project set_units bad unit",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_units",
+   "units": {
+    "length": "furlong"
+   }
+  }
+ },
+ {
+  "name": "project set_units dry",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_units",
+   "units": {
+    "length": {
+     "unit": "m",
+     "rounding": 0.01
+    },
+    "area": "ft2",
+    "angle": {
+     "rounding": 0.1
+    }
+   },
+   "dry_run": true
+  }
+ },
+ {
+  "name": "project set_units dry bad rounding",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_units",
+   "units": {
+    "length": {
+     "unit": "mm",
+     "rounding": 0.3
+    }
+   },
+   "dry_run": true
+  }
+ },
+ {
+  "name": "project set_starting_view dry",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_starting_view",
+   "view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "project set_starting_view none dry",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_starting_view",
+   "view": "none",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "project set_starting_view unknown",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_starting_view",
+   "view": "zzz"
+  }
+ },
+ {
+  "name": "project set_location none",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_location"
+  }
+ },
+ {
+  "name": "project set_location bad lat",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_location",
+   "latitude": 95
+  }
+ },
+ {
+  "name": "project set_location bad lon",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_location",
+   "longitude": -181
+  }
+ },
+ {
+  "name": "project set_location dry",
+  "path": "/project/settings/",
+  "body": {
+   "action": "set_location",
+   "latitude": 48.85,
+   "longitude": 2.35,
+   "east_west": 1000,
+   "true_north_angle": 15,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "styles list default",
+  "path": "/styles/manage/",
+  "body": {
+   "limit": 4
+  }
+ },
+ {
+  "name": "styles list annotation",
+  "path": "/styles/manage/",
+  "body": {
+   "category_type": "annotation",
+   "limit": 4,
+   "include_subcategories": true
+  }
+ },
+ {
+  "name": "styles list unknown type",
+  "path": "/styles/manage/",
+  "body": {
+   "category_type": "zzz",
+   "limit": 3
+  }
+ },
+ {
+  "name": "styles list walls",
+  "path": "/styles/manage/",
+  "body": {
+   "category": "Walls"
+  }
+ },
+ {
+  "name": "styles list unknown cat",
+  "path": "/styles/manage/",
+  "body": {
+   "category": "Wallz"
+  }
+ },
+ {
+  "name": "styles patterns",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "list_patterns"
+  }
+ },
+ {
+  "name": "styles patterns line",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "list_patterns",
+   "kinds": [
+    "line"
+   ]
+  }
+ },
+ {
+  "name": "styles bad action",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "x"
+  }
+ },
+ {
+  "name": "styles set no category",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "set_object_style"
+  }
+ },
+ {
+  "name": "styles set nothing",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "set_object_style",
+   "category": "Walls",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "styles set dry",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "set_object_style",
+   "category": "Walls",
+   "line_weight": 3,
+   "line_weight_cut": 5,
+   "line_color": "#FF0000",
+   "line_pattern": "Solid",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "styles set bad weight",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "set_object_style",
+   "category": "Walls",
+   "line_weight": 20,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "styles set bad color",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "set_object_style",
+   "category": "Walls",
+   "line_color": "red",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "styles set bad color range",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "set_object_style",
+   "category": "Walls",
+   "line_color": [
+    1,
+    2,
+    300
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "styles set bad pattern",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "set_object_style",
+   "category": "Walls",
+   "line_pattern": "nopattern",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "styles set bad material",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "set_object_style",
+   "category": "Walls",
+   "material": "nomaterial",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "styles set material none dry",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "set_object_style",
+   "category": "Walls",
+   "material": "none",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "styles set bad subcategory",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "set_object_style",
+   "category": "Walls",
+   "subcategory": "nosub",
+   "line_weight": 2,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "styles create_subcategory no name",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_subcategory",
+   "category": "Walls"
+  }
+ },
+ {
+  "name": "styles create_subcategory dry",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_subcategory",
+   "category": "Generic Models",
+   "name": "RVTSS temp sub",
+   "line_weight": 2,
+   "line_color": [
+    10,
+    20,
+    30
+   ],
+   "dry_run": true
+  },
+  "ignore": [
+   "created.id"
+  ]
+ },
+ {
+  "name": "styles create_line_style dry",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_line_style",
+   "name": "RVTSS temp line style",
+   "line_weight": 4,
+   "dry_run": true
+  },
+  "ignore": [
+   "created.id"
+  ]
+ },
+ {
+  "name": "styles create_line_style exists",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_line_style",
+   "name": "Thin Lines",
+   "dry_run": true
+  },
+  "ignore": [
+   "created.id"
+  ]
+ },
+ {
+  "name": "styles create_line_pattern odd",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_line_pattern",
+   "name": "RVTSS pat",
+   "segments": [
+    {
+     "type": "dash",
+     "length": 6
+    }
+   ]
+  }
+ },
+ {
+  "name": "styles create_line_pattern bad type",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_line_pattern",
+   "name": "RVTSS pat",
+   "segments": [
+    {
+     "type": "x",
+     "length": 6
+    },
+    {
+     "type": "space",
+     "length": 3
+    }
+   ]
+  }
+ },
+ {
+  "name": "styles create_line_pattern zero",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_line_pattern",
+   "name": "RVTSS pat",
+   "segments": [
+    {
+     "type": "dash",
+     "length": 0
+    },
+    {
+     "type": "space",
+     "length": 3
+    }
+   ]
+  }
+ },
+ {
+  "name": "styles create_line_pattern dry",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_line_pattern",
+   "name": "RVTSS pat",
+   "segments": [
+    {
+     "type": "dash",
+     "length": 6
+    },
+    {
+     "type": "space",
+     "length": 3
+    },
+    {
+     "type": "dot"
+    },
+    {
+     "type": "space",
+     "length": 3
+    }
+   ],
+   "dry_run": true
+  },
+  "ignore": [
+   "created.id"
+  ]
+ },
+ {
+  "name": "styles create_line_pattern exists",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_line_pattern",
+   "name": "Dash",
+   "segments": [
+    {
+     "type": "dash",
+     "length": 6
+    },
+    {
+     "type": "space",
+     "length": 3
+    }
+   ],
+   "dry_run": true
+  },
+  "ignore": [
+   "created.id"
+  ]
+ },
+ {
+  "name": "styles create_fill_pattern no spacing",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_fill_pattern",
+   "name": "RVTSS fill"
+  }
+ },
+ {
+  "name": "styles create_fill_pattern dry",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_fill_pattern",
+   "name": "RVTSS fill",
+   "spacing": 50,
+   "spacing2": 80,
+   "angle": 45,
+   "target": "model",
+   "dry_run": true
+  },
+  "ignore": [
+   "created.id"
+  ]
+ },
+ {
+  "name": "styles create_fill_pattern dry drafting",
+  "path": "/styles/manage/",
+  "body": {
+   "action": "create_fill_pattern",
+   "name": "RVTSS fill2",
+   "spacing": 5,
+   "dry_run": true
+  },
+  "ignore": [
+   "created.id"
+  ]
+ },
+ {
+  "name": "standards no source",
+  "path": "/standards/transfer/",
+  "body": {}
+ },
+ {
+  "name": "standards unknown source",
+  "path": "/standards/transfer/",
+  "body": {
+   "source": "nothing open"
+  }
+ },
+ {
+  "name": "standards same doc",
+  "path": "/standards/transfer/",
+  "body": {
+   "source": "lesson-test"
+  }
+ },
+ {
+  "name": "worksharing status",
+  "path": "/worksharing/",
+  "body": {}
+ },
+ {
+  "name": "worksharing status elements",
+  "path": "/worksharing/",
+  "body": {
+   "action": "status",
+   "element_ids": [
+    210619
+   ]
+  }
+ },
+ {
+  "name": "worksharing bad action",
+  "path": "/worksharing/",
+  "body": {
+   "action": "x"
+  }
+ },
+ {
+  "name": "worksharing relinquish dry",
+  "path": "/worksharing/",
+  "body": {
+   "action": "relinquish",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "worksharing reload_latest dry",
+  "path": "/worksharing/",
+  "body": {
+   "action": "reload_latest",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "worksharing acquire no link",
+  "path": "/worksharing/",
+  "body": {
+   "action": "acquire_coordinates"
+  }
+ },
+ {
+  "name": "worksharing acquire unknown link",
+  "path": "/worksharing/",
+  "body": {
+   "action": "acquire_coordinates",
+   "link": "nolink"
+  }
+ },
+ {
+  "name": "phases set_view_phase ambiguous name",
+  "path": "/phases/manage/",
+  "body": {
+   "action": "set_view_phase",
+   "view": "Level 1",
+   "phase": "New Construction",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "standards bad kinds same doc first",
+  "path": "/standards/transfer/",
+  "body": {
+   "source": "lesson-test",
+   "kinds": [
+    "zzz"
+   ]
+  }
+ }
+]

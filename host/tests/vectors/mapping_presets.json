@@ -1,0 +1,2973 @@
+{
+ "constants": {
+  "IFC_OVERRIDES": [
+   {
+    "from": "Mark",
+    "to": "IfcTag",
+    "verified": true
+   },
+   {
+    "from": "Comments",
+    "to": "IfcDescription",
+    "verified": true
+   },
+   {
+    "from": "Number",
+    "to": "IfcName",
+    "categories": [
+     "Rooms"
+    ],
+    "verified": true,
+    "note": "IFC IfcSpace Name = room number by convention"
+   },
+   {
+    "from": "Name",
+    "to": "IfcLongName",
+    "categories": [
+     "Rooms"
+    ],
+    "verified": true
+   },
+   {
+    "from": "Type Mark",
+    "to": "IfcObjectType",
+    "allow_type": true,
+    "verified": true
+   }
+  ],
+  "IFC_COMMON_PSETS": [
+   {
+    "from": "Fire Rating",
+    "to": "FireRating",
+    "categories": [
+     "Doors",
+     "Walls",
+     "Windows",
+     "Floors"
+    ],
+    "verified": true,
+    "note": "Pset_*Common.FireRating (IfcLabel): text parameter named FireRating"
+   },
+   {
+    "from": "Acoustic Rating",
+    "to": "AcousticRating",
+    "categories": [
+     "Doors",
+     "Walls",
+     "Windows"
+    ],
+    "verified": true,
+    "note": "Pset_DoorCommon / Pset_WallCommon.AcousticRating"
+   },
+   {
+    "from": "Function",
+    "to": "IsExternal",
+    "categories": [
+     "Walls"
+    ],
+    "verified": false,
+    "note": "IsExternal is a boolean: the source must be a Yes/No parameter; map your own 'Is External' flag"
+   }
+  ],
+  "COBIE_TYPE": [
+   {
+    "from": "Manufacturer",
+    "to": "COBie.Type.Manufacturer",
+    "allow_type": true,
+    "verified": true
+   },
+   {
+    "from": "Model",
+    "to": "COBie.Type.ModelNumber",
+    "allow_type": true,
+    "verified": false
+   },
+   {
+    "from": "Description",
+    "to": "COBie.Type.Description",
+    "allow_type": true,
+    "verified": false
+   },
+   {
+    "from": "Assembly Code",
+    "to": "COBie.Type.Category",
+    "allow_type": true,
+    "verified": false
+   }
+  ],
+  "COBIE_COMPONENT": [
+   {
+    "from": "Serial Number",
+    "to": "COBie.Component.SerialNumber",
+    "verified": true,
+    "note": "instance text parameter; 'Serial Number' is your own source parameter"
+   },
+   {
+    "from": "Installation Date",
+    "to": "COBie.Component.InstallationDate",
+    "verified": true
+   },
+   {
+    "from": "Mark",
+    "to": "COBie.Component.TagNumber",
+    "verified": false
+   },
+   {
+    "from": "Comments",
+    "to": "COBie.Component.Description",
+    "verified": false
+   }
+  ],
+  "COBIE_SPACE": [
+   {
+    "from": "Number",
+    "to": "COBie.Space.Name",
+    "categories": [
+     "Rooms"
+    ],
+    "verified": false
+   },
+   {
+    "from": "Name",
+    "to": "COBie.Space.Description",
+    "categories": [
+     "Rooms"
+    ],
+    "verified": false
+   }
+  ],
+  "PRESETS": {
+   "ifc_overrides": {
+    "description": "Revit IFC exporter override parameters (IfcName/IfcLongName/IfcDescription/IfcObjectType/IfcTag)",
+    "mappings": [
+     {
+      "from": "Mark",
+      "to": "IfcTag",
+      "verified": true
+     },
+     {
+      "from": "Comments",
+      "to": "IfcDescription",
+      "verified": true
+     },
+     {
+      "from": "Number",
+      "to": "IfcName",
+      "categories": [
+       "Rooms"
+      ],
+      "verified": true,
+      "note": "IFC IfcSpace Name = room number by convention"
+     },
+     {
+      "from": "Name",
+      "to": "IfcLongName",
+      "categories": [
+       "Rooms"
+      ],
+      "verified": true
+     },
+     {
+      "from": "Type Mark",
+      "to": "IfcObjectType",
+      "allow_type": true,
+      "verified": true
+     }
+    ]
+   },
+   "ifc_common_psets": {
+    "description": "Parameters named like IFC common pset properties (FireRating, ...)",
+    "mappings": [
+     {
+      "from": "Fire Rating",
+      "to": "FireRating",
+      "categories": [
+       "Doors",
+       "Walls",
+       "Windows",
+       "Floors"
+      ],
+      "verified": true,
+      "note": "Pset_*Common.FireRating (IfcLabel): text parameter named FireRating"
+     },
+     {
+      "from": "Acoustic Rating",
+      "to": "AcousticRating",
+      "categories": [
+       "Doors",
+       "Walls",
+       "Windows"
+      ],
+      "verified": true,
+      "note": "Pset_DoorCommon / Pset_WallCommon.AcousticRating"
+     },
+     {
+      "from": "Function",
+      "to": "IsExternal",
+      "categories": [
+       "Walls"
+      ],
+      "verified": false,
+      "note": "IsExternal is a boolean: the source must be a Yes/No parameter; map your own 'Is External' flag"
+     }
+    ]
+   },
+   "cobie_type": {
+    "description": "COBie Type sheet fields from type parameters",
+    "mappings": [
+     {
+      "from": "Manufacturer",
+      "to": "COBie.Type.Manufacturer",
+      "allow_type": true,
+      "verified": true
+     },
+     {
+      "from": "Model",
+      "to": "COBie.Type.ModelNumber",
+      "allow_type": true,
+      "verified": false
+     },
+     {
+      "from": "Description",
+      "to": "COBie.Type.Description",
+      "allow_type": true,
+      "verified": false
+     },
+     {
+      "from": "Assembly Code",
+      "to": "COBie.Type.Category",
+      "allow_type": true,
+      "verified": false
+     }
+    ]
+   },
+   "cobie_component": {
+    "description": "COBie Component sheet fields from instance parameters",
+    "mappings": [
+     {
+      "from": "Serial Number",
+      "to": "COBie.Component.SerialNumber",
+      "verified": true,
+      "note": "instance text parameter; 'Serial Number' is your own source parameter"
+     },
+     {
+      "from": "Installation Date",
+      "to": "COBie.Component.InstallationDate",
+      "verified": true
+     },
+     {
+      "from": "Mark",
+      "to": "COBie.Component.TagNumber",
+      "verified": false
+     },
+     {
+      "from": "Comments",
+      "to": "COBie.Component.Description",
+      "verified": false
+     }
+    ]
+   },
+   "cobie_space": {
+    "description": "COBie Space sheet fields from rooms",
+    "mappings": [
+     {
+      "from": "Number",
+      "to": "COBie.Space.Name",
+      "categories": [
+       "Rooms"
+      ],
+      "verified": false
+     },
+     {
+      "from": "Name",
+      "to": "COBie.Space.Description",
+      "categories": [
+       "Rooms"
+      ],
+      "verified": false
+     }
+    ]
+   }
+  }
+ },
+ "cases": [
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_component"
+   ],
+   "expected": [
+    {
+     "from": "Serial Number",
+     "to": "COBie.Component.SerialNumber",
+     "verified": true,
+     "note": "instance text parameter; 'Serial Number' is your own source parameter"
+    },
+    {
+     "from": "Installation Date",
+     "to": "COBie.Component.InstallationDate",
+     "verified": true
+    },
+    {
+     "from": "Mark",
+     "to": "COBie.Component.TagNumber",
+     "verified": false
+    },
+    {
+     "from": "Comments",
+     "to": "COBie.Component.Description",
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_component",
+    null
+   ],
+   "expected": [
+    {
+     "from": "Serial Number",
+     "to": "COBie.Component.SerialNumber",
+     "verified": true,
+     "note": "instance text parameter; 'Serial Number' is your own source parameter"
+    },
+    {
+     "from": "Installation Date",
+     "to": "COBie.Component.InstallationDate",
+     "verified": true
+    },
+    {
+     "from": "Mark",
+     "to": "COBie.Component.TagNumber",
+     "verified": false
+    },
+    {
+     "from": "Comments",
+     "to": "COBie.Component.Description",
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_component",
+    {}
+   ],
+   "expected": [
+    {
+     "from": "Serial Number",
+     "to": "COBie.Component.SerialNumber",
+     "verified": true,
+     "note": "instance text parameter; 'Serial Number' is your own source parameter"
+    },
+    {
+     "from": "Installation Date",
+     "to": "COBie.Component.InstallationDate",
+     "verified": true
+    },
+    {
+     "from": "Mark",
+     "to": "COBie.Component.TagNumber",
+     "verified": false
+    },
+    {
+     "from": "Comments",
+     "to": "COBie.Component.Description",
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_component",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "Serial Number",
+     "to": "COBie.Component.SerialNumber",
+     "verified": true,
+     "note": "instance text parameter; 'Serial Number' is your own source parameter"
+    },
+    {
+     "from": "Installation Date",
+     "to": "COBie.Component.InstallationDate",
+     "verified": true
+    },
+    {
+     "from": "Mark",
+     "to": "COBie.Component.TagNumber",
+     "verified": false
+    },
+    {
+     "from": "Comments",
+     "to": "COBie.Component.Description",
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_component",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "Serial Number",
+     "to": "COBie.Component.SerialNumber",
+     "verified": true,
+     "note": "instance text parameter; 'Serial Number' is your own source parameter"
+    },
+    {
+     "from": "Installation Date",
+     "to": "COBie.Component.InstallationDate",
+     "verified": true
+    },
+    {
+     "from": "Mark",
+     "to": "COBie.Component.TagNumber",
+     "verified": false
+    },
+    {
+     "from": "Comments",
+     "to": "COBie.Component.Description",
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_space"
+   ],
+   "expected": [
+    {
+     "from": "Number",
+     "to": "COBie.Space.Name",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": false
+    },
+    {
+     "from": "Name",
+     "to": "COBie.Space.Description",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_space",
+    null
+   ],
+   "expected": [
+    {
+     "from": "Number",
+     "to": "COBie.Space.Name",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": false
+    },
+    {
+     "from": "Name",
+     "to": "COBie.Space.Description",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_space",
+    {}
+   ],
+   "expected": [
+    {
+     "from": "Number",
+     "to": "COBie.Space.Name",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": false
+    },
+    {
+     "from": "Name",
+     "to": "COBie.Space.Description",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_space",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "Number",
+     "to": "COBie.Space.Name",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": false
+    },
+    {
+     "from": "Name",
+     "to": "COBie.Space.Description",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_space",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "Number",
+     "to": "COBie.Space.Name",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": false
+    },
+    {
+     "from": "Name",
+     "to": "COBie.Space.Description",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_type"
+   ],
+   "expected": [
+    {
+     "from": "Manufacturer",
+     "to": "COBie.Type.Manufacturer",
+     "allow_type": true,
+     "verified": true
+    },
+    {
+     "from": "Model",
+     "to": "COBie.Type.ModelNumber",
+     "allow_type": true,
+     "verified": false
+    },
+    {
+     "from": "Description",
+     "to": "COBie.Type.Description",
+     "allow_type": true,
+     "verified": false
+    },
+    {
+     "from": "Assembly Code",
+     "to": "COBie.Type.Category",
+     "allow_type": true,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_type",
+    null
+   ],
+   "expected": [
+    {
+     "from": "Manufacturer",
+     "to": "COBie.Type.Manufacturer",
+     "allow_type": true,
+     "verified": true
+    },
+    {
+     "from": "Model",
+     "to": "COBie.Type.ModelNumber",
+     "allow_type": true,
+     "verified": false
+    },
+    {
+     "from": "Description",
+     "to": "COBie.Type.Description",
+     "allow_type": true,
+     "verified": false
+    },
+    {
+     "from": "Assembly Code",
+     "to": "COBie.Type.Category",
+     "allow_type": true,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_type",
+    {}
+   ],
+   "expected": [
+    {
+     "from": "Manufacturer",
+     "to": "COBie.Type.Manufacturer",
+     "allow_type": true,
+     "verified": true
+    },
+    {
+     "from": "Model",
+     "to": "COBie.Type.ModelNumber",
+     "allow_type": true,
+     "verified": false
+    },
+    {
+     "from": "Description",
+     "to": "COBie.Type.Description",
+     "allow_type": true,
+     "verified": false
+    },
+    {
+     "from": "Assembly Code",
+     "to": "COBie.Type.Category",
+     "allow_type": true,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_type",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "Manufacturer",
+     "to": "COBie.Type.Manufacturer",
+     "allow_type": true,
+     "verified": true
+    },
+    {
+     "from": "Model",
+     "to": "COBie.Type.ModelNumber",
+     "allow_type": true,
+     "verified": false
+    },
+    {
+     "from": "Description",
+     "to": "COBie.Type.Description",
+     "allow_type": true,
+     "verified": false
+    },
+    {
+     "from": "Assembly Code",
+     "to": "COBie.Type.Category",
+     "allow_type": true,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "cobie_type",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "Manufacturer",
+     "to": "COBie.Type.Manufacturer",
+     "allow_type": true,
+     "verified": true
+    },
+    {
+     "from": "Model",
+     "to": "COBie.Type.ModelNumber",
+     "allow_type": true,
+     "verified": false
+    },
+    {
+     "from": "Description",
+     "to": "COBie.Type.Description",
+     "allow_type": true,
+     "verified": false
+    },
+    {
+     "from": "Assembly Code",
+     "to": "COBie.Type.Category",
+     "allow_type": true,
+     "verified": false
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "ifc_common_psets"
+   ],
+   "expected": [
+    {
+     "from": "Fire Rating",
+     "to": "FireRating",
+     "categories": [
+      "Doors",
+      "Walls",
+      "Windows",
+      "Floors"
+     ],
+     "verified": true,
+     "note": "Pset_*Common.FireRating (IfcLabel): text parameter named FireRating"
+    },
+    {
+     "from": "Acoustic Rating",
+     "to": "AcousticRating",
+     "categories": [
+      "Doors",
+      "Walls",
+      "Windows"
+     ],
+     "verified": true,
+     "note": "Pset_DoorCommon / Pset_WallCommon.AcousticRating"
+    },
+    {
+     "from": "Function",
+     "to": "IsExternal",
+     "categories": [
+      "Walls"
+     ],
+     "verified": false,
+     "note": "IsExternal is a boolean: the source must be a Yes/No parameter; map your own 'Is External' flag"
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "ifc_common_psets",
+    null
+   ],
+   "expected": [
+    {
+     "from": "Fire Rating",
+     "to": "FireRating",
+     "categories": [
+      "Doors",
+      "Walls",
+      "Windows",
+      "Floors"
+     ],
+     "verified": true,
+     "note": "Pset_*Common.FireRating (IfcLabel): text parameter named FireRating"
+    },
+    {
+     "from": "Acoustic Rating",
+     "to": "AcousticRating",
+     "categories": [
+      "Doors",
+      "Walls",
+      "Windows"
+     ],
+     "verified": true,
+     "note": "Pset_DoorCommon / Pset_WallCommon.AcousticRating"
+    },
+    {
+     "from": "Function",
+     "to": "IsExternal",
+     "categories": [
+      "Walls"
+     ],
+     "verified": false,
+     "note": "IsExternal is a boolean: the source must be a Yes/No parameter; map your own 'Is External' flag"
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "ifc_common_psets",
+    {}
+   ],
+   "expected": [
+    {
+     "from": "Fire Rating",
+     "to": "FireRating",
+     "categories": [
+      "Doors",
+      "Walls",
+      "Windows",
+      "Floors"
+     ],
+     "verified": true,
+     "note": "Pset_*Common.FireRating (IfcLabel): text parameter named FireRating"
+    },
+    {
+     "from": "Acoustic Rating",
+     "to": "AcousticRating",
+     "categories": [
+      "Doors",
+      "Walls",
+      "Windows"
+     ],
+     "verified": true,
+     "note": "Pset_DoorCommon / Pset_WallCommon.AcousticRating"
+    },
+    {
+     "from": "Function",
+     "to": "IsExternal",
+     "categories": [
+      "Walls"
+     ],
+     "verified": false,
+     "note": "IsExternal is a boolean: the source must be a Yes/No parameter; map your own 'Is External' flag"
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "ifc_common_psets",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "Fire Rating",
+     "to": "FireRating",
+     "categories": [
+      "Doors",
+      "Walls",
+      "Windows",
+      "Floors"
+     ],
+     "verified": true,
+     "note": "Pset_*Common.FireRating (IfcLabel): text parameter named FireRating"
+    },
+    {
+     "from": "Acoustic Rating",
+     "to": "AcousticRating",
+     "categories": [
+      "Doors",
+      "Walls",
+      "Windows"
+     ],
+     "verified": true,
+     "note": "Pset_DoorCommon / Pset_WallCommon.AcousticRating"
+    },
+    {
+     "from": "Function",
+     "to": "IsExternal",
+     "categories": [
+      "Walls"
+     ],
+     "verified": false,
+     "note": "IsExternal is a boolean: the source must be a Yes/No parameter; map your own 'Is External' flag"
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "ifc_common_psets",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "Fire Rating",
+     "to": "FireRating",
+     "categories": [
+      "Doors",
+      "Walls",
+      "Windows",
+      "Floors"
+     ],
+     "verified": true,
+     "note": "Pset_*Common.FireRating (IfcLabel): text parameter named FireRating"
+    },
+    {
+     "from": "Acoustic Rating",
+     "to": "AcousticRating",
+     "categories": [
+      "Doors",
+      "Walls",
+      "Windows"
+     ],
+     "verified": true,
+     "note": "Pset_DoorCommon / Pset_WallCommon.AcousticRating"
+    },
+    {
+     "from": "Function",
+     "to": "IsExternal",
+     "categories": [
+      "Walls"
+     ],
+     "verified": false,
+     "note": "IsExternal is a boolean: the source must be a Yes/No parameter; map your own 'Is External' flag"
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "ifc_overrides"
+   ],
+   "expected": [
+    {
+     "from": "Mark",
+     "to": "IfcTag",
+     "verified": true
+    },
+    {
+     "from": "Comments",
+     "to": "IfcDescription",
+     "verified": true
+    },
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": true,
+     "note": "IFC IfcSpace Name = room number by convention"
+    },
+    {
+     "from": "Name",
+     "to": "IfcLongName",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": true
+    },
+    {
+     "from": "Type Mark",
+     "to": "IfcObjectType",
+     "allow_type": true,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "ifc_overrides",
+    null
+   ],
+   "expected": [
+    {
+     "from": "Mark",
+     "to": "IfcTag",
+     "verified": true
+    },
+    {
+     "from": "Comments",
+     "to": "IfcDescription",
+     "verified": true
+    },
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": true,
+     "note": "IFC IfcSpace Name = room number by convention"
+    },
+    {
+     "from": "Name",
+     "to": "IfcLongName",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": true
+    },
+    {
+     "from": "Type Mark",
+     "to": "IfcObjectType",
+     "allow_type": true,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "ifc_overrides",
+    {}
+   ],
+   "expected": [
+    {
+     "from": "Mark",
+     "to": "IfcTag",
+     "verified": true
+    },
+    {
+     "from": "Comments",
+     "to": "IfcDescription",
+     "verified": true
+    },
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": true,
+     "note": "IFC IfcSpace Name = room number by convention"
+    },
+    {
+     "from": "Name",
+     "to": "IfcLongName",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": true
+    },
+    {
+     "from": "Type Mark",
+     "to": "IfcObjectType",
+     "allow_type": true,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "ifc_overrides",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "Mark",
+     "to": "IfcTag",
+     "verified": true
+    },
+    {
+     "from": "Comments",
+     "to": "IfcDescription",
+     "verified": true
+    },
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": true,
+     "note": "IFC IfcSpace Name = room number by convention"
+    },
+    {
+     "from": "Name",
+     "to": "IfcLongName",
+     "categories": [
+      "Rooms"
+     ],
+     "verified": true
+    },
+    {
+     "from": "Type Mark",
+     "to": "IfcObjectType",
+     "allow_type": true,
+     "verified": true
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "ifc_overrides",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "Mark",
+     "to": "OfficeTag"
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "office_ifc"
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'office_ifc'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "office_ifc",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "A",
+     "to": "B",
+     "categories": [
+      "Doors"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "office_ifc",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'office_ifc'. Available: Zeta, cobie_component, cobie_space, cobie_type, empty, ifc_common_psets, ifc_overrides, nolist, none"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "nope"
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'nope'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "nope",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'nope'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides, office_ifc"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "nope",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'nope'. Available: Zeta, cobie_component, cobie_space, cobie_type, empty, ifc_common_psets, ifc_overrides, nolist, none"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    ""
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset ''. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset ''. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides, office_ifc"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset ''. Available: Zeta, cobie_component, cobie_space, cobie_type, empty, ifc_common_psets, ifc_overrides, nolist, none"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "IFC_OVERRIDES"
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'IFC_OVERRIDES'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "IFC_OVERRIDES",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'IFC_OVERRIDES'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides, office_ifc"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "IFC_OVERRIDES",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'IFC_OVERRIDES'. Available: Zeta, cobie_component, cobie_space, cobie_type, empty, ifc_common_psets, ifc_overrides, nolist, none"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "empty"
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'empty'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "empty",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'empty'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides, office_ifc"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "empty",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": []
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "none"
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'none'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "none",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'none'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides, office_ifc"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "none",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": []
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "nolist"
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'nolist'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "nolist",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'nolist'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides, office_ifc"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "nolist",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": []
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "Zeta"
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'Zeta'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "Zeta",
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'Zeta'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides, office_ifc"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "Zeta",
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "a",
+     "to": "b",
+     "extra": [
+      1,
+      2,
+      {
+       "k": null
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    null
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'None'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    null,
+    {
+     "office_ifc": {
+      "description": "x",
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B",
+        "categories": [
+         "Doors"
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'None'. Available: cobie_component, cobie_space, cobie_type, ifc_common_psets, ifc_overrides, office_ifc"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    null,
+    {
+     "ifc_overrides": {
+      "description": "office wins",
+      "mappings": [
+       {
+        "from": "Mark",
+        "to": "OfficeTag"
+       }
+      ]
+     },
+     "empty": {
+      "description": "no mappings"
+     },
+     "none": {
+      "mappings": null
+     },
+     "nolist": {
+      "mappings": []
+     },
+     "Zeta": {
+      "mappings": [
+       {
+        "from": "a",
+        "to": "b",
+        "extra": [
+         1,
+         2,
+         {
+          "k": null
+         }
+        ]
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Unknown preset 'None'. Available: Zeta, cobie_component, cobie_space, cobie_type, empty, ifc_common_psets, ifc_overrides, nolist, none"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "bad",
+    {
+     "bad": {
+      "mappings": [
+       {
+        "from": "A"
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Preset 'bad' has a mapping without from/to: {'from': 'A'}"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "bad",
+    {
+     "bad": {
+      "mappings": [
+       {
+        "to": "B"
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Preset 'bad' has a mapping without from/to: {'to': 'B'}"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "bad",
+    {
+     "bad": {
+      "mappings": [
+       {
+        "from": "",
+        "to": "B"
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Preset 'bad' has a mapping without from/to: {'from': '', 'to': 'B'}"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "bad",
+    {
+     "bad": {
+      "mappings": [
+       {
+        "from": "A",
+        "to": null
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Preset 'bad' has a mapping without from/to: {'from': 'A', 'to': None}"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "bad",
+    {
+     "bad": {
+      "mappings": [
+       {}
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Preset 'bad' has a mapping without from/to: {}"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "bad",
+    {
+     "bad": {
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B"
+       },
+       {
+        "from": "it's",
+        "to": "",
+        "categories": [
+         "Doors",
+         "Walls"
+        ],
+        "verified": true,
+        "allow_type": false,
+        "n": 1,
+        "f": 1.5,
+        "none": null,
+        "q": "say \"hi\"",
+        "both": "it's \"x\"",
+        "nested": {
+         "a": [
+          1,
+          "two"
+         ]
+        },
+        "back\\slash": "tab\there"
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Preset 'bad' has a mapping without from/to: {'from': \"it's\", 'to': '', 'categories': ['Doors', 'Walls'], 'verified': True, 'allow_type': False, 'n': 1, 'f': 1.5, 'none': None, 'q': 'say \"hi\"', 'both': 'it\\'s \"x\"', 'nested': {'a': [1, 'two']}, 'back\\\\slash': 'tab\\there'}"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "bad",
+    {
+     "bad": {
+      "mappings": [
+       {
+        "from": 0,
+        "to": "B"
+       }
+      ]
+     }
+    }
+   ],
+   "error": "PresetError",
+   "message": "Preset 'bad' has a mapping without from/to: {'from': 0, 'to': 'B'}"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "bad",
+    {
+     "bad": {
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B"
+       }
+      ]
+     }
+    }
+   ],
+   "expected": [
+    {
+     "from": "A",
+     "to": "B"
+    }
+   ]
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "bad",
+    {
+     "bad": {
+      "mappings": [
+       {
+        "from": "A",
+        "to": "B"
+       },
+       "text"
+      ]
+     }
+    }
+   ],
+   "error": "AttributeError",
+   "message": "'str' object has no attribute 'get'"
+  },
+  {
+   "fn": "get_preset",
+   "args": [
+    "bad",
+    {
+     "bad": "text"
+    }
+   ],
+   "error": "AttributeError",
+   "message": "'str' object has no attribute 'get'"
+  },
+  {
+   "fn": "preset_categories",
+   "args": [
+    [
+     {
+      "from": "Number",
+      "to": "COBie.Space.Name",
+      "categories": [
+       "Rooms"
+      ],
+      "verified": false
+     },
+     {
+      "from": "Name",
+      "to": "COBie.Space.Description",
+      "categories": [
+       "Rooms"
+      ],
+      "verified": false
+     }
+    ]
+   ],
+   "expected": [
+    "Rooms"
+   ]
+  },
+  {
+   "fn": "preset_categories",
+   "args": [
+    [
+     {
+      "from": "Manufacturer",
+      "to": "COBie.Type.Manufacturer",
+      "allow_type": true,
+      "verified": true
+     },
+     {
+      "from": "Model",
+      "to": "COBie.Type.ModelNumber",
+      "allow_type": true,
+      "verified": false
+     },
+     {
+      "from": "Description",
+      "to": "COBie.Type.Description",
+      "allow_type": true,
+      "verified": false
+     },
+     {
+      "from": "Assembly Code",
+      "to": "COBie.Type.Category",
+      "allow_type": true,
+      "verified": false
+     }
+    ]
+   ],
+   "expected": []
+  },
+  {
+   "fn": "preset_categories",
+   "args": [
+    [
+     {
+      "from": "Fire Rating",
+      "to": "FireRating",
+      "categories": [
+       "Doors",
+       "Walls",
+       "Windows",
+       "Floors"
+      ],
+      "verified": true,
+      "note": "Pset_*Common.FireRating (IfcLabel): text parameter named FireRating"
+     },
+     {
+      "from": "Acoustic Rating",
+      "to": "AcousticRating",
+      "categories": [
+       "Doors",
+       "Walls",
+       "Windows"
+      ],
+      "verified": true,
+      "note": "Pset_DoorCommon / Pset_WallCommon.AcousticRating"
+     },
+     {
+      "from": "Function",
+      "to": "IsExternal",
+      "categories": [
+       "Walls"
+      ],
+      "verified": false,
+      "note": "IsExternal is a boolean: the source must be a Yes/No parameter; map your own 'Is External' flag"
+     }
+    ]
+   ],
+   "expected": [
+    "Doors",
+    "Walls",
+    "Windows",
+    "Floors"
+   ]
+  },
+  {
+   "fn": "preset_categories",
+   "args": [
+    [
+     {
+      "from": "Mark",
+      "to": "IfcTag",
+      "verified": true
+     },
+     {
+      "from": "Comments",
+      "to": "IfcDescription",
+      "verified": true
+     },
+     {
+      "from": "Number",
+      "to": "IfcName",
+      "categories": [
+       "Rooms"
+      ],
+      "verified": true,
+      "note": "IFC IfcSpace Name = room number by convention"
+     },
+     {
+      "from": "Name",
+      "to": "IfcLongName",
+      "categories": [
+       "Rooms"
+      ],
+      "verified": true
+     },
+     {
+      "from": "Type Mark",
+      "to": "IfcObjectType",
+      "allow_type": true,
+      "verified": true
+     }
+    ]
+   ],
+   "expected": [
+    "Rooms"
+   ]
+  },
+  {
+   "fn": "preset_categories",
+   "args": [
+    []
+   ],
+   "expected": []
+  },
+  {
+   "fn": "preset_categories",
+   "args": [
+    [
+     {
+      "categories": [
+       "B",
+       "A",
+       "B"
+      ]
+     },
+     {
+      "categories": null
+     },
+     {
+      "categories": []
+     },
+     {},
+     {
+      "categories": [
+       "a",
+       "A",
+       1,
+       1.0,
+       "C"
+      ]
+     }
+    ]
+   ],
+   "expected": [
+    "B",
+    "A",
+    "a",
+    1,
+    "C"
+   ]
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms",
+      "Wall Sweeps"
+     ]
+    },
+    "Rooms"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms",
+      "Wall Sweeps"
+     ]
+    },
+    "rooms"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms",
+      "Wall Sweeps"
+     ]
+    },
+    "ROOMS"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms",
+      "Wall Sweeps"
+     ]
+    },
+    "Doors"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms",
+      "Wall Sweeps"
+     ]
+    },
+    null
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms",
+      "Wall Sweeps"
+     ]
+    },
+    ""
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms",
+      "Wall Sweeps"
+     ]
+    },
+    "wall sweeps"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms",
+      "Wall Sweeps"
+     ]
+    },
+    " Rooms"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "Number",
+     "to": "IfcName",
+     "categories": [
+      "Rooms",
+      "Wall Sweeps"
+     ]
+    },
+    "étage"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "a",
+     "to": "b"
+    },
+    "Rooms"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "a",
+     "to": "b"
+    },
+    "rooms"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "a",
+     "to": "b"
+    },
+    "ROOMS"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "a",
+     "to": "b"
+    },
+    "Doors"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "a",
+     "to": "b"
+    },
+    null
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "a",
+     "to": "b"
+    },
+    ""
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "a",
+     "to": "b"
+    },
+    "wall sweeps"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "a",
+     "to": "b"
+    },
+    " Rooms"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "from": "a",
+     "to": "b"
+    },
+    "étage"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": []
+    },
+    "Rooms"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": []
+    },
+    "rooms"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": []
+    },
+    "ROOMS"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": []
+    },
+    "Doors"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": []
+    },
+    null
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": []
+    },
+    ""
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": []
+    },
+    "wall sweeps"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": []
+    },
+    " Rooms"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": []
+    },
+    "étage"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": null
+    },
+    "Rooms"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": null
+    },
+    "rooms"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": null
+    },
+    "ROOMS"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": null
+    },
+    "Doors"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": null
+    },
+    null
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": null
+    },
+    ""
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": null
+    },
+    "wall sweeps"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": null
+    },
+    " Rooms"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": null
+    },
+    "étage"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": [
+      "ÉTAGE"
+     ]
+    },
+    "Rooms"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": [
+      "ÉTAGE"
+     ]
+    },
+    "rooms"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": [
+      "ÉTAGE"
+     ]
+    },
+    "ROOMS"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": [
+      "ÉTAGE"
+     ]
+    },
+    "Doors"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": [
+      "ÉTAGE"
+     ]
+    },
+    null
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": [
+      "ÉTAGE"
+     ]
+    },
+    ""
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": [
+      "ÉTAGE"
+     ]
+    },
+    "wall sweeps"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": [
+      "ÉTAGE"
+     ]
+    },
+    " Rooms"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "applies",
+   "args": [
+    {
+     "categories": [
+      "ÉTAGE"
+     ]
+    },
+    "étage"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "describe",
+   "args": [],
+   "expected": {
+    "ifc_overrides": {
+     "description": "Revit IFC exporter override parameters (IfcName/IfcLongName/IfcDescription/IfcObjectType/IfcTag)",
+     "mappings": 5,
+     "unverified_targets": []
+    },
+    "ifc_common_psets": {
+     "description": "Parameters named like IFC common pset properties (FireRating, ...)",
+     "mappings": 3,
+     "unverified_targets": [
+      "IsExternal"
+     ]
+    },
+    "cobie_type": {
+     "description": "COBie Type sheet fields from type parameters",
+     "mappings": 4,
+     "unverified_targets": [
+      "COBie.Type.ModelNumber",
+      "COBie.Type.Description",
+      "COBie.Type.Category"
+     ]
+    },
+    "cobie_component": {
+     "description": "COBie Component sheet fields from instance parameters",
+     "mappings": 4,
+     "unverified_targets": [
+      "COBie.Component.TagNumber",
+      "COBie.Component.Description"
+     ]
+    },
+    "cobie_space": {
+     "description": "COBie Space sheet fields from rooms",
+     "mappings": 2,
+     "unverified_targets": [
+      "COBie.Space.Name",
+      "COBie.Space.Description"
+     ]
+    }
+   }
+  }
+ ]
+}

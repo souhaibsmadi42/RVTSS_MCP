@@ -1,0 +1,6133 @@
+[
+ {
+  "name": "create_view missing kind",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {}
+ },
+ {
+  "name": "create_view bad kind",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "bogus",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view duplicate ambiguous name",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "duplicate",
+   "source_view": "Level 1",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view floor_plan dry",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "floor_plan",
+   "level": "Level 1",
+   "name": "zz dry floor",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view floor_plan missing level",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "floor_plan",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view floor_plan bad level",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "floor_plan",
+   "level": "Level 9",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view floor_plan bad vft",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "floor_plan",
+   "level": "Level 1",
+   "view_family_type": "nope",
+   "dry_run": true
+  },
+  "expect_different": true
+ },
+ {
+  "name": "create_view ceiling_plan template scale detail",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "ceiling_plan",
+   "level": "Level 2",
+   "template": "Architectural Reflected Ceiling Plan",
+   "scale": 50,
+   "detail_level": "fine",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view ceiling_plan bad template",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "ceiling_plan",
+   "level": "Level 2",
+   "template": "nope",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view structural_plan dry",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "structural_plan",
+   "level": 13071,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view area_plan dry",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "area_plan",
+   "level": "Level 1",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view area_plan bad scheme",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "area_plan",
+   "level": "Level 1",
+   "area_scheme": "nope",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view three_d dry",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "three_d",
+   "name": "zz dry 3d",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view three_d boxed",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "three_d",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "margin": 300,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view three_d bad ids",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "three_d",
+   "element_ids": [
+    1
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view section dry",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "section",
+   "element_ids": [
+    210619
+   ],
+   "looking": "east",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view section no ids",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "section",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view section bad looking",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "section",
+   "element_ids": [
+    210619
+   ],
+   "looking": "up",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view elevation dry",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "elevation",
+   "plan_view": 13073,
+   "point": [
+    0,
+    0,
+    0
+   ],
+   "facing": "east",
+   "scale": 50,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view elevation missing plan",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "elevation",
+   "point": [
+    0,
+    0,
+    0
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view elevation bad point",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "elevation",
+   "plan_view": 13073,
+   "point": [
+    0
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view drafting dry",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "drafting",
+   "name": "zz dry draft",
+   "scale": 20,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view callout dry",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "callout",
+   "source_view": 13073,
+   "min": [
+    0,
+    0,
+    0
+   ],
+   "max": [
+    5000,
+    5000,
+    0
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view callout bad vft",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "callout",
+   "source_view": 13073,
+   "min": [
+    0,
+    0,
+    0
+   ],
+   "max": [
+    5000,
+    5000,
+    0
+   ],
+   "view_family_type": "nope",
+   "dry_run": true
+  },
+  "expect_different": true
+ },
+ {
+  "name": "create_view callout missing min",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "callout",
+   "source_view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view legend",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "legend",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view legend bad source",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "legend",
+   "source_view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view duplicate",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "duplicate",
+   "source_view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view duplicate with_detailing",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "duplicate",
+   "source_view": 13073,
+   "duplicate_option": "with_detailing",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view duplicate as_dependent",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "duplicate",
+   "source_view": 13073,
+   "duplicate_option": "as_dependent",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view duplicate bad option",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "duplicate",
+   "source_view": 13073,
+   "duplicate_option": "bogus",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view duplicate 3D",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "duplicate",
+   "source_view": "3D Lesson",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view duplicate missing source",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "duplicate",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view duplicate bad detail_level",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "duplicate",
+   "source_view": 13073,
+   "detail_level": "bogus",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view duplicate bad scale",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "duplicate",
+   "source_view": 13073,
+   "scale": "abc",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view duplicate scale 0",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "duplicate",
+   "source_view": 13073,
+   "scale": 0,
+   "detail_level": "coarse",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "create_view duplicate huge scale",
+  "method": "POST",
+  "path": "/views/create/",
+  "body": {
+   "kind": "duplicate",
+   "source_view": 13073,
+   "scale": 99999999,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics missing action",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {}
+ },
+ {
+  "name": "view_graphics unknown action",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "bogus",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics override categories",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "override",
+   "categories": [
+    "Walls"
+   ],
+   "color": "#FF0000",
+   "transparency": 50,
+   "halftone": true,
+   "line_weight": 5,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics override elements",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "override",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "color": "00ff00",
+   "fill": false,
+   "line_weight": 99,
+   "transparency": 500,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics override plan view",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "override",
+   "view": 13073,
+   "element_ids": [
+    210619
+   ],
+   "color": "#0000FF",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics override bad color length",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "override",
+   "categories": [
+    "Walls"
+   ],
+   "color": "#FF00",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics override bad color hex",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "override",
+   "categories": [
+    "Walls"
+   ],
+   "color": "#GG0000",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics override bad category",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "override",
+   "categories": [
+    "Nope"
+   ],
+   "color": "#FF0000",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics override bad element",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "override",
+   "element_ids": [
+    1
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics override bad view",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "override",
+   "view": "nope",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics override nothing",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "override",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics reset",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "reset",
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics hide",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "hide",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics unhide",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "unhide",
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics hide no ids",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "hide",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics temporary_isolate no ids",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "temporary_isolate",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics temporary_hide no ids",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "temporary_hide",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics reset_temporary",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "reset_temporary",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics category_hidden",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "category_hidden",
+   "categories": [
+    "Walls",
+    "Doors"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics category_hidden false",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "category_hidden",
+   "categories": [
+    "Walls"
+   ],
+   "hidden": false,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics apply_template",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "apply_template",
+   "template": "Architectural Presentation 3D",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics apply_template by id",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "apply_template",
+   "template": 77271,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics apply_template missing",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "apply_template",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics apply_template bad",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "apply_template",
+   "template": "nope",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics remove_template",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "remove_template",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics set_scale",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "set_scale",
+   "view": 13073,
+   "scale": 50,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics set_scale missing",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "set_scale",
+   "view": 13073,
+   "dry_run": true
+  },
+  "expect_different": true
+ },
+ {
+  "name": "view_graphics set_scale bad",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "set_scale",
+   "view": 13073,
+   "scale": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics set_detail_level",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "set_detail_level",
+   "detail_level": "medium",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics set_detail_level bad",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "set_detail_level",
+   "detail_level": "bogus",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "view_graphics set_detail_level missing",
+  "method": "POST",
+  "path": "/views/graphics/",
+  "body": {
+   "action": "set_detail_level",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "sheets missing action",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {}
+ },
+ {
+  "name": "sheets bad action",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {
+   "action": "bogus",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "sheets list_titleblocks",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {
+   "action": "list_titleblocks"
+  }
+ },
+ {
+  "name": "sheets create dry",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {
+   "action": "create",
+   "number": "Z-100",
+   "name": "Test",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "sheets create many",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {
+   "action": "create",
+   "sheets": [
+    {
+     "number": "Z-1",
+     "name": "One",
+     "title_block": "A0 metric"
+    },
+    {
+     "number": "Z-2",
+     "name": "Two",
+     "title_block": 28295
+    },
+    {
+     "name": "No number"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "sheets create bad titleblock",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {
+   "action": "create",
+   "number": "Z-9",
+   "title_block": "nope",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "sheets create bad titleblock id",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {
+   "action": "create",
+   "number": "Z-9",
+   "title_block": "999999999",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "sheets create empty",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {
+   "action": "create",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "sheets create bad item",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {
+   "action": "create",
+   "sheets": [
+    "x"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "sheets place_view missing sheet",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {
+   "action": "place_view",
+   "view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "sheets place_view not a sheet",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {
+   "action": "place_view",
+   "sheet_id": 210619,
+   "view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "sheets place_view bad sheet",
+  "method": "POST",
+  "path": "/sheets/manage/",
+  "body": {
+   "action": "place_view",
+   "sheet_id": 1,
+   "view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule bad kind",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "kind": "bogus"
+  }
+ },
+ {
+  "name": "schedule missing category",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "fields": [
+    "Mark"
+   ]
+  }
+ },
+ {
+  "name": "schedule missing fields",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors"
+  }
+ },
+ {
+  "name": "schedule bad category",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Nope",
+   "fields": [
+    "Mark"
+   ]
+  }
+ },
+ {
+  "name": "schedule doors dry",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark",
+    "Level",
+    "Family and Type",
+    "Count"
+   ],
+   "name": "zz dry sched",
+   "dry_run": true
+  },
+  "unordered": [
+   "fields"
+  ]
+ },
+ {
+  "name": "schedule doors sort filter",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark",
+    "Level",
+    "Width"
+   ],
+   "sort_by": [
+    "Level",
+    "Nope"
+   ],
+   "filters": [
+    {
+     "field": "Mark",
+     "type": "Equal",
+     "value": "A"
+    },
+    {
+     "field": "Width",
+     "type": "GreaterThan",
+     "value": 800,
+     "unit": "mm"
+    }
+   ],
+   "itemized": false,
+   "dry_run": true
+  },
+  "unordered": [
+   "fields"
+  ]
+ },
+ {
+  "name": "schedule filter level equal",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark",
+    "Level"
+   ],
+   "filters": [
+    {
+     "field": "Level",
+     "type": "Equal",
+     "value": "Level 1"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule filter double no unit",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Width"
+   ],
+   "filters": [
+    {
+     "field": "Width",
+     "type": "GreaterThan",
+     "value": 2.5
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule filter int no unit",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Width"
+   ],
+   "filters": [
+    {
+     "field": "Width",
+     "type": "GreaterThan",
+     "value": 3
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule filter int with unit",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Width"
+   ],
+   "filters": [
+    {
+     "field": "Width",
+     "type": "GreaterThan",
+     "value": 3,
+     "unit": "ft"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule filter bool",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark"
+   ],
+   "filters": [
+    {
+     "field": "Mark",
+     "type": "Equal",
+     "value": true
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule filter contains",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark",
+    "Comments"
+   ],
+   "filters": [
+    {
+     "field": "Comments",
+     "type": "Contains",
+     "value": "x"
+    },
+    {
+     "field": "Mark",
+     "type": "NotEqual",
+     "value": ""
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule filter default type",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark"
+   ],
+   "filters": [
+    {
+     "field": "Mark",
+     "value": "A"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule filter no value",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark"
+   ],
+   "filters": [
+    {
+     "field": "Mark",
+     "type": "HasValue"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule filter bad unit",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Width"
+   ],
+   "filters": [
+    {
+     "field": "Width",
+     "type": "GreaterThan",
+     "value": 3,
+     "unit": "parsec"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule filter not dict",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark"
+   ],
+   "filters": [
+    "x"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule doors int filter",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark",
+    "Width"
+   ],
+   "filters": [
+    {
+     "field": "Mark",
+     "type": "NotEqual",
+     "value": 5
+    },
+    {
+     "field": "Width",
+     "type": "GreaterThan",
+     "value": 0.5
+    },
+    {
+     "field": "Mark",
+     "type": "HasValue",
+     "value": true
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule doors missing field strict",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark",
+    "Nope",
+    "Other"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule doors missing field lenient",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark",
+    "Nope"
+   ],
+   "strict": false,
+   "dry_run": true
+  },
+  "unordered": [
+   "fields"
+  ]
+ },
+ {
+  "name": "schedule doors filter field not in fields",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark"
+   ],
+   "filters": [
+    {
+     "field": "Level",
+     "value": "x"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule doors bad filter type",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Doors",
+   "fields": [
+    "Mark"
+   ],
+   "filters": [
+    {
+     "field": "Mark",
+     "type": "Foo",
+     "value": "x"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule key dry",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "kind": "key",
+   "category": "Rooms",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule key doors fields",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "kind": "key",
+   "category": "Doors",
+   "fields": [
+    "Mark"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule material_takeoff dry",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "kind": "material_takeoff",
+   "category": "Walls",
+   "fields": [
+    "Material: Name",
+    "Material: Volume"
+   ],
+   "dry_run": true
+  },
+  "unordered": [
+   "fields"
+  ]
+ },
+ {
+  "name": "schedule sheet_list dry",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "kind": "sheet_list",
+   "fields": [
+    "Sheet Number",
+    "Sheet Name"
+   ],
+   "dry_run": true
+  },
+  "unordered": [
+   "fields"
+  ]
+ },
+ {
+  "name": "schedule view_list dry",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "kind": "view_list",
+   "fields": [
+    "View Name"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule note_block missing family",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "kind": "note_block",
+   "fields": [
+    "Note"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule note_block bad family",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "kind": "note_block",
+   "family": "nope",
+   "fields": [
+    "Note"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "schedule walls dry",
+  "method": "POST",
+  "path": "/schedules/create/",
+  "body": {
+   "category": "Walls",
+   "fields": [
+    "Type",
+    "Length",
+    "Area"
+   ],
+   "sort_by": [
+    "Type"
+   ],
+   "dry_run": true
+  },
+  "unordered": [
+   "fields"
+  ]
+ },
+ {
+  "name": "rename missing target",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {}
+ },
+ {
+  "name": "rename bad target",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "bogus"
+  }
+ },
+ {
+  "name": "rename views prefix",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "views",
+   "prefix": "ZZ_",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename views regex find",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "views",
+   "find": "^(Level) (\\d)",
+   "replace": "\\2-\\1",
+   "regex": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename views include_regex",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "views",
+   "include_regex": "^Level",
+   "suffix": "_x",
+   "case": "upper",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename views bad include_regex",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "views",
+   "include_regex": "(",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename views bad regex",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "views",
+   "find": "(",
+   "regex": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename views invalid chars",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "views",
+   "find": "Level",
+   "replace": "L{",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename views conflict",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "views",
+   "include_regex": "^North$",
+   "find": "North",
+   "replace": "East",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename views title case",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "views",
+   "case": "title",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename views element_ids",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "views",
+   "element_ids": [
+    13073
+   ],
+   "prefix": "A_",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename view_templates",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "view_templates",
+   "find": "Architectural",
+   "replace": "Arch",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename levels",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "levels",
+   "find": "Level",
+   "replace": "Lvl",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename levels conflict staying",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "levels",
+   "include_regex": "Level 1",
+   "find": "1",
+   "replace": "2",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename levels swap",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "levels",
+   "find": "Level 1",
+   "replace": "Level X",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename sheets",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "sheets",
+   "prefix": "S",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename sheets number",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "sheets",
+   "field": "number",
+   "prefix": "S",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename grids",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "grids",
+   "prefix": "G",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename families",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "families",
+   "include_regex": "^M_Single",
+   "prefix": "Z_",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename family_types",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "family_types",
+   "include_regex": "^0915",
+   "prefix": "Z",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename family_types conflict",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "family_types",
+   "include_regex": "^0915",
+   "find": "0915",
+   "replace": "0813",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename system_types",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "system_types",
+   "include_regex": "^Generic - 200mm$",
+   "suffix": " copy",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename materials",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "materials",
+   "include_regex": "^Default",
+   "prefix": "Z",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename rooms",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "rooms",
+   "prefix": "R",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "rename no match",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "views",
+   "find": "zzzzzz",
+   "replace": "y"
+  }
+ },
+ {
+  "name": "rename find not string",
+  "method": "POST",
+  "path": "/batch_rename/",
+  "body": {
+   "target": "views",
+   "find": 5,
+   "replace": "y",
+   "dry_run": true
+  },
+  "expect_different": true
+ },
+ {
+  "name": "groups default list",
+  "method": "POST",
+  "path": "/groups/manage/",
+  "body": {}
+ },
+ {
+  "name": "groups bad action",
+  "method": "POST",
+  "path": "/groups/manage/",
+  "body": {
+   "action": "bogus",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "groups create dry",
+  "method": "POST",
+  "path": "/groups/manage/",
+  "body": {
+   "action": "create",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "name": "zz group",
+   "dry_run": true
+  },
+  "expect_different": true
+ },
+ {
+  "name": "groups create no ids",
+  "method": "POST",
+  "path": "/groups/manage/",
+  "body": {
+   "action": "create",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "groups create bad ids",
+  "method": "POST",
+  "path": "/groups/manage/",
+  "body": {
+   "action": "create",
+   "element_ids": [
+    1
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "groups ungroup missing",
+  "method": "POST",
+  "path": "/groups/manage/",
+  "body": {
+   "action": "ungroup",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "groups ungroup not a group",
+  "method": "POST",
+  "path": "/groups/manage/",
+  "body": {
+   "action": "ungroup",
+   "group_id": 210619,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "assemblies default list",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {}
+ },
+ {
+  "name": "assemblies create dry",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {
+   "action": "create",
+   "element_ids": [
+    210619
+   ],
+   "name": "zz asm",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "assemblies create naming",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {
+   "action": "create",
+   "element_ids": [
+    210619
+   ],
+   "naming_category": "Walls",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "assemblies create bad naming",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {
+   "action": "create",
+   "element_ids": [
+    210619
+   ],
+   "naming_category": "Doors",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "assemblies create no ids",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {
+   "action": "create",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "assemblies create mixed",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {
+   "action": "create",
+   "element_ids": [
+    210619,
+    210625
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "assemblies add_members missing",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {
+   "action": "add_members",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "assemblies add_members not assembly",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {
+   "action": "add_members",
+   "assembly_id": 210619,
+   "element_ids": [
+    210620
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "assemblies bad action not assembly",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {
+   "action": "bogus",
+   "assembly_id": 210619,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "assemblies create_views not assembly",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {
+   "action": "create_views",
+   "assembly_id": 210619,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "assemblies rename not assembly",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {
+   "action": "rename",
+   "assembly_id": 210619,
+   "name": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "assemblies bad assembly id",
+  "method": "POST",
+  "path": "/assemblies/manage/",
+  "body": {
+   "action": "rename",
+   "assembly_id": 1,
+   "name": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "untagged missing categories",
+  "method": "POST",
+  "path": "/annotation/untagged/",
+  "body": {}
+ },
+ {
+  "name": "untagged doors plan",
+  "method": "POST",
+  "path": "/annotation/untagged/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "view": 13073
+  }
+ },
+ {
+  "name": "untagged walls windows 3d",
+  "method": "POST",
+  "path": "/annotation/untagged/",
+  "body": {
+   "categories": [
+    "Walls",
+    "Windows"
+   ],
+   "limit": 2
+  }
+ },
+ {
+  "name": "untagged rooms",
+  "method": "POST",
+  "path": "/annotation/untagged/",
+  "body": {
+   "categories": [
+    "Rooms",
+    "Areas",
+    "Spaces"
+   ],
+   "view": 13073
+  }
+ },
+ {
+  "name": "untagged bad category",
+  "method": "POST",
+  "path": "/annotation/untagged/",
+  "body": {
+   "categories": [
+    "Nope"
+   ],
+   "view": 13073
+  }
+ },
+ {
+  "name": "untagged bad view",
+  "method": "POST",
+  "path": "/annotation/untagged/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "view": "nope"
+  }
+ },
+ {
+  "name": "untagged template view",
+  "method": "POST",
+  "path": "/annotation/untagged/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "view": "Architectural Plan"
+  }
+ },
+ {
+  "name": "untagged limit clamp",
+  "method": "POST",
+  "path": "/annotation/untagged/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "view": 13073,
+   "limit": 0
+  }
+ },
+ {
+  "name": "untagged scalar category",
+  "method": "POST",
+  "path": "/annotation/untagged/",
+  "body": {
+   "categories": "Doors",
+   "view": 13073
+  }
+ },
+ {
+  "name": "tag nothing",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "dry_run": true
+  }
+ },
+ {
+  "name": "tag doors dry",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "tag doors tag_type",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "view": 13073,
+   "tag_type": "M_Door Tag",
+   "offset": [
+    100,
+    200
+   ],
+   "leader": true,
+   "orientation": "vertical",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "tag doors tag_type family",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "view": 13073,
+   "tag_type": "M_Door Tag : M_Door Tag",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "tag doors tag_type id",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "element_ids": [
+    210625
+   ],
+   "view": 13073,
+   "tag_type": "24452",
+   "skip_tagged": false,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "tag doors bad tag_type",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "view": 13073,
+   "tag_type": "nope",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "tag walls no family",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "tag walls atomic",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "view": 13073,
+   "atomic": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "tag bad ids",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "element_ids": [
+    1
+   ],
+   "view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "tag rooms",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "categories": [
+    "Rooms"
+   ],
+   "view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "tag in 3d view",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "tag bad offset",
+  "method": "POST",
+  "path": "/annotation/tag/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "view": 13073,
+   "offset": [
+    1
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "text missing notes",
+  "method": "POST",
+  "path": "/annotation/text/",
+  "body": {
+   "view": 13073
+  }
+ },
+ {
+  "name": "text dry",
+  "method": "POST",
+  "path": "/annotation/text/",
+  "body": {
+   "view": 13073,
+   "notes": [
+    {
+     "text": "Hello",
+     "point": [
+      100,
+      200
+     ]
+    },
+    {
+     "text": "World"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "text no text",
+  "method": "POST",
+  "path": "/annotation/text/",
+  "body": {
+   "view": 13073,
+   "notes": [
+    {
+     "point": [
+      1,
+      2
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "text bad type",
+  "method": "POST",
+  "path": "/annotation/text/",
+  "body": {
+   "view": 13073,
+   "notes": [
+    {
+     "text": "x",
+     "type": "nope"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "text default_type bad",
+  "method": "POST",
+  "path": "/annotation/text/",
+  "body": {
+   "view": 13073,
+   "text_type": "nope",
+   "notes": [
+    {
+     "text": "x"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "text not dict",
+  "method": "POST",
+  "path": "/annotation/text/",
+  "body": {
+   "view": 13073,
+   "notes": [
+    "x"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "text bad point",
+  "method": "POST",
+  "path": "/annotation/text/",
+  "body": {
+   "view": 13073,
+   "notes": [
+    {
+     "text": "x",
+     "point": [
+      1
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "text template view",
+  "method": "POST",
+  "path": "/annotation/text/",
+  "body": {
+   "view": "Architectural Plan",
+   "notes": [
+    {
+     "text": "x"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail missing items",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073
+  }
+ },
+ {
+  "name": "detail too many",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    },
+    {
+     "kind": "detail_line"
+    }
+   ]
+  }
+ },
+ {
+  "name": "detail unknown kind",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "bogus"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail no kind",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {}
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail item not dict",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    "x"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail line",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_line",
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      1000,
+      0
+     ]
+    },
+    {
+     "kind": "detail_line",
+     "points": [
+      [
+       0,
+       0
+      ],
+      [
+       1000,
+       0
+      ],
+      [
+       1000,
+       1000
+      ]
+     ],
+     "closed": true
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail line bad style",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_line",
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      1000,
+      0
+     ],
+     "line_style": "nope"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail line style",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_line",
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      1000,
+      0
+     ],
+     "line_style": "<Medium Lines>"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail line style 2",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_line",
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      1000,
+      0
+     ],
+     "line_style": "<hidden>"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail line same points",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_line",
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      0,
+      0
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail line missing end",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_line",
+     "start": [
+      0,
+      0
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail line non atomic",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "atomic": false,
+   "items": [
+    {
+     "kind": "detail_line",
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      1000,
+      0
+     ]
+    },
+    {
+     "kind": "bogus"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail line atomic fail",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_line",
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      1000,
+      0
+     ]
+    },
+    {
+     "kind": "bogus"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail dimension few",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "dimension",
+     "element_ids": [
+      210619
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail dimension levels",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "dimension",
+     "element_ids": [
+      13071,
+      15913
+     ],
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      0,
+      3000
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail dimension walls",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "dimension",
+     "element_ids": [
+      210619,
+      210620
+     ],
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      3000,
+      0
+     ],
+     "wall_face": "interior"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail dimension bad type",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "dimension",
+     "element_ids": [
+      210619,
+      210620
+     ],
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      3000,
+      0
+     ],
+     "type": "nope"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail dimension door",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "dimension",
+     "element_ids": [
+      210625,
+      210627
+     ],
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      3000,
+      0
+     ],
+     "instance_reference": "left"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail dimension bad ref",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "dimension",
+     "element_ids": [
+      210625,
+      210627
+     ],
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      3000,
+      0
+     ],
+     "instance_reference": "bogus"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail dimension bad element",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "dimension",
+     "element_ids": [
+      3651,
+      13073
+     ],
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      3000,
+      0
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail dimension no start",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "dimension",
+     "element_ids": [
+      13071,
+      15913
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail filled_region",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "filled_region",
+     "boundary": [
+      [
+       0,
+       0
+      ],
+      [
+       1000,
+       0
+      ],
+      [
+       1000,
+       1000
+      ],
+      [
+       0,
+       1000
+      ]
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail filled_region few",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "filled_region",
+     "boundary": [
+      [
+       0,
+       0
+      ],
+      [
+       1000,
+       0
+      ]
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail filled_region bad type",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "filled_region",
+     "type": "nope",
+     "boundary": [
+      [
+       0,
+       0
+      ],
+      [
+       1000,
+       0
+      ],
+      [
+       1000,
+       1000
+      ]
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail masking_region",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "masking_region",
+     "boundary": [
+      [
+       0,
+       0
+      ],
+      [
+       1000,
+       0
+      ],
+      [
+       1000,
+       1000
+      ]
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail revision_cloud",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "revision_cloud",
+     "boundary": [
+      [
+       0,
+       0
+      ],
+      [
+       1000,
+       0
+      ],
+      [
+       1000,
+       1000
+      ],
+      [
+       0,
+       1000
+      ]
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail revision_cloud latest",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "revision_cloud",
+     "revision": "latest",
+     "boundary": [
+      [
+       0,
+       0
+      ],
+      [
+       1000,
+       0
+      ],
+      [
+       1000,
+       1000
+      ]
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail revision_cloud bad revision",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "revision_cloud",
+     "revision": "nope",
+     "boundary": [
+      [
+       0,
+       0
+      ],
+      [
+       1000,
+       0
+      ],
+      [
+       1000,
+       1000
+      ]
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail revision_cloud by number",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "revision_cloud",
+     "revision": 1,
+     "boundary": [
+      [
+       0,
+       0
+      ],
+      [
+       1000,
+       0
+      ],
+      [
+       1000,
+       1000
+      ]
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail spot_elevation wall",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "spot_elevation",
+     "element_id": 210619
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail spot_coordinate missing",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "spot_coordinate"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail component missing type",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_component",
+     "point": [
+      0,
+      0
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail component bad type",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_component",
+     "type": "nope",
+     "point": [
+      0,
+      0
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail component not symbol",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_component",
+     "type": 249,
+     "point": [
+      0,
+      0
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail component tag family",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "view": 13073,
+   "items": [
+    {
+     "kind": "detail_component",
+     "type": "M_Door Tag : M_Door Tag",
+     "point": [
+      0,
+      0
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "detail 3D view",
+  "method": "POST",
+  "path": "/annotation/detail/",
+  "body": {
+   "items": [
+    {
+     "kind": "detail_line",
+     "start": [
+      0,
+      0
+     ],
+     "end": [
+      1000,
+      0
+     ]
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "types all",
+  "method": "POST",
+  "path": "/annotation/types/",
+  "body": {},
+  "unordered": [
+   "tag.*"
+  ]
+ },
+ {
+  "name": "types text only",
+  "method": "POST",
+  "path": "/annotation/types/",
+  "body": {
+   "kinds": [
+    "text"
+   ]
+  }
+ },
+ {
+  "name": "types dim+line",
+  "method": "POST",
+  "path": "/annotation/types/",
+  "body": {
+   "kinds": [
+    "dimension",
+    "line_style",
+    "filled_region"
+   ]
+  }
+ },
+ {
+  "name": "types tag",
+  "method": "POST",
+  "path": "/annotation/types/",
+  "body": {
+   "kinds": [
+    "tag"
+   ]
+  },
+  "unordered": [
+   "tag.*"
+  ]
+ },
+ {
+  "name": "types unknown kind",
+  "method": "POST",
+  "path": "/annotation/types/",
+  "body": {
+   "kinds": [
+    "bogus"
+   ]
+  }
+ },
+ {
+  "name": "types scalar kind",
+  "method": "POST",
+  "path": "/annotation/types/",
+  "body": {
+   "kinds": "text"
+  }
+ },
+ {
+  "name": "replace missing find",
+  "method": "POST",
+  "path": "/annotation/text/replace/",
+  "body": {}
+ },
+ {
+  "name": "replace bad regex",
+  "method": "POST",
+  "path": "/annotation/text/replace/",
+  "body": {
+   "find": "(",
+   "regex": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "replace bad template",
+  "method": "POST",
+  "path": "/annotation/text/replace/",
+  "body": {
+   "find": "a",
+   "replace": "\\9",
+   "regex": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "replace dry none",
+  "method": "POST",
+  "path": "/annotation/text/replace/",
+  "body": {
+   "find": "hello",
+   "replace": "bye",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "replace views",
+  "method": "POST",
+  "path": "/annotation/text/replace/",
+  "body": {
+   "find": "hello",
+   "replace": "bye",
+   "views": [
+    13073
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "replace views bad",
+  "method": "POST",
+  "path": "/annotation/text/replace/",
+  "body": {
+   "find": "hello",
+   "replace": "bye",
+   "views": [
+    "nope"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "replace whole word",
+  "method": "POST",
+  "path": "/annotation/text/replace/",
+  "body": {
+   "find": "x",
+   "whole_word": true,
+   "match_case": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents get active",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {}
+ },
+ {
+  "name": "extents get plan",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "view": 13073
+  }
+ },
+ {
+  "name": "extents get plan ft",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "view": 15915,
+   "unit": "ft"
+  }
+ },
+ {
+  "name": "extents get elevation",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "view": "North",
+   "unit": "m"
+  }
+ },
+ {
+  "name": "extents get ceiling",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "view": 13077
+  }
+ },
+ {
+  "name": "extents get template",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "view": "Architectural Plan"
+  }
+ },
+ {
+  "name": "extents get site",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "view": "Site"
+  }
+ },
+ {
+  "name": "extents bad view",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "view": "nope"
+  }
+ },
+ {
+  "name": "extents bad action",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "bogus"
+  }
+ },
+ {
+  "name": "extents set on template",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_crop",
+   "view": "Architectural Plan",
+   "crop_active": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_crop active",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_crop",
+   "view": 13073,
+   "crop_active": true,
+   "crop_visible": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_crop elements",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_crop",
+   "view": 13073,
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "margin": 1000,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_crop minmax",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_crop",
+   "view": 13073,
+   "min": [
+    0,
+    0,
+    0
+   ],
+   "max": [
+    10000,
+    10000,
+    3000
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_crop min only",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_crop",
+   "view": 13073,
+   "min": [
+    0,
+    0,
+    0
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_crop annotation",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_crop",
+   "view": 13073,
+   "annotation_crop": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_crop scope none",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_crop",
+   "view": 13073,
+   "scope_box": "none",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_crop scope bad",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_crop",
+   "view": 13073,
+   "scope_box": "SB",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_crop scope bad + box",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_crop",
+   "view": 13073,
+   "scope_box": "SB",
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_crop bad ids",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_crop",
+   "view": 13073,
+   "element_ids": [
+    1
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_crop 3d",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_crop",
+   "crop_active": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_section_box elements",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_section_box",
+   "element_ids": [
+    210619
+   ],
+   "margin": 200,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_section_box minmax",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_section_box",
+   "min": [
+    0,
+    0,
+    0
+   ],
+   "max": [
+    5000,
+    5000,
+    3000
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_section_box enabled",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_section_box",
+   "enabled": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_section_box none",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_section_box",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_section_box plan",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_section_box",
+   "view": 13073,
+   "enabled": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_view_range",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_view_range",
+   "view": 13073,
+   "top": 3000,
+   "cut": 1200,
+   "bottom": 0,
+   "view_depth": -500,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_view_range level",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_view_range",
+   "view": 13073,
+   "top": 0,
+   "top_level": "Level 2",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_view_range bad level",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_view_range",
+   "view": 13073,
+   "top": 0,
+   "top_level": "nope",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_view_range none",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_view_range",
+   "view": 13073,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_view_range 3d",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_view_range",
+   "top": 1,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_view_range bad number",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_view_range",
+   "view": 13073,
+   "top": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_far_clip",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_far_clip",
+   "view": "North",
+   "far_clipping": "clip_with_line",
+   "far_clip_offset": 5000,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_far_clip bad mode",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_far_clip",
+   "view": "North",
+   "far_clipping": "bogus",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_far_clip none",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_far_clip",
+   "view": "North",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_far_clip plan",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_far_clip",
+   "view": 13073,
+   "far_clip_offset": 5,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "extents set_far_clip 3d",
+  "method": "POST",
+  "path": "/views/extents/",
+  "body": {
+   "action": "set_far_clip",
+   "far_clip_offset": 5,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates list",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {}
+ },
+ {
+  "name": "templates list params",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "list",
+   "parameters": true
+  }
+ },
+ {
+  "name": "templates create_from_view",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "create_from_view",
+   "view": 13073,
+   "name": "zz tpl",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates create_from_view invalid",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "create_from_view",
+   "view": "Architectural Plan",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates create_from_view 3d",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "create_from_view",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates apply",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "apply",
+   "views": [
+    13073,
+    15915
+   ],
+   "template": "Architectural Plan",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates apply once",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "apply",
+   "views": [
+    13073
+   ],
+   "template": "Architectural Plan",
+   "once": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates apply mismatch",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "apply",
+   "views": [
+    13073
+   ],
+   "template": "Architectural Section",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates apply mismatch nonatomic",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "apply",
+   "views": [
+    13073,
+    15915
+   ],
+   "template": "Architectural Section",
+   "atomic": false,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates apply missing template",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "apply",
+   "views": [
+    13073
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates apply bad view",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "apply",
+   "views": [
+    "nope"
+   ],
+   "template": "Architectural Plan",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates apply bad template",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "apply",
+   "views": [
+    13073
+   ],
+   "template": "nope",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates apply active",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "apply",
+   "template": "Architectural Presentation 3D",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates remove",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "remove",
+   "views": [
+    13073
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates duplicate",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "duplicate",
+   "template": "Architectural Plan",
+   "name": "zz copy",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates duplicate by id",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "duplicate",
+   "template": 31175,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates duplicate missing",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "duplicate",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates delete dry",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "delete",
+   "template": "Site Section",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates delete preview",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "delete",
+   "template": "Site Section",
+   "dry_run": true,
+   "confirm": true
+  }
+ },
+ {
+  "name": "templates set_included",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "set_included",
+   "template": "Architectural Plan",
+   "exclude": [
+    "Scale"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates set_included include",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "set_included",
+   "template": "Architectural Plan",
+   "include": [
+    "Scale"
+   ],
+   "exclude": [
+    "Detail Level"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates set_included unknown",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "set_included",
+   "template": "Architectural Plan",
+   "include": [
+    "Nope"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates set_included none",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "set_included",
+   "template": "Architectural Plan",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates bad action",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "bogus",
+   "template": "Architectural Plan",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "templates bad action no template",
+  "method": "POST",
+  "path": "/views/templates/",
+  "body": {
+   "action": "bogus",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "viewports list bad sheet",
+  "method": "POST",
+  "path": "/sheets/viewports/",
+  "body": {
+   "sheet": "nope"
+  }
+ },
+ {
+  "name": "viewports list missing sheet",
+  "method": "POST",
+  "path": "/sheets/viewports/",
+  "body": {}
+ },
+ {
+  "name": "viewports bad action",
+  "method": "POST",
+  "path": "/sheets/viewports/",
+  "body": {
+   "action": "bogus",
+   "viewport_id": 210619,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "viewports missing id",
+  "method": "POST",
+  "path": "/sheets/viewports/",
+  "body": {
+   "action": "move",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "viewports not a viewport",
+  "method": "POST",
+  "path": "/sheets/viewports/",
+  "body": {
+   "action": "move",
+   "viewport_id": 210619,
+   "location": [
+    1,
+    2
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "viewports bad id",
+  "method": "POST",
+  "path": "/sheets/viewports/",
+  "body": {
+   "action": "move",
+   "viewport_id": 1,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "viewports bad id text",
+  "method": "POST",
+  "path": "/sheets/viewports/",
+  "body": {
+   "action": "move",
+   "viewport_id": "abc",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters list",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {}
+ },
+ {
+  "name": "filters list contains",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "contains": "inter"
+  }
+ },
+ {
+  "name": "filters list contains none",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "contains": "zzz"
+  }
+ },
+ {
+  "name": "filters bad action",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "bogus",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create missing name",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create duplicate name",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "Interior",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create no categories",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create no rules",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create string",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Comments",
+     "op": "contains",
+     "value": "x"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create or",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls",
+    "Doors"
+   ],
+   "logic": "or",
+   "rules": [
+    {
+     "parameter": "Comments",
+     "op": "begins_with",
+     "value": "x"
+    },
+    {
+     "parameter": "Mark",
+     "op": "equals",
+     "value": "1"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create number",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Length",
+     "op": "greater",
+     "value": 2000,
+     "unit": "mm"
+    },
+    {
+     "parameter": "Area",
+     "op": "less",
+     "value": 10,
+     "unit": "m2"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create number default unit",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Length",
+     "op": "greater",
+     "value": 2000
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create int param",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Function",
+     "op": "equals",
+     "value": 1
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create double on int param",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Function",
+     "op": "equals",
+     "value": 1.0
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create has_value",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Comments",
+     "op": "has_value"
+    },
+    {
+     "parameter": "Mark",
+     "op": "has_no_value"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create bool",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Structural",
+     "op": "equals",
+     "value": true
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create builtin name",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "ALL_MODEL_MARK",
+     "op": "equals",
+     "value": "x"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create bad parameter",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Nope",
+     "op": "equals",
+     "value": "x"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create bad op",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Mark",
+     "op": "bogus",
+     "value": "x"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create no value",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Mark",
+     "op": "equals"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create rule not dict",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    "x"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create bad category",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Nope"
+   ],
+   "rules": [
+    {
+     "parameter": "Mark",
+     "op": "equals",
+     "value": "x"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create string op on number",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Length",
+     "op": "contains",
+     "value": 5
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters create and apply",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "create",
+   "name": "zz f",
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "parameter": "Comments",
+     "op": "contains",
+     "value": "x"
+    }
+   ],
+   "apply_to": [
+    13073,
+    "3D Lesson",
+    "Architectural Plan"
+   ],
+   "visible": false,
+   "overrides": {
+    "color": "#FF0000",
+    "halftone": true,
+    "line_weight": 3,
+    "transparency": 40
+   },
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters apply",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "apply",
+   "filter": "Interior",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters apply views",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "apply",
+   "filter": "interior",
+   "apply_to": [
+    13073,
+    "Architectural Plan"
+   ],
+   "visible": true,
+   "overrides": {
+    "color": "#00FF00",
+    "fill": false
+   },
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters apply by id",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "apply",
+   "filter": 141254,
+   "view": 15915,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters apply missing filter",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "apply",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters apply bad filter",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "apply",
+   "filter": "nope",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters apply bad view",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "apply",
+   "filter": "Interior",
+   "apply_to": [
+    "nope"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters apply bad overrides",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "apply",
+   "filter": "Interior",
+   "overrides": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters remove",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "remove",
+   "filter": "Interior",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters delete no confirm",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "delete",
+   "filter": "Interior",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "filters delete no confirm real",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "delete",
+   "filter": "Interior"
+  }
+ },
+ {
+  "name": "filters delete confirm dry",
+  "method": "POST",
+  "path": "/views/filters/",
+  "body": {
+   "action": "delete",
+   "filter": "Interior",
+   "confirm": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions list",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {}
+ },
+ {
+  "name": "revisions bad action",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "bogus",
+   "revision": 1,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions create",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "create",
+   "description": "zz",
+   "date": "2026-01-01",
+   "issued_to": "A",
+   "issued_by": "B",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions create sheets bad",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "create",
+   "sheets": [
+    "nope"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions create sheets numeric bad",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "create",
+   "sheets": [
+    5
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions update",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "update",
+   "revision": "Revision 1",
+   "description": "changed",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions update by id",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "update",
+   "revision": 69260,
+   "date": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions update by seq",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "update",
+   "revision": "1",
+   "issued_to": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions issue",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "issue",
+   "revision": 1,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions assign no sheets",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "assign",
+   "revision": 1,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions unassign no sheets",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "unassign",
+   "revision": 1,
+   "sheets": [],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions assign bad sheet",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "assign",
+   "revision": 1,
+   "sheets": [
+    "Z"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions missing revision",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "update",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "revisions bad revision",
+  "method": "POST",
+  "path": "/sheets/revisions/",
+  "body": {
+   "action": "update",
+   "revision": "nope",
+   "dry_run": true
+  }
+ }
+]

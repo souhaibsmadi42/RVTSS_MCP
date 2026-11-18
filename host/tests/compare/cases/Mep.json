@@ -1,0 +1,1684 @@
+[
+ {
+  "name": "mep systems default",
+  "method": "POST",
+  "path": "/mep/systems/",
+  "body": {}
+ },
+ {
+  "name": "mep systems domain piping",
+  "method": "POST",
+  "path": "/mep/systems/",
+  "body": {
+   "domain": "piping",
+   "contains": "x",
+   "limit": 5,
+   "offset": 1,
+   "include_elements": true
+  }
+ },
+ {
+  "name": "mep connectors no ids",
+  "method": "POST",
+  "path": "/mep/connectors/",
+  "body": {}
+ },
+ {
+  "name": "mep connectors too many ids",
+  "method": "POST",
+  "path": "/mep/connectors/",
+  "body": {
+   "element_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+   ]
+  }
+ },
+ {
+  "name": "mep connectors missing id",
+  "method": "POST",
+  "path": "/mep/connectors/",
+  "body": {
+   "element_ids": [
+    999999999
+   ]
+  }
+ },
+ {
+  "name": "mep connectors wall+door",
+  "method": "POST",
+  "path": "/mep/connectors/",
+  "body": {
+   "element_ids": [
+    210619,
+    210625
+   ],
+   "unit": "m"
+  }
+ },
+ {
+  "name": "mep disconnects default",
+  "method": "POST",
+  "path": "/mep/disconnects/",
+  "body": {}
+ },
+ {
+  "name": "mep disconnects walls",
+  "method": "POST",
+  "path": "/mep/disconnects/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "limit": 3,
+   "unit": "cm"
+  }
+ },
+ {
+  "name": "mep disconnects ids",
+  "method": "POST",
+  "path": "/mep/disconnects/",
+  "body": {
+   "element_ids": [
+    210625
+   ]
+  }
+ },
+ {
+  "name": "mep disconnects bad category",
+  "method": "POST",
+  "path": "/mep/disconnects/",
+  "body": {
+   "categories": [
+    "NoSuchCategory"
+   ]
+  }
+ },
+ {
+  "name": "mep connect wrong count",
+  "method": "POST",
+  "path": "/mep/connect/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep connect tee count",
+  "method": "POST",
+  "path": "/mep/connect/",
+  "body": {
+   "action": "tee",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep connect walls dry",
+  "method": "POST",
+  "path": "/mep/connect/",
+  "body": {
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep connect elbow walls dry",
+  "method": "POST",
+  "path": "/mep/connect/",
+  "body": {
+   "action": "elbow",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep connect bad action",
+  "method": "POST",
+  "path": "/mep/connect/",
+  "body": {
+   "action": "zip",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep connect cap no ids",
+  "method": "POST",
+  "path": "/mep/connect/",
+  "body": {
+   "action": "cap",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep connect cap walls dry",
+  "method": "POST",
+  "path": "/mep/connect/",
+  "body": {
+   "action": "cap",
+   "element_ids": [
+    210619,
+    210620,
+    210621
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep connect disconnect none",
+  "method": "POST",
+  "path": "/mep/connect/",
+  "body": {
+   "action": "disconnect",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep connect disconnect wall dry",
+  "method": "POST",
+  "path": "/mep/connect/",
+  "body": {
+   "action": "disconnect",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep connect disconnect too many",
+  "method": "POST",
+  "path": "/mep/connect/",
+  "body": {
+   "action": "disconnect",
+   "element_ids": [
+    210619,
+    210620,
+    210621
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep create no action",
+  "method": "POST",
+  "path": "/mep/create/",
+  "body": {
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep create bad action",
+  "method": "POST",
+  "path": "/mep/create/",
+  "body": {
+   "action": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep create flex_duct dry",
+  "method": "POST",
+  "path": "/mep/create/",
+  "body": {
+   "action": "flex_duct",
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     1000,
+     0
+    ]
+   ],
+   "dry_run": true
+  },
+  "ignore": [
+   "ids.*"
+  ]
+ },
+ {
+  "name": "mep create flex_pipe bad level",
+  "method": "POST",
+  "path": "/mep/create/",
+  "body": {
+   "action": "flex_pipe",
+   "level": "No Level",
+   "points": [
+    [
+     0,
+     0
+    ],
+    [
+     1000,
+     0
+    ]
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep create duct_placeholder few points",
+  "method": "POST",
+  "path": "/mep/create/",
+  "body": {
+   "action": "duct_placeholder",
+   "points": [
+    [
+     0,
+     0
+    ]
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep create convert none",
+  "method": "POST",
+  "path": "/mep/create/",
+  "body": {
+   "action": "convert_placeholders",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep create convert walls",
+  "method": "POST",
+  "path": "/mep/create/",
+  "body": {
+   "action": "convert_placeholders",
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep create insert no host",
+  "method": "POST",
+  "path": "/mep/create/",
+  "body": {
+   "action": "insert_on_curve",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep create insert wall host",
+  "method": "POST",
+  "path": "/mep/create/",
+  "body": {
+   "action": "insert_on_curve",
+   "host_id": 210619,
+   "type": "x",
+   "point": [
+    0,
+    0,
+    0
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep create air terminal walls",
+  "method": "POST",
+  "path": "/mep/create/",
+  "body": {
+   "action": "air_terminal_on_duct",
+   "terminal_id": 210619,
+   "host_id": 210620,
+   "dry_run": true
+  },
+  "ignore": [
+   "error",
+   "hint"
+  ]
+ },
+ {
+  "name": "mep create air terminal missing",
+  "method": "POST",
+  "path": "/mep/create/",
+  "body": {
+   "action": "air_terminal_on_duct",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep insulation no ids",
+  "method": "POST",
+  "path": "/mep/insulation/",
+  "body": {}
+ },
+ {
+  "name": "mep insulation bad kind",
+  "method": "POST",
+  "path": "/mep/insulation/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "kind": "foam"
+  }
+ },
+ {
+  "name": "mep insulation list walls",
+  "method": "POST",
+  "path": "/mep/insulation/",
+  "body": {
+   "element_ids": [
+    210619,
+    210620
+   ]
+  }
+ },
+ {
+  "name": "mep insulation list lining",
+  "method": "POST",
+  "path": "/mep/insulation/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "kind": "lining",
+   "unit": "cm"
+  }
+ },
+ {
+  "name": "mep insulation bad action",
+  "method": "POST",
+  "path": "/mep/insulation/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "action": "zap"
+  }
+ },
+ {
+  "name": "mep insulation add no thickness",
+  "method": "POST",
+  "path": "/mep/insulation/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "action": "add",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep insulation add walls dry",
+  "method": "POST",
+  "path": "/mep/insulation/",
+  "body": {
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "action": "add",
+   "thickness": 25,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep insulation add lining walls dry",
+  "method": "POST",
+  "path": "/mep/insulation/",
+  "body": {
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "action": "add",
+   "kind": "lining",
+   "thickness": 25,
+   "dry_run": true,
+   "atomic": true
+  },
+  "ignore": [
+   "failed_item"
+  ]
+ },
+ {
+  "name": "mep insulation remove walls dry",
+  "method": "POST",
+  "path": "/mep/insulation/",
+  "body": {
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "action": "remove",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep systems manage no action",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {}
+ },
+ {
+  "name": "mep systems manage list circuits",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "list_circuits",
+   "limit": 5
+  }
+ },
+ {
+  "name": "mep systems manage create bad domain",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "create",
+   "domain": "electrical",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep systems manage create no ids",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "create",
+   "domain": "mechanical",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep systems manage create walls",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "create",
+   "domain": "piping",
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep systems manage add missing system",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "add_elements",
+   "system": "Nope",
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep systems manage rename missing",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "rename",
+   "system": "Nope",
+   "name": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep systems manage set type no ids",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "set_system_type",
+   "system_type": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep systems manage set type walls",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "set_system_type",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "system_type": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep systems manage circuit bad type",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "create_circuit",
+   "element_ids": [
+    210619
+   ],
+   "circuit_type": "magic",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep systems manage circuit walls",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "create_circuit",
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  },
+  "ignore": [
+   "error",
+   "hint"
+  ]
+ },
+ {
+  "name": "mep systems manage select panel walls",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "select_panel",
+   "circuit_id": 210619,
+   "panel_id": 210620,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep systems manage panel schedule walls",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "create_panel_schedule",
+   "panel_id": 210619,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "mep systems manage bad action",
+  "method": "POST",
+  "path": "/mep/systems/manage/",
+  "body": {
+   "action": "zip"
+  }
+ },
+ {
+  "name": "impact no ids",
+  "method": "POST",
+  "path": "/impact/survey/",
+  "body": {}
+ },
+ {
+  "name": "impact too many",
+  "method": "POST",
+  "path": "/impact/survey/",
+  "body": {
+   "element_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+   ]
+  }
+ },
+ {
+  "name": "impact bad change",
+  "method": "POST",
+  "path": "/impact/survey/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "change_kind": "explode"
+  }
+ },
+ {
+  "name": "impact missing id",
+  "method": "POST",
+  "path": "/impact/survey/",
+  "body": {
+   "element_ids": [
+    999999999
+   ]
+  }
+ },
+ {
+  "name": "impact wall instance",
+  "method": "POST",
+  "path": "/impact/survey/",
+  "body": {
+   "element_ids": [
+    210619,
+    210620
+   ]
+  }
+ },
+ {
+  "name": "impact wall type",
+  "method": "POST",
+  "path": "/impact/survey/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "change_kind": "type"
+  }
+ },
+ {
+  "name": "impact wall move",
+  "method": "POST",
+  "path": "/impact/survey/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "change_kind": "move"
+  }
+ },
+ {
+  "name": "impact wall delete",
+  "method": "POST",
+  "path": "/impact/survey/",
+  "body": {
+   "element_ids": [
+    210619,
+    210620,
+    210621
+   ],
+   "change_kind": "delete"
+  }
+ },
+ {
+  "name": "impact door unknown",
+  "method": "POST",
+  "path": "/impact/survey/",
+  "body": {
+   "element_ids": [
+    210625,
+    210627
+   ],
+   "change_kind": "unknown"
+  },
+  "unordered": [
+   "elements.*.relevant_groups"
+  ]
+ },
+ {
+  "name": "impact level delete",
+  "method": "POST",
+  "path": "/impact/survey/",
+  "body": {
+   "element_ids": [
+    13071,
+    15913
+   ],
+   "change_kind": "delete"
+  }
+ },
+ {
+  "name": "impact type element",
+  "method": "POST",
+  "path": "/impact/survey/",
+  "body": {
+   "element_ids": [
+    249,
+    53070
+   ],
+   "change_kind": "type"
+  }
+ },
+ {
+  "name": "modify no operation",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "element_ids": [
+    210619
+   ]
+  }
+ },
+ {
+  "name": "modify bad operation",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "explode",
+   "element_ids": [
+    210619
+   ]
+  }
+ },
+ {
+  "name": "modify no ids",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "align"
+  }
+ },
+ {
+  "name": "modify align bad axis",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "align",
+   "element_ids": [
+    210619
+   ],
+   "axis": "w"
+  }
+ },
+ {
+  "name": "modify align missing target",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "align",
+   "element_ids": [
+    210619
+   ]
+  }
+ },
+ {
+  "name": "modify align coordinate dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "align",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "axis": "y",
+   "coordinate": 5000,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify align reference dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "align",
+   "element_ids": [
+    210620,
+    210621
+   ],
+   "reference_id": 210619,
+   "axis": "X",
+   "unit": "m",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify align ref no location",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "align",
+   "element_ids": [
+    210619
+   ],
+   "reference_id": 13071,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify offset no distance",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "offset",
+   "element_ids": [
+    210619
+   ]
+  }
+ },
+ {
+  "name": "modify offset dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "offset",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "distance": 300,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify offset copy dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "offset",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "distance": -300,
+   "copy": true,
+   "dry_run": true
+  },
+  "ignore": [
+   "results.*.new_element_ids.*"
+  ]
+ },
+ {
+  "name": "modify offset level",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "offset",
+   "element_ids": [
+    13071
+   ],
+   "distance": 300,
+   "dry_run": true
+  },
+  "ignore": [
+   "failed_item"
+  ]
+ },
+ {
+  "name": "modify trim wrong count",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "trim_extend",
+   "element_ids": [
+    210619
+   ]
+  }
+ },
+ {
+  "name": "modify trim bad mode",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "trim_extend",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "mode": "x"
+  }
+ },
+ {
+  "name": "modify trim corner dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "trim_extend",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify trim single dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "trim_extend",
+   "element_ids": [
+    210620,
+    210621
+   ],
+   "mode": "single",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify trim parallel",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "trim_extend",
+   "element_ids": [
+    210619,
+    210621
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify split wrong count",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "split",
+   "element_ids": [
+    210619,
+    210620
+   ]
+  }
+ },
+ {
+  "name": "modify split no point",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "split",
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify split parameter dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "split",
+   "element_ids": [
+    210619
+   ],
+   "parameter": 0.5,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify split parameter end",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "split",
+   "element_ids": [
+    210619
+   ],
+   "parameter": 0.9999,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify split point dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "split",
+   "element_ids": [
+    210620
+   ],
+   "point": [
+    100,
+    100,
+    0
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify scale no factor",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "scale",
+   "element_ids": [
+    210619
+   ]
+  }
+ },
+ {
+  "name": "modify scale dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "scale",
+   "element_ids": [
+    210619,
+    210620,
+    210621
+   ],
+   "factor": 2,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify scale center door dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "scale",
+   "element_ids": [
+    210625
+   ],
+   "factor": 0.5,
+   "center": [
+    0,
+    0
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify scale level",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "scale",
+   "element_ids": [
+    13071
+   ],
+   "factor": 2,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify flip bad",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "flip",
+   "element_ids": [
+    210619
+   ],
+   "flip": "up"
+  }
+ },
+ {
+  "name": "modify flip wall dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "flip",
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify flip door auto dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "flip",
+   "element_ids": [
+    210625,
+    210627
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify flip door facing dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "flip",
+   "element_ids": [
+    210625
+   ],
+   "flip": "both",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify flip door work plane dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "flip",
+   "element_ids": [
+    210625
+   ],
+   "flip": "work_plane",
+   "dry_run": true
+  },
+  "ignore": [
+   "failed_item"
+  ]
+ },
+ {
+  "name": "modify flip level dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "flip",
+   "element_ids": [
+    13071
+   ],
+   "dry_run": true
+  },
+  "ignore": [
+   "failed_item"
+  ]
+ },
+ {
+  "name": "modify cut needs two",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "cut",
+   "element_ids": [
+    210619
+   ]
+  }
+ },
+ {
+  "name": "modify cut walls dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "cut",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify uncut walls dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "uncut",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify cut door in wall dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "cut",
+   "element_ids": [
+    210619,
+    210625
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify paint no material",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "paint",
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify paint bad faces",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "paint",
+   "element_ids": [
+    210619
+   ],
+   "faces": "side",
+   "material": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify paint missing material",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "paint",
+   "element_ids": [
+    210619
+   ],
+   "material": "No Such Material",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify paint exterior dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "paint",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "faces": "exterior",
+   "material": "Default Wall",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify paint top dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "paint",
+   "element_ids": [
+    210619
+   ],
+   "faces": "top",
+   "material": "Default Wall",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify paint door dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "paint",
+   "element_ids": [
+    210625
+   ],
+   "faces": "interior",
+   "material": "Default Wall",
+   "dry_run": true
+  },
+  "ignore": [
+   "failed_item"
+  ]
+ },
+ {
+  "name": "modify remove_paint dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "remove_paint",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "faces": "all",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify create_parts dry",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "create_parts",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  },
+  "ignore": [
+   "results.*.part_ids.*"
+  ]
+ },
+ {
+  "name": "modify create_parts door",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "create_parts",
+   "element_ids": [
+    210625
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify divide no dividers",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "divide_parts",
+   "element_ids": [
+    210619
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "modify divide not part",
+  "method": "POST",
+  "path": "/modify/elements/",
+  "body": {
+   "operation": "divide_parts",
+   "element_ids": [
+    210619
+   ],
+   "divider_ids": [
+    13071
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "stairs no top",
+  "method": "POST",
+  "path": "/stairs/create/",
+  "body": {
+   "base_level": "Level 1",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "stairs bad base",
+  "method": "POST",
+  "path": "/stairs/create/",
+  "body": {
+   "base_level": "No Level",
+   "top_level": "Level 2",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "stairs no base",
+  "method": "POST",
+  "path": "/stairs/create/",
+  "body": {
+   "top_level": "Level 2",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "stairs top below",
+  "method": "POST",
+  "path": "/stairs/create/",
+  "body": {
+   "base_level": "Level 2",
+   "top_level": "Level 1",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "stairs no runs",
+  "method": "POST",
+  "path": "/stairs/create/",
+  "body": {
+   "base_level": "Level 1",
+   "top_level": "Level 2",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "stairs straight dry",
+  "method": "POST",
+  "path": "/stairs/create/",
+  "body": {
+   "base_level": "Level 1",
+   "top_level": "Level 2",
+   "start": [
+    0,
+    -20000
+   ],
+   "end": [
+    3000,
+    -20000
+   ],
+   "width": 1000,
+   "dry_run": true
+  },
+  "ignore": [
+   "stairs_id",
+   "run_ids.*",
+   "landing_ids.*",
+   "railing_ids.*",
+   "warnings.*.element_ids.*"
+  ]
+ },
+ {
+  "name": "stairs two runs dry",
+  "method": "POST",
+  "path": "/stairs/create/",
+  "body": {
+   "level": 13071,
+   "top_level": 15913,
+   "runs": [
+    {
+     "start": [
+      0,
+      -20000
+     ],
+     "end": [
+      2500,
+      -20000
+     ]
+    },
+    {
+     "start": [
+      2500,
+      -19000
+     ],
+     "end": [
+      0,
+      -19000
+     ],
+     "width": 900
+    }
+   ],
+   "justification": "left",
+   "railings": true,
+   "dry_run": true
+  },
+  "ignore": [
+   "stairs_id",
+   "run_ids.*",
+   "landing_ids.*",
+   "railing_ids.*",
+   "warnings.*.element_ids.*"
+  ]
+ },
+ {
+  "name": "capture no ids",
+  "method": "POST",
+  "path": "/views/capture/",
+  "body": {}
+ },
+ {
+  "name": "capture missing id",
+  "method": "POST",
+  "path": "/views/capture/",
+  "body": {
+   "element_ids": [
+    999999999
+   ]
+  }
+ },
+ {
+  "name": "capture bad orientation",
+  "method": "POST",
+  "path": "/views/capture/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "orientation": "sideways"
+  }
+ },
+ {
+  "name": "capture level no bbox",
+  "method": "POST",
+  "path": "/views/capture/",
+  "body": {
+   "element_ids": [
+    13071
+   ],
+   "pixel_size": 128
+  },
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ },
+ {
+  "name": "capture wall iso",
+  "method": "POST",
+  "path": "/views/capture/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "pixel_size": 128
+  },
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ },
+ {
+  "name": "capture wall jpg top isolate",
+  "method": "POST",
+  "path": "/views/capture/",
+  "body": {
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "pixel_size": 128,
+   "image_format": "jpg",
+   "orientation": "top",
+   "isolate": true,
+   "margin": 2,
+   "unit": "m"
+  },
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ },
+ {
+  "name": "capture wall eye target perspective",
+  "method": "POST",
+  "path": "/views/capture/",
+  "body": {
+   "element_ids": [
+    210619
+   ],
+   "pixel_size": 128,
+   "eye": [
+    0,
+    -30000,
+    5000
+   ],
+   "target": [
+    0,
+    -20000,
+    1000
+   ],
+   "perspective": true,
+   "display_style": "realistic"
+  },
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ },
+ {
+  "name": "capture wall front wireframe nohighlight",
+  "method": "POST",
+  "path": "/views/capture/",
+  "body": {
+   "element_ids": [
+    210619,
+    210620,
+    210621
+   ],
+   "pixel_size": 5,
+   "orientation": "front",
+   "display_style": "wireframe",
+   "highlight": false
+  },
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ }
+]

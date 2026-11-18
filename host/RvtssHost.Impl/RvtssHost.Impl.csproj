@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Every RVTSS route. Loaded by the shell from bytes, so it can be rebuilt and reloaded while Revit runs.
+       -p:Group=<folder> compiles only Modules/<folder> (plus Core and Pure) for a quick check of one group. -->
+  <PropertyGroup>
+    <AssemblyName>RvtssHost.Impl</AssemblyName>
+    <RootNamespace>RvtssHost</RootNamespace>
+    <IronPythonVersion>3.4.2</IronPythonVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RvtssHost\RvtssHost.csproj" Private="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- The self-test plan stays the Python original (one plan for the HTTP runner and the ribbon button). -->
+    <EmbeddedResource Include="../../revit_mcp/pure/selftest.py" LogicalName="selftest.py" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Group)' != ''">
+    <Compile Remove="Modules\**" />
+    <Compile Include="Modules\$(Group)\**\*.cs" />
+  </ItemGroup>
+
+  <!-- /execute_code/ (Modules/Exec/CodeExecution.cs) runs the AI's Python in an embedded IronPython 3 engine.
+       The engine assemblies are private dependencies next to the add-in. The standard library is not copied as
+       ~1500 loose files: it is packed into ONE file, IronPython.StdLib.zip, next to the add-in (zipimport), so
+       deploy.ps1 -Reload (top-level files only) carries it too. -->
+  <ItemGroup>
+    <PackageReference Include="IronPython" Version="$(IronPythonVersion)" />
+    <PackageReference Include="IronPython.StdLib" Version="$(IronPythonVersion)" ExcludeAssets="contentFiles" GeneratePathProperty="true" />
+    <!-- Unix-only helper of IronPython (never loaded on Windows): keep its managed and native files out of the output. -->
+    <PackageReference Include="Mono.Unix" Version="7.1.0-final.1.21458.1" ExcludeAssets="all" PrivateAssets="all" />
+  </ItemGroup>
+  <PropertyGroup>
+    <StdLibSource>$(PkgIronPython_StdLib)\contentFiles\any\any\lib</StdLibSource>
+    <StdLibStage>$(BaseIntermediateOutputPath)stdlib\</StdLibStage>
+    <StdLibZip>$(OutputPath)IronPython.StdLib.zip</StdLibZip>
+  </PropertyGroup>
+  <Target Name="PackPythonStdLib" AfterTargets="Build" Inputs="$(MSBuildProjectFullPath);$(StdLibSource)\os.py" Outputs="$(StdLibZip)">
+    <Error Condition="!Exists('$(StdLibSource)\os.py')" Text="IronPython.StdLib content not found at $(StdLibSource)" />
+    <ItemGroup>
+      <!-- Not useful inside Revit: the test suites, Tk, IDLE, pip bootstrap, 2to3. -->
+      <StdLibFile Include="$(StdLibSource)\**\*"
+                  Exclude="$(StdLibSource)\test\**;$(StdLibSource)\**\test\**;$(StdLibSource)\**\tests\**;$(StdLibSource)\idlelib\**;$(StdLibSource)\tkinter\**;$(StdLibSource)\turtledemo\**;$(StdLibSource)\ensurepip\**;$(StdLibSource)\lib2to3\**;$(StdLibSource)\site-packages\**" />
+    </ItemGroup>
+    <RemoveDir Directories="$(StdLibStage)" />
+    <Copy SourceFiles="@(StdLibFile)" DestinationFiles="@(StdLibFile->'$(StdLibStage)%(RecursiveDir)%(Filename)%(Extension)')" />
+    <ZipDirectory SourceDirectory="$(StdLibStage)" DestinationFile="$(StdLibZip)" Overwrite="true" />
+    <RemoveDir Directories="$(StdLibStage)" />
+  </Target>
+</Project>

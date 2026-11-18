@@ -1,0 +1,11443 @@
+{
+ "constants": {
+  "STRING_OPS": [
+   "equals",
+   "not_equals",
+   "contains",
+   "not_contains",
+   "begins_with",
+   "not_begins_with",
+   "ends_with",
+   "not_ends_with",
+   "greater",
+   "greater_or_equal",
+   "less",
+   "less_or_equal"
+  ],
+  "NUMBER_OPS": [
+   "equals",
+   "not_equals",
+   "greater",
+   "greater_or_equal",
+   "less",
+   "less_or_equal"
+  ],
+  "VALUELESS_OPS": [
+   "has_value",
+   "has_no_value"
+  ],
+  "ALL_OPS": [
+   "begins_with",
+   "contains",
+   "ends_with",
+   "equals",
+   "greater",
+   "greater_or_equal",
+   "has_no_value",
+   "has_value",
+   "less",
+   "less_or_equal",
+   "not_begins_with",
+   "not_contains",
+   "not_ends_with",
+   "not_equals"
+  ],
+  "KINDS": [
+   "string",
+   "double",
+   "integer",
+   "element_id"
+  ],
+  "FACTORY": {
+   "equals": "CreateEqualsRule",
+   "not_equals": "CreateNotEqualsRule",
+   "contains": "CreateContainsRule",
+   "not_contains": "CreateNotContainsRule",
+   "begins_with": "CreateBeginsWithRule",
+   "not_begins_with": "CreateNotBeginsWithRule",
+   "ends_with": "CreateEndsWithRule",
+   "not_ends_with": "CreateNotEndsWithRule",
+   "greater": "CreateGreaterRule",
+   "greater_or_equal": "CreateGreaterOrEqualRule",
+   "less": "CreateLessRule",
+   "less_or_equal": "CreateLessOrEqualRule",
+   "has_value": "CreateHasValueParameterRule",
+   "has_no_value": "CreateHasNoValueParameterRule"
+  }
+ },
+ "cases": [
+  {
+   "fn": "infer_kind",
+   "args": [
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    null,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    null,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "mm"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "mm",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "mm",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    0
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    0,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    0,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    1
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    1,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    1,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    null,
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    null,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    null,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "",
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "",
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "mm"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "mm",
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "mm",
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    0
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    0,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    0,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    1
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    1,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    1,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    true,
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    null,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    null,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "",
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "",
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "mm"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "mm",
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "mm",
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    0
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    0,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    0,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    1
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    1,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    1,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    false,
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    null,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    null,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "",
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "",
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "mm"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "mm",
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "mm",
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    0
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    0,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    0,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    1
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    1,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    1,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0,
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    null,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    null,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "",
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "",
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "mm"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "mm",
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "mm",
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    0
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    0,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    0,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    1
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    1,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    1,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1,
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    null,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    null,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "",
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "",
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "mm"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "mm",
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "mm",
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    0
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    0,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    0,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    1
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    1,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    1,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -5,
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    null,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    null,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "",
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "",
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "mm"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "mm",
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "mm",
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    0
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    0,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    0,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    1
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    1,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    1,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    900,
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    null,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    null,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "",
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "",
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "mm"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "mm",
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "mm",
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    0
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    0,
+    null
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    0,
+    ""
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    1
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    1,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    1,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1099511627776,
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    null,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    null,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "",
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "",
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "mm"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "mm",
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "mm",
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    0
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    0,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    0,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    1
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    1,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    1,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    0.0,
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    null,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    null,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "",
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "",
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "mm"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "mm",
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "mm",
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    0
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    0,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    0,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    1
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    1,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    1,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    1.5,
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    null,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    null,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "",
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "",
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "mm"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "mm",
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "mm",
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    0
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    0,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    0,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    1
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    1,
+    null
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    1,
+    ""
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    -2.0,
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    null,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    null,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "mm"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "mm",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "mm",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    0
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    0,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    0,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    1
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    1,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    1,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "",
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    null,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    null,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "mm"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "mm",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "mm",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    0
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    0,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    0,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    1
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    1,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    1,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "D",
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    null,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    null,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "mm"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "mm",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "mm",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    0
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    0,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    0,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    1
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    1,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    1,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "12",
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    null,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    null,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "mm"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "mm",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "mm",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    0
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    0,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    0,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    1
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    1,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    1,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    "1.5",
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ]
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    null,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    null,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "mm"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "mm",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "mm",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    0
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    0,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    0,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    1
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    1,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    1,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    [
+     1
+    ],
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    }
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    null,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    null,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    null,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    null,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    null,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    null,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    null,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    null,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    null,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    null,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "mm"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "mm",
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "mm",
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "mm",
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "mm",
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "mm",
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "mm",
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "mm",
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "mm",
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "mm",
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    "mm",
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    0
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    0,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    0,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    0,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    0,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    0,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    0,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    0,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    0,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    0,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    0,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    1
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    1,
+    null
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    1,
+    ""
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    1,
+    "string"
+   ],
+   "expected": "string"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    1,
+    "double"
+   ],
+   "expected": "double"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    1,
+    "integer"
+   ],
+   "expected": "integer"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    1,
+    "element_id"
+   ],
+   "expected": "element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    1,
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    1,
+    "Integer"
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    1,
+    1
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "infer_kind",
+   "args": [
+    {
+     "a": 1
+    },
+    1,
+    [
+     "string"
+    ]
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    null
+   ],
+   "error": "RuleError",
+   "message": "each rule must be an object {parameter, op, value}"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    "text"
+   ],
+   "error": "RuleError",
+   "message": "each rule must be an object {parameter, op, value}"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    []
+   ],
+   "error": "RuleError",
+   "message": "each rule must be an object {parameter, op, value}"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    5
+   ],
+   "error": "RuleError",
+   "message": "each rule must be an object {parameter, op, value}"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {}
+   ],
+   "error": "RuleError",
+   "message": "rule needs 'parameter'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "Fire Rating",
+     "op": "has_value"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "Fire Rating",
+     "op": "has_value",
+     "unit": null,
+     "kind": null,
+     "value": null
+    },
+    "value_type": "NoneType"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "Fire Rating",
+     "op": "HAS_NO_VALUE",
+     "value": 5,
+     "unit": "mm",
+     "type": "bogus"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "Fire Rating",
+     "op": "has_no_value",
+     "unit": "mm",
+     "kind": null,
+     "value": null
+    },
+    "value_type": "NoneType"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "Width",
+     "op": "greater",
+     "value": 900,
+     "unit": "mm"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "Width",
+     "op": "greater",
+     "unit": "mm",
+     "kind": "double",
+     "value": 900.0
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "Mark",
+     "op": "contains",
+     "value": "D"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "Mark",
+     "op": "contains",
+     "unit": null,
+     "kind": "string",
+     "value": "D"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "Is Fire",
+     "value": true
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "Is Fire",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "Is Fire",
+     "value": false,
+     "op": null
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "Is Fire",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 0
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "Is Fire",
+     "value": true,
+     "unit": "mm"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "Is Fire",
+     "op": "equals",
+     "unit": "mm",
+     "kind": "integer",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "op": "equals",
+     "value": 1
+    }
+   ],
+   "error": "RuleError",
+   "message": "rule needs 'parameter'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "",
+     "value": 1
+    }
+   ],
+   "error": "RuleError",
+   "message": "rule needs 'parameter'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": null,
+     "value": 1
+    }
+   ],
+   "error": "RuleError",
+   "message": "rule needs 'parameter'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": 0,
+     "value": 1
+    }
+   ],
+   "error": "RuleError",
+   "message": "rule needs 'parameter'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": 12345,
+     "value": 1
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": 12345,
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": [
+      "a"
+     ],
+     "value": "x"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": [
+      "a"
+     ],
+     "op": "equals",
+     "unit": null,
+     "kind": "string",
+     "value": "x"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "near",
+     "value": 1
+    }
+   ],
+   "error": "RuleError",
+   "message": "unknown op 'near'. Use: begins_with, contains, ends_with, equals, greater, greater_or_equal, has_no_value, has_value, less, less_or_equal, not_begins_with, not_contains, not_ends_with, not_equals"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "contains",
+     "value": 5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'contains' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "equals"
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'equals' needs a value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "equals",
+     "value": null
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'equals' needs a value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "",
+     "value": 1
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "Equals",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "has_value",
+     "unit": "m"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "has_value",
+     "unit": "m",
+     "kind": null,
+     "value": null
+    },
+    "value_type": "NoneType"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "has value"
+    }
+   ],
+   "error": "RuleError",
+   "message": "unknown op 'has value'. Use: begins_with, contains, ends_with, equals, greater, greater_or_equal, has_no_value, has_value, less, less_or_equal, not_begins_with, not_contains, not_ends_with, not_equals"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "contains",
+     "value": true
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'contains' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "contains",
+     "value": 1.5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'contains' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "begins_with",
+     "value": "A",
+     "unit": "mm"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "begins_with",
+     "unit": "mm",
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "less",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "less",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "op": "less",
+     "value": "5",
+     "unit": "mm"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "less",
+     "unit": "mm",
+     "kind": "string",
+     "value": "5"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 1.5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "double",
+     "value": 1.5
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 2.0
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "double",
+     "value": 2.0
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": -3
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": -3
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 3,
+     "unit": "mm"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": "mm",
+     "kind": "double",
+     "value": 3.0
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 1099511627776
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 1099511627776
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 0
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 0
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 0.0
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "double",
+     "value": 0.0
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": ""
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "string",
+     "value": ""
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": [
+      1,
+      2
+     ]
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "string",
+     "value": "[1, 2]"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": {
+      "a": 1
+     }
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "string",
+     "value": "{'a': 1}"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": [
+      1,
+      2
+     ],
+     "op": "greater"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "greater",
+     "unit": null,
+     "kind": "string",
+     "value": "[1, 2]"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": "12",
+     "type": "integer"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 12
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": " 12 ",
+     "type": "integer"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 12
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": "1.5",
+     "type": "integer"
+    }
+   ],
+   "error": "ValueError",
+   "message": "invalid literal for int() with base 10: '1.5'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": "abc",
+     "type": "integer"
+    }
+   ],
+   "error": "ValueError",
+   "message": "invalid literal for int() with base 10: 'abc'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 2.7,
+     "type": "integer"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 2
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": -2.7,
+     "type": "integer"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": -2
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": true,
+     "type": "integer"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": false,
+     "type": "double"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "double",
+     "value": 0.0
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": "1.5",
+     "type": "double"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "double",
+     "value": 1.5
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": "abc",
+     "type": "double"
+    }
+   ],
+   "error": "ValueError",
+   "message": "could not convert string to float: 'abc'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 7,
+     "type": "double"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "double",
+     "value": 7.0
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": "1e3",
+     "type": "double"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "double",
+     "value": 1000.0
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 123456,
+     "type": "element_id"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "element_id",
+     "value": 123456
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": "123456",
+     "type": "element_id"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "element_id",
+     "value": 123456
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 12.9,
+     "type": "element_id"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "element_id",
+     "value": 12
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": "x",
+     "type": "element_id"
+    }
+   ],
+   "error": "ValueError",
+   "message": "invalid literal for int() with base 10: 'x'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": true,
+     "type": "element_id"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "element_id",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 5,
+     "type": "string"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "string",
+     "value": "5"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 1.0,
+     "type": "string"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "string",
+     "value": "1.0"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": true,
+     "type": "string"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "string",
+     "value": "True"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 0.1,
+     "type": "string",
+     "op": "ends_with"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "ends_with",
+     "unit": null,
+     "kind": "string",
+     "value": "0.1"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 5,
+     "type": "string",
+     "op": "greater"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "greater",
+     "unit": null,
+     "kind": "string",
+     "value": "5"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 5,
+     "type": "text"
+    }
+   ],
+   "error": "RuleError",
+   "message": "rule type must be one of string, double, integer, element_id"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 5,
+     "type": ""
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 5
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 5,
+     "type": null,
+     "unit": ""
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "x",
+     "op": "equals",
+     "unit": "",
+     "kind": "integer",
+     "value": 5
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": [
+      1
+     ],
+     "type": "integer"
+    }
+   ],
+   "error": "TypeError",
+   "message": "int() argument must be a string, a bytes-like object or a real number, not 'list'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": [
+      1
+     ],
+     "type": "double"
+    }
+   ],
+   "error": "TypeError",
+   "message": "float() argument must be a string or a real number, not 'list'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "x",
+     "value": 5,
+     "op": 5
+    }
+   ],
+   "error": "AttributeError",
+   "message": "'int' object has no attribute 'lower'"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "Comments",
+     "op": "not_contains",
+     "value": "é ü",
+     "extra": "ignored"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "Comments",
+     "op": "not_contains",
+     "unit": null,
+     "kind": "string",
+     "value": "é ü"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "begins_with",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "begins_with",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "begins_with",
+     "value": 5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'begins_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "begins_with",
+     "value": 5.5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'begins_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "begins_with",
+     "value": true
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'begins_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "contains",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "contains",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "contains",
+     "value": 5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'contains' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "contains",
+     "value": 5.5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'contains' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "contains",
+     "value": true
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'contains' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "ends_with",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "ends_with",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "ends_with",
+     "value": 5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'ends_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "ends_with",
+     "value": 5.5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'ends_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "ends_with",
+     "value": true
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'ends_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "equals",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "equals",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "equals",
+     "value": 5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 5
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "equals",
+     "value": 5.5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "equals",
+     "unit": null,
+     "kind": "double",
+     "value": 5.5
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "equals",
+     "value": true
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "greater",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "greater",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "greater",
+     "value": 5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "greater",
+     "unit": null,
+     "kind": "integer",
+     "value": 5
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "greater",
+     "value": 5.5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "greater",
+     "unit": null,
+     "kind": "double",
+     "value": 5.5
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "greater",
+     "value": true
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "greater",
+     "unit": null,
+     "kind": "integer",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "greater_or_equal",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "greater_or_equal",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "greater_or_equal",
+     "value": 5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "greater_or_equal",
+     "unit": null,
+     "kind": "integer",
+     "value": 5
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "greater_or_equal",
+     "value": 5.5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "greater_or_equal",
+     "unit": null,
+     "kind": "double",
+     "value": 5.5
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "greater_or_equal",
+     "value": true
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "greater_or_equal",
+     "unit": null,
+     "kind": "integer",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "has_no_value",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "has_no_value",
+     "unit": null,
+     "kind": null,
+     "value": null
+    },
+    "value_type": "NoneType"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "has_no_value",
+     "value": 5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "has_no_value",
+     "unit": null,
+     "kind": null,
+     "value": null
+    },
+    "value_type": "NoneType"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "has_no_value",
+     "value": 5.5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "has_no_value",
+     "unit": null,
+     "kind": null,
+     "value": null
+    },
+    "value_type": "NoneType"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "has_no_value",
+     "value": true
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "has_no_value",
+     "unit": null,
+     "kind": null,
+     "value": null
+    },
+    "value_type": "NoneType"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "has_value",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "has_value",
+     "unit": null,
+     "kind": null,
+     "value": null
+    },
+    "value_type": "NoneType"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "has_value",
+     "value": 5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "has_value",
+     "unit": null,
+     "kind": null,
+     "value": null
+    },
+    "value_type": "NoneType"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "has_value",
+     "value": 5.5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "has_value",
+     "unit": null,
+     "kind": null,
+     "value": null
+    },
+    "value_type": "NoneType"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "has_value",
+     "value": true
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "has_value",
+     "unit": null,
+     "kind": null,
+     "value": null
+    },
+    "value_type": "NoneType"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "less",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "less",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "less",
+     "value": 5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "less",
+     "unit": null,
+     "kind": "integer",
+     "value": 5
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "less",
+     "value": 5.5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "less",
+     "unit": null,
+     "kind": "double",
+     "value": 5.5
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "less",
+     "value": true
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "less",
+     "unit": null,
+     "kind": "integer",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "less_or_equal",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "less_or_equal",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "less_or_equal",
+     "value": 5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "less_or_equal",
+     "unit": null,
+     "kind": "integer",
+     "value": 5
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "less_or_equal",
+     "value": 5.5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "less_or_equal",
+     "unit": null,
+     "kind": "double",
+     "value": 5.5
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "less_or_equal",
+     "value": true
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "less_or_equal",
+     "unit": null,
+     "kind": "integer",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_begins_with",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "not_begins_with",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_begins_with",
+     "value": 5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'not_begins_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_begins_with",
+     "value": 5.5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'not_begins_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_begins_with",
+     "value": true
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'not_begins_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_contains",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "not_contains",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_contains",
+     "value": 5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'not_contains' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_contains",
+     "value": 5.5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'not_contains' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_contains",
+     "value": true
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'not_contains' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_ends_with",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "not_ends_with",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_ends_with",
+     "value": 5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'not_ends_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_ends_with",
+     "value": 5.5
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'not_ends_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_ends_with",
+     "value": true
+    }
+   ],
+   "error": "RuleError",
+   "message": "op 'not_ends_with' needs a text value"
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_equals",
+     "value": "A"
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "not_equals",
+     "unit": null,
+     "kind": "string",
+     "value": "A"
+    },
+    "value_type": "str"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_equals",
+     "value": 5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "not_equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 5
+    },
+    "value_type": "int"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_equals",
+     "value": 5.5
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "not_equals",
+     "unit": null,
+     "kind": "double",
+     "value": 5.5
+    },
+    "value_type": "float"
+   }
+  },
+  {
+   "fn": "validate_rule",
+   "args": [
+    {
+     "parameter": "P",
+     "op": "not_equals",
+     "value": true
+    }
+   ],
+   "expected": {
+    "rule": {
+     "parameter": "P",
+     "op": "not_equals",
+     "unit": null,
+     "kind": "integer",
+     "value": 1
+    },
+    "value_type": "int"
+   }
+  }
+ ]
+}

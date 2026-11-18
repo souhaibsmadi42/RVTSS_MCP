@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Proves, WITHOUT Revit, that the embedded IronPython engine of /execute_code/ (RvtssHost.Impl/Modules/Exec/PyEngine.cs)
+       works in the deployed layout and when its assemblies are loaded from bytes the way RvtssHost/ImplLoader.cs does.
+
+         dotnet build host/RvtssHost.Impl   -c Release -p:RevitYear=2026 -p:Lane=l -p:Group=Exec     (the layout: out\l\R2026)
+         dotnet build host/tests/Exec.Tests -c Release -p:RevitYear=2026 -p:Lane=l
+         host\out\l\R2026\exec-tests\Exec.Tests.exe          (exit code 0 = all passed)
+       RevitYear=2024 runs the same on .NET Framework 4.8 (Assembly.Load(bytes) + AssemblyResolve).
+       On .NET 8/10 three passes: bytes in a collectible context; a "reload" pass that must leave the context
+       collectable; engine from files in a non-collectible context. EXEC_LEAK_PROBE: see Payload/Checks.cs.
+
+       This launcher plays the shell: it has NO reference to IronPython and lives in its own folder, so the engine
+       can only come from the layout folder through the copied loader. Payload/ is the stand-in for RvtssHost.Impl. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Exec.Tests</AssemblyName>
+    <RootNamespace>RvtssHost.Tests</RootNamespace>
+    <OutputPath>$(OutputPath)exec-tests\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Payload\**" />
+    <ProjectReference Include="Payload\Exec.Payload.csproj" ReferenceOutputAssembly="false" Private="false" />
+  </ItemGroup>
+</Project>

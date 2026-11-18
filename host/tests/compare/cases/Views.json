@@ -1,0 +1,221 @@
+[
+ {
+  "name": "list views",
+  "method": "GET",
+  "path": "/list_views/"
+ },
+ {
+  "name": "current view info",
+  "method": "GET",
+  "path": "/current_view_info/"
+ },
+ {
+  "name": "current view elements default",
+  "method": "POST",
+  "path": "/current_view_elements/",
+  "body": {
+   "limit": 3
+  }
+ },
+ {
+  "name": "current view elements level+location",
+  "method": "POST",
+  "path": "/current_view_elements/",
+  "body": {
+   "limit": 5,
+   "include_levels": true,
+   "include_location": true
+  }
+ },
+ {
+  "name": "current view elements limit 0",
+  "method": "POST",
+  "path": "/current_view_elements/",
+  "body": {
+   "limit": 0
+  }
+ },
+ {
+  "name": "current view elements bad limit",
+  "method": "POST",
+  "path": "/current_view_elements/",
+  "body": {
+   "limit": "abc",
+   "include_levels": true
+  }
+ },
+ {
+  "name": "get_view not found",
+  "method": "GET",
+  "path": "/get_view/No%20Such%20View"
+ },
+ {
+  "name": "get_view bad format",
+  "method": "GET",
+  "path": "/get_view/Level%201?image_format=gif"
+ },
+ {
+  "name": "get_view id not found",
+  "method": "GET",
+  "path": "/get_view/999999999"
+ },
+ {
+  "name": "list families",
+  "method": "POST",
+  "path": "/list_families/",
+  "body": {
+   "limit": 5
+  }
+ },
+ {
+  "name": "list families contains",
+  "method": "POST",
+  "path": "/list_families/",
+  "body": {
+   "contains": "door",
+   "limit": 5
+  }
+ },
+ {
+  "name": "list families bad limit",
+  "method": "POST",
+  "path": "/list_families/",
+  "body": {
+   "contains": "door",
+   "limit": "x"
+  }
+ },
+ {
+  "name": "list family categories",
+  "method": "GET",
+  "path": "/list_family_categories/"
+ },
+ {
+  "name": "list levels",
+  "method": "GET",
+  "path": "/list_levels/"
+ },
+ {
+  "name": "list category parameters walls",
+  "method": "POST",
+  "path": "/list_category_parameters/",
+  "body": {
+   "category_name": "Walls"
+  },
+  "expect_different": true
+ },
+ {
+  "name": "list category parameters unknown",
+  "method": "POST",
+  "path": "/list_category_parameters/",
+  "body": {
+   "category_name": "Nope"
+  }
+ },
+ {
+  "name": "list category parameters missing",
+  "method": "POST",
+  "path": "/list_category_parameters/",
+  "body": {}
+ },
+ {
+  "name": "color_splash missing fields",
+  "method": "POST",
+  "path": "/color_splash/",
+  "body": {}
+ },
+ {
+  "name": "clear_colors missing fields",
+  "method": "POST",
+  "path": "/clear_colors/",
+  "body": {}
+ },
+ {
+  "name": "place_family no body fields",
+  "method": "POST",
+  "path": "/place_family/",
+  "body": {}
+ },
+ {
+  "name": "place_family no family_name",
+  "method": "POST",
+  "path": "/place_family/",
+  "body": {
+   "type_name": "x"
+  }
+ },
+ {
+  "name": "place_family bad location",
+  "method": "POST",
+  "path": "/place_family/",
+  "body": {
+   "family_name": "x",
+   "location": {
+    "x": 1
+   }
+  }
+ },
+ {
+  "name": "get_view png default",
+  "method": "GET",
+  "path": "/get_view/3D%20Lesson",
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ },
+ {
+  "name": "get_view jpg small",
+  "method": "GET",
+  "path": "/get_view/3D%20Lesson?image_format=JPG&pixel_size=10",
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ },
+ {
+  "name": "get_view bad pixel size",
+  "method": "GET",
+  "path": "/get_view/Site?pixel_size=abc",
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ },
+ {
+  "name": "get_view big pixel size jpeg",
+  "method": "GET",
+  "path": "/get_view/North?image_format=jpeg&pixel_size=5000",
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ },
+ {
+  "name": "get_view by id",
+  "method": "GET",
+  "path": "/get_view/210650?pixel_size=256",
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ },
+ {
+  "name": "get_view duplicate name floor plan",
+  "method": "GET",
+  "path": "/get_view/Level%201?pixel_size=256",
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ },
+ {
+  "name": "get_view system browser",
+  "method": "GET",
+  "path": "/get_view/System%20Browser",
+  "ignore": [
+   "image_data",
+   "file_size_bytes"
+  ]
+ }
+]
