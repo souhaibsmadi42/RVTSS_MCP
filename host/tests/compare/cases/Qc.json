@@ -1,0 +1,1765 @@
+[
+ {
+  "name": "qc model_checks unknown check",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "bogus",
+    "warnings"
+   ]
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks warnings",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "warnings"
+   ]
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks duplicates",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "duplicates"
+   ]
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks duplicates tolerance 0",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "duplicates"
+   ],
+   "duplicate_tolerance": 0
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks naming no rules",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "naming"
+   ]
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks naming rules",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "naming"
+   ],
+   "rules": {
+    "naming": {
+     "views": {
+      "pattern": "^[A-Z]{2}-",
+      "severity": "error"
+     },
+     "sheets": {
+      "pattern": "^[A-Z]-\\d{3}$",
+      "field": "number"
+     },
+     "levels": {
+      "pattern": "^L\\d+$",
+      "description": "levels use L1.."
+     },
+     "families": {
+      "pattern": "^[A-Z]{3}_"
+     },
+     "types": {
+      "pattern": "^\\d+"
+     }
+    }
+   }
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks naming bad pattern",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "naming"
+   ],
+   "rules": {
+    "naming": {
+     "views": {
+      "pattern": "([unclosed"
+     }
+    }
+   }
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks similar_family_names",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "similar_family_names"
+   ]
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks duplicate_types",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "duplicate_types"
+   ]
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks unused_families",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "unused_families"
+   ]
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks in_place",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "in_place_families",
+    "cad_imports",
+    "links",
+    "rooms",
+    "groups"
+   ]
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks views_not_on_sheets sheets",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "views_not_on_sheets",
+    "sheets"
+   ],
+   "sheet_parameters": [
+    "Drawn By",
+    "Nope"
+   ]
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks required_parameters",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "required_parameters"
+   ],
+   "rules": {
+    "required_parameters": [
+     {
+      "categories": [
+       "Walls",
+       "NoSuchCategory"
+      ],
+      "parameters": [
+       "Mark",
+       "Comments",
+       "Fire Rating",
+       "Nope"
+      ],
+      "severity": "warning"
+     }
+    ]
+   }
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks iso19650 none",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "iso19650"
+   ]
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks iso19650 scheme",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "iso19650"
+   ],
+   "rules": {
+    "iso19650": {
+     "delimiter": "-",
+     "fields": [
+      {
+       "name": "project",
+       "values": [
+        "P1"
+       ]
+      },
+      {
+       "name": "kind",
+       "pattern": "^[A-Z]$"
+      }
+     ],
+     "targets": {
+      "sheets": {
+       "source": "number"
+      },
+      "views": {},
+      "view_templates": {},
+      "families": {},
+      "types": {},
+      "worksets": {}
+     }
+    }
+   }
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks iso19650 bad scheme",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "iso19650"
+   ],
+   "rules": {
+    "iso19650": {
+     "targets": {
+      "sheets": {}
+     }
+    }
+   }
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks view_audit",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "view_audit"
+   ],
+   "include_schedules": true
+  },
+  "ignore": [
+   "timings_ms"
+  ],
+  "unordered": [
+   "findings.*.element_ids",
+   "findings.*.examples"
+  ]
+ },
+ {
+  "name": "qc model_checks all min_severity",
+  "path": "/qc/model_checks/",
+  "body": {
+   "min_severity": "warning",
+   "max_findings": 4
+  },
+  "ignore": [
+   "timings_ms"
+  ],
+  "unordered": [
+   "findings.*.element_ids",
+   "findings.*.examples"
+  ]
+ },
+ {
+  "name": "qc clashes missing sets",
+  "path": "/qc/clashes/",
+  "body": {}
+ },
+ {
+  "name": "qc clashes negative clearance",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {
+    "categories": [
+     "Floors"
+    ]
+   },
+   "clearance": -5
+  }
+ },
+ {
+  "name": "qc clashes bad group_by",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {
+    "categories": [
+     "Floors"
+    ]
+   },
+   "group_by": [
+    "bogus"
+   ]
+  }
+ },
+ {
+  "name": "qc clashes dry_run",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {
+    "categories": [
+     "Floors"
+    ]
+   },
+   "clearance": 100,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "qc clashes bad link",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {
+    "link_instance_id": 210619
+   }
+  }
+ },
+ {
+  "name": "qc clashes missing link element",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {
+    "link_instance_id": 99999999
+   }
+  }
+ },
+ {
+  "name": "qc clashes bad category",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {
+    "categories": [
+     "NoSuchCategory"
+    ]
+   }
+  }
+ },
+ {
+  "name": "qc clashes hard walls vs walls",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "group_by": [
+    "pair",
+    "level",
+    "grid_zone"
+   ],
+   "include_grids": true
+  },
+  "ignore": [
+   "created"
+  ]
+ },
+ {
+  "name": "qc clashes clearance volume",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {
+    "categories": [
+     "Walls",
+     "Floors"
+    ]
+   },
+   "clearance": 300,
+   "samples": 3,
+   "compute_volume": true,
+   "group_by": [
+    "type_pair"
+   ],
+   "max_pairs": 5
+  },
+  "ignore": [
+   "created"
+  ]
+ },
+ {
+  "name": "qc clashes no locate unit m",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {},
+   "unit": "m",
+   "locate": false
+  }
+ },
+ {
+  "name": "qc clashes no locate",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "unit": "m",
+   "locate": false,
+   "max_pairs": 2
+  },
+  "ignore": [
+   "created"
+  ]
+ },
+ {
+  "name": "qc snapshot list",
+  "path": "/qc/snapshot/",
+  "body": {
+   "action": "list"
+  }
+ },
+ {
+  "name": "qc snapshot no name",
+  "path": "/qc/snapshot/",
+  "body": {
+   "categories": [
+    "Walls"
+   ]
+  }
+ },
+ {
+  "name": "qc snapshot exists (no overwrite)",
+  "path": "/qc/snapshot/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "path": "C:\\Windows\\win.ini",
+   "track_parameters": [
+    "Mark",
+    "Comments",
+    "Nope"
+   ]
+  }
+ },
+ {
+  "name": "qc snapshot hash_all exists",
+  "path": "/qc/snapshot/",
+  "body": {
+   "categories": [
+    "Walls",
+    "Doors"
+   ],
+   "path": "C:\\Windows\\win.ini",
+   "hash_all_parameters": true
+  }
+ },
+ {
+  "name": "qc snapshot bad link",
+  "path": "/qc/snapshot/",
+  "body": {
+   "link_instance_id": 210619,
+   "name": "x"
+  }
+ },
+ {
+  "name": "qc snapshot missing link",
+  "path": "/qc/snapshot/",
+  "body": {
+   "link_instance_id": 99999999,
+   "name": "x"
+  }
+ },
+ {
+  "name": "qc compare no baseline",
+  "path": "/qc/compare/",
+  "body": {}
+ },
+ {
+  "name": "qc compare missing file",
+  "path": "/qc/compare/",
+  "body": {
+   "baseline_path": "C:\\no\\such\\snapshot.json"
+  }
+ },
+ {
+  "name": "qc compare bad mode",
+  "path": "/qc/compare/",
+  "body": {
+   "mode": "bogus"
+  }
+ },
+ {
+  "name": "qc compare snapshot vs live",
+  "path": "/qc/compare/",
+  "body": {
+   "baseline": "selftest_20261107_054739",
+   "max_items": 5
+  },
+  "ignore": [
+   "added",
+   "removed",
+   "modified"
+  ]
+ },
+ {
+  "name": "qc compare snapshot vs live filtered",
+  "path": "/qc/compare/",
+  "body": {
+   "baseline": "selftest_20261110_023023",
+   "categories": [
+    "Walls"
+   ],
+   "max_items": 5,
+   "move_tolerance": 0.5
+  },
+  "ignore": [
+   "added",
+   "removed",
+   "modified"
+  ]
+ },
+ {
+  "name": "qc compare snapshot vs snapshot",
+  "path": "/qc/compare/",
+  "body": {
+   "baseline": "selftest_20261107_054739",
+   "current": "selftest_20261110_023023",
+   "max_items": 5
+  },
+  "unordered": [
+   "added",
+   "removed"
+  ]
+ },
+ {
+  "name": "qc compare match",
+  "path": "/qc/compare/",
+  "body": {
+   "mode": "match",
+   "source": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "target": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "match_on": [
+    "category",
+    "type"
+   ],
+   "tolerance": 10,
+   "max_items": 5
+  }
+ },
+ {
+  "name": "qc compare match filter spec",
+  "path": "/qc/compare/",
+  "body": {
+   "mode": "match",
+   "source": {
+    "filter": {
+     "categories": [
+      "Walls"
+     ]
+    }
+   },
+   "target": {
+    "categories": [
+     "Floors"
+    ]
+   },
+   "max_items": 5
+  }
+ },
+ {
+  "name": "qc compare match bad link",
+  "path": "/qc/compare/",
+  "body": {
+   "mode": "match",
+   "source": {
+    "link_instance_id": 210619
+   },
+   "target": {}
+  }
+ },
+ {
+  "name": "coordinates basic",
+  "path": "/coordinates/",
+  "body": {}
+ },
+ {
+  "name": "coordinates unit m points",
+  "path": "/coordinates/",
+  "body": {
+   "unit": "m",
+   "points": [
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     1,
+     2,
+     3
+    ],
+    [
+     10,
+     20
+    ]
+   ]
+  }
+ },
+ {
+  "name": "coordinates bad point",
+  "path": "/coordinates/",
+  "body": {
+   "points": [
+    [
+     1,
+     2,
+     3,
+     4
+    ]
+   ]
+  }
+ },
+ {
+  "name": "spatial missing mode",
+  "path": "/spatial/query/",
+  "body": {}
+ },
+ {
+  "name": "spatial bad mode",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "bogus"
+  }
+ },
+ {
+  "name": "spatial distance",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "distance",
+   "element_a": 210619,
+   "element_b": 210620
+  }
+ },
+ {
+  "name": "spatial distance no exact",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "distance",
+   "element_a": 210619,
+   "element_b": 210621,
+   "exact": false,
+   "unit": "m"
+  }
+ },
+ {
+  "name": "spatial distance samples",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "distance",
+   "element_a": 210619,
+   "element_b": 210621,
+   "samples": 3
+  }
+ },
+ {
+  "name": "spatial distance missing",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "distance",
+   "element_a": 210619,
+   "element_b": 99999999
+  }
+ },
+ {
+  "name": "spatial distance missing arg",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "distance",
+   "element_a": 210619
+  }
+ },
+ {
+  "name": "spatial in_box",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "in_box",
+   "min": [
+    -100000,
+    -100000,
+    -100000
+   ],
+   "max": [
+    100000,
+    100000,
+    100000
+   ],
+   "limit": 3
+  }
+ },
+ {
+  "name": "spatial in_box categories",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "in_box",
+   "min": [
+    100000,
+    100000,
+    100000
+   ],
+   "max": [
+    -100000,
+    -100000,
+    -100000
+   ],
+   "categories": [
+    "Walls"
+   ]
+  }
+ },
+ {
+  "name": "spatial in_box missing",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "in_box",
+   "min": [
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ {
+  "name": "spatial near_point",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "near_point",
+   "point": [
+    0,
+    0,
+    0
+   ],
+   "radius": 20000,
+   "limit": 4
+  }
+ },
+ {
+  "name": "spatial near_point categories",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "near_point",
+   "point": [
+    0,
+    0,
+    0
+   ],
+   "radius": 50000,
+   "categories": [
+    "Walls"
+   ],
+   "unit": "m"
+  }
+ },
+ {
+  "name": "spatial raycast",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "raycast",
+   "point": [
+    0,
+    0,
+    5000
+   ],
+   "direction": [
+    0,
+    0,
+    -1
+   ]
+  }
+ },
+ {
+  "name": "spatial raycast categories",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "raycast",
+   "point": [
+    0,
+    0,
+    5000
+   ],
+   "direction": [
+    1,
+    0,
+    0
+   ],
+   "categories": [
+    "Walls"
+   ],
+   "limit": 3
+  }
+ },
+ {
+  "name": "spatial raycast zero direction",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "raycast",
+   "point": [
+    0,
+    0,
+    5000
+   ],
+   "direction": [
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ {
+  "name": "spatial raycast bad direction",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "raycast",
+   "point": [
+    0,
+    0,
+    5000
+   ],
+   "direction": [
+    0,
+    1
+   ]
+  }
+ },
+ {
+  "name": "spatial raycast bad view",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "raycast",
+   "point": [
+    0,
+    0,
+    5000
+   ],
+   "view": "NoSuchView"
+  }
+ },
+ {
+  "name": "rooms list",
+  "path": "/rooms/list/",
+  "body": {}
+ },
+ {
+  "name": "rooms list space",
+  "path": "/rooms/list/",
+  "body": {
+   "kind": "space",
+   "area_unit": "ft2",
+   "status": [
+    "placed"
+   ],
+   "contains": "a"
+  }
+ },
+ {
+  "name": "rooms list area",
+  "path": "/rooms/list/",
+  "body": {
+   "kind": "area",
+   "phase": "New Construction",
+   "limit": 5
+  }
+ },
+ {
+  "name": "rooms list bad kind",
+  "path": "/rooms/list/",
+  "body": {
+   "kind": "bogus"
+  }
+ },
+ {
+  "name": "rooms list bad area_unit",
+  "path": "/rooms/list/",
+  "body": {
+   "area_unit": "furlong"
+  }
+ },
+ {
+  "name": "rooms list bad level",
+  "path": "/rooms/list/",
+  "body": {
+   "level": "NoSuchLevel"
+  }
+ },
+ {
+  "name": "rooms details missing ids",
+  "path": "/rooms/details/",
+  "body": {}
+ },
+ {
+  "name": "rooms details too many",
+  "path": "/rooms/details/",
+  "body": {
+   "element_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+   ]
+  }
+ },
+ {
+  "name": "rooms details not a room",
+  "path": "/rooms/details/",
+  "body": {
+   "element_ids": [
+    210619
+   ]
+  }
+ },
+ {
+  "name": "rooms details missing",
+  "path": "/rooms/details/",
+  "body": {
+   "element_ids": [
+    99999999
+   ]
+  }
+ },
+ {
+  "name": "materials list",
+  "path": "/materials/list/",
+  "body": {
+   "limit": 4,
+   "include_usage": true
+  },
+  "ignore": [
+   "materials.*.color"
+  ]
+ },
+ {
+  "name": "materials list filters",
+  "path": "/materials/list/",
+  "body": {
+   "contains": "concrete",
+   "material_class": "Concrete",
+   "include_usage": true,
+   "unused_only": true
+  },
+  "ignore": [
+   "materials.*.color"
+  ]
+ },
+ {
+  "name": "materials list unused",
+  "path": "/materials/list/",
+  "body": {
+   "include_usage": true,
+   "unused_only": true,
+   "limit": 3,
+   "offset": 2
+  },
+  "ignore": [
+   "materials.*.color"
+  ]
+ },
+ {
+  "name": "materials takeoff no scope",
+  "path": "/materials/takeoff/",
+  "body": {}
+ },
+ {
+  "name": "materials takeoff bad unit",
+  "path": "/materials/takeoff/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "area_unit": "furlong"
+  }
+ },
+ {
+  "name": "materials takeoff bad group",
+  "path": "/materials/takeoff/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "group_by": [
+    "bogus"
+   ]
+  }
+ },
+ {
+  "name": "materials takeoff walls",
+  "path": "/materials/takeoff/",
+  "body": {
+   "categories": [
+    "Walls",
+    "Floors"
+   ]
+  }
+ },
+ {
+  "name": "materials takeoff group category level",
+  "path": "/materials/takeoff/",
+  "body": {
+   "categories": [
+    "Walls",
+    "Floors"
+   ],
+   "group_by": [
+    "category",
+    "level",
+    "type",
+    "material"
+   ],
+   "include_paint": false,
+   "area_unit": "ft2",
+   "volume_unit": "ft3",
+   "limit": 5
+  }
+ },
+ {
+  "name": "materials manage no action",
+  "path": "/materials/manage/",
+  "body": {}
+ },
+ {
+  "name": "materials manage bad action",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "bogus",
+   "material": "Air"
+  }
+ },
+ {
+  "name": "materials manage bad action no material",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "bogus"
+  }
+ },
+ {
+  "name": "materials manage assign no ids",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "assign",
+   "material": "Air"
+  }
+ },
+ {
+  "name": "materials manage create dry",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "create",
+   "name": "RVTSS compare test",
+   "properties": {
+    "color": "#C0C0C0",
+    "transparency": 20,
+    "shininess": 50,
+    "material_class": "Generic"
+   },
+   "dry_run": true
+  },
+  "ignore": [
+   "material.id",
+   "material.color"
+  ]
+ },
+ {
+  "name": "materials manage create exists",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "create",
+   "name": "air",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "materials manage duplicate dry",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "duplicate",
+   "material": "Air",
+   "name": "Air copy test",
+   "dry_run": true
+  },
+  "ignore": [
+   "material.id",
+   "material.color"
+  ]
+ },
+ {
+  "name": "materials manage rename dry",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "rename",
+   "material": "Air",
+   "name": "Air renamed",
+   "dry_run": true
+  },
+  "ignore": [
+   "material.color"
+  ]
+ },
+ {
+  "name": "materials manage set_properties empty",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "set_properties",
+   "material": "Air",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "materials manage set_properties dry",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "set_properties",
+   "material": "Air",
+   "properties": {
+    "color": "#102030",
+    "surface_pattern": "Solid fill",
+    "cut_pattern": "Solid fill",
+    "surface_pattern_color": "#FF0000",
+    "use_render_appearance": false
+   },
+   "dry_run": true
+  },
+  "ignore": [
+   "material.color"
+  ]
+ },
+ {
+  "name": "materials manage set_properties bad pattern",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "set_properties",
+   "material": "Air",
+   "properties": {
+    "surface_pattern": "NoSuchPattern"
+   },
+   "dry_run": true
+  }
+ },
+ {
+  "name": "materials manage set_properties bad color",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "set_properties",
+   "material": "Air",
+   "properties": {
+    "color": "#12"
+   },
+   "dry_run": true
+  }
+ },
+ {
+  "name": "materials manage missing material",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "rename",
+   "material": "NoSuchMaterial",
+   "name": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "materials manage assign dry",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "assign",
+   "material": "Air",
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "materials manage assign layer dry",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "assign",
+   "material": "Air",
+   "element_ids": [
+    210619
+   ],
+   "layer_index": 0,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "materials manage assign layer range",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "assign",
+   "material": "Air",
+   "element_ids": [
+    210619
+   ],
+   "layer_index": 50,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "materials manage assign bad parameter",
+  "path": "/materials/manage/",
+  "body": {
+   "action": "assign",
+   "material": "Air",
+   "element_ids": [
+    210619
+   ],
+   "parameter": "NoSuchParam",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "worksets list",
+  "path": "/worksets/manage/",
+  "body": {}
+ },
+ {
+  "name": "worksets create not workshared",
+  "path": "/worksets/manage/",
+  "body": {
+   "action": "create",
+   "name": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "purge preview",
+  "path": "/purge/",
+  "body": {}
+ },
+ {
+  "name": "purge preview categories",
+  "path": "/purge/",
+  "body": {
+   "categories": [
+    "Materials"
+   ],
+   "list_limit": 3,
+   "exclude_ids": [
+    1,
+    "2"
+   ]
+  }
+ },
+ {
+  "name": "purge dry_run confirm",
+  "path": "/purge/",
+  "body": {
+   "confirm": true,
+   "dry_run": true,
+   "list_limit": 2
+  }
+ },
+ {
+  "name": "purge bad category",
+  "path": "/purge/",
+  "body": {
+   "categories": [
+    "NoSuchCategory"
+   ]
+  }
+ },
+ {
+  "name": "export settings",
+  "path": "/export/settings/",
+  "body": {}
+ },
+ {
+  "name": "export run missing format",
+  "path": "/export/run/",
+  "body": {}
+ },
+ {
+  "name": "export run bad format",
+  "path": "/export/run/",
+  "body": {
+   "format": "docx"
+  }
+ },
+ {
+  "name": "export run relative folder",
+  "path": "/export/run/",
+  "body": {
+   "format": "pdf",
+   "folder": "relative\\path",
+   "all_sheets": true
+  }
+ },
+ {
+  "name": "export run nothing",
+  "path": "/export/run/",
+  "body": {
+   "format": "pdf"
+  }
+ },
+ {
+  "name": "export run bad sheet",
+  "path": "/export/run/",
+  "body": {
+   "format": "pdf",
+   "sheets": [
+    "NoSuchSheet"
+   ]
+  }
+ },
+ {
+  "name": "export run bad view",
+  "path": "/export/run/",
+  "body": {
+   "format": "dwg",
+   "views": [
+    "NoSuchView"
+   ]
+  }
+ },
+ {
+  "name": "export run bad view_set",
+  "path": "/export/run/",
+  "body": {
+   "format": "dwg",
+   "view_set": "NoSuchSet"
+  }
+ },
+ {
+  "name": "export run csv not schedule",
+  "path": "/export/run/",
+  "body": {
+   "format": "csv",
+   "views": [
+    "active"
+   ]
+  }
+ },
+ {
+  "name": "export run dry pdf active view",
+  "path": "/export/run/",
+  "body": {
+   "format": "pdf",
+   "views": [
+    "active"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "export run dry pdf combine",
+  "path": "/export/run/",
+  "body": {
+   "format": "pdf",
+   "views": [
+    "active"
+   ],
+   "combine": true,
+   "file_name": "my:file.pdf",
+   "folder": "C:\\Temp\\rvtss_never",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "export run dry dwg naming",
+  "path": "/export/run/",
+  "body": {
+   "format": "DWG",
+   "views": [
+    "active",
+    "active"
+   ],
+   "naming": "{view_type} - {name} - {document} - {number}",
+   "folder": "C:\\Temp\\rvtss_never",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "export run dry bad naming",
+  "path": "/export/run/",
+  "body": {
+   "format": "dwg",
+   "views": [
+    "active"
+   ],
+   "naming": "{bogus}",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "export run dry ifc",
+  "path": "/export/run/",
+  "body": {
+   "format": "ifc",
+   "file_name": "model.IFC",
+   "folder": "C:\\Temp\\rvtss_never",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "export run dry nwc",
+  "path": "/export/run/",
+  "body": {
+   "format": "nwc",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "export run dry all sheets",
+  "path": "/export/run/",
+  "body": {
+   "format": "pdf",
+   "all_sheets": true,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "qc model_checks min_severity error",
+  "path": "/qc/model_checks/",
+  "body": {
+   "min_severity": "error",
+   "checks": [
+    "warnings",
+    "duplicates",
+    "naming",
+    "links",
+    "rooms",
+    "iso19650"
+   ],
+   "rules": {
+    "naming": {
+     "levels": {
+      "pattern": "^L\\d+$",
+      "severity": "critical"
+     }
+    }
+   }
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks empty checks list means all",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [],
+   "min_severity": "error"
+  },
+  "ignore": [
+   "timings_ms"
+  ]
+ },
+ {
+  "name": "qc model_checks bad rules type",
+  "path": "/qc/model_checks/",
+  "body": {
+   "checks": [
+    "warnings"
+   ],
+   "rules": [
+    1,
+    2
+   ]
+  }
+ },
+ {
+  "name": "qc clashes set_b element_ids",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {
+    "categories": [
+     "Walls"
+    ],
+    "element_ids": [
+     210620
+    ]
+   },
+   "clearance": 300,
+   "group_by": [
+    "level"
+   ]
+  },
+  "ignore": [
+   "created"
+  ]
+ },
+ {
+  "name": "qc clashes bad clearance type",
+  "path": "/qc/clashes/",
+  "body": {
+   "set_a": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "set_b": {
+    "categories": [
+     "Walls"
+    ]
+   },
+   "clearance": "wide"
+  }
+ },
+ {
+  "name": "qc snapshot hash_all bad link type",
+  "path": "/qc/snapshot/",
+  "body": {
+   "link_instance_id": "abc"
+  }
+ },
+ {
+  "name": "worksets set_active not workshared",
+  "path": "/worksets/manage/",
+  "body": {
+   "action": "set_active",
+   "workset": "Workset1",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "spatial distance bad id type",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "distance",
+   "element_a": "abc",
+   "element_b": 210620
+  }
+ },
+ {
+  "name": "spatial near_point no categories no limit",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "near_point",
+   "point": [
+    5000,
+    3500,
+    0
+   ],
+   "radius": 6000,
+   "unit": "mm"
+  }
+ },
+ {
+  "name": "spatial raycast include_links",
+  "path": "/spatial/query/",
+  "body": {
+   "mode": "raycast",
+   "point": [
+    2500,
+    3500,
+    5000
+   ],
+   "direction": [
+    0,
+    0,
+    -2
+   ],
+   "include_links": true,
+   "limit": 5
+  }
+ },
+ {
+  "name": "materials takeoff view scope",
+  "path": "/materials/takeoff/",
+  "body": {
+   "view": "active",
+   "group_by": [
+    "category",
+    "material"
+   ]
+  }
+ },
+ {
+  "name": "materials takeoff element_ids",
+  "path": "/materials/takeoff/",
+  "body": {
+   "element_ids": [
+    210619,
+    210623
+   ],
+   "group_by": [
+    "type",
+    "level"
+   ],
+   "area_unit": "m2",
+   "volume_unit": "m3"
+  }
+ },
+ {
+  "name": "export run dry csv",
+  "path": "/export/run/",
+  "body": {
+   "format": "csv",
+   "views": [
+    "active"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "export settings unit ignore",
+  "path": "/export/settings/",
+  "body": {
+   "unit": "m"
+  }
+ }
+]

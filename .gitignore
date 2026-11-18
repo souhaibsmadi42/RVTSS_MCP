@@ -17,3 +17,15 @@ CLAUDE.md
 # tutorial render scratch
 media/tutorial-src/build/
 _site/
+
+# Windows installer (installer/build.ps1)
+installer/Output/
+
+# C# host prototype build output and benchmark results
+host/RvtssHost/bin/
+host/obj/
+host/out/
+host/dist/
+host/bench/results/
+host/tests/models/
+host/tests/compare/results/

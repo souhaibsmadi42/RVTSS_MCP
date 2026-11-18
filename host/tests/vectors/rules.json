@@ -1,0 +1,12505 @@
+{
+ "cases": [
+  {
+   "fn": "severity_rank",
+   "args": [
+    "info"
+   ],
+   "kwargs": {},
+   "out": 0
+  },
+  {
+   "fn": "severity_rank",
+   "args": [
+    "warning"
+   ],
+   "kwargs": {},
+   "out": 1
+  },
+  {
+   "fn": "severity_rank",
+   "args": [
+    "error"
+   ],
+   "kwargs": {},
+   "out": 2
+  },
+  {
+   "fn": "severity_rank",
+   "args": [
+    "critical"
+   ],
+   "kwargs": {},
+   "out": 3
+  },
+  {
+   "fn": "severity_rank",
+   "args": [
+    "fatal"
+   ],
+   "kwargs": {},
+   "out": 1
+  },
+  {
+   "fn": "severity_rank",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": 1
+  },
+  {
+   "fn": "severity_rank",
+   "args": [
+    null
+   ],
+   "kwargs": {},
+   "out": 1
+  },
+  {
+   "fn": "severity_rank",
+   "args": [
+    2
+   ],
+   "kwargs": {},
+   "out": 1
+  },
+  {
+   "fn": "severity_rank",
+   "args": [
+    "ERROR"
+   ],
+   "kwargs": {},
+   "out": 1
+  },
+  {
+   "fn": "severity_rank",
+   "args": [
+    true
+   ],
+   "kwargs": {},
+   "out": 1
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m"
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 0,
+    "element_ids": []
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "fatal",
+     "m"
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "warning",
+    "message": "m",
+    "count": 0,
+    "element_ids": []
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     null,
+     "m"
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "warning",
+    "message": "m",
+    "count": 0,
+    "element_ids": []
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "info",
+     "m",
+     [
+      1,
+      2,
+      3
+     ]
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "info",
+    "message": "m",
+    "count": 3,
+    "element_ids": [
+     1,
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "critical",
+     "m",
+     [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79
+     ]
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "critical",
+    "message": "m",
+    "count": 80,
+    "element_ids": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49
+    ],
+    "element_ids_truncated": true
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+     ]
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 50,
+    "element_ids": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49
+    ]
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+     ]
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 51,
+    "element_ids": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49
+    ],
+    "element_ids_truncated": true
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [
+      1,
+      2,
+      3
+     ],
+     "Fix it"
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 3,
+    "element_ids": [
+     1,
+     2,
+     3
+    ],
+    "recommendation": "Fix it"
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [
+      1,
+      2,
+      3
+     ],
+     ""
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 3,
+    "element_ids": [
+     1,
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [
+      1,
+      2,
+      3
+     ],
+     null,
+     7
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 7,
+    "element_ids": [
+     1,
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [
+      1,
+      2,
+      3
+     ],
+     null,
+     0
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 0,
+    "element_ids": [
+     1,
+     2,
+     3
+    ]
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     null,
+     null,
+     null
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 0,
+    "element_ids": []
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [],
+     "r",
+     null,
+     2
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 0,
+    "element_ids": [],
+    "recommendation": "r"
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "r",
+     null,
+     2
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 5,
+    "element_ids": [
+     1,
+     2
+    ],
+    "element_ids_truncated": true,
+    "recommendation": "r"
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "r",
+     null,
+     0
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 5,
+    "element_ids": [],
+    "element_ids_truncated": true,
+    "recommendation": "r"
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "r",
+     null,
+     -2
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 5,
+    "element_ids": [
+     1,
+     2,
+     3
+    ],
+    "element_ids_truncated": true,
+    "recommendation": "r"
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "r",
+     null,
+     5
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 5,
+    "element_ids": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "recommendation": "r"
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "error",
+     "m",
+     [
+      "a",
+      null,
+      2.5
+     ]
+    ],
+    {}
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "error",
+    "message": "m",
+    "count": 3,
+    "element_ids": [
+     "a",
+     null,
+     2.5
+    ]
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "warning",
+     "m",
+     [
+      1
+     ]
+    ],
+    {
+     "examples": [
+      "a",
+      "b"
+     ],
+     "target": "views"
+    }
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "warning",
+    "message": "m",
+    "count": 1,
+    "element_ids": [
+     1
+    ],
+    "examples": [
+     "a",
+     "b"
+    ],
+    "target": "views"
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "warning",
+     "m",
+     [
+      1,
+      2
+     ]
+    ],
+    {
+     "note": null,
+     "severity_was": "kept as given",
+     "extra_count": 99
+    }
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "warning",
+    "message": "m",
+    "count": 2,
+    "element_ids": [
+     1,
+     2
+    ],
+    "note": null,
+    "severity_was": "kept as given",
+    "extra_count": 99
+   }
+  },
+  {
+   "fn": "finding",
+   "args": [
+    [
+     "x",
+     "warning",
+     "m"
+    ],
+    {
+     "nested": {
+      "a": [
+       1,
+       {
+        "b": null
+       }
+      ]
+     }
+    }
+   ],
+   "kwargs": {},
+   "out": {
+    "check": "x",
+    "severity": "warning",
+    "message": "m",
+    "count": 0,
+    "element_ids": [],
+    "nested": {
+     "a": [
+      1,
+      {
+       "b": null
+      }
+     ]
+    }
+   }
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    []
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 0,
+    "by_severity": {
+     "info": 0,
+     "warning": 0,
+     "error": 0,
+     "critical": 0
+    },
+    "by_check": {},
+    "worst_severity": null
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    []
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 1,
+    "by_severity": {
+     "info": 1,
+     "warning": 0,
+     "error": 0,
+     "critical": 0
+    },
+    "by_check": {
+     "a": 1
+    },
+    "worst_severity": "info"
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "a",
+     "severity": "info",
+     "message": "m",
+     "count": 1,
+     "element_ids": [
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     },
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 2,
+    "by_severity": {
+     "info": 1,
+     "warning": 0,
+     "error": 1,
+     "critical": 0
+    },
+    "by_check": {
+     "a": 1,
+     "b": 1
+    },
+    "worst_severity": "error"
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     },
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "b",
+     "severity": "error",
+     "message": "m",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "check": "a",
+     "severity": "info",
+     "message": "m",
+     "count": 1,
+     "element_ids": [
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 2,
+    "by_severity": {
+     "info": 1,
+     "warning": 0,
+     "error": 1,
+     "critical": 0
+    },
+    "by_check": {
+     "b": 1,
+     "a": 1
+    },
+    "worst_severity": "error"
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "b",
+     "severity": "error",
+     "message": "m",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "check": "a",
+     "severity": "info",
+     "message": "m",
+     "count": 1,
+     "element_ids": [
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     },
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "c",
+      "severity": "error",
+      "message": "m",
+      "count": 3,
+      "element_ids": [
+       1,
+       2,
+       3
+      ]
+     },
+     {
+      "check": "a",
+      "severity": "critical",
+      "message": "m",
+      "count": 0,
+      "element_ids": []
+     },
+     {
+      "check": "d",
+      "severity": "warning",
+      "message": "m",
+      "count": 10,
+      "element_ids": []
+     },
+     {
+      "check": "e",
+      "severity": "warning",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 6,
+    "by_severity": {
+     "info": 1,
+     "warning": 2,
+     "error": 2,
+     "critical": 1
+    },
+    "by_check": {
+     "a": 2,
+     "b": 1,
+     "c": 1,
+     "d": 1,
+     "e": 1
+    },
+    "worst_severity": "critical"
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     },
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "c",
+      "severity": "error",
+      "message": "m",
+      "count": 3,
+      "element_ids": [
+       1,
+       2,
+       3
+      ]
+     },
+     {
+      "check": "a",
+      "severity": "critical",
+      "message": "m",
+      "count": 0,
+      "element_ids": []
+     },
+     {
+      "check": "d",
+      "severity": "warning",
+      "message": "m",
+      "count": 10,
+      "element_ids": []
+     },
+     {
+      "check": "e",
+      "severity": "warning",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "a",
+     "severity": "critical",
+     "message": "m",
+     "count": 0,
+     "element_ids": []
+    },
+    {
+     "check": "c",
+     "severity": "error",
+     "message": "m",
+     "count": 3,
+     "element_ids": [
+      1,
+      2,
+      3
+     ]
+    },
+    {
+     "check": "b",
+     "severity": "error",
+     "message": "m",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "check": "d",
+     "severity": "warning",
+     "message": "m",
+     "count": 10,
+     "element_ids": []
+    },
+    {
+     "check": "e",
+     "severity": "warning",
+     "message": "m",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "check": "a",
+     "severity": "info",
+     "message": "m",
+     "count": 1,
+     "element_ids": [
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "e",
+      "severity": "warning",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "d",
+      "severity": "warning",
+      "message": "m",
+      "count": 10,
+      "element_ids": []
+     },
+     {
+      "check": "a",
+      "severity": "critical",
+      "message": "m",
+      "count": 0,
+      "element_ids": []
+     },
+     {
+      "check": "c",
+      "severity": "error",
+      "message": "m",
+      "count": 3,
+      "element_ids": [
+       1,
+       2,
+       3
+      ]
+     },
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 6,
+    "by_severity": {
+     "info": 1,
+     "warning": 2,
+     "error": 2,
+     "critical": 1
+    },
+    "by_check": {
+     "e": 1,
+     "d": 1,
+     "a": 2,
+     "c": 1,
+     "b": 1
+    },
+    "worst_severity": "critical"
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "e",
+      "severity": "warning",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "d",
+      "severity": "warning",
+      "message": "m",
+      "count": 10,
+      "element_ids": []
+     },
+     {
+      "check": "a",
+      "severity": "critical",
+      "message": "m",
+      "count": 0,
+      "element_ids": []
+     },
+     {
+      "check": "c",
+      "severity": "error",
+      "message": "m",
+      "count": 3,
+      "element_ids": [
+       1,
+       2,
+       3
+      ]
+     },
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "a",
+     "severity": "critical",
+     "message": "m",
+     "count": 0,
+     "element_ids": []
+    },
+    {
+     "check": "c",
+     "severity": "error",
+     "message": "m",
+     "count": 3,
+     "element_ids": [
+      1,
+      2,
+      3
+     ]
+    },
+    {
+     "check": "b",
+     "severity": "error",
+     "message": "m",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "check": "d",
+     "severity": "warning",
+     "message": "m",
+     "count": 10,
+     "element_ids": []
+    },
+    {
+     "check": "e",
+     "severity": "warning",
+     "message": "m",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "check": "a",
+     "severity": "info",
+     "message": "m",
+     "count": 1,
+     "element_ids": [
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "g",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       9,
+       8
+      ]
+     },
+     {
+      "check": "c",
+      "severity": "error",
+      "message": "m",
+      "count": 3,
+      "element_ids": [
+       1,
+       2,
+       3
+      ]
+     },
+     {
+      "check": "f",
+      "severity": "error",
+      "message": "m",
+      "count": 2.5,
+      "element_ids": [
+       1,
+       2
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 4,
+    "by_severity": {
+     "info": 0,
+     "warning": 0,
+     "error": 4,
+     "critical": 0
+    },
+    "by_check": {
+     "b": 1,
+     "g": 1,
+     "c": 1,
+     "f": 1
+    },
+    "worst_severity": "error"
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "g",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       9,
+       8
+      ]
+     },
+     {
+      "check": "c",
+      "severity": "error",
+      "message": "m",
+      "count": 3,
+      "element_ids": [
+       1,
+       2,
+       3
+      ]
+     },
+     {
+      "check": "f",
+      "severity": "error",
+      "message": "m",
+      "count": 2.5,
+      "element_ids": [
+       1,
+       2
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "c",
+     "severity": "error",
+     "message": "m",
+     "count": 3,
+     "element_ids": [
+      1,
+      2,
+      3
+     ]
+    },
+    {
+     "check": "f",
+     "severity": "error",
+     "message": "m",
+     "count": 2.5,
+     "element_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "check": "b",
+     "severity": "error",
+     "message": "m",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "check": "g",
+     "severity": "error",
+     "message": "m",
+     "count": 2,
+     "element_ids": [
+      9,
+      8
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "g",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       9,
+       8
+      ]
+     },
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 2,
+    "by_severity": {
+     "info": 0,
+     "warning": 0,
+     "error": 2,
+     "critical": 0
+    },
+    "by_check": {
+     "g": 1,
+     "b": 1
+    },
+    "worst_severity": "error"
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "g",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       9,
+       8
+      ]
+     },
+     {
+      "check": "b",
+      "severity": "error",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "g",
+     "severity": "error",
+     "message": "m",
+     "count": 2,
+     "element_ids": [
+      9,
+      8
+     ]
+    },
+    {
+     "check": "b",
+     "severity": "error",
+     "message": "m",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "odd",
+      "severity": "fatal",
+      "message": "custom severity"
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 1,
+    "by_severity": {
+     "info": 0,
+     "warning": 0,
+     "error": 0,
+     "critical": 0,
+     "fatal": 1
+    },
+    "by_check": {
+     "odd": 1
+    },
+    "worst_severity": "fatal"
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "odd",
+      "severity": "fatal",
+      "message": "custom severity"
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "odd",
+     "severity": "fatal",
+     "message": "custom severity"
+    }
+   ]
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     },
+     {
+      "check": "odd",
+      "severity": "fatal",
+      "message": "custom severity"
+     },
+     {
+      "check": "a",
+      "severity": "critical",
+      "message": "m",
+      "count": 0,
+      "element_ids": []
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 3,
+    "by_severity": {
+     "info": 1,
+     "warning": 0,
+     "error": 0,
+     "critical": 1,
+     "fatal": 1
+    },
+    "by_check": {
+     "a": 2,
+     "odd": 1
+    },
+    "worst_severity": "critical"
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     },
+     {
+      "check": "odd",
+      "severity": "fatal",
+      "message": "custom severity"
+     },
+     {
+      "check": "a",
+      "severity": "critical",
+      "message": "m",
+      "count": 0,
+      "element_ids": []
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "a",
+     "severity": "critical",
+     "message": "m",
+     "count": 0,
+     "element_ids": []
+    },
+    {
+     "check": "odd",
+     "severity": "fatal",
+     "message": "custom severity"
+    },
+    {
+     "check": "a",
+     "severity": "info",
+     "message": "m",
+     "count": 1,
+     "element_ids": [
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "d",
+      "severity": "warning",
+      "message": "m",
+      "count": 10,
+      "element_ids": []
+     },
+     {
+      "check": "e",
+      "severity": "warning",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     },
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 4,
+    "by_severity": {
+     "info": 2,
+     "warning": 2,
+     "error": 0,
+     "critical": 0
+    },
+    "by_check": {
+     "d": 1,
+     "e": 1,
+     "a": 2
+    },
+    "worst_severity": "warning"
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "d",
+      "severity": "warning",
+      "message": "m",
+      "count": 10,
+      "element_ids": []
+     },
+     {
+      "check": "e",
+      "severity": "warning",
+      "message": "m",
+      "count": 2,
+      "element_ids": [
+       1,
+       2
+      ]
+     },
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     },
+     {
+      "check": "a",
+      "severity": "info",
+      "message": "m",
+      "count": 1,
+      "element_ids": [
+       1
+      ]
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "d",
+     "severity": "warning",
+     "message": "m",
+     "count": 10,
+     "element_ids": []
+    },
+    {
+     "check": "e",
+     "severity": "warning",
+     "message": "m",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ]
+    },
+    {
+     "check": "a",
+     "severity": "info",
+     "message": "m",
+     "count": 1,
+     "element_ids": [
+      1
+     ]
+    },
+    {
+     "check": "a",
+     "severity": "info",
+     "message": "m",
+     "count": 1,
+     "element_ids": [
+      1
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "x"
+     }
+    ]
+   ],
+   "kwargs": {},
+   "err": "KeyError",
+   "msg": "'severity'"
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "x"
+     }
+    ]
+   ],
+   "kwargs": {},
+   "err": "KeyError",
+   "msg": "'severity'"
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "severity": "info"
+     }
+    ]
+   ],
+   "kwargs": {},
+   "err": "KeyError",
+   "msg": "'check'"
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "severity": "info"
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "severity": "info"
+    }
+   ]
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     "text"
+    ]
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "string indices must be integers, not 'str'"
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     "text"
+    ]
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "string indices must be integers, not 'str'"
+  },
+  {
+   "fn": "summarize",
+   "args": [
+    [
+     {
+      "check": "x",
+      "severity": "info",
+      "count": "many"
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "total_findings": 1,
+    "by_severity": {
+     "info": 1,
+     "warning": 0,
+     "error": 0,
+     "critical": 0
+    },
+    "by_check": {
+     "x": 1
+    },
+    "worst_severity": "info"
+   }
+  },
+  {
+   "fn": "sort_findings",
+   "args": [
+    [
+     {
+      "check": "x",
+      "severity": "info",
+      "count": "many"
+     }
+    ]
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "bad operand type for unary -: 'str'"
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "1 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 1,
+     "element_ids": [
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "error",
+     "description": "Sheet numbers: X-000"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "1 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 1,
+     "element_ids": [
+      2
+     ],
+     "recommendation": "Sheet numbers: X-000",
+     "examples": [
+      "bad"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": "("
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: missing ), unterminated subpattern at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {},
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "bogus",
+     "description": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "1 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 1,
+     "element_ids": [
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": "[A-Z]-\\d{3}"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "1 sheets do not match naming pattern [A-Z]-\\d{3}",
+     "count": 1,
+     "element_ids": [
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": "^(?P<d>[A-Z])-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "1 sheets do not match naming pattern ^(?P<d>[A-Z])-",
+     "count": 1,
+     "element_ids": [
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": "^$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^$",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "A-101",
+      "bad"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": "[a-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: unterminated character set at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": 5
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "first argument must be string or compiled pattern"
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "bad"
+     ]
+    ],
+    {
+     "pattern": "^a",
+     "severity": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^a",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "A-101",
+      "bad"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "error",
+     "description": "Sheet numbers: X-000"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": "("
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: missing ), unterminated subpattern at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {},
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "bogus",
+     "description": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": "[A-Z]-\\d{3}"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": "^(?P<d>[A-Z])-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": "^$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^$",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "A-101",
+      "B-202"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": "[a-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: unterminated character set at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": 5
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "first argument must be string or compiled pattern"
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "A-101"
+     ],
+     [
+      2,
+      "B-202"
+     ]
+    ],
+    {
+     "pattern": "^a",
+     "severity": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^a",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "A-101",
+      "B-202"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": "^[A-Z]-\\d{3}$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "error",
+     "description": "Sheet numbers: X-000"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": "("
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: missing ), unterminated subpattern at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {},
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "bogus",
+     "description": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": "[A-Z]-\\d{3}"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": "^(?P<d>[A-Z])-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": "^$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": "[a-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: unterminated character set at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": 5
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "first argument must be string or compiled pattern"
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [],
+    {
+     "pattern": "^a",
+     "severity": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      null,
+      ""
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "error",
+     "description": "Sheet numbers: X-000"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "2 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ],
+     "recommendation": "Sheet numbers: X-000",
+     "examples": [
+      null,
+      ""
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": "("
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: missing ), unterminated subpattern at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {},
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "bogus",
+     "description": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      null,
+      ""
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": "[A-Z]-\\d{3}"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern [A-Z]-\\d{3}",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      null,
+      ""
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": "^(?P<d>[A-Z])-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^(?P<d>[A-Z])-",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      null,
+      ""
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": "^$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "1 sheets do not match naming pattern ^$",
+     "count": 1,
+     "element_ids": [
+      3
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "A-101"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": "[a-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: unterminated character set at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": 5
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "first argument must be string or compiled pattern"
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "A-101"
+     ]
+    ],
+    {
+     "pattern": "^a",
+     "severity": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "3 sheets do not match naming pattern ^a",
+     "count": 3,
+     "element_ids": [
+      1,
+      2,
+      3
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      null,
+      "",
+      "A-101"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "14 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 14,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "error",
+     "description": "Sheet numbers: X-000"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "14 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 14,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+     ],
+     "recommendation": "Sheet numbers: X-000",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": "("
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: missing ), unterminated subpattern at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {},
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "bogus",
+     "description": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "14 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 14,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": "[A-Z]-\\d{3}"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "14 sheets do not match naming pattern [A-Z]-\\d{3}",
+     "count": 14,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": "^(?P<d>[A-Z])-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "14 sheets do not match naming pattern ^(?P<d>[A-Z])-",
+     "count": 14,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": "^$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "14 sheets do not match naming pattern ^$",
+     "count": 14,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": "[a-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: unterminated character set at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": 5
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "first argument must be string or compiled pattern"
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ]
+    ],
+    {
+     "pattern": "^a",
+     "severity": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "14 sheets do not match naming pattern ^a",
+     "count": 14,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "60 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 60,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+     ],
+     "element_ids_truncated": true,
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "error",
+     "description": "Sheet numbers: X-000"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "60 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 60,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+     ],
+     "element_ids_truncated": true,
+     "recommendation": "Sheet numbers: X-000",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": "("
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: missing ), unterminated subpattern at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {},
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "bogus",
+     "description": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "60 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 60,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+     ],
+     "element_ids_truncated": true,
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": "[A-Z]-\\d{3}"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "60 sheets do not match naming pattern [A-Z]-\\d{3}",
+     "count": 60,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+     ],
+     "element_ids_truncated": true,
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": "^(?P<d>[A-Z])-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "60 sheets do not match naming pattern ^(?P<d>[A-Z])-",
+     "count": 60,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+     ],
+     "element_ids_truncated": true,
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": "^$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "60 sheets do not match naming pattern ^$",
+     "count": 60,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+     ],
+     "element_ids_truncated": true,
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": "[a-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: unterminated character set at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": 5
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "first argument must be string or compiled pattern"
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      0,
+      "bad 0"
+     ],
+     [
+      1,
+      "bad 1"
+     ],
+     [
+      2,
+      "bad 2"
+     ],
+     [
+      3,
+      "bad 3"
+     ],
+     [
+      4,
+      "bad 4"
+     ],
+     [
+      5,
+      "bad 5"
+     ],
+     [
+      6,
+      "bad 6"
+     ],
+     [
+      7,
+      "bad 7"
+     ],
+     [
+      8,
+      "bad 8"
+     ],
+     [
+      9,
+      "bad 9"
+     ],
+     [
+      10,
+      "bad 10"
+     ],
+     [
+      11,
+      "bad 11"
+     ],
+     [
+      12,
+      "bad 12"
+     ],
+     [
+      13,
+      "bad 13"
+     ],
+     [
+      14,
+      "bad 14"
+     ],
+     [
+      15,
+      "bad 15"
+     ],
+     [
+      16,
+      "bad 16"
+     ],
+     [
+      17,
+      "bad 17"
+     ],
+     [
+      18,
+      "bad 18"
+     ],
+     [
+      19,
+      "bad 19"
+     ],
+     [
+      20,
+      "bad 20"
+     ],
+     [
+      21,
+      "bad 21"
+     ],
+     [
+      22,
+      "bad 22"
+     ],
+     [
+      23,
+      "bad 23"
+     ],
+     [
+      24,
+      "bad 24"
+     ],
+     [
+      25,
+      "bad 25"
+     ],
+     [
+      26,
+      "bad 26"
+     ],
+     [
+      27,
+      "bad 27"
+     ],
+     [
+      28,
+      "bad 28"
+     ],
+     [
+      29,
+      "bad 29"
+     ],
+     [
+      30,
+      "bad 30"
+     ],
+     [
+      31,
+      "bad 31"
+     ],
+     [
+      32,
+      "bad 32"
+     ],
+     [
+      33,
+      "bad 33"
+     ],
+     [
+      34,
+      "bad 34"
+     ],
+     [
+      35,
+      "bad 35"
+     ],
+     [
+      36,
+      "bad 36"
+     ],
+     [
+      37,
+      "bad 37"
+     ],
+     [
+      38,
+      "bad 38"
+     ],
+     [
+      39,
+      "bad 39"
+     ],
+     [
+      40,
+      "bad 40"
+     ],
+     [
+      41,
+      "bad 41"
+     ],
+     [
+      42,
+      "bad 42"
+     ],
+     [
+      43,
+      "bad 43"
+     ],
+     [
+      44,
+      "bad 44"
+     ],
+     [
+      45,
+      "bad 45"
+     ],
+     [
+      46,
+      "bad 46"
+     ],
+     [
+      47,
+      "bad 47"
+     ],
+     [
+      48,
+      "bad 48"
+     ],
+     [
+      49,
+      "bad 49"
+     ],
+     [
+      50,
+      "bad 50"
+     ],
+     [
+      51,
+      "bad 51"
+     ],
+     [
+      52,
+      "bad 52"
+     ],
+     [
+      53,
+      "bad 53"
+     ],
+     [
+      54,
+      "bad 54"
+     ],
+     [
+      55,
+      "bad 55"
+     ],
+     [
+      56,
+      "bad 56"
+     ],
+     [
+      57,
+      "bad 57"
+     ],
+     [
+      58,
+      "bad 58"
+     ],
+     [
+      59,
+      "bad 59"
+     ]
+    ],
+    {
+     "pattern": "^a",
+     "severity": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "60 sheets do not match naming pattern ^a",
+     "count": 60,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+     ],
+     "element_ids_truncated": true,
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "bad 0",
+      "bad 1",
+      "bad 2",
+      "bad 3",
+      "bad 4",
+      "bad 5",
+      "bad 6",
+      "bad 7",
+      "bad 8",
+      "bad 9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 2,
+     "element_ids": [
+      "x",
+      null
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "A-1",
+      "zz"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "error",
+     "description": "Sheet numbers: X-000"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "2 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 2,
+     "element_ids": [
+      "x",
+      null
+     ],
+     "recommendation": "Sheet numbers: X-000",
+     "examples": [
+      "A-1",
+      "zz"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": "("
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: missing ), unterminated subpattern at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {},
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "bogus",
+     "description": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 2,
+     "element_ids": [
+      "x",
+      null
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "A-1",
+      "zz"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": "[A-Z]-\\d{3}"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern [A-Z]-\\d{3}",
+     "count": 2,
+     "element_ids": [
+      "x",
+      null
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "A-1",
+      "zz"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": "^(?P<d>[A-Z])-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "1 sheets do not match naming pattern ^(?P<d>[A-Z])-",
+     "count": 1,
+     "element_ids": [
+      null
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "zz"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": "^$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^$",
+     "count": 2,
+     "element_ids": [
+      "x",
+      null
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "A-1",
+      "zz"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": "[a-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: unterminated character set at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": 5
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "first argument must be string or compiled pattern"
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      "x",
+      "A-1"
+     ],
+     [
+      null,
+      "zz"
+     ]
+    ],
+    {
+     "pattern": "^a",
+     "severity": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^a",
+     "count": 2,
+     "element_ids": [
+      "x",
+      null
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "A-1",
+      "zz"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "3 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 3,
+     "element_ids": [
+      1,
+      2,
+      3
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "a-101",
+      "A-1010",
+      "xA-101"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "error",
+     "description": "Sheet numbers: X-000"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "3 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 3,
+     "element_ids": [
+      1,
+      2,
+      3
+     ],
+     "recommendation": "Sheet numbers: X-000",
+     "examples": [
+      "a-101",
+      "A-1010",
+      "xA-101"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": "("
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: missing ), unterminated subpattern at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {},
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": "^[A-Z]-\\d{3}$",
+     "severity": "bogus",
+     "description": ""
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "3 sheets do not match naming pattern ^[A-Z]-\\d{3}$",
+     "count": 3,
+     "element_ids": [
+      1,
+      2,
+      3
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "a-101",
+      "A-1010",
+      "xA-101"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": "[A-Z]-\\d{3}"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "1 sheets do not match naming pattern [A-Z]-\\d{3}",
+     "count": 1,
+     "element_ids": [
+      1
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "a-101"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": "^(?P<d>[A-Z])-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^(?P<d>[A-Z])-",
+     "count": 2,
+     "element_ids": [
+      1,
+      3
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "a-101",
+      "xA-101"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": "^$"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "3 sheets do not match naming pattern ^$",
+     "count": 3,
+     "element_ids": [
+      1,
+      2,
+      3
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "a-101",
+      "A-1010",
+      "xA-101"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": "[a-"
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "error",
+     "message": "Invalid naming pattern for sheets: unterminated character set at position 0",
+     "count": 0,
+     "element_ids": []
+    }
+   ]
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": 5
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "first argument must be string or compiled pattern"
+  },
+  {
+   "fn": "check_names",
+   "args": [
+    [
+     [
+      1,
+      "a-101"
+     ],
+     [
+      2,
+      "A-1010"
+     ],
+     [
+      3,
+      "xA-101"
+     ]
+    ],
+    {
+     "pattern": "^a",
+     "severity": null
+    },
+    "naming",
+    "sheets"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheets do not match naming pattern ^a",
+     "count": 2,
+     "element_ids": [
+      2,
+      3
+     ],
+     "recommendation": "Rename to match the project naming standard (see batch_rename).",
+     "examples": [
+      "A-1010",
+      "xA-101"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_duplicate_names",
+   "args": [
+    [
+     [
+      1,
+      "A"
+     ],
+     [
+      2,
+      "a "
+     ],
+     [
+      3,
+      "B"
+     ]
+    ],
+    "naming",
+    "sheet"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "1 sheet names are used more than once",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ],
+     "recommendation": "Make names unique so schedules, tags and exports stay unambiguous.",
+     "examples": [
+      "a"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_duplicate_names",
+   "args": [
+    [],
+    "naming",
+    "sheet"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_duplicate_names",
+   "args": [
+    [
+     [
+      1,
+      "A"
+     ],
+     [
+      2,
+      "B"
+     ]
+    ],
+    "naming",
+    "sheet"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_duplicate_names",
+   "args": [
+    [
+     [
+      1,
+      null
+     ],
+     [
+      2,
+      ""
+     ],
+     [
+      3,
+      "  "
+     ],
+     [
+      4,
+      null
+     ]
+    ],
+    "naming",
+    "sheet"
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "check_duplicate_names",
+   "args": [
+    [
+     [
+      1,
+      "x"
+     ],
+     [
+      2,
+      "X"
+     ],
+     [
+      3,
+      " x"
+     ],
+     [
+      4,
+      "y"
+     ],
+     [
+      5,
+      "Y"
+     ],
+     [
+      6,
+      "z"
+     ]
+    ],
+    "naming",
+    "sheet"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheet names are used more than once",
+     "count": 5,
+     "element_ids": [
+      1,
+      2,
+      3,
+      4,
+      5
+     ],
+     "recommendation": "Make names unique so schedules, tags and exports stay unambiguous.",
+     "examples": [
+      "x",
+      "y"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_duplicate_names",
+   "args": [
+    [
+     [
+      0,
+      "name 0"
+     ],
+     [
+      1,
+      "name 1"
+     ],
+     [
+      2,
+      "name 2"
+     ],
+     [
+      3,
+      "name 3"
+     ],
+     [
+      4,
+      "name 4"
+     ],
+     [
+      5,
+      "name 5"
+     ],
+     [
+      6,
+      "name 6"
+     ],
+     [
+      7,
+      "name 7"
+     ],
+     [
+      8,
+      "name 8"
+     ],
+     [
+      9,
+      "name 9"
+     ],
+     [
+      10,
+      "name 10"
+     ],
+     [
+      11,
+      "name 11"
+     ],
+     [
+      12,
+      "name 12"
+     ],
+     [
+      13,
+      "name 0"
+     ],
+     [
+      14,
+      "name 1"
+     ],
+     [
+      15,
+      "name 2"
+     ],
+     [
+      16,
+      "name 3"
+     ],
+     [
+      17,
+      "name 4"
+     ],
+     [
+      18,
+      "name 5"
+     ],
+     [
+      19,
+      "name 6"
+     ],
+     [
+      20,
+      "name 7"
+     ],
+     [
+      21,
+      "name 8"
+     ],
+     [
+      22,
+      "name 9"
+     ],
+     [
+      23,
+      "name 10"
+     ],
+     [
+      24,
+      "name 11"
+     ],
+     [
+      25,
+      "name 12"
+     ],
+     [
+      26,
+      "name 0"
+     ],
+     [
+      27,
+      "name 1"
+     ],
+     [
+      28,
+      "name 2"
+     ],
+     [
+      29,
+      "name 3"
+     ],
+     [
+      30,
+      "name 4"
+     ],
+     [
+      31,
+      "name 5"
+     ],
+     [
+      32,
+      "name 6"
+     ],
+     [
+      33,
+      "name 7"
+     ],
+     [
+      34,
+      "name 8"
+     ],
+     [
+      35,
+      "name 9"
+     ],
+     [
+      36,
+      "name 10"
+     ],
+     [
+      37,
+      "name 11"
+     ],
+     [
+      38,
+      "name 12"
+     ],
+     [
+      39,
+      "name 0"
+     ]
+    ],
+    "naming",
+    "sheet"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "13 sheet names are used more than once",
+     "count": 40,
+     "element_ids": [
+      0,
+      13,
+      26,
+      39,
+      1,
+      14,
+      27,
+      2,
+      15,
+      28,
+      3,
+      16,
+      29,
+      4,
+      17,
+      30,
+      5,
+      18,
+      31,
+      6,
+      19,
+      32,
+      7,
+      20,
+      33,
+      8,
+      21,
+      34,
+      9,
+      22,
+      35,
+      10,
+      23,
+      36,
+      11,
+      24,
+      37,
+      12,
+      25,
+      38
+     ],
+     "recommendation": "Make names unique so schedules, tags and exports stay unambiguous.",
+     "examples": [
+      "name 0",
+      "name 1",
+      "name 10",
+      "name 11",
+      "name 12",
+      "name 2",
+      "name 3",
+      "name 4",
+      "name 5",
+      "name 6"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_duplicate_names",
+   "args": [
+    [
+     [
+      0,
+      "same"
+     ],
+     [
+      1,
+      "same"
+     ],
+     [
+      2,
+      "same"
+     ],
+     [
+      3,
+      "same"
+     ],
+     [
+      4,
+      "same"
+     ],
+     [
+      5,
+      "same"
+     ],
+     [
+      6,
+      "same"
+     ],
+     [
+      7,
+      "same"
+     ],
+     [
+      8,
+      "same"
+     ],
+     [
+      9,
+      "same"
+     ],
+     [
+      10,
+      "same"
+     ],
+     [
+      11,
+      "same"
+     ],
+     [
+      12,
+      "same"
+     ],
+     [
+      13,
+      "same"
+     ],
+     [
+      14,
+      "same"
+     ],
+     [
+      15,
+      "same"
+     ],
+     [
+      16,
+      "same"
+     ],
+     [
+      17,
+      "same"
+     ],
+     [
+      18,
+      "same"
+     ],
+     [
+      19,
+      "same"
+     ],
+     [
+      20,
+      "same"
+     ],
+     [
+      21,
+      "same"
+     ],
+     [
+      22,
+      "same"
+     ],
+     [
+      23,
+      "same"
+     ],
+     [
+      24,
+      "same"
+     ],
+     [
+      25,
+      "same"
+     ],
+     [
+      26,
+      "same"
+     ],
+     [
+      27,
+      "same"
+     ],
+     [
+      28,
+      "same"
+     ],
+     [
+      29,
+      "same"
+     ],
+     [
+      30,
+      "same"
+     ],
+     [
+      31,
+      "same"
+     ],
+     [
+      32,
+      "same"
+     ],
+     [
+      33,
+      "same"
+     ],
+     [
+      34,
+      "same"
+     ],
+     [
+      35,
+      "same"
+     ],
+     [
+      36,
+      "same"
+     ],
+     [
+      37,
+      "same"
+     ],
+     [
+      38,
+      "same"
+     ],
+     [
+      39,
+      "same"
+     ],
+     [
+      40,
+      "same"
+     ],
+     [
+      41,
+      "same"
+     ],
+     [
+      42,
+      "same"
+     ],
+     [
+      43,
+      "same"
+     ],
+     [
+      44,
+      "same"
+     ],
+     [
+      45,
+      "same"
+     ],
+     [
+      46,
+      "same"
+     ],
+     [
+      47,
+      "same"
+     ],
+     [
+      48,
+      "same"
+     ],
+     [
+      49,
+      "same"
+     ],
+     [
+      50,
+      "same"
+     ],
+     [
+      51,
+      "same"
+     ],
+     [
+      52,
+      "same"
+     ],
+     [
+      53,
+      "same"
+     ],
+     [
+      54,
+      "same"
+     ],
+     [
+      55,
+      "same"
+     ],
+     [
+      56,
+      "same"
+     ],
+     [
+      57,
+      "same"
+     ],
+     [
+      58,
+      "same"
+     ],
+     [
+      59,
+      "same"
+     ],
+     [
+      60,
+      "same"
+     ],
+     [
+      61,
+      "same"
+     ],
+     [
+      62,
+      "same"
+     ],
+     [
+      63,
+      "same"
+     ],
+     [
+      64,
+      "same"
+     ],
+     [
+      65,
+      "same"
+     ],
+     [
+      66,
+      "same"
+     ],
+     [
+      67,
+      "same"
+     ],
+     [
+      68,
+      "same"
+     ],
+     [
+      69,
+      "same"
+     ]
+    ],
+    "naming",
+    "sheet"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "1 sheet names are used more than once",
+     "count": 70,
+     "element_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49
+     ],
+     "element_ids_truncated": true,
+     "recommendation": "Make names unique so schedules, tags and exports stay unambiguous.",
+     "examples": [
+      "same"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_duplicate_names",
+   "args": [
+    [
+     [
+      1,
+      "b"
+     ],
+     [
+      2,
+      "a"
+     ],
+     [
+      3,
+      "B"
+     ],
+     [
+      4,
+      "A"
+     ],
+     [
+      5,
+      "c"
+     ]
+    ],
+    "naming",
+    "sheet"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "2 sheet names are used more than once",
+     "count": 4,
+     "element_ids": [
+      1,
+      3,
+      2,
+      4
+     ],
+     "recommendation": "Make names unique so schedules, tags and exports stay unambiguous.",
+     "examples": [
+      "a",
+      "b"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "check_duplicate_names",
+   "args": [
+    [
+     [
+      1,
+      "\u00c9t\u00e9"
+     ],
+     [
+      2,
+      "\u00e9T\u00c9"
+     ]
+    ],
+    "naming",
+    "sheet"
+   ],
+   "kwargs": {},
+   "out": [
+    {
+     "check": "naming",
+     "severity": "warning",
+     "message": "1 sheet names are used more than once",
+     "count": 2,
+     "element_ids": [
+      1,
+      2
+     ],
+     "recommendation": "Make names unique so schedules, tags and exports stay unambiguous.",
+     "examples": [
+      "\u00e9t\u00e9"
+     ]
+    }
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door 900",
+     "Door_900",
+     "Window"
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door 900",
+     "Door_900"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door 900",
+     "Door_900",
+     "Window"
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door 900",
+     "Door_900"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door 900",
+     "Door_900",
+     "Window"
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door 900",
+     "Door_900"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door 900",
+     "Door_900",
+     "Window"
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door 900",
+     "Door_900"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door 900",
+     "Door_900",
+     "Window"
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door 900",
+     "Door_900"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door 900",
+     "Door_900",
+     "Window"
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door 900",
+     "Door_900"
+    ],
+    [
+     "Door 900",
+     "Window"
+    ],
+    [
+     "Door_900",
+     "Window"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    []
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [],
+    0.5
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [],
+    0.8
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [],
+    0.95
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [],
+    1.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [],
+    0.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "a"
+    ]
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "a"
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "a"
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "a"
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "a"
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "a"
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door",
+     "door",
+     "DOOR "
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door",
+     "door"
+    ],
+    [
+     "Door",
+     "DOOR "
+    ],
+    [
+     "door",
+     "DOOR "
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door",
+     "door",
+     "DOOR "
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door",
+     "door"
+    ],
+    [
+     "Door",
+     "DOOR "
+    ],
+    [
+     "door",
+     "DOOR "
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door",
+     "door",
+     "DOOR "
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door",
+     "door"
+    ],
+    [
+     "Door",
+     "DOOR "
+    ],
+    [
+     "door",
+     "DOOR "
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door",
+     "door",
+     "DOOR "
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door",
+     "door"
+    ],
+    [
+     "Door",
+     "DOOR "
+    ],
+    [
+     "door",
+     "DOOR "
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door",
+     "door",
+     "DOOR "
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door",
+     "door"
+    ],
+    [
+     "Door",
+     "DOOR "
+    ],
+    [
+     "door",
+     "DOOR "
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Door",
+     "door",
+     "DOOR "
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Door",
+     "door"
+    ],
+    [
+     "Door",
+     "DOOR "
+    ],
+    [
+     "door",
+     "DOOR "
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "",
+     null,
+     "x",
+     "_-. "
+    ]
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "",
+     null,
+     "x",
+     "_-. "
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "",
+     null,
+     "x",
+     "_-. "
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "",
+     null,
+     "x",
+     "_-. "
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "",
+     null,
+     "x",
+     "_-. "
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "",
+     null,
+     "x",
+     "_-. "
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100",
+     "Single Flush 900x2400",
+     "Double Flush 900x2100"
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100"
+    ],
+    [
+     "Single Flush 900x2100",
+     "Single Flush 900x2400"
+    ],
+    [
+     "Single-Flush 900 x 2100",
+     "Single Flush 900x2400"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100",
+     "Single Flush 900x2400",
+     "Double Flush 900x2100"
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100"
+    ],
+    [
+     "Single Flush 900x2100",
+     "Single Flush 900x2400"
+    ],
+    [
+     "Single Flush 900x2100",
+     "Double Flush 900x2100"
+    ],
+    [
+     "Single-Flush 900 x 2100",
+     "Single Flush 900x2400"
+    ],
+    [
+     "Single-Flush 900 x 2100",
+     "Double Flush 900x2100"
+    ],
+    [
+     "Single Flush 900x2400",
+     "Double Flush 900x2100"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100",
+     "Single Flush 900x2400",
+     "Double Flush 900x2100"
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100"
+    ],
+    [
+     "Single Flush 900x2100",
+     "Single Flush 900x2400"
+    ],
+    [
+     "Single-Flush 900 x 2100",
+     "Single Flush 900x2400"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100",
+     "Single Flush 900x2400",
+     "Double Flush 900x2100"
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100",
+     "Single Flush 900x2400",
+     "Double Flush 900x2100"
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100",
+     "Single Flush 900x2400",
+     "Double Flush 900x2100"
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Single Flush 900x2100",
+     "Single-Flush 900 x 2100"
+    ],
+    [
+     "Single Flush 900x2100",
+     "Single Flush 900x2400"
+    ],
+    [
+     "Single Flush 900x2100",
+     "Double Flush 900x2100"
+    ],
+    [
+     "Single-Flush 900 x 2100",
+     "Single Flush 900x2400"
+    ],
+    [
+     "Single-Flush 900 x 2100",
+     "Double Flush 900x2100"
+    ],
+    [
+     "Single Flush 900x2400",
+     "Double Flush 900x2100"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "M_Rectangular Column",
+     "M_Rectangular Columns",
+     "M_Round Column",
+     "Rectangular Column"
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "M_Rectangular Column",
+     "M_Rectangular Columns"
+    ],
+    [
+     "M_Rectangular Column",
+     "Rectangular Column"
+    ],
+    [
+     "M_Rectangular Columns",
+     "Rectangular Column"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "M_Rectangular Column",
+     "M_Rectangular Columns",
+     "M_Round Column",
+     "Rectangular Column"
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "M_Rectangular Column",
+     "M_Rectangular Columns"
+    ],
+    [
+     "M_Rectangular Column",
+     "M_Round Column"
+    ],
+    [
+     "M_Rectangular Column",
+     "Rectangular Column"
+    ],
+    [
+     "M_Rectangular Columns",
+     "M_Round Column"
+    ],
+    [
+     "M_Rectangular Columns",
+     "Rectangular Column"
+    ],
+    [
+     "M_Round Column",
+     "Rectangular Column"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "M_Rectangular Column",
+     "M_Rectangular Columns",
+     "M_Round Column",
+     "Rectangular Column"
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "M_Rectangular Column",
+     "M_Rectangular Columns"
+    ],
+    [
+     "M_Rectangular Column",
+     "Rectangular Column"
+    ],
+    [
+     "M_Rectangular Columns",
+     "Rectangular Column"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "M_Rectangular Column",
+     "M_Rectangular Columns",
+     "M_Round Column",
+     "Rectangular Column"
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "M_Rectangular Column",
+     "M_Rectangular Columns"
+    ],
+    [
+     "M_Rectangular Column",
+     "Rectangular Column"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "M_Rectangular Column",
+     "M_Rectangular Columns",
+     "M_Round Column",
+     "Rectangular Column"
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "M_Rectangular Column",
+     "M_Rectangular Columns",
+     "M_Round Column",
+     "Rectangular Column"
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "M_Rectangular Column",
+     "M_Rectangular Columns"
+    ],
+    [
+     "M_Rectangular Column",
+     "M_Round Column"
+    ],
+    [
+     "M_Rectangular Column",
+     "Rectangular Column"
+    ],
+    [
+     "M_Rectangular Columns",
+     "M_Round Column"
+    ],
+    [
+     "M_Rectangular Columns",
+     "Rectangular Column"
+    ],
+    [
+     "M_Round Column",
+     "Rectangular Column"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abcdefghij",
+     "abcdefghik",
+     "abcdefghijk",
+     "xbcdefghij",
+     "abcdefghi"
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "abcdefghij",
+     "abcdefghijk"
+    ],
+    [
+     "abcdefghij",
+     "abcdefghi"
+    ],
+    [
+     "abcdefghik",
+     "abcdefghijk"
+    ],
+    [
+     "abcdefghik",
+     "abcdefghi"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abcdefghij",
+     "abcdefghik",
+     "abcdefghijk",
+     "xbcdefghij",
+     "abcdefghi"
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "abcdefghij",
+     "abcdefghik"
+    ],
+    [
+     "abcdefghij",
+     "abcdefghijk"
+    ],
+    [
+     "abcdefghij",
+     "xbcdefghij"
+    ],
+    [
+     "abcdefghij",
+     "abcdefghi"
+    ],
+    [
+     "abcdefghik",
+     "abcdefghijk"
+    ],
+    [
+     "abcdefghik",
+     "xbcdefghij"
+    ],
+    [
+     "abcdefghik",
+     "abcdefghi"
+    ],
+    [
+     "abcdefghijk",
+     "xbcdefghij"
+    ],
+    [
+     "abcdefghijk",
+     "abcdefghi"
+    ],
+    [
+     "xbcdefghij",
+     "abcdefghi"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abcdefghij",
+     "abcdefghik",
+     "abcdefghijk",
+     "xbcdefghij",
+     "abcdefghi"
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "abcdefghij",
+     "abcdefghik"
+    ],
+    [
+     "abcdefghij",
+     "abcdefghijk"
+    ],
+    [
+     "abcdefghij",
+     "xbcdefghij"
+    ],
+    [
+     "abcdefghij",
+     "abcdefghi"
+    ],
+    [
+     "abcdefghik",
+     "abcdefghijk"
+    ],
+    [
+     "abcdefghik",
+     "xbcdefghij"
+    ],
+    [
+     "abcdefghik",
+     "abcdefghi"
+    ],
+    [
+     "abcdefghijk",
+     "xbcdefghij"
+    ],
+    [
+     "abcdefghijk",
+     "abcdefghi"
+    ],
+    [
+     "xbcdefghij",
+     "abcdefghi"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abcdefghij",
+     "abcdefghik",
+     "abcdefghijk",
+     "xbcdefghij",
+     "abcdefghi"
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "abcdefghij",
+     "abcdefghijk"
+    ],
+    [
+     "abcdefghik",
+     "abcdefghijk"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abcdefghij",
+     "abcdefghik",
+     "abcdefghijk",
+     "xbcdefghij",
+     "abcdefghi"
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abcdefghij",
+     "abcdefghik",
+     "abcdefghijk",
+     "xbcdefghij",
+     "abcdefghi"
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "abcdefghij",
+     "abcdefghik"
+    ],
+    [
+     "abcdefghij",
+     "abcdefghijk"
+    ],
+    [
+     "abcdefghij",
+     "xbcdefghij"
+    ],
+    [
+     "abcdefghij",
+     "abcdefghi"
+    ],
+    [
+     "abcdefghik",
+     "abcdefghijk"
+    ],
+    [
+     "abcdefghik",
+     "xbcdefghij"
+    ],
+    [
+     "abcdefghik",
+     "abcdefghi"
+    ],
+    [
+     "abcdefghijk",
+     "xbcdefghij"
+    ],
+    [
+     "abcdefghijk",
+     "abcdefghi"
+    ],
+    [
+     "xbcdefghij",
+     "abcdefghi"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200",
+     "Wall Ext 200",
+     "WallExt200",
+     "Wall_Ext_201"
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200"
+    ],
+    [
+     "Wall-Ext-200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall-Ext-200",
+     "WallExt200"
+    ],
+    [
+     "Wall.Ext.200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall.Ext.200",
+     "WallExt200"
+    ],
+    [
+     "Wall Ext 200",
+     "WallExt200"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200",
+     "Wall Ext 200",
+     "WallExt200",
+     "Wall_Ext_201"
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200"
+    ],
+    [
+     "Wall-Ext-200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall-Ext-200",
+     "WallExt200"
+    ],
+    [
+     "Wall-Ext-200",
+     "Wall_Ext_201"
+    ],
+    [
+     "Wall.Ext.200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall.Ext.200",
+     "WallExt200"
+    ],
+    [
+     "Wall.Ext.200",
+     "Wall_Ext_201"
+    ],
+    [
+     "Wall Ext 200",
+     "WallExt200"
+    ],
+    [
+     "Wall Ext 200",
+     "Wall_Ext_201"
+    ],
+    [
+     "WallExt200",
+     "Wall_Ext_201"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200",
+     "Wall Ext 200",
+     "WallExt200",
+     "Wall_Ext_201"
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200"
+    ],
+    [
+     "Wall-Ext-200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall-Ext-200",
+     "WallExt200"
+    ],
+    [
+     "Wall-Ext-200",
+     "Wall_Ext_201"
+    ],
+    [
+     "Wall.Ext.200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall.Ext.200",
+     "WallExt200"
+    ],
+    [
+     "Wall.Ext.200",
+     "Wall_Ext_201"
+    ],
+    [
+     "Wall Ext 200",
+     "WallExt200"
+    ],
+    [
+     "Wall Ext 200",
+     "Wall_Ext_201"
+    ],
+    [
+     "WallExt200",
+     "Wall_Ext_201"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200",
+     "Wall Ext 200",
+     "WallExt200",
+     "Wall_Ext_201"
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200"
+    ],
+    [
+     "Wall-Ext-200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall-Ext-200",
+     "WallExt200"
+    ],
+    [
+     "Wall.Ext.200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall.Ext.200",
+     "WallExt200"
+    ],
+    [
+     "Wall Ext 200",
+     "WallExt200"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200",
+     "Wall Ext 200",
+     "WallExt200",
+     "Wall_Ext_201"
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200"
+    ],
+    [
+     "Wall-Ext-200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall-Ext-200",
+     "WallExt200"
+    ],
+    [
+     "Wall.Ext.200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall.Ext.200",
+     "WallExt200"
+    ],
+    [
+     "Wall Ext 200",
+     "WallExt200"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200",
+     "Wall Ext 200",
+     "WallExt200",
+     "Wall_Ext_201"
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Wall-Ext-200",
+     "Wall.Ext.200"
+    ],
+    [
+     "Wall-Ext-200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall-Ext-200",
+     "WallExt200"
+    ],
+    [
+     "Wall-Ext-200",
+     "Wall_Ext_201"
+    ],
+    [
+     "Wall.Ext.200",
+     "Wall Ext 200"
+    ],
+    [
+     "Wall.Ext.200",
+     "WallExt200"
+    ],
+    [
+     "Wall.Ext.200",
+     "Wall_Ext_201"
+    ],
+    [
+     "Wall Ext 200",
+     "WallExt200"
+    ],
+    [
+     "Wall Ext 200",
+     "Wall_Ext_201"
+    ],
+    [
+     "WallExt200",
+     "Wall_Ext_201"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "aaaaaaaaaaaaaaaaaaaaaaaac",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "aaaaaaaaaaaaaaaaaaaaaaaac"
+    ],
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaac",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "aaaaaaaaaaaaaaaaaaaaaaaac",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "aaaaaaaaaaaaaaaaaaaaaaaac"
+    ],
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaac",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "aaaaaaaaaaaaaaaaaaaaaaaac",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "aaaaaaaaaaaaaaaaaaaaaaaac"
+    ],
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaac",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "aaaaaaaaaaaaaaaaaaaaaaaac",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "aaaaaaaaaaaaaaaaaaaaaaaac"
+    ],
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaac",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "aaaaaaaaaaaaaaaaaaaaaaaac",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "aaaaaaaaaaaaaaaaaaaaaaaac",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "aaaaaaaaaaaaaaaaaaaaaaaac"
+    ],
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaab",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    [
+     "aaaaaaaaaaaaaaaaaaaaaaaac",
+     "baaaaaaaaaaaaaaaaaaaaaaaa"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Sgl Glass",
+     "Curtain Wall-Store Front-Dbl",
+     "Curtain Wall Dbl Glass 2"
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Dbl Glass 2"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Sgl Glass",
+     "Curtain Wall-Store Front-Dbl",
+     "Curtain Wall Dbl Glass 2"
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Sgl Glass"
+    ],
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall-Store Front-Dbl"
+    ],
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Dbl Glass 2"
+    ],
+    [
+     "Curtain Wall Sgl Glass",
+     "Curtain Wall-Store Front-Dbl"
+    ],
+    [
+     "Curtain Wall Sgl Glass",
+     "Curtain Wall Dbl Glass 2"
+    ],
+    [
+     "Curtain Wall-Store Front-Dbl",
+     "Curtain Wall Dbl Glass 2"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Sgl Glass",
+     "Curtain Wall-Store Front-Dbl",
+     "Curtain Wall Dbl Glass 2"
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Sgl Glass"
+    ],
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Dbl Glass 2"
+    ],
+    [
+     "Curtain Wall Sgl Glass",
+     "Curtain Wall Dbl Glass 2"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Sgl Glass",
+     "Curtain Wall-Store Front-Dbl",
+     "Curtain Wall Dbl Glass 2"
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Dbl Glass 2"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Sgl Glass",
+     "Curtain Wall-Store Front-Dbl",
+     "Curtain Wall Dbl Glass 2"
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Sgl Glass",
+     "Curtain Wall-Store Front-Dbl",
+     "Curtain Wall Dbl Glass 2"
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Sgl Glass"
+    ],
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall-Store Front-Dbl"
+    ],
+    [
+     "Curtain Wall Dbl Glass",
+     "Curtain Wall Dbl Glass 2"
+    ],
+    [
+     "Curtain Wall Sgl Glass",
+     "Curtain Wall-Store Front-Dbl"
+    ],
+    [
+     "Curtain Wall Sgl Glass",
+     "Curtain Wall Dbl Glass 2"
+    ],
+    [
+     "Curtain Wall-Store Front-Dbl",
+     "Curtain Wall Dbl Glass 2"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abab",
+     "baba",
+     "abba",
+     "aabb"
+    ]
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abab",
+     "baba",
+     "abba",
+     "aabb"
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "abab",
+     "baba"
+    ],
+    [
+     "abab",
+     "abba"
+    ],
+    [
+     "abab",
+     "aabb"
+    ],
+    [
+     "baba",
+     "abba"
+    ],
+    [
+     "baba",
+     "aabb"
+    ],
+    [
+     "abba",
+     "aabb"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abab",
+     "baba",
+     "abba",
+     "aabb"
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abab",
+     "baba",
+     "abba",
+     "aabb"
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abab",
+     "baba",
+     "abba",
+     "aabb"
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abab",
+     "baba",
+     "abba",
+     "aabb"
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "abab",
+     "baba"
+    ],
+    [
+     "abab",
+     "abba"
+    ],
+    [
+     "abab",
+     "aabb"
+    ],
+    [
+     "baba",
+     "abba"
+    ],
+    [
+     "baba",
+     "aabb"
+    ],
+    [
+     "abba",
+     "aabb"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "kitten",
+     "sitting",
+     "mitten",
+     "kitchen"
+    ]
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "kitten",
+     "sitting",
+     "mitten",
+     "kitchen"
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "kitten",
+     "sitting"
+    ],
+    [
+     "kitten",
+     "mitten"
+    ],
+    [
+     "kitten",
+     "kitchen"
+    ],
+    [
+     "sitting",
+     "mitten"
+    ],
+    [
+     "mitten",
+     "kitchen"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "kitten",
+     "sitting",
+     "mitten",
+     "kitchen"
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "kitten",
+     "mitten"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "kitten",
+     "sitting",
+     "mitten",
+     "kitchen"
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "kitten",
+     "sitting",
+     "mitten",
+     "kitchen"
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "kitten",
+     "sitting",
+     "mitten",
+     "kitchen"
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "kitten",
+     "sitting"
+    ],
+    [
+     "kitten",
+     "mitten"
+    ],
+    [
+     "kitten",
+     "kitchen"
+    ],
+    [
+     "sitting",
+     "mitten"
+    ],
+    [
+     "sitting",
+     "kitchen"
+    ],
+    [
+     "mitten",
+     "kitchen"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 300mm",
+     "Basic Wall Generic - 200 mm"
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 300mm"
+    ],
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 200 mm"
+    ],
+    [
+     "Basic Wall Generic - 300mm",
+     "Basic Wall Generic - 200 mm"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 300mm",
+     "Basic Wall Generic - 200 mm"
+    ],
+    0.5
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 300mm"
+    ],
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 200 mm"
+    ],
+    [
+     "Basic Wall Generic - 300mm",
+     "Basic Wall Generic - 200 mm"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 300mm",
+     "Basic Wall Generic - 200 mm"
+    ],
+    0.8
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 300mm"
+    ],
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 200 mm"
+    ],
+    [
+     "Basic Wall Generic - 300mm",
+     "Basic Wall Generic - 200 mm"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 300mm",
+     "Basic Wall Generic - 200 mm"
+    ],
+    0.95
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 300mm"
+    ],
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 200 mm"
+    ],
+    [
+     "Basic Wall Generic - 300mm",
+     "Basic Wall Generic - 200 mm"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 300mm",
+     "Basic Wall Generic - 200 mm"
+    ],
+    1.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 200 mm"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 300mm",
+     "Basic Wall Generic - 200 mm"
+    ],
+    0.0
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 300mm"
+    ],
+    [
+     "Basic Wall Generic - 200mm",
+     "Basic Wall Generic - 200 mm"
+    ],
+    [
+     "Basic Wall Generic - 300mm",
+     "Basic Wall Generic - 200 mm"
+    ]
+   ]
+  },
+  {
+   "fn": "similar_names",
+   "args": [
+    [
+     "abcd",
+     "abce"
+    ]
+   ],
+   "kwargs": {
+    "threshold": 0.75
+   },
+   "out": [
+    [
+     "abcd",
+     "abce"
+    ]
+   ]
+  }
+ ],
+ "severities": [
+  "info",
+  "warning",
+  "error",
+  "critical"
+ ]
+}

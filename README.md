@@ -141,6 +141,12 @@ Autodesk Revit 2021 – 2027
 
 ## Installation
 
+**Without pyRevit (new):** the Revit side also exists as a C# add-in, *RVTSS Host*, for Revit 2024-2027. It
+serves the same routes on port 48885, so the MCP server only needs `REVIT_PORT=48885`. It is faster on
+element-heavy tools and needs nothing else in Revit. Install, status per Revit version and the differences
+from the pyRevit version (among them: `execute_revit_code` is Python 3 there): [host/README.md](host/README.md).
+The steps below install the pyRevit version.
+
 **Quick check (v2.3):** after cloning, run
 `powershell -ExecutionPolicy Bypass -File scripts\install.ps1`. It reports pyRevit, extension copies,
 Routes, uv, the MCP environment and the Claude client entries, with the fix for each, and changes nothing.

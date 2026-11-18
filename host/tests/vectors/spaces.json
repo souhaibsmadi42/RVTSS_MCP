@@ -1,0 +1,8074 @@
+{
+ "cases": [
+  {
+   "fn": "classify_warning",
+   "args": [
+    "Room is not in a properly enclosed region"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    "Multiple Rooms are in the same enclosed region."
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    "Highlighted walls overlap"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    null
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    "ROOM IS NOT ENCLOSED"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    "Area is Redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    "not enclosed and redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    "Space is not in a properly enclosed region"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    "notenclosed"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    "Not  enclosed"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    "A redundant Room in the same enclosed region"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "classify_warning",
+   "args": [
+    "enclosed"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    0
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    0,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    12.5
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    12.5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    12.5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    12.5,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    12.5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1e-09
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1.1e-09
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1.1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1.1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1.1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1.1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1e-12
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1e-12,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1e-12,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1e-12,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1e-12,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    -5
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    -5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    -5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    -5,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    -5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    null,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    null,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    null,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    0.0
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    0.0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    0.0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    0.0,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    0.0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    1,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    true
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    true,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    true,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    true,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    true,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    false
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    false,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    false,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    false,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    false,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    0
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    0,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    12.5
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    12.5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    12.5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    12.5,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    12.5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1e-09
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1.1e-09
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1.1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1.1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1.1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1.1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1e-12
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1e-12,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1e-12,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1e-12,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1e-12,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    -5
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    -5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    -5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    -5,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    -5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    null,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    null,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    null,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    0.0
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    0.0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    0.0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    0.0,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    0.0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    1,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    true
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    true,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    true,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    true,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    true,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    false
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    false,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    false,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    false,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    false,
+    false,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    0
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    0,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    12.5
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    12.5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    12.5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    12.5,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    12.5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1e-09
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1.1e-09
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1.1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1.1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1.1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1.1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1e-12
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1e-12,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1e-12,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1e-12,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1e-12,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    -5
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    -5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    -5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    -5,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    -5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    null,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    null,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    null,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    0.0
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    0.0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    0.0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    0.0,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    0.0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    1,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    true
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    true,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    true,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    true,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    true,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    false
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    false,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    false,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    false,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    null,
+    false,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    0
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    0,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    12.5
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    12.5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    12.5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    12.5,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    12.5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1e-09
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1.1e-09
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1.1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1.1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1.1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1.1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1e-12
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1e-12,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1e-12,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1e-12,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1e-12,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    -5
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    -5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    -5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    -5,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    -5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    null,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    null,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    null,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    0.0
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    0.0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    0.0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    0.0,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    0.0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    1,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    true
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    true,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    true,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    true,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    true,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    false
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    false,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    false,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    false,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    0,
+    false,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    0
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    0,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    12.5
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    12.5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    12.5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    12.5,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    12.5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1e-09
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1.1e-09
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1.1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1.1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1.1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1.1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1e-12
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1e-12,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1e-12,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1e-12,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1e-12,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    -5
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    -5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    -5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    -5,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    -5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    null,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    null,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    null,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    0.0
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    0.0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    0.0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    0.0,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    0.0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    1,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    true
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    true,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    true,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    true,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    true,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    false
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    false,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    false,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    false,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    1,
+    false,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    0
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    0,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    12.5
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    12.5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    12.5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    12.5,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    12.5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1e-09
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1.1e-09
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1.1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1.1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1.1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1.1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1e-12
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1e-12,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1e-12,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1e-12,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1e-12,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    -5
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    -5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    -5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    -5,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    -5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    null,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    null,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    null,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    0.0
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    0.0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    0.0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    0.0,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    0.0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    1,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    true
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    true,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    true,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    true,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    true,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    false
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    false,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    false,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    false,
+    null
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "",
+    false,
+    ""
+   ],
+   "kwargs": {},
+   "out": "unplaced"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    0
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    0,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    12.5
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    12.5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    12.5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    12.5,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    12.5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1e-09
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1.1e-09
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1.1e-09,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1.1e-09,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1.1e-09,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1.1e-09,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1e-12
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1e-12,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1e-12,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1e-12,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1e-12,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    -5
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    -5,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    -5,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    -5,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    -5,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    null,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    null,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    null,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    0.0
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    0.0,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    0.0,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    0.0,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    0.0,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    1,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    true
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    true,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    true,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    true,
+    null
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    true,
+    ""
+   ],
+   "kwargs": {},
+   "out": "placed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    false
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    false,
+    "redundant"
+   ],
+   "kwargs": {},
+   "out": "redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    false,
+    "not_enclosed"
+   ],
+   "kwargs": {},
+   "out": "not_enclosed"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    false,
+    null
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    "yes",
+    false,
+    ""
+   ],
+   "kwargs": {},
+   "out": "not_enclosed_or_redundant"
+  },
+  {
+   "fn": "spatial_status",
+   "args": [
+    true,
+    0
+   ],
+   "kwargs": {
+    "warning_kind": "redundant"
+   },
+   "out": "redundant"
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    5.0,
+    3.0,
+    [
+     [
+      1.0,
+      2.0
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    15.0,
+    2.0,
+    13.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    1.0,
+    1.0,
+    [
+     [
+      5.0,
+      5.0
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    1.0,
+    1.0,
+    0.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    null,
+    3.0
+   ],
+   "kwargs": {},
+   "out": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    5.0,
+    3.0
+   ],
+   "kwargs": {},
+   "out": [
+    15.0,
+    0.0,
+    15.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    5,
+    3,
+    []
+   ],
+   "kwargs": {},
+   "out": [
+    15.0,
+    0.0,
+    15.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    5,
+    3,
+    null
+   ],
+   "kwargs": {},
+   "out": [
+    15.0,
+    0.0,
+    15.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    5.5,
+    2.75,
+    [
+     [
+      0.9,
+      2.1
+     ],
+     [
+      1.2,
+      1.5
+     ],
+     [
+      0.6,
+      0.6
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    15.125,
+    4.05,
+    11.075
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    -5,
+    3,
+    [
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    5,
+    -3
+   ],
+   "kwargs": {},
+   "out": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    5,
+    3,
+    [
+     [
+      -1,
+      2
+     ],
+     [
+      1,
+      -2
+     ],
+     [
+      null,
+      2
+     ],
+     [
+      1,
+      null
+     ],
+     [
+      0,
+      0
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    15.0,
+    0.0,
+    15.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    "5",
+    "3",
+    [
+     [
+      "1",
+      "2"
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    15.0,
+    2.0,
+    13.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    0,
+    0,
+    [
+     [
+      1,
+      1
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    5,
+    3,
+    [
+     [
+      1,
+      2,
+      3
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "err": "ValueError",
+   "msg": "too many values to unpack (expected 2)"
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    5,
+    3,
+    [
+     [
+      1
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "err": "ValueError",
+   "msg": "not enough values to unpack (expected 2, got 1)"
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    5,
+    3,
+    [
+     5
+    ]
+   ],
+   "kwargs": {},
+   "err": "TypeError",
+   "msg": "cannot unpack non-iterable int object"
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    "abc",
+    3
+   ],
+   "kwargs": {},
+   "err": "ValueError",
+   "msg": "could not convert string to float: 'abc'"
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    5,
+    3,
+    [
+     [
+      "x",
+      1
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "err": "ValueError",
+   "msg": "could not convert string to float: 'x'"
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    4.2,
+    2.4
+   ],
+   "kwargs": {
+    "openings": [
+     [
+      1.0,
+      2.1
+     ]
+    ]
+   },
+   "out": [
+    10.08,
+    2.1,
+    7.98
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    true,
+    3
+   ],
+   "kwargs": {},
+   "out": [
+    3.0,
+    0.0,
+    3.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    10,
+    2.5,
+    [
+     [
+      10,
+      2.5
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    25.0,
+    25.0,
+    0.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    10,
+    2.5,
+    [
+     [
+      10,
+      2.6
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    25.0,
+    25.0,
+    0.0
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    1000000.0,
+    1e-06,
+    [
+     [
+      0.5,
+      0.5
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    1.0,
+    0.25,
+    0.75
+   ]
+  },
+  {
+   "fn": "wall_finish",
+   "args": [
+    3.3,
+    2.7,
+    [
+     [
+      0.1,
+      0.2
+     ],
+     [
+      0.1,
+      0.2
+     ],
+     [
+      0.1,
+      0.2
+     ],
+     [
+      0.1,
+      0.2
+     ],
+     [
+      0.1,
+      0.2
+     ],
+     [
+      0.1,
+      0.2
+     ],
+     [
+      0.1,
+      0.2
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    8.91,
+    0.14,
+    8.77
+   ]
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L1",
+      "area": 10.0
+     },
+     {
+      "level": "L1",
+      "area": 5.5
+     },
+     {
+      "level": null,
+      "area": 1.0
+     }
+    ],
+    "level"
+   ],
+   "kwargs": {},
+   "out": {
+    "L1": {
+     "count": 2,
+     "area": 15.5
+    },
+    "(none)": {
+     "count": 1,
+     "area": 1.0
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L1",
+      "area": 10.0
+     },
+     {
+      "level": "L1",
+      "area": 5.5
+     },
+     {
+      "level": null,
+      "area": 1.0
+     }
+    ],
+    "level",
+    [
+     "area",
+     "volume"
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "L1": {
+     "count": 2,
+     "area": 15.5
+    },
+    "(none)": {
+     "count": 1,
+     "area": 1.0
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L1",
+      "area": 10.0
+     },
+     {
+      "level": "L1",
+      "area": 5.5
+     },
+     {
+      "level": null,
+      "area": 1.0
+     }
+    ],
+    "level",
+    []
+   ],
+   "kwargs": {},
+   "out": {
+    "L1": {
+     "count": 2
+    },
+    "(none)": {
+     "count": 1
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L1",
+      "area": 10.0
+     },
+     {
+      "level": "L1",
+      "area": 5.5
+     },
+     {
+      "level": null,
+      "area": 1.0
+     }
+    ],
+    "level"
+   ],
+   "kwargs": {
+    "value_keys": [
+     "perimeter",
+     "nope"
+    ]
+   },
+   "out": {
+    "L1": {
+     "count": 2
+    },
+    "(none)": {
+     "count": 1
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L1",
+      "area": 10.0
+     },
+     {
+      "level": "L1",
+      "area": 5.5
+     },
+     {
+      "level": null,
+      "area": 1.0
+     }
+    ],
+    "missing"
+   ],
+   "kwargs": {},
+   "out": {
+    "(none)": {
+     "count": 3,
+     "area": 16.5
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L1",
+      "area": 10.0
+     },
+     {
+      "level": "L1",
+      "area": 5.5
+     },
+     {
+      "level": null,
+      "area": 1.0
+     }
+    ],
+    "missing",
+    [
+     "area",
+     "volume"
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "(none)": {
+     "count": 3,
+     "area": 16.5
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L1",
+      "area": 10.0
+     },
+     {
+      "level": "L1",
+      "area": 5.5
+     },
+     {
+      "level": null,
+      "area": 1.0
+     }
+    ],
+    "missing",
+    []
+   ],
+   "kwargs": {},
+   "out": {
+    "(none)": {
+     "count": 3
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L1",
+      "area": 10.0
+     },
+     {
+      "level": "L1",
+      "area": 5.5
+     },
+     {
+      "level": null,
+      "area": 1.0
+     }
+    ],
+    "missing"
+   ],
+   "kwargs": {
+    "value_keys": [
+     "perimeter",
+     "nope"
+    ]
+   },
+   "out": {
+    "(none)": {
+     "count": 3
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [],
+    "level"
+   ],
+   "kwargs": {},
+   "out": {}
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [],
+    "level",
+    [
+     "area",
+     "volume"
+    ]
+   ],
+   "kwargs": {},
+   "out": {}
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [],
+    "level",
+    []
+   ],
+   "kwargs": {},
+   "out": {}
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [],
+    "level"
+   ],
+   "kwargs": {
+    "value_keys": [
+     "perimeter",
+     "nope"
+    ]
+   },
+   "out": {}
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "level"
+   ],
+   "kwargs": {},
+   "out": {
+    "L0": {
+     "count": 7,
+     "area": 101.941
+    },
+    "L1": {
+     "count": 6,
+     "area": 85.158
+    },
+    "L2": {
+     "count": 6,
+     "area": 87.378
+    },
+    "L3": {
+     "count": 6,
+     "area": 89.598
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "level",
+    [
+     "area",
+     "volume"
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "L0": {
+     "count": 7,
+     "area": 101.941,
+     "volume": 210.777
+    },
+    "L1": {
+     "count": 6,
+     "area": 85.158,
+     "volume": 165.666
+    },
+    "L2": {
+     "count": 6,
+     "area": 87.378,
+     "volume": 180.666
+    },
+    "L3": {
+     "count": 6,
+     "area": 89.598,
+     "volume": 195.666
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "level",
+    []
+   ],
+   "kwargs": {},
+   "out": {
+    "L0": {
+     "count": 7
+    },
+    "L1": {
+     "count": 6
+    },
+    "L2": {
+     "count": 6
+    },
+    "L3": {
+     "count": 6
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "level"
+   ],
+   "kwargs": {
+    "value_keys": [
+     "perimeter",
+     "nope"
+    ]
+   },
+   "out": {
+    "L0": {
+     "count": 7,
+     "perimeter": 84.0
+    },
+    "L1": {
+     "count": 6,
+     "perimeter": 66.0
+    },
+    "L2": {
+     "count": 6,
+     "perimeter": 72.0
+    },
+    "L3": {
+     "count": 6,
+     "perimeter": 78.0
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "dept"
+   ],
+   "kwargs": {},
+   "out": {
+    "A": {
+     "count": 7,
+     "area": 101.941
+    },
+    "B": {
+     "count": 6,
+     "area": 85.158
+    },
+    "(none)": {
+     "count": 12,
+     "area": 176.976
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "dept",
+    [
+     "area",
+     "volume"
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "A": {
+     "count": 7,
+     "area": 101.941,
+     "volume": 210.777
+    },
+    "B": {
+     "count": 6,
+     "area": 85.158,
+     "volume": 165.666
+    },
+    "(none)": {
+     "count": 12,
+     "area": 176.976,
+     "volume": 376.332
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "dept",
+    []
+   ],
+   "kwargs": {},
+   "out": {
+    "A": {
+     "count": 7
+    },
+    "B": {
+     "count": 6
+    },
+    "(none)": {
+     "count": 12
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "dept"
+   ],
+   "kwargs": {
+    "value_keys": [
+     "perimeter",
+     "nope"
+    ]
+   },
+   "out": {
+    "A": {
+     "count": 7,
+     "perimeter": 84.0
+    },
+    "B": {
+     "count": 6,
+     "perimeter": 66.0
+    },
+    "(none)": {
+     "count": 12,
+     "perimeter": 150.0
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "name"
+   ],
+   "kwargs": {},
+   "out": {
+    "R0": {
+     "count": 1,
+     "area": 10.123
+    },
+    "R1": {
+     "count": 1,
+     "area": 10.493
+    },
+    "R2": {
+     "count": 1,
+     "area": 10.863
+    },
+    "R3": {
+     "count": 1,
+     "area": 11.233
+    },
+    "R4": {
+     "count": 1,
+     "area": 11.603
+    },
+    "R5": {
+     "count": 1,
+     "area": 11.973
+    },
+    "R6": {
+     "count": 1,
+     "area": 12.343
+    },
+    "R7": {
+     "count": 1,
+     "area": 12.713
+    },
+    "R8": {
+     "count": 1,
+     "area": 13.083
+    },
+    "R9": {
+     "count": 1,
+     "area": 13.453
+    },
+    "R10": {
+     "count": 1,
+     "area": 13.823
+    },
+    "R11": {
+     "count": 1,
+     "area": 14.193
+    },
+    "R12": {
+     "count": 1,
+     "area": 14.563
+    },
+    "R13": {
+     "count": 1,
+     "area": 14.933
+    },
+    "R14": {
+     "count": 1,
+     "area": 15.303
+    },
+    "R15": {
+     "count": 1,
+     "area": 15.673
+    },
+    "R16": {
+     "count": 1,
+     "area": 16.043
+    },
+    "R17": {
+     "count": 1,
+     "area": 16.413
+    },
+    "R18": {
+     "count": 1,
+     "area": 16.783
+    },
+    "R19": {
+     "count": 1,
+     "area": 17.153
+    },
+    "R20": {
+     "count": 1,
+     "area": 17.523
+    },
+    "R21": {
+     "count": 1,
+     "area": 17.893
+    },
+    "R22": {
+     "count": 1,
+     "area": 18.263
+    },
+    "R23": {
+     "count": 1,
+     "area": 18.633
+    },
+    "R24": {
+     "count": 1,
+     "area": 19.003
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "name",
+    [
+     "area",
+     "volume"
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "R0": {
+     "count": 1,
+     "area": 10.123,
+     "volume": 0.111
+    },
+    "R1": {
+     "count": 1,
+     "area": 10.493,
+     "volume": 2.611
+    },
+    "R2": {
+     "count": 1,
+     "area": 10.863,
+     "volume": 5.111
+    },
+    "R3": {
+     "count": 1,
+     "area": 11.233,
+     "volume": 7.611
+    },
+    "R4": {
+     "count": 1,
+     "area": 11.603,
+     "volume": 10.111
+    },
+    "R5": {
+     "count": 1,
+     "area": 11.973,
+     "volume": 12.611
+    },
+    "R6": {
+     "count": 1,
+     "area": 12.343,
+     "volume": 15.111
+    },
+    "R7": {
+     "count": 1,
+     "area": 12.713,
+     "volume": 17.611
+    },
+    "R8": {
+     "count": 1,
+     "area": 13.083,
+     "volume": 20.111
+    },
+    "R9": {
+     "count": 1,
+     "area": 13.453,
+     "volume": 22.611
+    },
+    "R10": {
+     "count": 1,
+     "area": 13.823,
+     "volume": 25.111
+    },
+    "R11": {
+     "count": 1,
+     "area": 14.193,
+     "volume": 27.611
+    },
+    "R12": {
+     "count": 1,
+     "area": 14.563,
+     "volume": 30.111
+    },
+    "R13": {
+     "count": 1,
+     "area": 14.933,
+     "volume": 32.611
+    },
+    "R14": {
+     "count": 1,
+     "area": 15.303,
+     "volume": 35.111
+    },
+    "R15": {
+     "count": 1,
+     "area": 15.673,
+     "volume": 37.611
+    },
+    "R16": {
+     "count": 1,
+     "area": 16.043,
+     "volume": 40.111
+    },
+    "R17": {
+     "count": 1,
+     "area": 16.413,
+     "volume": 42.611
+    },
+    "R18": {
+     "count": 1,
+     "area": 16.783,
+     "volume": 45.111
+    },
+    "R19": {
+     "count": 1,
+     "area": 17.153,
+     "volume": 47.611
+    },
+    "R20": {
+     "count": 1,
+     "area": 17.523,
+     "volume": 50.111
+    },
+    "R21": {
+     "count": 1,
+     "area": 17.893,
+     "volume": 52.611
+    },
+    "R22": {
+     "count": 1,
+     "area": 18.263,
+     "volume": 55.111
+    },
+    "R23": {
+     "count": 1,
+     "area": 18.633,
+     "volume": 57.611
+    },
+    "R24": {
+     "count": 1,
+     "area": 19.003,
+     "volume": 60.111
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "name",
+    []
+   ],
+   "kwargs": {},
+   "out": {
+    "R0": {
+     "count": 1
+    },
+    "R1": {
+     "count": 1
+    },
+    "R2": {
+     "count": 1
+    },
+    "R3": {
+     "count": 1
+    },
+    "R4": {
+     "count": 1
+    },
+    "R5": {
+     "count": 1
+    },
+    "R6": {
+     "count": 1
+    },
+    "R7": {
+     "count": 1
+    },
+    "R8": {
+     "count": 1
+    },
+    "R9": {
+     "count": 1
+    },
+    "R10": {
+     "count": 1
+    },
+    "R11": {
+     "count": 1
+    },
+    "R12": {
+     "count": 1
+    },
+    "R13": {
+     "count": 1
+    },
+    "R14": {
+     "count": 1
+    },
+    "R15": {
+     "count": 1
+    },
+    "R16": {
+     "count": 1
+    },
+    "R17": {
+     "count": 1
+    },
+    "R18": {
+     "count": 1
+    },
+    "R19": {
+     "count": 1
+    },
+    "R20": {
+     "count": 1
+    },
+    "R21": {
+     "count": 1
+    },
+    "R22": {
+     "count": 1
+    },
+    "R23": {
+     "count": 1
+    },
+    "R24": {
+     "count": 1
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 10.123,
+      "volume": 0.111,
+      "perimeter": 0,
+      "name": "R0"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 10.492999999999999,
+      "volume": 2.611,
+      "perimeter": 1,
+      "name": "R1"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 10.863,
+      "volume": 5.111,
+      "perimeter": 2,
+      "name": "R2"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 11.232999999999999,
+      "volume": 7.611,
+      "perimeter": 3,
+      "name": "R3"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 11.603,
+      "volume": 10.111,
+      "perimeter": 4,
+      "name": "R4"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 11.972999999999999,
+      "volume": 12.611,
+      "perimeter": 5,
+      "name": "R5"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 12.343,
+      "volume": 15.111,
+      "perimeter": 6,
+      "name": "R6"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 12.713,
+      "volume": 17.611,
+      "perimeter": 7,
+      "name": "R7"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 13.082999999999998,
+      "volume": 20.111,
+      "perimeter": 8,
+      "name": "R8"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 13.453,
+      "volume": 22.611,
+      "perimeter": 9,
+      "name": "R9"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 13.823,
+      "volume": 25.111,
+      "perimeter": 10,
+      "name": "R10"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 14.193,
+      "volume": 27.611,
+      "perimeter": 11,
+      "name": "R11"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 14.562999999999999,
+      "volume": 30.111,
+      "perimeter": 12,
+      "name": "R12"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 14.933,
+      "volume": 32.611,
+      "perimeter": 13,
+      "name": "R13"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 15.302999999999999,
+      "volume": 35.111,
+      "perimeter": 14,
+      "name": "R14"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 15.672999999999998,
+      "volume": 37.611,
+      "perimeter": 15,
+      "name": "R15"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 16.043,
+      "volume": 40.111,
+      "perimeter": 16,
+      "name": "R16"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 16.413,
+      "volume": 42.611,
+      "perimeter": 17,
+      "name": "R17"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 16.783,
+      "volume": 45.111,
+      "perimeter": 18,
+      "name": "R18"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 17.153,
+      "volume": 47.611,
+      "perimeter": 19,
+      "name": "R19"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 17.523,
+      "volume": 50.111,
+      "perimeter": 20,
+      "name": "R20"
+     },
+     {
+      "level": "L1",
+      "dept": "B",
+      "area": 17.893,
+      "volume": 52.611,
+      "perimeter": 21,
+      "name": "R21"
+     },
+     {
+      "level": "L2",
+      "dept": null,
+      "area": 18.262999999999998,
+      "volume": 55.111,
+      "perimeter": 22,
+      "name": "R22"
+     },
+     {
+      "level": "L3",
+      "dept": "",
+      "area": 18.633,
+      "volume": 57.611,
+      "perimeter": 23,
+      "name": "R23"
+     },
+     {
+      "level": "L0",
+      "dept": "A",
+      "area": 19.003,
+      "volume": 60.111,
+      "perimeter": 24,
+      "name": "R24"
+     }
+    ],
+    "name"
+   ],
+   "kwargs": {
+    "value_keys": [
+     "perimeter",
+     "nope"
+    ]
+   },
+   "out": {
+    "R0": {
+     "count": 1,
+     "perimeter": 0.0
+    },
+    "R1": {
+     "count": 1,
+     "perimeter": 1.0
+    },
+    "R2": {
+     "count": 1,
+     "perimeter": 2.0
+    },
+    "R3": {
+     "count": 1,
+     "perimeter": 3.0
+    },
+    "R4": {
+     "count": 1,
+     "perimeter": 4.0
+    },
+    "R5": {
+     "count": 1,
+     "perimeter": 5.0
+    },
+    "R6": {
+     "count": 1,
+     "perimeter": 6.0
+    },
+    "R7": {
+     "count": 1,
+     "perimeter": 7.0
+    },
+    "R8": {
+     "count": 1,
+     "perimeter": 8.0
+    },
+    "R9": {
+     "count": 1,
+     "perimeter": 9.0
+    },
+    "R10": {
+     "count": 1,
+     "perimeter": 10.0
+    },
+    "R11": {
+     "count": 1,
+     "perimeter": 11.0
+    },
+    "R12": {
+     "count": 1,
+     "perimeter": 12.0
+    },
+    "R13": {
+     "count": 1,
+     "perimeter": 13.0
+    },
+    "R14": {
+     "count": 1,
+     "perimeter": 14.0
+    },
+    "R15": {
+     "count": 1,
+     "perimeter": 15.0
+    },
+    "R16": {
+     "count": 1,
+     "perimeter": 16.0
+    },
+    "R17": {
+     "count": 1,
+     "perimeter": 17.0
+    },
+    "R18": {
+     "count": 1,
+     "perimeter": 18.0
+    },
+    "R19": {
+     "count": 1,
+     "perimeter": 19.0
+    },
+    "R20": {
+     "count": 1,
+     "perimeter": 20.0
+    },
+    "R21": {
+     "count": 1,
+     "perimeter": 21.0
+    },
+    "R22": {
+     "count": 1,
+     "perimeter": 22.0
+    },
+    "R23": {
+     "count": 1,
+     "perimeter": 23.0
+    },
+    "R24": {
+     "count": 1,
+     "perimeter": 24.0
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "k": "a",
+      "area": 1
+     },
+     {
+      "k": "a",
+      "area": "2"
+     },
+     {
+      "k": "a",
+      "area": null
+     },
+     {
+      "k": "a"
+     },
+     {
+      "k": "",
+      "area": 2.25
+     },
+     {
+      "k": 1,
+      "area": 3
+     },
+     {
+      "k": 1.5,
+      "area": true
+     },
+     {
+      "k": true,
+      "area": false
+     },
+     {
+      "area": 4.0004
+     },
+     {
+      "k": "b",
+      "area": -1.2341
+     },
+     {
+      "k": "b",
+      "area": 0.0001
+     },
+     {
+      "k": 0,
+      "area": 1
+     }
+    ],
+    "k"
+   ],
+   "kwargs": {},
+   "out": {
+    "a": {
+     "count": 4,
+     "area": 1.0
+    },
+    "(none)": {
+     "count": 2,
+     "area": 6.25
+    },
+    "1": {
+     "count": 2,
+     "area": 3.0
+    },
+    "1.5": {
+     "count": 1,
+     "area": 1.0
+    },
+    "b": {
+     "count": 2,
+     "area": -1.234
+    },
+    "0": {
+     "count": 1,
+     "area": 1.0
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "k": "a",
+      "area": 1
+     },
+     {
+      "k": "a",
+      "area": "2"
+     },
+     {
+      "k": "a",
+      "area": null
+     },
+     {
+      "k": "a"
+     },
+     {
+      "k": "",
+      "area": 2.25
+     },
+     {
+      "k": 1,
+      "area": 3
+     },
+     {
+      "k": 1.5,
+      "area": true
+     },
+     {
+      "k": true,
+      "area": false
+     },
+     {
+      "area": 4.0004
+     },
+     {
+      "k": "b",
+      "area": -1.2341
+     },
+     {
+      "k": "b",
+      "area": 0.0001
+     },
+     {
+      "k": 0,
+      "area": 1
+     }
+    ],
+    "k",
+    [
+     "area",
+     "volume"
+    ]
+   ],
+   "kwargs": {},
+   "out": {
+    "a": {
+     "count": 4,
+     "area": 1.0
+    },
+    "(none)": {
+     "count": 2,
+     "area": 6.25
+    },
+    "1": {
+     "count": 2,
+     "area": 3.0
+    },
+    "1.5": {
+     "count": 1,
+     "area": 1.0
+    },
+    "b": {
+     "count": 2,
+     "area": -1.234
+    },
+    "0": {
+     "count": 1,
+     "area": 1.0
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "k": "a",
+      "area": 1
+     },
+     {
+      "k": "a",
+      "area": "2"
+     },
+     {
+      "k": "a",
+      "area": null
+     },
+     {
+      "k": "a"
+     },
+     {
+      "k": "",
+      "area": 2.25
+     },
+     {
+      "k": 1,
+      "area": 3
+     },
+     {
+      "k": 1.5,
+      "area": true
+     },
+     {
+      "k": true,
+      "area": false
+     },
+     {
+      "area": 4.0004
+     },
+     {
+      "k": "b",
+      "area": -1.2341
+     },
+     {
+      "k": "b",
+      "area": 0.0001
+     },
+     {
+      "k": 0,
+      "area": 1
+     }
+    ],
+    "k",
+    []
+   ],
+   "kwargs": {},
+   "out": {
+    "a": {
+     "count": 4
+    },
+    "(none)": {
+     "count": 2
+    },
+    "1": {
+     "count": 2
+    },
+    "1.5": {
+     "count": 1
+    },
+    "b": {
+     "count": 2
+    },
+    "0": {
+     "count": 1
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     {
+      "k": "a",
+      "area": 1
+     },
+     {
+      "k": "a",
+      "area": "2"
+     },
+     {
+      "k": "a",
+      "area": null
+     },
+     {
+      "k": "a"
+     },
+     {
+      "k": "",
+      "area": 2.25
+     },
+     {
+      "k": 1,
+      "area": 3
+     },
+     {
+      "k": 1.5,
+      "area": true
+     },
+     {
+      "k": true,
+      "area": false
+     },
+     {
+      "area": 4.0004
+     },
+     {
+      "k": "b",
+      "area": -1.2341
+     },
+     {
+      "k": "b",
+      "area": 0.0001
+     },
+     {
+      "k": 0,
+      "area": 1
+     }
+    ],
+    "k"
+   ],
+   "kwargs": {
+    "value_keys": [
+     "perimeter",
+     "nope"
+    ]
+   },
+   "out": {
+    "a": {
+     "count": 4
+    },
+    "(none)": {
+     "count": 2
+    },
+    "1": {
+     "count": 2
+    },
+    "1.5": {
+     "count": 1
+    },
+    "b": {
+     "count": 2
+    },
+    "0": {
+     "count": 1
+    }
+   }
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     "notadict"
+    ],
+    "k"
+   ],
+   "kwargs": {},
+   "err": "AttributeError",
+   "msg": "'str' object has no attribute 'get'"
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     "notadict"
+    ],
+    "k",
+    [
+     "area",
+     "volume"
+    ]
+   ],
+   "kwargs": {},
+   "err": "AttributeError",
+   "msg": "'str' object has no attribute 'get'"
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     "notadict"
+    ],
+    "k",
+    []
+   ],
+   "kwargs": {},
+   "err": "AttributeError",
+   "msg": "'str' object has no attribute 'get'"
+  },
+  {
+   "fn": "summarize_by",
+   "args": [
+    [
+     "notadict"
+    ],
+    "k"
+   ],
+   "kwargs": {
+    "value_keys": [
+     "perimeter",
+     "nope"
+    ]
+   },
+   "err": "AttributeError",
+   "msg": "'str' object has no attribute 'get'"
+  }
+ ],
+ "not_enclosed_markers": [
+  "not in a properly enclosed region",
+  "not enclosed"
+ ],
+ "redundant_markers": [
+  "same enclosed region",
+  "redundant"
+ ]
+}

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Runs the Revit-free logic (RvtssHost.Impl/Pure and the Py helpers) outside Revit against vectors produced by
+       the Python originals. Run it with "dotnet run" on this project, -c Release -p:RevitYear=2026 (optional -p:Lane=x).
+       RevitYear=2024 runs the same tests on .NET Framework 4.8. A trailing argument filters test classes by name. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Pure.Tests</AssemblyName>
+    <RootNamespace>RvtssHost.Tests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\..\RvtssHost.Impl\Pure\**\*.cs" Link="Pure\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\..\RvtssHost.Impl\Core\Py.cs" Link="Core\Py.cs" />
+    <Compile Include="..\..\RvtssHost.Impl\Core\RvtssError.cs" Link="Core\RvtssError.cs" />
+  </ItemGroup>
+</Project>

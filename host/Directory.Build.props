@@ -1,0 +1,41 @@
+<Project>
+  <!-- Shared by RvtssHost (shell) and RvtssHost.Impl (all routes).
+       One build per Revit year:  dotnet build host/RvtssHost.Impl -c Release -p:RevitYear=2024|2025|2026|2027
+       -p:Lane=<name> gives a build its own obj/out folders (parallel builds). -->
+  <PropertyGroup>
+    <RevitYear Condition="'$(RevitYear)' == ''">2026</RevitYear>
+    <Lane Condition="'$(Lane)' == ''">main</Lane>
+    <TargetFramework Condition="'$(RevitYear)' == '2024'">net48</TargetFramework>
+    <TargetFramework Condition="'$(RevitYear)' == '2025' or '$(RevitYear)' == '2026'">net8.0-windows</TargetFramework>
+    <TargetFramework Condition="'$(RevitYear)' == '2027'">net10.0-windows</TargetFramework>
+    <DefineConstants>$(DefineConstants);REVIT$(RevitYear)</DefineConstants>
+    <DefineConstants Condition="'$(RevitYear)' != '2024'">$(DefineConstants);REVIT2025_OR_GREATER</DefineConstants>
+    <DefineConstants Condition="'$(RevitYear)' == '2026' or '$(RevitYear)' == '2027'">$(DefineConstants);REVIT2026_OR_GREATER</DefineConstants>
+    <DefineConstants Condition="'$(RevitYear)' == '2027'">$(DefineConstants);REVIT2027_OR_GREATER</DefineConstants>
+    <PlatformTarget>x64</PlatformTarget>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Version>3.0.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)obj\$(Lane)\$(MSBuildProjectName)\R$(RevitYear)\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+    <OutputPath>$(MSBuildThisFileDirectory)out\$(Lane)\R$(RevitYear)\</OutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <NoWarn>$(NoWarn);MSB3277;CS1591;NU1701</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Reference-only Revit API (never copied next to the add-in). -->
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPI" Version="$(RevitYear).*" ExcludeAssets="runtime" PrivateAssets="all" />
+    <PackageReference Include="Nice3point.Revit.Api.RevitAPIUI" Version="$(RevitYear).*" ExcludeAssets="runtime" PrivateAssets="all" />
+    <!-- Lets one C# source build for .NET Framework 4.8 (Revit 2024) as well. -->
+    <PackageReference Include="PolySharp" Version="1.17.1" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <PackageReference Include="System.Text.Json" Version="8.0.6" />
+  </ItemGroup>
+</Project>

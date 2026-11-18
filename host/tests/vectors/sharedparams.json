@@ -1,0 +1,1455 @@
+{
+ "files": [
+  {
+   "base64": "//4jACAAVABoAGkAcwAgAGkAcwAgAGEAIABSAGUAdgBpAHQAIABzAGgAYQByAGUAZAAgAHAAYQByAGEAbQBlAHQAZQByACAAZgBpAGwAZQAuAAoAIwAgAEQAbwAgAG4AbwB0ACAAZQBkAGkAdAAgAG0AYQBuAHUAYQBsAGwAeQAuAAoAKgBNAEUAVABBAAkAVgBFAFIAUwBJAE8ATgAJAE0ASQBOAFYARQBSAFMASQBPAE4ACgBNAEUAVABBAAkAMgAJADEACgAqAEcAUgBPAFUAUAAJAEkARAAJAE4AQQBNAEUACgBHAFIATwBVAFAACQAxAAkASQBkAGUAbgB0AGkAdAB5AAoAKgBQAEEAUgBBAE0ACQBHAFUASQBEAAkATgBBAE0ARQAJAEQAQQBUAEEAVABZAFAARQAJAEQAQQBUAEEAQwBBAFQARQBHAE8AUgBZAAkARwBSAE8AVQBQAAkAVgBJAFMASQBCAEwARQAJAEQARQBTAEMAUgBJAFAAVABJAE8ATgAJAFUAUwBFAFIATQBPAEQASQBGAEkAQQBCAEwARQAJAEgASQBEAEUASQBOAFAAUgBPAFAARQBSAFQASQBFAFMACgBQAEEAUgBBAE0ACQA1AGIAMwBlADUAZgAxAGMALQAwAGQANgBhAC0ANABmADAAZQAtADkAYQAzAGMALQAyAGIANwBmADMAYgAxAGUAOQBhADAAMQAJAEYAaQByAGUAIABSAGEAdABpAG4AZwAJAFQARQBYAFQACQAJADEACQAxAAkARgBpAHIAZQAgAHIAZQBzAGkAcwB0AGEAbgBjAGUACQAxAAkAMAAKAFAAQQBSAEEATQAJADUAYgAzAGUANQBmADEAYwAtADAAZAA2AGEALQA0AGYAMABlAC0AOQBhADMAYwAtADIAYgA3AGYAMwBiADEAZQA5AGEAMAAxAAkARgBpAHIAZQAgAFIAYQB0AGkAbgBnACAAMgAJAFQARQBYAFQACQAJADEACQAxAAkACQAxAAkAMAAKAFAAQQBSAEEATQAJAG4AbwB0AC0AYQAtAGcAdQBpAGQACQBGAHIAYQBtAGUAIABEAGUAcAB0AGgACQBMAEUATgBHAFQASAAJAAkAOQAJADEACQAJADEACQAwAAoA",
+   "text": "# This is a Revit shared parameter file.\n# Do not edit manually.\n*META\tVERSION\tMINVERSION\nMETA\t2\t1\n*GROUP\tID\tNAME\nGROUP\t1\tIdentity\n*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\tDESCRIPTION\tUSERMODIFIABLE\tHIDEINPROPERTIES\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating\tTEXT\t\t1\t1\tFire resistance\t1\t0\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating 2\tTEXT\t\t1\t1\t\t1\t0\nPARAM\tnot-a-guid\tFrame Depth\tLENGTH\t\t9\t1\t\t1\t0\n",
+   "parsed": {
+    "meta": {
+     "VERSION": "2",
+     "MINVERSION": "1"
+    },
+    "groups": {
+     "1": "Identity"
+    },
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "Fire resistance",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 8,
+      "group": "Identity"
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating 2",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 9,
+      "group": "Identity"
+     },
+     {
+      "guid": "not-a-guid",
+      "name": "Frame Depth",
+      "datatype": "LENGTH",
+      "datacategory": "",
+      "group_id": "9",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 10,
+      "group": null
+     }
+    ],
+    "issues": [
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' references unknown group 9"
+     },
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' has an invalid GUID"
+     },
+     {
+      "issue": "Duplicate GUID 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 used by Fire Rating, Fire Rating 2",
+      "severity": "error"
+     }
+    ]
+   }
+  },
+  {
+   "base64": "/v8AIwAgAFQAaABpAHMAIABpAHMAIABhACAAUgBlAHYAaQB0ACAAcwBoAGEAcgBlAGQAIABwAGEAcgBhAG0AZQB0AGUAcgAgAGYAaQBsAGUALgAKACMAIABEAG8AIABuAG8AdAAgAGUAZABpAHQAIABtAGEAbgB1AGEAbABsAHkALgAKACoATQBFAFQAQQAJAFYARQBSAFMASQBPAE4ACQBNAEkATgBWAEUAUgBTAEkATwBOAAoATQBFAFQAQQAJADIACQAxAAoAKgBHAFIATwBVAFAACQBJAEQACQBOAEEATQBFAAoARwBSAE8AVQBQAAkAMQAJAEkAZABlAG4AdABpAHQAeQAKACoAUABBAFIAQQBNAAkARwBVAEkARAAJAE4AQQBNAEUACQBEAEEAVABBAFQAWQBQAEUACQBEAEEAVABBAEMAQQBUAEUARwBPAFIAWQAJAEcAUgBPAFUAUAAJAFYASQBTAEkAQgBMAEUACQBEAEUAUwBDAFIASQBQAFQASQBPAE4ACQBVAFMARQBSAE0ATwBEAEkARgBJAEEAQgBMAEUACQBIAEkARABFAEkATgBQAFIATwBQAEUAUgBUAEkARQBTAAoAUABBAFIAQQBNAAkANQBiADMAZQA1AGYAMQBjAC0AMABkADYAYQAtADQAZgAwAGUALQA5AGEAMwBjAC0AMgBiADcAZgAzAGIAMQBlADkAYQAwADEACQBGAGkAcgBlACAAUgBhAHQAaQBuAGcACQBUAEUAWABUAAkACQAxAAkAMQAJAEYAaQByAGUAIAByAGUAcwBpAHMAdABhAG4AYwBlAAkAMQAJADAACgBQAEEAUgBBAE0ACQA1AGIAMwBlADUAZgAxAGMALQAwAGQANgBhAC0ANABmADAAZQAtADkAYQAzAGMALQAyAGIANwBmADMAYgAxAGUAOQBhADAAMQAJAEYAaQByAGUAIABSAGEAdABpAG4AZwAgADIACQBUAEUAWABUAAkACQAxAAkAMQAJAAkAMQAJADAACgBQAEEAUgBBAE0ACQBuAG8AdAAtAGEALQBnAHUAaQBkAAkARgByAGEAbQBlACAARABlAHAAdABoAAkATABFAE4ARwBUAEgACQAJADkACQAxAAkACQAxAAkAMAAK",
+   "text": "# This is a Revit shared parameter file.\n# Do not edit manually.\n*META\tVERSION\tMINVERSION\nMETA\t2\t1\n*GROUP\tID\tNAME\nGROUP\t1\tIdentity\n*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\tDESCRIPTION\tUSERMODIFIABLE\tHIDEINPROPERTIES\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating\tTEXT\t\t1\t1\tFire resistance\t1\t0\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating 2\tTEXT\t\t1\t1\t\t1\t0\nPARAM\tnot-a-guid\tFrame Depth\tLENGTH\t\t9\t1\t\t1\t0\n",
+   "parsed": {
+    "meta": {
+     "VERSION": "2",
+     "MINVERSION": "1"
+    },
+    "groups": {
+     "1": "Identity"
+    },
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "Fire resistance",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 8,
+      "group": "Identity"
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating 2",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 9,
+      "group": "Identity"
+     },
+     {
+      "guid": "not-a-guid",
+      "name": "Frame Depth",
+      "datatype": "LENGTH",
+      "datacategory": "",
+      "group_id": "9",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 10,
+      "group": null
+     }
+    ],
+    "issues": [
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' references unknown group 9"
+     },
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' has an invalid GUID"
+     },
+     {
+      "issue": "Duplicate GUID 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 used by Fire Rating, Fire Rating 2",
+      "severity": "error"
+     }
+    ]
+   }
+  },
+  {
+   "base64": "77u/IyBUaGlzIGlzIGEgUmV2aXQgc2hhcmVkIHBhcmFtZXRlciBmaWxlLgojIERvIG5vdCBlZGl0IG1hbnVhbGx5LgoqTUVUQQlWRVJTSU9OCU1JTlZFUlNJT04KTUVUQQkyCTEKKkdST1VQCUlECU5BTUUKR1JPVVAJMQlJZGVudGl0eQoqUEFSQU0JR1VJRAlOQU1FCURBVEFUWVBFCURBVEFDQVRFR09SWQlHUk9VUAlWSVNJQkxFCURFU0NSSVBUSU9OCVVTRVJNT0RJRklBQkxFCUhJREVJTlBST1BFUlRJRVMKUEFSQU0JNWIzZTVmMWMtMGQ2YS00ZjBlLTlhM2MtMmI3ZjNiMWU5YTAxCUZpcmUgUmF0aW5nCVRFWFQJCTEJMQlGaXJlIHJlc2lzdGFuY2UJMQkwClBBUkFNCTViM2U1ZjFjLTBkNmEtNGYwZS05YTNjLTJiN2YzYjFlOWEwMQlGaXJlIFJhdGluZyAyCVRFWFQJCTEJMQkJMQkwClBBUkFNCW5vdC1hLWd1aWQJRnJhbWUgRGVwdGgJTEVOR1RICQk5CTEJCTEJMAo=",
+   "text": "# This is a Revit shared parameter file.\n# Do not edit manually.\n*META\tVERSION\tMINVERSION\nMETA\t2\t1\n*GROUP\tID\tNAME\nGROUP\t1\tIdentity\n*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\tDESCRIPTION\tUSERMODIFIABLE\tHIDEINPROPERTIES\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating\tTEXT\t\t1\t1\tFire resistance\t1\t0\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating 2\tTEXT\t\t1\t1\t\t1\t0\nPARAM\tnot-a-guid\tFrame Depth\tLENGTH\t\t9\t1\t\t1\t0\n",
+   "parsed": {
+    "meta": {
+     "VERSION": "2",
+     "MINVERSION": "1"
+    },
+    "groups": {
+     "1": "Identity"
+    },
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "Fire resistance",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 8,
+      "group": "Identity"
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating 2",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 9,
+      "group": "Identity"
+     },
+     {
+      "guid": "not-a-guid",
+      "name": "Frame Depth",
+      "datatype": "LENGTH",
+      "datacategory": "",
+      "group_id": "9",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 10,
+      "group": null
+     }
+    ],
+    "issues": [
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' references unknown group 9"
+     },
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' has an invalid GUID"
+     },
+     {
+      "issue": "Duplicate GUID 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 used by Fire Rating, Fire Rating 2",
+      "severity": "error"
+     }
+    ]
+   }
+  },
+  {
+   "base64": "IyBUaGlzIGlzIGEgUmV2aXQgc2hhcmVkIHBhcmFtZXRlciBmaWxlLgojIERvIG5vdCBlZGl0IG1hbnVhbGx5LgoqTUVUQQlWRVJTSU9OCU1JTlZFUlNJT04KTUVUQQkyCTEKKkdST1VQCUlECU5BTUUKR1JPVVAJMQlJZGVudGl0eQoqUEFSQU0JR1VJRAlOQU1FCURBVEFUWVBFCURBVEFDQVRFR09SWQlHUk9VUAlWSVNJQkxFCURFU0NSSVBUSU9OCVVTRVJNT0RJRklBQkxFCUhJREVJTlBST1BFUlRJRVMKUEFSQU0JNWIzZTVmMWMtMGQ2YS00ZjBlLTlhM2MtMmI3ZjNiMWU5YTAxCUZpcmUgUmF0aW5nCVRFWFQJCTEJMQlGaXJlIHJlc2lzdGFuY2UJMQkwClBBUkFNCTViM2U1ZjFjLTBkNmEtNGYwZS05YTNjLTJiN2YzYjFlOWEwMQlGaXJlIFJhdGluZyAyCVRFWFQJCTEJMQkJMQkwClBBUkFNCW5vdC1hLWd1aWQJRnJhbWUgRGVwdGgJTEVOR1RICQk5CTEJCTEJMAo=",
+   "text": "# This is a Revit shared parameter file.\n# Do not edit manually.\n*META\tVERSION\tMINVERSION\nMETA\t2\t1\n*GROUP\tID\tNAME\nGROUP\t1\tIdentity\n*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\tDESCRIPTION\tUSERMODIFIABLE\tHIDEINPROPERTIES\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating\tTEXT\t\t1\t1\tFire resistance\t1\t0\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating 2\tTEXT\t\t1\t1\t\t1\t0\nPARAM\tnot-a-guid\tFrame Depth\tLENGTH\t\t9\t1\t\t1\t0\n",
+   "parsed": {
+    "meta": {
+     "VERSION": "2",
+     "MINVERSION": "1"
+    },
+    "groups": {
+     "1": "Identity"
+    },
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "Fire resistance",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 8,
+      "group": "Identity"
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating 2",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 9,
+      "group": "Identity"
+     },
+     {
+      "guid": "not-a-guid",
+      "name": "Frame Depth",
+      "datatype": "LENGTH",
+      "datacategory": "",
+      "group_id": "9",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 10,
+      "group": null
+     }
+    ],
+    "issues": [
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' references unknown group 9"
+     },
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' has an invalid GUID"
+     },
+     {
+      "issue": "Duplicate GUID 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 used by Fire Rating, Fire Rating 2",
+      "severity": "error"
+     }
+    ]
+   }
+  },
+  {
+   "base64": "KkdST1VQCUlECU5BTUUKR1JPVVAJMQnDiXRhZ2Ug5aKZCg==",
+   "text": "*GROUP\tID\tNAME\nGROUP\t1\tÉtage 墙\n",
+   "parsed": {
+    "meta": {},
+    "groups": {
+     "1": "Étage 墙"
+    },
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "base64": "77u/KkdST1VQCUlECU5BTUUKR1JPVVAJMQnDiXRhZ2Ug5aKZCg==",
+   "text": "*GROUP\tID\tNAME\nGROUP\t1\tÉtage 墙\n",
+   "parsed": {
+    "meta": {},
+    "groups": {
+     "1": "Étage 墙"
+    },
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "base64": "//4qAEcAUgBPAFUAUAAJAEkARAAJAE4AQQBNAEUADQAKAEcAUgBPAFUAUAAJADEACQDJAHQAYQBnAGUAIACZWCAAPdgA3g0ACgA=",
+   "text": "*GROUP\tID\tNAME\r\nGROUP\t1\tÉtage 墙 😀\r\n",
+   "parsed": {
+    "meta": {},
+    "groups": {
+     "1": "Étage 墙 😀"
+    },
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "base64": "KkdST1VQCUlECU5BTUUKR1JPVVAJMQnJdGFnZSBjYWbpCg==",
+   "text": "*GROUP\tID\tNAME\nGROUP\t1\tÉtage café\n",
+   "parsed": {
+    "meta": {},
+    "groups": {
+     "1": "Étage café"
+    },
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "base64": "KkdST1VQCUlECU5BTUUKR1JPVVAJMQmAgf7/Cg==",
+   "text": "*GROUP\tID\tNAME\nGROUP\t1\tþÿ\n",
+   "parsed": {
+    "meta": {},
+    "groups": {
+     "1": "þÿ"
+    },
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "base64": "",
+   "text": "",
+   "parsed": {
+    "meta": {},
+    "groups": {},
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "base64": "//4=",
+   "text": "",
+   "parsed": {
+    "meta": {},
+    "groups": {},
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "base64": "77u/",
+   "text": "",
+   "parsed": {
+    "meta": {},
+    "groups": {},
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "base64": "77s=",
+   "text": "ï»",
+   "parsed": {
+    "meta": {},
+    "groups": {},
+    "params": [],
+    "issues": [
+     {
+      "line": 1,
+      "issue": "Row 'ï»' before its header"
+     }
+    ]
+   }
+  },
+  {
+   "base64": "cGxhaW4gYXNjaWk=",
+   "text": "plain ascii",
+   "parsed": {
+    "meta": {},
+    "groups": {},
+    "params": [],
+    "issues": [
+     {
+      "line": 1,
+      "issue": "Row 'plain ascii' before its header"
+     }
+    ]
+   }
+  }
+ ],
+ "cases": [
+  {
+   "fn": "is_guid",
+   "args": [
+    "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "5B3E5F1C-0D6A-4F0E-9A3C-2B7F3B1E9A01"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    " 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 "
+   ],
+   "expected": true
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\n"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\r\n"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\n\n"
+   ],
+   "expected": true
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01x"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "x5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "5b3e5f1c"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    ""
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    null
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "   "
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "5b3e5f1c0d6a4f0e9a3c2b7f3b1e9a01"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "{5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01}"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a0"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a0g"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "5b3e5f1c_0d6a_4f0e_9a3c_2b7f3b1e9a01"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "is_guid",
+   "args": [
+    "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a0١"
+   ],
+   "expected": false
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "# This is a Revit shared parameter file.\n# Do not edit manually.\n*META\tVERSION\tMINVERSION\nMETA\t2\t1\n*GROUP\tID\tNAME\nGROUP\t1\tIdentity\n*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\tDESCRIPTION\tUSERMODIFIABLE\tHIDEINPROPERTIES\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating\tTEXT\t\t1\t1\tFire resistance\t1\t0\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating 2\tTEXT\t\t1\t1\t\t1\t0\nPARAM\tnot-a-guid\tFrame Depth\tLENGTH\t\t9\t1\t\t1\t0\n"
+   ],
+   "expected": {
+    "meta": {
+     "VERSION": "2",
+     "MINVERSION": "1"
+    },
+    "groups": {
+     "1": "Identity"
+    },
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "Fire resistance",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 8,
+      "group": "Identity"
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating 2",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 9,
+      "group": "Identity"
+     },
+     {
+      "guid": "not-a-guid",
+      "name": "Frame Depth",
+      "datatype": "LENGTH",
+      "datacategory": "",
+      "group_id": "9",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 10,
+      "group": null
+     }
+    ],
+    "issues": [
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' references unknown group 9"
+     },
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' has an invalid GUID"
+     },
+     {
+      "issue": "Duplicate GUID 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 used by Fire Rating, Fire Rating 2",
+      "severity": "error"
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "# This is a Revit shared parameter file.\r\n# Do not edit manually.\r\n*META\tVERSION\tMINVERSION\r\nMETA\t2\t1\r\n*GROUP\tID\tNAME\r\nGROUP\t1\tIdentity\r\n*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\tDESCRIPTION\tUSERMODIFIABLE\tHIDEINPROPERTIES\r\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating\tTEXT\t\t1\t1\tFire resistance\t1\t0\r\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating 2\tTEXT\t\t1\t1\t\t1\t0\r\nPARAM\tnot-a-guid\tFrame Depth\tLENGTH\t\t9\t1\t\t1\t0\r\n"
+   ],
+   "expected": {
+    "meta": {
+     "VERSION": "2",
+     "MINVERSION": "1"
+    },
+    "groups": {
+     "1": "Identity"
+    },
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "Fire resistance",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 8,
+      "group": "Identity"
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating 2",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 9,
+      "group": "Identity"
+     },
+     {
+      "guid": "not-a-guid",
+      "name": "Frame Depth",
+      "datatype": "LENGTH",
+      "datacategory": "",
+      "group_id": "9",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 10,
+      "group": null
+     }
+    ],
+    "issues": [
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' references unknown group 9"
+     },
+     {
+      "line": 10,
+      "issue": "Parameter 'Frame Depth' has an invalid GUID"
+     },
+     {
+      "issue": "Duplicate GUID 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 used by Fire Rating, Fire Rating 2",
+      "severity": "error"
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "# This is a Revit shared parameter file.\r# Do not edit manually.\r*META\tVERSION\tMINVERSION\rMETA\t2\t1\r*GROUP\tID\tNAME\rGROUP\t1\tIdentity\r*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\tDESCRIPTION\tUSERMODIFIABLE\tHIDEINPROPERTIES\rPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating\tTEXT\t\t1\t1\tFire resistance\t1\t0\rPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating 2\tTEXT\t\t1\t1\t\t1\t0\rPARAM\tnot-a-guid\tFrame Depth\tLENGTH\t\t9\t1\t\t1\t0\r"
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {},
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ""
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {},
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "\n\n   \n# only comments\n"
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {},
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "PARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tEarly\tTEXT\t\t1\n# This is a Revit shared parameter file.\n# Do not edit manually.\n*META\tVERSION\tMINVERSION\nMETA\t2\t1\n*GROUP\tID\tNAME\nGROUP\t1\tIdentity\n*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\tDESCRIPTION\tUSERMODIFIABLE\tHIDEINPROPERTIES\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating\tTEXT\t\t1\t1\tFire resistance\t1\t0\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tFire Rating 2\tTEXT\t\t1\t1\t\t1\t0\nPARAM\tnot-a-guid\tFrame Depth\tLENGTH\t\t9\t1\t\t1\t0\n"
+   ],
+   "expected": {
+    "meta": {
+     "VERSION": "2",
+     "MINVERSION": "1"
+    },
+    "groups": {
+     "1": "Identity"
+    },
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "Fire resistance",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 9,
+      "group": "Identity"
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Fire Rating 2",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 10,
+      "group": "Identity"
+     },
+     {
+      "guid": "not-a-guid",
+      "name": "Frame Depth",
+      "datatype": "LENGTH",
+      "datacategory": "",
+      "group_id": "9",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 11,
+      "group": null
+     }
+    ],
+    "issues": [
+     {
+      "line": 1,
+      "issue": "Row 'PARAM' before its header"
+     },
+     {
+      "line": 11,
+      "issue": "Parameter 'Frame Depth' references unknown group 9"
+     },
+     {
+      "line": 11,
+      "issue": "Parameter 'Frame Depth' has an invalid GUID"
+     },
+     {
+      "issue": "Duplicate GUID 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 used by Fire Rating, Fire Rating 2",
+      "severity": "error"
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "GROUP\t1\tX\nMETA\t2\t1\nUNKNOWN\ta\tb\n"
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {},
+    "params": [],
+    "issues": [
+     {
+      "line": 1,
+      "issue": "Row 'GROUP' before its header"
+     },
+     {
+      "line": 2,
+      "issue": "Row 'META' before its header"
+     },
+     {
+      "line": 3,
+      "issue": "Row 'UNKNOWN' before its header"
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "*GROUP\tID\tNAME\nGROUP\t1\tA\nGROUP\t2\nGROUP\nGROUP\t3\tC\textra\n*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\tDESCRIPTION\tUSERMODIFIABLE\tHIDEINPROPERTIES\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tShort\nPARAM\tAAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE\tLong\tTEXT\t\t3\t0\tdesc\t0\t1\tmore\tand more"
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {
+     "1": "A",
+     "2": null,
+     "null": null,
+     "3": "C"
+    },
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Short",
+      "datatype": "",
+      "datacategory": "",
+      "group_id": "",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 7,
+      "group": null
+     },
+     {
+      "guid": "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
+      "name": "Long",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "3",
+      "visible": false,
+      "description": "desc",
+      "user_modifiable": false,
+      "hide_when_no_value": true,
+      "line": 8,
+      "group": "C"
+     }
+    ],
+    "issues": [
+     {
+      "line": 7,
+      "issue": "Parameter 'Short' references unknown group "
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "*GROUP\tNAME\nGROUP\tNoId\n*PARAM\tNAME\tGUID\nPARAM\tP1\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\n*PARAM\tGUID\tNAME\tGROUP\nPARAM\tAAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE\tP2\t1\n*GROUP\tID\tNAME\nGROUP\t1\tLate group\n"
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {
+     "null": "NoId",
+     "1": "Late group"
+    },
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "P1",
+      "datatype": "",
+      "datacategory": "",
+      "group_id": "",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 4,
+      "group": null
+     },
+     {
+      "guid": "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
+      "name": "P2",
+      "datatype": "",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 6,
+      "group": "Late group"
+     }
+    ],
+    "issues": [
+     {
+      "line": 4,
+      "issue": "Parameter 'P1' references unknown group "
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "*GROUP\tID\tNAME\nGROUP\t1\tG\n*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\tDESCRIPTION\tUSERMODIFIABLE\tHIDEINPROPERTIES\nPARAM\tAAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE\tWidth\tLENGTH\t\t1\t1\t\t1\t0\nPARAM\taaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee\tWIDTH\tLENGTH\t\t1\t1\t\t1\t0\nPARAM\t00000000-0000-0000-0000-000000000003\twidth\tLENGTH\t\t1\t1\t\t1\t0\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tZeta\tTEXT\t\t1\t1\t\t1\t0\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tAlpha\tTEXT\t\t1\t1\t\t1\t0\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tZeta\tTEXT\t\t1\t1\t\t1\t0\n"
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {
+     "1": "G"
+    },
+    "params": [
+     {
+      "guid": "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
+      "name": "Width",
+      "datatype": "LENGTH",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 4,
+      "group": "G"
+     },
+     {
+      "guid": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+      "name": "WIDTH",
+      "datatype": "LENGTH",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 5,
+      "group": "G"
+     },
+     {
+      "guid": "00000000-0000-0000-0000-000000000003",
+      "name": "width",
+      "datatype": "LENGTH",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 6,
+      "group": "G"
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Zeta",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 7,
+      "group": "G"
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Alpha",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 8,
+      "group": "G"
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Zeta",
+      "datatype": "TEXT",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 9,
+      "group": "G"
+     }
+    ],
+    "issues": [
+     {
+      "issue": "Duplicate GUID aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee used by WIDTH, Width",
+      "severity": "error"
+     },
+     {
+      "issue": "Duplicate GUID 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 used by Alpha, Zeta",
+      "severity": "error"
+     },
+     {
+      "issue": "Parameter name 'Width' defined 3 times with different GUIDs",
+      "severity": "warning"
+     },
+     {
+      "issue": "Parameter name 'Zeta' defined 2 times with different GUIDs",
+      "severity": "warning"
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "*GROUP\tID\tNAME\nGROUP\t1\tG\n*PARAM\tGUID\tNAME\tDATATYPE\tDATACATEGORY\tGROUP\tVISIBLE\tDESCRIPTION\tUSERMODIFIABLE\tHIDEINPROPERTIES\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tA\tYESNO\tcat\t1\t0\td\t0\t1\nPARAM\tAAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE\tB\tYESNO\t\t1\t\t\t\t\nPARAM\t00000000-0000-0000-0000-000000000003\tC\tYESNO\t\t1\ttrue\t\tyes\t 1\n  # indented\n\t\t\t\nPARAM\t \tD # x\n"
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {
+     "1": "G"
+    },
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "A",
+      "datatype": "YESNO",
+      "datacategory": "cat",
+      "group_id": "1",
+      "visible": false,
+      "description": "d",
+      "user_modifiable": false,
+      "hide_when_no_value": true,
+      "line": 4,
+      "group": "G"
+     },
+     {
+      "guid": "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
+      "name": "B",
+      "datatype": "YESNO",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": false,
+      "description": "",
+      "user_modifiable": false,
+      "hide_when_no_value": false,
+      "line": 5,
+      "group": "G"
+     },
+     {
+      "guid": "00000000-0000-0000-0000-000000000003",
+      "name": "C",
+      "datatype": "YESNO",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": false,
+      "description": "",
+      "user_modifiable": false,
+      "hide_when_no_value": false,
+      "line": 6,
+      "group": "G"
+     },
+     {
+      "guid": " ",
+      "name": "D # x",
+      "datatype": "",
+      "datacategory": "",
+      "group_id": "",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 9,
+      "group": null
+     }
+    ],
+    "issues": [
+     {
+      "line": 7,
+      "issue": "Row '  # indented' before its header"
+     },
+     {
+      "line": 9,
+      "issue": "Parameter 'D # x' references unknown group "
+     },
+     {
+      "line": 9,
+      "issue": "Parameter 'D # x' has an invalid GUID"
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "*group\tID\tNAME\ngroup\t1\tlower\n*GROUP\tID\tID\tNAME\nGROUP\t1\t2\tDouble id\n*GROUP\tNAME\nGROUP\tNo id\n*PARAM\tGUID\tNAME\tGROUP\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tÉtage – niveau\tnull\nPARAM\tAAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE\t墙\t2\n"
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {
+     "2": "Double id",
+     "null": "No id"
+    },
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "Étage – niveau",
+      "datatype": "",
+      "datacategory": "",
+      "group_id": "null",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 8,
+      "group": null
+     },
+     {
+      "guid": "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
+      "name": "墙",
+      "datatype": "",
+      "datacategory": "",
+      "group_id": "2",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 9,
+      "group": "Double id"
+     }
+    ],
+    "issues": [
+     {
+      "line": 8,
+      "issue": "Parameter 'Étage – niveau' references unknown group null"
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "*META\tVERSION\tMINVERSION\nMETA\t2\t1\nMETA\t3\n"
+   ],
+   "expected": {
+    "meta": {
+     "VERSION": "3"
+    },
+    "groups": {},
+    "params": [],
+    "issues": []
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "﻿# bom kept by the caller\n*GROUP\tID\tNAME\nGROUP\t1\tG\n"
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {
+     "1": "G"
+    },
+    "params": [],
+    "issues": [
+     {
+      "line": 1,
+      "issue": "Row '﻿# bom kept by the caller' before its header"
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "*\ta\tb\n\tx\ty\n*PARAM\nPARAM\nPARAM\t\n"
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {},
+    "params": [
+     {
+      "guid": "",
+      "name": "",
+      "datatype": "",
+      "datacategory": "",
+      "group_id": "",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 4,
+      "group": null
+     },
+     {
+      "guid": "",
+      "name": "",
+      "datatype": "",
+      "datacategory": "",
+      "group_id": "",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 5,
+      "group": null
+     }
+    ],
+    "issues": [
+     {
+      "line": 4,
+      "issue": "Parameter '' references unknown group "
+     },
+     {
+      "line": 4,
+      "issue": "Parameter '' has an invalid GUID"
+     },
+     {
+      "line": 5,
+      "issue": "Parameter '' references unknown group "
+     },
+     {
+      "line": 5,
+      "issue": "Parameter '' has an invalid GUID"
+     },
+     {
+      "issue": "Duplicate GUID  used by ",
+      "severity": "error"
+     },
+     {
+      "issue": "Parameter name '' defined 2 times with different GUIDs",
+      "severity": "warning"
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "*GROUP\tID\tNAME\rGROUP\t1\tA\r\n*PARAM\tGUID\tNAME\tGROUP\r\nPARAM\t5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01\tP\t1\r\r\n"
+   ],
+   "expected": {
+    "meta": {},
+    "groups": {},
+    "params": [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "P",
+      "datatype": "",
+      "datacategory": "",
+      "group_id": "1",
+      "visible": true,
+      "description": "",
+      "user_modifiable": true,
+      "hide_when_no_value": false,
+      "line": 3,
+      "group": null
+     }
+    ],
+    "issues": [
+     {
+      "line": 3,
+      "issue": "Parameter 'P' references unknown group 1"
+     }
+    ]
+   }
+  },
+  {
+   "fn": "find_duplicates",
+   "args": [
+    [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "A"
+     },
+     {
+      "guid": "5B3E5F1C-0D6A-4F0E-9A3C-2B7F3B1E9A01",
+      "name": "B"
+     },
+     {
+      "guid": "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
+      "name": "a"
+     },
+     {
+      "guid": "00000000-0000-0000-0000-000000000003",
+      "name": "C"
+     },
+     {
+      "guid": "00000000-0000-0000-0000-000000000003",
+      "name": "C"
+     },
+     {
+      "guid": "",
+      "name": ""
+     },
+     {
+      "guid": "",
+      "name": ""
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "A"
+     }
+    ]
+   ],
+   "expected": [
+    {
+     "issue": "Duplicate GUID 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 used by A, B",
+     "severity": "error"
+    },
+    {
+     "issue": "Duplicate GUID 00000000-0000-0000-0000-000000000003 used by C",
+     "severity": "error"
+    },
+    {
+     "issue": "Duplicate GUID  used by ",
+     "severity": "error"
+    },
+    {
+     "issue": "Parameter name 'A' defined 3 times with different GUIDs",
+     "severity": "warning"
+    },
+    {
+     "issue": "Parameter name 'C' defined 2 times with different GUIDs",
+     "severity": "warning"
+    },
+    {
+     "issue": "Parameter name '' defined 2 times with different GUIDs",
+     "severity": "warning"
+    }
+   ]
+  },
+  {
+   "fn": "find_duplicates",
+   "args": [
+    []
+   ],
+   "expected": []
+  },
+  {
+   "fn": "find_duplicates",
+   "args": [
+    [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "A"
+     }
+    ]
+   ],
+   "expected": []
+  },
+  {
+   "fn": "find_duplicates",
+   "args": [
+    [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "A"
+     },
+     {
+      "guid": "",
+      "name": ""
+     },
+     {
+      "guid": "",
+      "name": ""
+     },
+     {
+      "guid": "00000000-0000-0000-0000-000000000003",
+      "name": "C"
+     },
+     {
+      "guid": "00000000-0000-0000-0000-000000000003",
+      "name": "C"
+     },
+     {
+      "guid": "AAAAAAAA-BBBB-CCCC-DDDD-EEEEEEEEEEEE",
+      "name": "a"
+     },
+     {
+      "guid": "5B3E5F1C-0D6A-4F0E-9A3C-2B7F3B1E9A01",
+      "name": "B"
+     },
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01",
+      "name": "A"
+     }
+    ]
+   ],
+   "expected": [
+    {
+     "issue": "Duplicate GUID 5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01 used by A, B",
+     "severity": "error"
+    },
+    {
+     "issue": "Duplicate GUID  used by ",
+     "severity": "error"
+    },
+    {
+     "issue": "Duplicate GUID 00000000-0000-0000-0000-000000000003 used by C",
+     "severity": "error"
+    },
+    {
+     "issue": "Parameter name 'A' defined 3 times with different GUIDs",
+     "severity": "warning"
+    },
+    {
+     "issue": "Parameter name '' defined 2 times with different GUIDs",
+     "severity": "warning"
+    },
+    {
+     "issue": "Parameter name 'C' defined 2 times with different GUIDs",
+     "severity": "warning"
+    }
+   ]
+  },
+  {
+   "fn": "find_duplicates",
+   "args": [
+    [
+     {
+      "guid": "5b3e5f1c-0d6a-4f0e-9a3c-2b7f3b1e9a01"
+     }
+    ]
+   ],
+   "error": "KeyError",
+   "message": "'name'"
+  },
+  {
+   "fn": "find_duplicates",
+   "args": [
+    [
+     {
+      "name": "x"
+     }
+    ]
+   ],
+   "error": "KeyError",
+   "message": "'guid'"
+  },
+  {
+   "fn": "read_text",
+   "args": [
+    "<missing file>"
+   ],
+   "error": "FileNotFoundError",
+   "message": "[Errno 2] No such file or directory: 'C:\\\\Users\\\\souha\\\\AppData\\\\Local\\\\Temp\\\\rvtss_sp_letiu2xg\\\\missing.txt'"
+  }
+ ]
+}

@@ -1,0 +1,6701 @@
+{
+ "cases": [
+  {
+   "fn": "parse_flag",
+   "args": [
+    null
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    null,
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    null,
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    null
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    ""
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "1"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "1",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "1",
+    false
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "1"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "0"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "0",
+    true
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "0",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "0"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "true"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "true",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "true",
+    false
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "true"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "TRUE"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "TRUE",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "TRUE",
+    false
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "TRUE"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    " Yes "
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    " Yes ",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    " Yes ",
+    false
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    " Yes "
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "on"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "on",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "on",
+    false
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "on"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "allow"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "allow",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "allow",
+    false
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "allow"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "Allowed"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "Allowed",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "Allowed",
+    false
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "Allowed"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "false"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "false",
+    true
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "false",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "false"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "No"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "No",
+    true
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "No",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "No"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "OFF"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "OFF",
+    true
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "OFF",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "OFF"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "deny"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "deny",
+    true
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "deny",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "deny"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "denied"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "denied",
+    true
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "denied",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "denied"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "disabled"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "disabled",
+    true
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "disabled",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "disabled"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "maybe"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "maybe",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "maybe",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "maybe"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "2"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "2",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "2",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "2"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    true,
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    true,
+    false
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    true
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    false,
+    true
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    false,
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    false
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    1
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    1,
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    1,
+    false
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    1
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    0
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    0,
+    true
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    0,
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    0
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    2
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    2,
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    2,
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    2
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    1.0
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    1.0,
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    1.0,
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    1.0
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    0.0
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    0.0,
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    0.0,
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    0.0
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "enabled"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "enabled",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "enabled",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "enabled"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    " "
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    " ",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    " ",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    " "
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "y"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "y",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "y",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "y"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "n"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "n",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "n",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "n"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "t"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "t",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "t",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "t"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "f"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "f",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "f",
+    false
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "f"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": null
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "On\n"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "On\n",
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "On\n",
+    false
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "parse_flag",
+   "args": [
+    "On\n"
+   ],
+   "kwargs": {
+    "default": null
+   },
+   "out": true
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "abc",
+    "abc"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "abc",
+    "abd"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    null,
+    "abc"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "abc",
+    null
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "",
+    ""
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "a",
+    ""
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "abc",
+    "abcd"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    123,
+    "123"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    123,
+    123
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    1.5,
+    "1.5"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    true,
+    "True"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "\u00e9",
+    "\u00e9"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "\u00e9",
+    "e"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "A",
+    "a"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxy"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "constant_time_equal",
+   "args": [
+    "\u0100",
+    "\u0000"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "extract_token",
+   "args": [],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    {
+     "_rvtss_token": "a"
+    }
+   ],
+   "kwargs": {},
+   "out": "a"
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    null,
+    {
+     "rvtss_token": [
+      "b"
+     ]
+    }
+   ],
+   "kwargs": {},
+   "out": "b"
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    null,
+    null,
+    {
+     "x-rvtss-token": "c"
+    }
+   ],
+   "kwargs": {},
+   "out": "c"
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    {
+     "_rvtss_token": ""
+    },
+    {
+     "rvtss_token": "q"
+    },
+    {
+     "X-RVTSS-Token": "h"
+    }
+   ],
+   "kwargs": {},
+   "out": "q"
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    {
+     "_rvtss_token": null
+    },
+    {
+     "rvtss_token": ""
+    },
+    {
+     "X-RVTSS-TOKEN": "h"
+    }
+   ],
+   "kwargs": {},
+   "out": "h"
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    {
+     "_rvtss_token": "body"
+    },
+    {
+     "rvtss_token": "q"
+    },
+    {
+     "X-RVTSS-Token": "h"
+    }
+   ],
+   "kwargs": {},
+   "out": "body"
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    {},
+    {
+     "rvtss_token": "q"
+    },
+    {
+     "X-RVTSS-Token": "h"
+    }
+   ],
+   "kwargs": {},
+   "out": "q"
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    {},
+    {},
+    {}
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    {
+     "other": 1
+    },
+    {
+     "other": "x"
+    },
+    {
+     "Other": "y"
+    }
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    null,
+    {
+     "rvtss_token": [
+      "first",
+      "second"
+     ]
+    }
+   ],
+   "kwargs": {},
+   "out": "first"
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    null,
+    {
+     "rvtss_token": []
+    },
+    {
+     "x-rvtss-token": "h"
+    }
+   ],
+   "kwargs": {},
+   "out": "h"
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    {
+     "_rvtss_token": 12345
+    }
+   ],
+   "kwargs": {},
+   "out": 12345
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    null,
+    {
+     "rvtss_token": 77
+    }
+   ],
+   "kwargs": {},
+   "out": 77
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    null,
+    {
+     "rvtss_token": [
+      5
+     ]
+    }
+   ],
+   "kwargs": {},
+   "out": 5
+  },
+  {
+   "fn": "extract_token",
+   "args": [],
+   "kwargs": {
+    "headers": {
+     "Content-Type": "json",
+     "x-RvTsS-token": "mixed"
+    }
+   },
+   "out": "mixed"
+  },
+  {
+   "fn": "extract_token",
+   "args": [],
+   "kwargs": {
+    "query_params": {
+     "rvtss_token": "kw"
+    }
+   },
+   "out": "kw"
+  },
+  {
+   "fn": "extract_token",
+   "args": [],
+   "kwargs": {
+    "data": {
+     "_rvtss_token": "kw-body",
+     "x": 1
+    }
+   },
+   "out": "kw-body"
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    null,
+    null,
+    {
+     "x-rvtss-token": ""
+    }
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    {
+     "_rvtss_token": "0"
+    }
+   ],
+   "kwargs": {},
+   "out": "0"
+  },
+  {
+   "fn": "extract_token",
+   "args": [
+    {
+     "_rvtss_token": 0
+    },
+    {
+     "rvtss_token": "q"
+    }
+   ],
+   "kwargs": {},
+   "out": "q"
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    null
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    null
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "127.0.0.1"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "127.0.0.1"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "localhost"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "localhost"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "LOCALHOST"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "LOCALHOST"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    " localhost "
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    " localhost "
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "::1"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "::1"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "[::1]"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "[::1]"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "127.1.2.3"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "127.1.2.3"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "127."
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "127."
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "1270.0.0.1"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "1270.0.0.1"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "10.0.0.5"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "10.0.0.5"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "0.0.0.0"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "0.0.0.0"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "::"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "::"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "*"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "*"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "example.com"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "example.com"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "[127.0.0.1]"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "[127.0.0.1]"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "[[::1]]"
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "[[::1]]"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "localhost.evil.com"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "localhost.evil.com"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "::ffff:127.0.0.1"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "::ffff:127.0.0.1"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    " [::1] "
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    " [::1] "
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "[ ::1 ]"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "[ ::1 ]"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "192.168.1.1"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "192.168.1.1"
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    " 0.0.0.0 "
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    " 0.0.0.0 "
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    " * "
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    " * "
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "is_loopback",
+   "args": [
+    "  "
+   ],
+   "kwargs": {},
+   "out": false
+  },
+  {
+   "fn": "binds_all_interfaces",
+   "args": [
+    "  "
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "redact",
+   "args": [
+    null
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "redact",
+   "args": [
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "redact",
+   "args": [
+    null,
+    0
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "redact",
+   "args": [
+    null,
+    5
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "redact",
+   "args": [
+    null,
+    20
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "redact",
+   "args": [
+    null,
+    100
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "redact",
+   "args": [
+    null,
+    1000
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "redact",
+   "args": [
+    null,
+    -3
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "redact",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "",
+    null
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "",
+    0
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "",
+    5
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "",
+    20
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "",
+    100
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "",
+    1000
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "",
+    -3
+   ],
+   "kwargs": {},
+   "out": "...[+3 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "nothing secret here"
+   ],
+   "kwargs": {},
+   "out": "nothing secret here"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "nothing secret here",
+    null
+   ],
+   "kwargs": {},
+   "out": "nothing secret here"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "nothing secret here",
+    0
+   ],
+   "kwargs": {},
+   "out": "nothing secret here"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "nothing secret here",
+    5
+   ],
+   "kwargs": {},
+   "out": "nothi...[+14 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "nothing secret here",
+    20
+   ],
+   "kwargs": {},
+   "out": "nothing secret here"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "nothing secret here",
+    100
+   ],
+   "kwargs": {},
+   "out": "nothing secret here"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "nothing secret here",
+    1000
+   ],
+   "kwargs": {},
+   "out": "nothing secret here"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "nothing secret here",
+    -3
+   ],
+   "kwargs": {},
+   "out": "nothing secret h...[+22 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall "
+   ],
+   "kwargs": {},
+   "out": "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall "
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall ",
+    null
+   ],
+   "kwargs": {},
+   "out": "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall "
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall ",
+    0
+   ],
+   "kwargs": {},
+   "out": "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall "
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall ",
+    5
+   ],
+   "kwargs": {},
+   "out": "wall ...[+995 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall ",
+    20
+   ],
+   "kwargs": {},
+   "out": "wall wall wall wall ...[+980 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall ",
+    100
+   ],
+   "kwargs": {},
+   "out": "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall ...[+900 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall ",
+    1000
+   ],
+   "kwargs": {},
+   "out": "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall "
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall ",
+    -3
+   ],
+   "kwargs": {},
+   "out": "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wa...[+1003 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACT...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+   ],
+   "kwargs": {},
+   "out": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    null
+   ],
+   "kwargs": {},
+   "out": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    0
+   ],
+   "kwargs": {},
+   "out": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    5
+   ],
+   "kwargs": {},
+   "out": "zzzzz...[+34 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    20
+   ],
+   "kwargs": {},
+   "out": "zzzzzzzzzzzzzzzzzzzz...[+19 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    100
+   ],
+   "kwargs": {},
+   "out": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    1000
+   ],
+   "kwargs": {},
+   "out": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    -3
+   ],
+   "kwargs": {},
+   "out": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz...[+42 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACT...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED] bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED] bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED] bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+45 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED] bbbbbbbbb...[+30 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED] bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED] bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACTED] bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb...[+53 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=hunter2"
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=hunter2",
+    null
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=hunter2",
+    0
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=hunter2",
+    5
+   ],
+   "kwargs": {},
+   "out": "passw...[+14 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=hunter2",
+    20
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=hunter2",
+    100
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=hunter2",
+    1000
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=hunter2",
+    -3
+   ],
+   "kwargs": {},
+   "out": "password=[REDACT...[+22 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password: hunter2, user=bob"
+   ],
+   "kwargs": {},
+   "out": "password: [REDACTED], user=bob"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password: hunter2, user=bob",
+    null
+   ],
+   "kwargs": {},
+   "out": "password: [REDACTED], user=bob"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password: hunter2, user=bob",
+    0
+   ],
+   "kwargs": {},
+   "out": "password: [REDACTED], user=bob"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password: hunter2, user=bob",
+    5
+   ],
+   "kwargs": {},
+   "out": "passw...[+25 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password: hunter2, user=bob",
+    20
+   ],
+   "kwargs": {},
+   "out": "password: [REDACTED]...[+10 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password: hunter2, user=bob",
+    100
+   ],
+   "kwargs": {},
+   "out": "password: [REDACTED], user=bob"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password: hunter2, user=bob",
+    1000
+   ],
+   "kwargs": {},
+   "out": "password: [REDACTED], user=bob"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password: hunter2, user=bob",
+    -3
+   ],
+   "kwargs": {},
+   "out": "password: [REDACTED], user=...[+33 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password = \"hunter2\""
+   ],
+   "kwargs": {},
+   "out": "Password = \"[REDACTED]\""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password = \"hunter2\"",
+    null
+   ],
+   "kwargs": {},
+   "out": "Password = \"[REDACTED]\""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password = \"hunter2\"",
+    0
+   ],
+   "kwargs": {},
+   "out": "Password = \"[REDACTED]\""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password = \"hunter2\"",
+    5
+   ],
+   "kwargs": {},
+   "out": "Passw...[+18 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password = \"hunter2\"",
+    20
+   ],
+   "kwargs": {},
+   "out": "Password = \"[REDACTE...[+3 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password = \"hunter2\"",
+    100
+   ],
+   "kwargs": {},
+   "out": "Password = \"[REDACTED]\""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password = \"hunter2\"",
+    1000
+   ],
+   "kwargs": {},
+   "out": "Password = \"[REDACTED]\""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password = \"hunter2\"",
+    -3
+   ],
+   "kwargs": {},
+   "out": "Password = \"[REDACTE...[+26 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{'api_key': 'abc123', 'name': 'x'}"
+   ],
+   "kwargs": {},
+   "out": "{'api_key': '[REDACTED]', 'name': 'x'}"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{'api_key': 'abc123', 'name': 'x'}",
+    null
+   ],
+   "kwargs": {},
+   "out": "{'api_key': '[REDACTED]', 'name': 'x'}"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{'api_key': 'abc123', 'name': 'x'}",
+    0
+   ],
+   "kwargs": {},
+   "out": "{'api_key': '[REDACTED]', 'name': 'x'}"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{'api_key': 'abc123', 'name': 'x'}",
+    5
+   ],
+   "kwargs": {},
+   "out": "{'api...[+33 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{'api_key': 'abc123', 'name': 'x'}",
+    20
+   ],
+   "kwargs": {},
+   "out": "{'api_key': '[REDACT...[+18 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{'api_key': 'abc123', 'name': 'x'}",
+    100
+   ],
+   "kwargs": {},
+   "out": "{'api_key': '[REDACTED]', 'name': 'x'}"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{'api_key': 'abc123', 'name': 'x'}",
+    1000
+   ],
+   "kwargs": {},
+   "out": "{'api_key': '[REDACTED]', 'name': 'x'}"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{'api_key': 'abc123', 'name': 'x'}",
+    -3
+   ],
+   "kwargs": {},
+   "out": "{'api_key': '[REDACTED]', 'name': '...[+41 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{\"apiKey\":\"abc123\",\"token\" : \"t0k3n\"}"
+   ],
+   "kwargs": {},
+   "out": "{\"apiKey\":\"[REDACTED]\",\"token\" : \"[REDACTED]\"}"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{\"apiKey\":\"abc123\",\"token\" : \"t0k3n\"}",
+    null
+   ],
+   "kwargs": {},
+   "out": "{\"apiKey\":\"[REDACTED]\",\"token\" : \"[REDACTED]\"}"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{\"apiKey\":\"abc123\",\"token\" : \"t0k3n\"}",
+    0
+   ],
+   "kwargs": {},
+   "out": "{\"apiKey\":\"[REDACTED]\",\"token\" : \"[REDACTED]\"}"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{\"apiKey\":\"abc123\",\"token\" : \"t0k3n\"}",
+    5
+   ],
+   "kwargs": {},
+   "out": "{\"api...[+41 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{\"apiKey\":\"abc123\",\"token\" : \"t0k3n\"}",
+    20
+   ],
+   "kwargs": {},
+   "out": "{\"apiKey\":\"[REDACTED...[+26 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{\"apiKey\":\"abc123\",\"token\" : \"t0k3n\"}",
+    100
+   ],
+   "kwargs": {},
+   "out": "{\"apiKey\":\"[REDACTED]\",\"token\" : \"[REDACTED]\"}"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{\"apiKey\":\"abc123\",\"token\" : \"t0k3n\"}",
+    1000
+   ],
+   "kwargs": {},
+   "out": "{\"apiKey\":\"[REDACTED]\",\"token\" : \"[REDACTED]\"}"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "{\"apiKey\":\"abc123\",\"token\" : \"t0k3n\"}",
+    -3
+   ],
+   "kwargs": {},
+   "out": "{\"apiKey\":\"[REDACTED]\",\"token\" : \"[REDACTED...[+49 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "api-key=K1;access_key=K2 secret:S3"
+   ],
+   "kwargs": {},
+   "out": "api-key=[REDACTED] secret:[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "api-key=K1;access_key=K2 secret:S3",
+    null
+   ],
+   "kwargs": {},
+   "out": "api-key=[REDACTED] secret:[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "api-key=K1;access_key=K2 secret:S3",
+    0
+   ],
+   "kwargs": {},
+   "out": "api-key=[REDACTED] secret:[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "api-key=K1;access_key=K2 secret:S3",
+    5
+   ],
+   "kwargs": {},
+   "out": "api-k...[+31 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "api-key=K1;access_key=K2 secret:S3",
+    20
+   ],
+   "kwargs": {},
+   "out": "api-key=[REDACTED] s...[+16 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "api-key=K1;access_key=K2 secret:S3",
+    100
+   ],
+   "kwargs": {},
+   "out": "api-key=[REDACTED] secret:[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "api-key=K1;access_key=K2 secret:S3",
+    1000
+   ],
+   "kwargs": {},
+   "out": "api-key=[REDACTED] secret:[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "api-key=K1;access_key=K2 secret:S3",
+    -3
+   ],
+   "kwargs": {},
+   "out": "api-key=[REDACTED] secret:[REDACT...[+39 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Authorization: Bearer abc.def"
+   ],
+   "kwargs": {},
+   "out": "Authorization: [REDACTED] abc.def"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Authorization: Bearer abc.def",
+    null
+   ],
+   "kwargs": {},
+   "out": "Authorization: [REDACTED] abc.def"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Authorization: Bearer abc.def",
+    0
+   ],
+   "kwargs": {},
+   "out": "Authorization: [REDACTED] abc.def"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Authorization: Bearer abc.def",
+    5
+   ],
+   "kwargs": {},
+   "out": "Autho...[+28 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Authorization: Bearer abc.def",
+    20
+   ],
+   "kwargs": {},
+   "out": "Authorization: [REDA...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Authorization: Bearer abc.def",
+    100
+   ],
+   "kwargs": {},
+   "out": "Authorization: [REDACTED] abc.def"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Authorization: Bearer abc.def",
+    1000
+   ],
+   "kwargs": {},
+   "out": "Authorization: [REDACTED] abc.def"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Authorization: Bearer abc.def",
+    -3
+   ],
+   "kwargs": {},
+   "out": "Authorization: [REDACTED] abc....[+36 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "authorization=Basic dXNlcjpwYXNz"
+   ],
+   "kwargs": {},
+   "out": "authorization=[REDACTED] dXNlcjpwYXNz"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "authorization=Basic dXNlcjpwYXNz",
+    null
+   ],
+   "kwargs": {},
+   "out": "authorization=[REDACTED] dXNlcjpwYXNz"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "authorization=Basic dXNlcjpwYXNz",
+    0
+   ],
+   "kwargs": {},
+   "out": "authorization=[REDACTED] dXNlcjpwYXNz"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "authorization=Basic dXNlcjpwYXNz",
+    5
+   ],
+   "kwargs": {},
+   "out": "autho...[+32 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "authorization=Basic dXNlcjpwYXNz",
+    20
+   ],
+   "kwargs": {},
+   "out": "authorization=[REDAC...[+17 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "authorization=Basic dXNlcjpwYXNz",
+    100
+   ],
+   "kwargs": {},
+   "out": "authorization=[REDACTED] dXNlcjpwYXNz"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "authorization=Basic dXNlcjpwYXNz",
+    1000
+   ],
+   "kwargs": {},
+   "out": "authorization=[REDACTED] dXNlcjpwYXNz"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "authorization=Basic dXNlcjpwYXNz",
+    -3
+   ],
+   "kwargs": {},
+   "out": "authorization=[REDACTED] dXNlcjpwY...[+40 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token="
+   ],
+   "kwargs": {},
+   "out": "token="
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=",
+    null
+   ],
+   "kwargs": {},
+   "out": "token="
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=",
+    0
+   ],
+   "kwargs": {},
+   "out": "token="
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=",
+    5
+   ],
+   "kwargs": {},
+   "out": "token...[+1 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=",
+    20
+   ],
+   "kwargs": {},
+   "out": "token="
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=",
+    100
+   ],
+   "kwargs": {},
+   "out": "token="
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=",
+    1000
+   ],
+   "kwargs": {},
+   "out": "token="
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=",
+    -3
+   ],
+   "kwargs": {},
+   "out": "tok...[+9 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token = ,x"
+   ],
+   "kwargs": {},
+   "out": "token = ,x"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token = ,x",
+    null
+   ],
+   "kwargs": {},
+   "out": "token = ,x"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token = ,x",
+    0
+   ],
+   "kwargs": {},
+   "out": "token = ,x"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token = ,x",
+    5
+   ],
+   "kwargs": {},
+   "out": "token...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token = ,x",
+    20
+   ],
+   "kwargs": {},
+   "out": "token = ,x"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token = ,x",
+    100
+   ],
+   "kwargs": {},
+   "out": "token = ,x"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token = ,x",
+    1000
+   ],
+   "kwargs": {},
+   "out": "token = ,x"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token = ,x",
+    -3
+   ],
+   "kwargs": {},
+   "out": "token =...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "my_token_value=5"
+   ],
+   "kwargs": {},
+   "out": "my_token_value=5"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "my_token_value=5",
+    null
+   ],
+   "kwargs": {},
+   "out": "my_token_value=5"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "my_token_value=5",
+    0
+   ],
+   "kwargs": {},
+   "out": "my_token_value=5"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "my_token_value=5",
+    5
+   ],
+   "kwargs": {},
+   "out": "my_to...[+11 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "my_token_value=5",
+    20
+   ],
+   "kwargs": {},
+   "out": "my_token_value=5"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "my_token_value=5",
+    100
+   ],
+   "kwargs": {},
+   "out": "my_token_value=5"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "my_token_value=5",
+    1000
+   ],
+   "kwargs": {},
+   "out": "my_token_value=5"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "my_token_value=5",
+    -3
+   ],
+   "kwargs": {},
+   "out": "my_token_valu...[+19 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "secrets=1"
+   ],
+   "kwargs": {},
+   "out": "secrets=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "secrets=1",
+    null
+   ],
+   "kwargs": {},
+   "out": "secrets=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "secrets=1",
+    0
+   ],
+   "kwargs": {},
+   "out": "secrets=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "secrets=1",
+    5
+   ],
+   "kwargs": {},
+   "out": "secre...[+4 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "secrets=1",
+    20
+   ],
+   "kwargs": {},
+   "out": "secrets=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "secrets=1",
+    100
+   ],
+   "kwargs": {},
+   "out": "secrets=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "secrets=1",
+    1000
+   ],
+   "kwargs": {},
+   "out": "secrets=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "secrets=1",
+    -3
+   ],
+   "kwargs": {},
+   "out": "secret...[+12 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "PASSWD=x}y"
+   ],
+   "kwargs": {},
+   "out": "PASSWD=[REDACTED]}y"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "PASSWD=x}y",
+    null
+   ],
+   "kwargs": {},
+   "out": "PASSWD=[REDACTED]}y"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "PASSWD=x}y",
+    0
+   ],
+   "kwargs": {},
+   "out": "PASSWD=[REDACTED]}y"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "PASSWD=x}y",
+    5
+   ],
+   "kwargs": {},
+   "out": "PASSW...[+14 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "PASSWD=x}y",
+    20
+   ],
+   "kwargs": {},
+   "out": "PASSWD=[REDACTED]}y"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "PASSWD=x}y",
+    100
+   ],
+   "kwargs": {},
+   "out": "PASSWD=[REDACTED]}y"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "PASSWD=x}y",
+    1000
+   ],
+   "kwargs": {},
+   "out": "PASSWD=[REDACTED]}y"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "PASSWD=x}y",
+    -3
+   ],
+   "kwargs": {},
+   "out": "PASSWD=[REDACTED...[+22 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "key sk-abcdefghijklmnop1234 end"
+   ],
+   "kwargs": {},
+   "out": "key [REDACTED] end"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "key sk-abcdefghijklmnop1234 end",
+    null
+   ],
+   "kwargs": {},
+   "out": "key [REDACTED] end"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "key sk-abcdefghijklmnop1234 end",
+    0
+   ],
+   "kwargs": {},
+   "out": "key [REDACTED] end"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "key sk-abcdefghijklmnop1234 end",
+    5
+   ],
+   "kwargs": {},
+   "out": "key [...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "key sk-abcdefghijklmnop1234 end",
+    20
+   ],
+   "kwargs": {},
+   "out": "key [REDACTED] end"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "key sk-abcdefghijklmnop1234 end",
+    100
+   ],
+   "kwargs": {},
+   "out": "key [REDACTED] end"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "key sk-abcdefghijklmnop1234 end",
+    1000
+   ],
+   "kwargs": {},
+   "out": "key [REDACTED] end"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "key sk-abcdefghijklmnop1234 end",
+    -3
+   ],
+   "kwargs": {},
+   "out": "key [REDACTED] ...[+21 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "sk-short"
+   ],
+   "kwargs": {},
+   "out": "sk-short"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "sk-short",
+    null
+   ],
+   "kwargs": {},
+   "out": "sk-short"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "sk-short",
+    0
+   ],
+   "kwargs": {},
+   "out": "sk-short"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "sk-short",
+    5
+   ],
+   "kwargs": {},
+   "out": "sk-sh...[+3 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "sk-short",
+    20
+   ],
+   "kwargs": {},
+   "out": "sk-short"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "sk-short",
+    100
+   ],
+   "kwargs": {},
+   "out": "sk-short"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "sk-short",
+    1000
+   ],
+   "kwargs": {},
+   "out": "sk-short"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "sk-short",
+    -3
+   ],
+   "kwargs": {},
+   "out": "sk-sh...[+11 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ghp_A1b2A1b2A1b2A1b2A1b2A1b2"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ghp_A1b2A1b2A1b2A1b2A1b2A1b2",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ghp_A1b2A1b2A1b2A1b2A1b2A1b2",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ghp_A1b2A1b2A1b2A1b2A1b2A1b2",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ghp_A1b2A1b2A1b2A1b2A1b2A1b2",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ghp_A1b2A1b2A1b2A1b2A1b2A1b2",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ghp_A1b2A1b2A1b2A1b2A1b2A1b2",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ghp_A1b2A1b2A1b2A1b2A1b2A1b2",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACT...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "gho_xxxxxxxxxxxxxxxxxxx"
+   ],
+   "kwargs": {},
+   "out": "gho_xxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "gho_xxxxxxxxxxxxxxxxxxx",
+    null
+   ],
+   "kwargs": {},
+   "out": "gho_xxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "gho_xxxxxxxxxxxxxxxxxxx",
+    0
+   ],
+   "kwargs": {},
+   "out": "gho_xxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "gho_xxxxxxxxxxxxxxxxxxx",
+    5
+   ],
+   "kwargs": {},
+   "out": "gho_x...[+18 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "gho_xxxxxxxxxxxxxxxxxxx",
+    20
+   ],
+   "kwargs": {},
+   "out": "gho_xxxxxxxxxxxxxxxx...[+3 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "gho_xxxxxxxxxxxxxxxxxxx",
+    100
+   ],
+   "kwargs": {},
+   "out": "gho_xxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "gho_xxxxxxxxxxxxxxxxxxx",
+    1000
+   ],
+   "kwargs": {},
+   "out": "gho_xxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "gho_xxxxxxxxxxxxxxxxxxx",
+    -3
+   ],
+   "kwargs": {},
+   "out": "gho_xxxxxxxxxxxxxxxx...[+26 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xoxb-12345-abcde-XYZ"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xoxb-12345-abcde-XYZ",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xoxb-12345-abcde-XYZ",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xoxb-12345-abcde-XYZ",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xoxb-12345-abcde-XYZ",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xoxb-12345-abcde-XYZ",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xoxb-12345-abcde-XYZ",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xoxb-12345-abcde-XYZ",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACT...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAABCDEFGHIJKLMNOP"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAABCDEFGHIJKLMNOP",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAABCDEFGHIJKLMNOP",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAABCDEFGHIJKLMNOP",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAABCDEFGHIJKLMNOP",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAABCDEFGHIJKLMNOP",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAABCDEFGHIJKLMNOP",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAABCDEFGHIJKLMNOP",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACT...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAabcdefghijklmnop"
+   ],
+   "kwargs": {},
+   "out": "AKIAabcdefghijklmnop"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAabcdefghijklmnop",
+    null
+   ],
+   "kwargs": {},
+   "out": "AKIAabcdefghijklmnop"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAabcdefghijklmnop",
+    0
+   ],
+   "kwargs": {},
+   "out": "AKIAabcdefghijklmnop"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAabcdefghijklmnop",
+    5
+   ],
+   "kwargs": {},
+   "out": "AKIAa...[+15 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAabcdefghijklmnop",
+    20
+   ],
+   "kwargs": {},
+   "out": "AKIAabcdefghijklmnop"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAabcdefghijklmnop",
+    100
+   ],
+   "kwargs": {},
+   "out": "AKIAabcdefghijklmnop"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAabcdefghijklmnop",
+    1000
+   ],
+   "kwargs": {},
+   "out": "AKIAabcdefghijklmnop"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "AKIAabcdefghijklmnop",
+    -3
+   ],
+   "kwargs": {},
+   "out": "AKIAabcdefghijklm...[+23 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACT...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "jwt eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz tail"
+   ],
+   "kwargs": {},
+   "out": "jwt [REDACTED] tail"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "jwt eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz tail",
+    null
+   ],
+   "kwargs": {},
+   "out": "jwt [REDACTED] tail"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "jwt eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz tail",
+    0
+   ],
+   "kwargs": {},
+   "out": "jwt [REDACTED] tail"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "jwt eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz tail",
+    5
+   ],
+   "kwargs": {},
+   "out": "jwt [...[+14 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "jwt eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz tail",
+    20
+   ],
+   "kwargs": {},
+   "out": "jwt [REDACTED] tail"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "jwt eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz tail",
+    100
+   ],
+   "kwargs": {},
+   "out": "jwt [REDACTED] tail"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "jwt eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz tail",
+    1000
+   ],
+   "kwargs": {},
+   "out": "jwt [REDACTED] tail"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "jwt eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.abcDEF123_-xyz tail",
+    -3
+   ],
+   "kwargs": {},
+   "out": "jwt [REDACTED] t...[+22 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJabc.def.ghi"
+   ],
+   "kwargs": {},
+   "out": "eyJabc.def.ghi"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJabc.def.ghi",
+    null
+   ],
+   "kwargs": {},
+   "out": "eyJabc.def.ghi"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJabc.def.ghi",
+    0
+   ],
+   "kwargs": {},
+   "out": "eyJabc.def.ghi"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJabc.def.ghi",
+    5
+   ],
+   "kwargs": {},
+   "out": "eyJab...[+9 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJabc.def.ghi",
+    20
+   ],
+   "kwargs": {},
+   "out": "eyJabc.def.ghi"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJabc.def.ghi",
+    100
+   ],
+   "kwargs": {},
+   "out": "eyJabc.def.ghi"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJabc.def.ghi",
+    1000
+   ],
+   "kwargs": {},
+   "out": "eyJabc.def.ghi"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "eyJabc.def.ghi",
+    -3
+   ],
+   "kwargs": {},
+   "out": "eyJabc.def....[+17 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN RSA PRIVATE KEY-----\nMIIE\n-----END RSA PRIVATE KEY-----"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]\nMIIE\n-----END RSA PRIVATE KEY-----"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN RSA PRIVATE KEY-----\nMIIE\n-----END RSA PRIVATE KEY-----",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]\nMIIE\n-----END RSA PRIVATE KEY-----"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN RSA PRIVATE KEY-----\nMIIE\n-----END RSA PRIVATE KEY-----",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]\nMIIE\n-----END RSA PRIVATE KEY-----"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN RSA PRIVATE KEY-----\nMIIE\n-----END RSA PRIVATE KEY-----",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+40 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN RSA PRIVATE KEY-----\nMIIE\n-----END RSA PRIVATE KEY-----",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]\nMIIE\n----...[+25 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN RSA PRIVATE KEY-----\nMIIE\n-----END RSA PRIVATE KEY-----",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]\nMIIE\n-----END RSA PRIVATE KEY-----"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN RSA PRIVATE KEY-----\nMIIE\n-----END RSA PRIVATE KEY-----",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]\nMIIE\n-----END RSA PRIVATE KEY-----"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN RSA PRIVATE KEY-----\nMIIE\n-----END RSA PRIVATE KEY-----",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]\nMIIE\n-----END RSA PRIVATE KEY--...[+48 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PRIVATE KEY-----"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PRIVATE KEY-----",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PRIVATE KEY-----",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PRIVATE KEY-----",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PRIVATE KEY-----",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PRIVATE KEY-----",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PRIVATE KEY-----",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PRIVATE KEY-----",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACT...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PUBLIC KEY-----"
+   ],
+   "kwargs": {},
+   "out": "-----BEGIN PUBLIC KEY-----"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PUBLIC KEY-----",
+    null
+   ],
+   "kwargs": {},
+   "out": "-----BEGIN PUBLIC KEY-----"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PUBLIC KEY-----",
+    0
+   ],
+   "kwargs": {},
+   "out": "-----BEGIN PUBLIC KEY-----"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PUBLIC KEY-----",
+    5
+   ],
+   "kwargs": {},
+   "out": "-----...[+21 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PUBLIC KEY-----",
+    20
+   ],
+   "kwargs": {},
+   "out": "-----BEGIN PUBLIC KE...[+6 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PUBLIC KEY-----",
+    100
+   ],
+   "kwargs": {},
+   "out": "-----BEGIN PUBLIC KEY-----"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PUBLIC KEY-----",
+    1000
+   ],
+   "kwargs": {},
+   "out": "-----BEGIN PUBLIC KEY-----"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "-----BEGIN PUBLIC KEY-----",
+    -3
+   ],
+   "kwargs": {},
+   "out": "-----BEGIN PUBLIC KEY--...[+29 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "id 123e4567-e89b-12d3-a456-426614174000 ok"
+   ],
+   "kwargs": {},
+   "out": "id 123e4567-e89b-12d3-a456-426614174000 ok"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "id 123e4567-e89b-12d3-a456-426614174000 ok",
+    null
+   ],
+   "kwargs": {},
+   "out": "id 123e4567-e89b-12d3-a456-426614174000 ok"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "id 123e4567-e89b-12d3-a456-426614174000 ok",
+    0
+   ],
+   "kwargs": {},
+   "out": "id 123e4567-e89b-12d3-a456-426614174000 ok"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "id 123e4567-e89b-12d3-a456-426614174000 ok",
+    5
+   ],
+   "kwargs": {},
+   "out": "id 12...[+37 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "id 123e4567-e89b-12d3-a456-426614174000 ok",
+    20
+   ],
+   "kwargs": {},
+   "out": "id 123e4567-e89b-12d...[+22 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "id 123e4567-e89b-12d3-a456-426614174000 ok",
+    100
+   ],
+   "kwargs": {},
+   "out": "id 123e4567-e89b-12d3-a456-426614174000 ok"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "id 123e4567-e89b-12d3-a456-426614174000 ok",
+    1000
+   ],
+   "kwargs": {},
+   "out": "id 123e4567-e89b-12d3-a456-426614174000 ok"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "id 123e4567-e89b-12d3-a456-426614174000 ok",
+    -3
+   ],
+   "kwargs": {},
+   "out": "id 123e4567-e89b-12d3-a456-426614174000...[+45 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "123e4567-e89b-12d3-a456-426614174000-123e4567-e89b-12d3-a456-426614174000"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "123e4567-e89b-12d3-a456-426614174000-123e4567-e89b-12d3-a456-426614174000",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "123e4567-e89b-12d3-a456-426614174000-123e4567-e89b-12d3-a456-426614174000",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "123e4567-e89b-12d3-a456-426614174000-123e4567-e89b-12d3-a456-426614174000",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "123e4567-e89b-12d3-a456-426614174000-123e4567-e89b-12d3-a456-426614174000",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "123e4567-e89b-12d3-a456-426614174000-123e4567-e89b-12d3-a456-426614174000",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "123e4567-e89b-12d3-a456-426614174000-123e4567-e89b-12d3-a456-426614174000",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "123e4567-e89b-12d3-a456-426614174000-123e4567-e89b-12d3-a456-426614174000",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACT...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "guid 123e4567e89b12d3a456426614174000aaaaaaaa"
+   ],
+   "kwargs": {},
+   "out": "guid [REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "guid 123e4567e89b12d3a456426614174000aaaaaaaa",
+    null
+   ],
+   "kwargs": {},
+   "out": "guid [REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "guid 123e4567e89b12d3a456426614174000aaaaaaaa",
+    0
+   ],
+   "kwargs": {},
+   "out": "guid [REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "guid 123e4567e89b12d3a456426614174000aaaaaaaa",
+    5
+   ],
+   "kwargs": {},
+   "out": "guid ...[+10 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "guid 123e4567e89b12d3a456426614174000aaaaaaaa",
+    20
+   ],
+   "kwargs": {},
+   "out": "guid [REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "guid 123e4567e89b12d3a456426614174000aaaaaaaa",
+    100
+   ],
+   "kwargs": {},
+   "out": "guid [REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "guid 123e4567e89b12d3a456426614174000aaaaaaaa",
+    1000
+   ],
+   "kwargs": {},
+   "out": "guid [REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "guid 123e4567e89b12d3a456426614174000aaaaaaaa",
+    -3
+   ],
+   "kwargs": {},
+   "out": "guid [REDACT...[+18 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ffffffffffffffffffffffffffffffffffff"
+   ],
+   "kwargs": {},
+   "out": "ffffffffffffffffffffffffffffffffffff"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ffffffffffffffffffffffffffffffffffff",
+    null
+   ],
+   "kwargs": {},
+   "out": "ffffffffffffffffffffffffffffffffffff"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ffffffffffffffffffffffffffffffffffff",
+    0
+   ],
+   "kwargs": {},
+   "out": "ffffffffffffffffffffffffffffffffffff"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ffffffffffffffffffffffffffffffffffff",
+    5
+   ],
+   "kwargs": {},
+   "out": "fffff...[+31 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ffffffffffffffffffffffffffffffffffff",
+    20
+   ],
+   "kwargs": {},
+   "out": "ffffffffffffffffffff...[+16 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ffffffffffffffffffffffffffffffffffff",
+    100
+   ],
+   "kwargs": {},
+   "out": "ffffffffffffffffffffffffffffffffffff"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ffffffffffffffffffffffffffffffffffff",
+    1000
+   ],
+   "kwargs": {},
+   "out": "ffffffffffffffffffffffffffffffffffff"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "ffffffffffffffffffffffffffffffffffff",
+    -3
+   ],
+   "kwargs": {},
+   "out": "fffffffffffffffffffffffffffffffff...[+39 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "--------------------------------------------------"
+   ],
+   "kwargs": {},
+   "out": "--------------------------------------------------"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "--------------------------------------------------",
+    null
+   ],
+   "kwargs": {},
+   "out": "--------------------------------------------------"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "--------------------------------------------------",
+    0
+   ],
+   "kwargs": {},
+   "out": "--------------------------------------------------"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "--------------------------------------------------",
+    5
+   ],
+   "kwargs": {},
+   "out": "-----...[+45 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "--------------------------------------------------",
+    20
+   ],
+   "kwargs": {},
+   "out": "--------------------...[+30 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "--------------------------------------------------",
+    100
+   ],
+   "kwargs": {},
+   "out": "--------------------------------------------------"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "--------------------------------------------------",
+    1000
+   ],
+   "kwargs": {},
+   "out": "--------------------------------------------------"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "--------------------------------------------------",
+    -3
+   ],
+   "kwargs": {},
+   "out": "-----------------------------------------------...[+53 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "============================================="
+   ],
+   "kwargs": {},
+   "out": "============================================="
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "=============================================",
+    null
+   ],
+   "kwargs": {},
+   "out": "============================================="
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "=============================================",
+    0
+   ],
+   "kwargs": {},
+   "out": "============================================="
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "=============================================",
+    5
+   ],
+   "kwargs": {},
+   "out": "=====...[+40 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "=============================================",
+    20
+   ],
+   "kwargs": {},
+   "out": "====================...[+25 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "=============================================",
+    100
+   ],
+   "kwargs": {},
+   "out": "============================================="
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "=============================================",
+    1000
+   ],
+   "kwargs": {},
+   "out": "============================================="
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "=============================================",
+    -3
+   ],
+   "kwargs": {},
+   "out": "==========================================...[+48 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbb"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbb",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbb",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbb",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbb",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbb",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbb",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbb",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACT...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "path C:\\Users\\x\\ddddddddddddddddddddddddddddddddddddddddddddd\\file.rvt"
+   ],
+   "kwargs": {},
+   "out": "path C:\\Users\\x\\[REDACTED]\\file.rvt"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "path C:\\Users\\x\\ddddddddddddddddddddddddddddddddddddddddddddd\\file.rvt",
+    null
+   ],
+   "kwargs": {},
+   "out": "path C:\\Users\\x\\[REDACTED]\\file.rvt"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "path C:\\Users\\x\\ddddddddddddddddddddddddddddddddddddddddddddd\\file.rvt",
+    0
+   ],
+   "kwargs": {},
+   "out": "path C:\\Users\\x\\[REDACTED]\\file.rvt"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "path C:\\Users\\x\\ddddddddddddddddddddddddddddddddddddddddddddd\\file.rvt",
+    5
+   ],
+   "kwargs": {},
+   "out": "path ...[+30 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "path C:\\Users\\x\\ddddddddddddddddddddddddddddddddddddddddddddd\\file.rvt",
+    20
+   ],
+   "kwargs": {},
+   "out": "path C:\\Users\\x\\[RED...[+15 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "path C:\\Users\\x\\ddddddddddddddddddddddddddddddddddddddddddddd\\file.rvt",
+    100
+   ],
+   "kwargs": {},
+   "out": "path C:\\Users\\x\\[REDACTED]\\file.rvt"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "path C:\\Users\\x\\ddddddddddddddddddddddddddddddddddddddddddddd\\file.rvt",
+    1000
+   ],
+   "kwargs": {},
+   "out": "path C:\\Users\\x\\[REDACTED]\\file.rvt"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "path C:\\Users\\x\\ddddddddddddddddddddddddddddddddddddddddddddd\\file.rvt",
+    -3
+   ],
+   "kwargs": {},
+   "out": "path C:\\Users\\x\\[REDACTED]\\file....[+38 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "url https://h/x?token=abc123&y=2"
+   ],
+   "kwargs": {},
+   "out": "url https://h/x?token=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "url https://h/x?token=abc123&y=2",
+    null
+   ],
+   "kwargs": {},
+   "out": "url https://h/x?token=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "url https://h/x?token=abc123&y=2",
+    0
+   ],
+   "kwargs": {},
+   "out": "url https://h/x?token=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "url https://h/x?token=abc123&y=2",
+    5
+   ],
+   "kwargs": {},
+   "out": "url h...[+27 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "url https://h/x?token=abc123&y=2",
+    20
+   ],
+   "kwargs": {},
+   "out": "url https://h/x?toke...[+12 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "url https://h/x?token=abc123&y=2",
+    100
+   ],
+   "kwargs": {},
+   "out": "url https://h/x?token=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "url https://h/x?token=abc123&y=2",
+    1000
+   ],
+   "kwargs": {},
+   "out": "url https://h/x?token=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "url https://h/x?token=abc123&y=2",
+    -3
+   ],
+   "kwargs": {},
+   "out": "url https://h/x?token=[REDACT...[+35 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "a=b password=p1 token=t2 secret=s3"
+   ],
+   "kwargs": {},
+   "out": "a=b password=[REDACTED] token=[REDACTED] secret=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "a=b password=p1 token=t2 secret=s3",
+    null
+   ],
+   "kwargs": {},
+   "out": "a=b password=[REDACTED] token=[REDACTED] secret=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "a=b password=p1 token=t2 secret=s3",
+    0
+   ],
+   "kwargs": {},
+   "out": "a=b password=[REDACTED] token=[REDACTED] secret=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "a=b password=p1 token=t2 secret=s3",
+    5
+   ],
+   "kwargs": {},
+   "out": "a=b p...[+53 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "a=b password=p1 token=t2 secret=s3",
+    20
+   ],
+   "kwargs": {},
+   "out": "a=b password=[REDACT...[+38 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "a=b password=p1 token=t2 secret=s3",
+    100
+   ],
+   "kwargs": {},
+   "out": "a=b password=[REDACTED] token=[REDACTED] secret=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "a=b password=p1 token=t2 secret=s3",
+    1000
+   ],
+   "kwargs": {},
+   "out": "a=b password=[REDACTED] token=[REDACTED] secret=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "a=b password=p1 token=t2 secret=s3",
+    -3
+   ],
+   "kwargs": {},
+   "out": "a=b password=[REDACTED] token=[REDACTED] secret=[REDACT...[+61 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "connection_string=Server=x;Password=pw"
+   ],
+   "kwargs": {},
+   "out": "connection_string=Server=x;Password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "connection_string=Server=x;Password=pw",
+    null
+   ],
+   "kwargs": {},
+   "out": "connection_string=Server=x;Password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "connection_string=Server=x;Password=pw",
+    0
+   ],
+   "kwargs": {},
+   "out": "connection_string=Server=x;Password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "connection_string=Server=x;Password=pw",
+    5
+   ],
+   "kwargs": {},
+   "out": "conne...[+41 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "connection_string=Server=x;Password=pw",
+    20
+   ],
+   "kwargs": {},
+   "out": "connection_string=Se...[+26 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "connection_string=Server=x;Password=pw",
+    100
+   ],
+   "kwargs": {},
+   "out": "connection_string=Server=x;Password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "connection_string=Server=x;Password=pw",
+    1000
+   ],
+   "kwargs": {},
+   "out": "connection_string=Server=x;Password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "connection_string=Server=x;Password=pw",
+    -3
+   ],
+   "kwargs": {},
+   "out": "connection_string=Server=x;Password=[REDACT...[+49 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "private_key: abc"
+   ],
+   "kwargs": {},
+   "out": "private_key: abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "private_key: abc",
+    null
+   ],
+   "kwargs": {},
+   "out": "private_key: abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "private_key: abc",
+    0
+   ],
+   "kwargs": {},
+   "out": "private_key: abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "private_key: abc",
+    5
+   ],
+   "kwargs": {},
+   "out": "priva...[+11 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "private_key: abc",
+    20
+   ],
+   "kwargs": {},
+   "out": "private_key: abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "private_key: abc",
+    100
+   ],
+   "kwargs": {},
+   "out": "private_key: abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "private_key: abc",
+    1000
+   ],
+   "kwargs": {},
+   "out": "private_key: abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "private_key: abc",
+    -3
+   ],
+   "kwargs": {},
+   "out": "private_key: ...[+19 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "bearer abc"
+   ],
+   "kwargs": {},
+   "out": "bearer abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "bearer abc",
+    null
+   ],
+   "kwargs": {},
+   "out": "bearer abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "bearer abc",
+    0
+   ],
+   "kwargs": {},
+   "out": "bearer abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "bearer abc",
+    5
+   ],
+   "kwargs": {},
+   "out": "beare...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "bearer abc",
+    20
+   ],
+   "kwargs": {},
+   "out": "bearer abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "bearer abc",
+    100
+   ],
+   "kwargs": {},
+   "out": "bearer abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "bearer abc",
+    1000
+   ],
+   "kwargs": {},
+   "out": "bearer abc"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "bearer abc",
+    -3
+   ],
+   "kwargs": {},
+   "out": "bearer ...[+13 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "SECRET : 'quoted value' rest"
+   ],
+   "kwargs": {},
+   "out": "SECRET : '[REDACTED] value' rest"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "SECRET : 'quoted value' rest",
+    null
+   ],
+   "kwargs": {},
+   "out": "SECRET : '[REDACTED] value' rest"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "SECRET : 'quoted value' rest",
+    0
+   ],
+   "kwargs": {},
+   "out": "SECRET : '[REDACTED] value' rest"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "SECRET : 'quoted value' rest",
+    5
+   ],
+   "kwargs": {},
+   "out": "SECRE...[+27 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "SECRET : 'quoted value' rest",
+    20
+   ],
+   "kwargs": {},
+   "out": "SECRET : '[REDACTED]...[+12 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "SECRET : 'quoted value' rest",
+    100
+   ],
+   "kwargs": {},
+   "out": "SECRET : '[REDACTED] value' rest"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "SECRET : 'quoted value' rest",
+    1000
+   ],
+   "kwargs": {},
+   "out": "SECRET : '[REDACTED] value' rest"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "SECRET : 'quoted value' rest",
+    -3
+   ],
+   "kwargs": {},
+   "out": "SECRET : '[REDACTED] value' r...[+35 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "mot de passe: \u00e9t\u00e9 password=\u00e9t\u00e9"
+   ],
+   "kwargs": {},
+   "out": "mot de passe: \u00e9t\u00e9 password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "mot de passe: \u00e9t\u00e9 password=\u00e9t\u00e9",
+    null
+   ],
+   "kwargs": {},
+   "out": "mot de passe: \u00e9t\u00e9 password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "mot de passe: \u00e9t\u00e9 password=\u00e9t\u00e9",
+    0
+   ],
+   "kwargs": {},
+   "out": "mot de passe: \u00e9t\u00e9 password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "mot de passe: \u00e9t\u00e9 password=\u00e9t\u00e9",
+    5
+   ],
+   "kwargs": {},
+   "out": "mot d...[+32 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "mot de passe: \u00e9t\u00e9 password=\u00e9t\u00e9",
+    20
+   ],
+   "kwargs": {},
+   "out": "mot de passe: \u00e9t\u00e9 pa...[+17 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "mot de passe: \u00e9t\u00e9 password=\u00e9t\u00e9",
+    100
+   ],
+   "kwargs": {},
+   "out": "mot de passe: \u00e9t\u00e9 password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "mot de passe: \u00e9t\u00e9 password=\u00e9t\u00e9",
+    1000
+   ],
+   "kwargs": {},
+   "out": "mot de passe: \u00e9t\u00e9 password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "mot de passe: \u00e9t\u00e9 password=\u00e9t\u00e9",
+    -3
+   ],
+   "kwargs": {},
+   "out": "mot de passe: \u00e9t\u00e9 password=[REDACT...[+40 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=a,b"
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED],b"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=a,b",
+    null
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED],b"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=a,b",
+    0
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED],b"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=a,b",
+    5
+   ],
+   "kwargs": {},
+   "out": "passw...[+16 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=a,b",
+    20
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED],...[+1 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=a,b",
+    100
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED],b"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=a,b",
+    1000
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED],b"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=a,b",
+    -3
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED...[+24 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password='a b'"
+   ],
+   "kwargs": {},
+   "out": "password='[REDACTED] b'"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password='a b'",
+    null
+   ],
+   "kwargs": {},
+   "out": "password='[REDACTED] b'"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password='a b'",
+    0
+   ],
+   "kwargs": {},
+   "out": "password='[REDACTED] b'"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password='a b'",
+    5
+   ],
+   "kwargs": {},
+   "out": "passw...[+18 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password='a b'",
+    20
+   ],
+   "kwargs": {},
+   "out": "password='[REDACTED]...[+3 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password='a b'",
+    100
+   ],
+   "kwargs": {},
+   "out": "password='[REDACTED] b'"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password='a b'",
+    1000
+   ],
+   "kwargs": {},
+   "out": "password='[REDACTED] b'"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password='a b'",
+    -3
+   ],
+   "kwargs": {},
+   "out": "password='[REDACTED]...[+26 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=\"abc\" token2=\"def\""
+   ],
+   "kwargs": {},
+   "out": "token=\"[REDACTED]\" token2=\"def\""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=\"abc\" token2=\"def\"",
+    null
+   ],
+   "kwargs": {},
+   "out": "token=\"[REDACTED]\" token2=\"def\""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=\"abc\" token2=\"def\"",
+    0
+   ],
+   "kwargs": {},
+   "out": "token=\"[REDACTED]\" token2=\"def\""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=\"abc\" token2=\"def\"",
+    5
+   ],
+   "kwargs": {},
+   "out": "token...[+26 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=\"abc\" token2=\"def\"",
+    20
+   ],
+   "kwargs": {},
+   "out": "token=\"[REDACTED]\" t...[+11 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=\"abc\" token2=\"def\"",
+    100
+   ],
+   "kwargs": {},
+   "out": "token=\"[REDACTED]\" token2=\"def\""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=\"abc\" token2=\"def\"",
+    1000
+   ],
+   "kwargs": {},
+   "out": "token=\"[REDACTED]\" token2=\"def\""
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "token=\"abc\" token2=\"def\"",
+    -3
+   ],
+   "kwargs": {},
+   "out": "token=\"[REDACTED]\" token2=\"d...[+34 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "tokens"
+   ],
+   "kwargs": {},
+   "out": "tokens"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "tokens",
+    null
+   ],
+   "kwargs": {},
+   "out": "tokens"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "tokens",
+    0
+   ],
+   "kwargs": {},
+   "out": "tokens"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "tokens",
+    5
+   ],
+   "kwargs": {},
+   "out": "token...[+1 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "tokens",
+    20
+   ],
+   "kwargs": {},
+   "out": "tokens"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "tokens",
+    100
+   ],
+   "kwargs": {},
+   "out": "tokens"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "tokens",
+    1000
+   ],
+   "kwargs": {},
+   "out": "tokens"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "tokens",
+    -3
+   ],
+   "kwargs": {},
+   "out": "tok...[+9 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "apikey:1 api_key:2 api-key:3 apiKey:4 APIKEY:5"
+   ],
+   "kwargs": {},
+   "out": "apikey:[REDACTED] api_key:[REDACTED] api-key:[REDACTED] apiKey:[REDACTED] APIKEY:[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "apikey:1 api_key:2 api-key:3 apiKey:4 APIKEY:5",
+    null
+   ],
+   "kwargs": {},
+   "out": "apikey:[REDACTED] api_key:[REDACTED] api-key:[REDACTED] apiKey:[REDACTED] APIKEY:[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "apikey:1 api_key:2 api-key:3 apiKey:4 APIKEY:5",
+    0
+   ],
+   "kwargs": {},
+   "out": "apikey:[REDACTED] api_key:[REDACTED] api-key:[REDACTED] apiKey:[REDACTED] APIKEY:[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "apikey:1 api_key:2 api-key:3 apiKey:4 APIKEY:5",
+    5
+   ],
+   "kwargs": {},
+   "out": "apike...[+86 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "apikey:1 api_key:2 api-key:3 apiKey:4 APIKEY:5",
+    20
+   ],
+   "kwargs": {},
+   "out": "apikey:[REDACTED] ap...[+71 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "apikey:1 api_key:2 api-key:3 apiKey:4 APIKEY:5",
+    100
+   ],
+   "kwargs": {},
+   "out": "apikey:[REDACTED] api_key:[REDACTED] api-key:[REDACTED] apiKey:[REDACTED] APIKEY:[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "apikey:1 api_key:2 api-key:3 apiKey:4 APIKEY:5",
+    1000
+   ],
+   "kwargs": {},
+   "out": "apikey:[REDACTED] api_key:[REDACTED] api-key:[REDACTED] apiKey:[REDACTED] APIKEY:[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "apikey:1 api_key:2 api-key:3 apiKey:4 APIKEY:5",
+    -3
+   ],
+   "kwargs": {},
+   "out": "apikey:[REDACTED] api_key:[REDACTED] api-key:[REDACTED] apiKey:[REDACTED] APIKEY:[REDACT...[+94 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+   ],
+   "kwargs": {},
+   "out": "[REDACTED].[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+    null
+   ],
+   "kwargs": {},
+   "out": "[REDACTED].[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+    0
+   ],
+   "kwargs": {},
+   "out": "[REDACTED].[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+    5
+   ],
+   "kwargs": {},
+   "out": "[REDA...[+16 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+    20
+   ],
+   "kwargs": {},
+   "out": "[REDACTED].[REDACTED...[+1 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+    100
+   ],
+   "kwargs": {},
+   "out": "[REDACTED].[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+    1000
+   ],
+   "kwargs": {},
+   "out": "[REDACTED].[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+    -3
+   ],
+   "kwargs": {},
+   "out": "[REDACTED].[REDACT...[+24 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "line1\npassword=p\nline3"
+   ],
+   "kwargs": {},
+   "out": "line1\npassword=[REDACTED]\nline3"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "line1\npassword=p\nline3",
+    null
+   ],
+   "kwargs": {},
+   "out": "line1\npassword=[REDACTED]\nline3"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "line1\npassword=p\nline3",
+    0
+   ],
+   "kwargs": {},
+   "out": "line1\npassword=[REDACTED]\nline3"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "line1\npassword=p\nline3",
+    5
+   ],
+   "kwargs": {},
+   "out": "line1...[+26 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "line1\npassword=p\nline3",
+    20
+   ],
+   "kwargs": {},
+   "out": "line1\npassword=[REDA...[+11 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "line1\npassword=p\nline3",
+    100
+   ],
+   "kwargs": {},
+   "out": "line1\npassword=[REDACTED]\nline3"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "line1\npassword=p\nline3",
+    1000
+   ],
+   "kwargs": {},
+   "out": "line1\npassword=[REDACTED]\nline3"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "line1\npassword=p\nline3",
+    -3
+   ],
+   "kwargs": {},
+   "out": "line1\npassword=[REDACTED]\nli...[+34 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password\t=\tp"
+   ],
+   "kwargs": {},
+   "out": "Password\t=\t[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password\t=\tp",
+    null
+   ],
+   "kwargs": {},
+   "out": "Password\t=\t[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password\t=\tp",
+    0
+   ],
+   "kwargs": {},
+   "out": "Password\t=\t[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password\t=\tp",
+    5
+   ],
+   "kwargs": {},
+   "out": "Passw...[+16 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password\t=\tp",
+    20
+   ],
+   "kwargs": {},
+   "out": "Password\t=\t[REDACTED...[+1 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password\t=\tp",
+    100
+   ],
+   "kwargs": {},
+   "out": "Password\t=\t[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password\t=\tp",
+    1000
+   ],
+   "kwargs": {},
+   "out": "Password\t=\t[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "Password\t=\tp",
+    -3
+   ],
+   "kwargs": {},
+   "out": "Password\t=\t[REDACT...[+24 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "passwordx=1"
+   ],
+   "kwargs": {},
+   "out": "passwordx=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "passwordx=1",
+    null
+   ],
+   "kwargs": {},
+   "out": "passwordx=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "passwordx=1",
+    0
+   ],
+   "kwargs": {},
+   "out": "passwordx=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "passwordx=1",
+    5
+   ],
+   "kwargs": {},
+   "out": "passw...[+6 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "passwordx=1",
+    20
+   ],
+   "kwargs": {},
+   "out": "passwordx=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "passwordx=1",
+    100
+   ],
+   "kwargs": {},
+   "out": "passwordx=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "passwordx=1",
+    1000
+   ],
+   "kwargs": {},
+   "out": "passwordx=1"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "passwordx=1",
+    -3
+   ],
+   "kwargs": {},
+   "out": "password...[+14 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xpassword=1"
+   ],
+   "kwargs": {},
+   "out": "xpassword=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xpassword=1",
+    null
+   ],
+   "kwargs": {},
+   "out": "xpassword=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xpassword=1",
+    0
+   ],
+   "kwargs": {},
+   "out": "xpassword=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xpassword=1",
+    5
+   ],
+   "kwargs": {},
+   "out": "xpass...[+15 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xpassword=1",
+    20
+   ],
+   "kwargs": {},
+   "out": "xpassword=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xpassword=1",
+    100
+   ],
+   "kwargs": {},
+   "out": "xpassword=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xpassword=1",
+    1000
+   ],
+   "kwargs": {},
+   "out": "xpassword=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "xpassword=1",
+    -3
+   ],
+   "kwargs": {},
+   "out": "xpassword=[REDACT...[+23 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password==x"
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password==x",
+    null
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password==x",
+    0
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password==x",
+    5
+   ],
+   "kwargs": {},
+   "out": "passw...[+14 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password==x",
+    20
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password==x",
+    100
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password==x",
+    1000
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password==x",
+    -3
+   ],
+   "kwargs": {},
+   "out": "password=[REDACT...[+22 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=:x"
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=:x",
+    null
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=:x",
+    0
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=:x",
+    5
+   ],
+   "kwargs": {},
+   "out": "passw...[+14 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=:x",
+    20
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=:x",
+    100
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=:x",
+    1000
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "password=:x",
+    -3
+   ],
+   "kwargs": {},
+   "out": "password=[REDACT...[+22 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "access-key = 'AK'"
+   ],
+   "kwargs": {},
+   "out": "access-key = '[REDACTED]'"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "access-key = 'AK'",
+    null
+   ],
+   "kwargs": {},
+   "out": "access-key = '[REDACTED]'"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "access-key = 'AK'",
+    0
+   ],
+   "kwargs": {},
+   "out": "access-key = '[REDACTED]'"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "access-key = 'AK'",
+    5
+   ],
+   "kwargs": {},
+   "out": "acces...[+20 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "access-key = 'AK'",
+    20
+   ],
+   "kwargs": {},
+   "out": "access-key = '[REDAC...[+5 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "access-key = 'AK'",
+    100
+   ],
+   "kwargs": {},
+   "out": "access-key = '[REDACTED]'"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "access-key = 'AK'",
+    1000
+   ],
+   "kwargs": {},
+   "out": "access-key = '[REDACTED]'"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "access-key = 'AK'",
+    -3
+   ],
+   "kwargs": {},
+   "out": "access-key = '[REDACTE...[+28 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall "
+   ],
+   "kwargs": {
+    "max_len": 100
+   },
+   "out": "wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall ...[+900 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    12345
+   ],
+   "kwargs": {},
+   "out": "12345"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    1.5,
+    2
+   ],
+   "kwargs": {},
+   "out": "1....[+1 chars]"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    true
+   ],
+   "kwargs": {},
+   "out": "True"
+  },
+  {
+   "fn": "redact",
+   "args": [
+    [
+     "password=x"
+    ]
+   ],
+   "kwargs": {},
+   "out": "['password=[REDACTED]']"
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    {
+     "name": "Mark",
+     "password": "p",
+     "nested": [
+      {
+       "apiKey": "k",
+       "v": "ok"
+      }
+     ]
+    }
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "Mark",
+    "password": "[REDACTED]",
+    "nested": [
+     {
+      "apiKey": "[REDACTED]",
+      "v": "ok"
+     }
+    ]
+   }
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    null
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    "password=p"
+   ],
+   "kwargs": {},
+   "out": "password=[REDACTED]"
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    5
+   ],
+   "kwargs": {},
+   "out": 5
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    2.5
+   ],
+   "kwargs": {},
+   "out": 2.5
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    true
+   ],
+   "kwargs": {},
+   "out": true
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    []
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    {}
+   ],
+   "kwargs": {},
+   "out": {}
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    [
+     "a",
+     "token=abc",
+     [
+      "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+      {
+       "Secret": 1
+      }
+     ],
+     null,
+     3
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    "a",
+    "token=[REDACTED]",
+    [
+     "[REDACTED]",
+     {
+      "Secret": "[REDACTED]"
+     }
+    ],
+    null,
+    3
+   ]
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    {
+     "Authorization": "Bearer x",
+     "bearer_token": null,
+     "my_api-key": [
+      1,
+      2
+     ],
+     "API_KEY_ID": {
+      "a": 1
+     },
+     "keys": "k",
+     "connectionString": "cs",
+     "connection_string": "cs",
+     "private-key": "pk",
+     "accesskey": "ak",
+     "access_key": "ak",
+     "note": "password=inline",
+     "long": "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq",
+     "uuid": "123e4567-e89b-12d3-a456-426614174000",
+     "n": 1,
+     "f": 1.5,
+     "b": false,
+     "none": null,
+     "deep": {
+      "deeper": {
+       "passwd": "x",
+       "ok": [
+        "token: t"
+       ]
+      }
+     }
+    }
+   ],
+   "kwargs": {},
+   "out": {
+    "Authorization": "[REDACTED]",
+    "bearer_token": "[REDACTED]",
+    "my_api-key": "[REDACTED]",
+    "API_KEY_ID": "[REDACTED]",
+    "keys": "k",
+    "connectionString": "[REDACTED]",
+    "connection_string": "[REDACTED]",
+    "private-key": "[REDACTED]",
+    "accesskey": "[REDACTED]",
+    "access_key": "[REDACTED]",
+    "note": "password=[REDACTED]",
+    "long": "[REDACTED]",
+    "uuid": "123e4567-e89b-12d3-a456-426614174000",
+    "n": 1,
+    "f": 1.5,
+    "b": false,
+    "none": null,
+    "deep": {
+     "deeper": {
+      "passwd": "[REDACTED]",
+      "ok": [
+       "token: [REDACTED]"
+      ]
+     }
+    }
+   }
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    {
+     "tokens": [
+      "a",
+      "b"
+     ],
+     "Token": "t",
+     "TOKEN": 5,
+     "untouched": {
+      "k": "v"
+     }
+    }
+   ],
+   "kwargs": {},
+   "out": {
+    "tokens": "[REDACTED]",
+    "Token": "[REDACTED]",
+    "TOKEN": "[REDACTED]",
+    "untouched": {
+     "k": "v"
+    }
+   }
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    [
+     [
+      [
+       [
+        "secret=1"
+       ]
+      ]
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     [
+      [
+       "secret=[REDACTED]"
+      ]
+     ]
+    ]
+   ]
+  },
+  {
+   "fn": "redact_mapping",
+   "args": [
+    {
+     "a": {
+      "b": {
+       "c": {
+        "PASSWORD": {
+         "x": 1
+        }
+       }
+      }
+     }
+    }
+   ],
+   "kwargs": {},
+   "out": {
+    "a": {
+     "b": {
+      "c": {
+       "PASSWORD": "[REDACTED]"
+      }
+     }
+    }
+   }
+  }
+ ],
+ "constants": {
+  "TOKEN_BODY_KEY": "_rvtss_token",
+  "TOKEN_QUERY_KEY": "rvtss_token",
+  "TOKEN_HEADER": "X-RVTSS-Token",
+  "UNPROTECTED_PATHS": [
+   "/status/",
+   "/ping/"
+  ],
+  "REDACTED": "[REDACTED]"
+ }
+}

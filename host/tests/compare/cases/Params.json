@@ -1,0 +1,1086 @@
+[
+ {
+  "name": "project parameters",
+  "path": "/parameters/project/",
+  "body": {}
+ },
+ {
+  "name": "project parameters contains",
+  "path": "/parameters/project/",
+  "body": {
+   "contains": "OCC"
+  }
+ },
+ {
+  "name": "project parameters no match",
+  "path": "/parameters/project/",
+  "body": {
+   "contains": "zzz_nothing"
+  }
+ },
+ {
+  "name": "shared no action",
+  "path": "/parameters/shared/",
+  "body": {}
+ },
+ {
+  "name": "shared bad action",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "explode"
+  }
+ },
+ {
+  "name": "shared read_file",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "read_file"
+  }
+ },
+ {
+  "name": "shared read_file contains",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "read_file",
+   "contains": "sun"
+  }
+ },
+ {
+  "name": "shared read_file missing file",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "read_file",
+   "shared_parameter_file": "C:/does/not/exist/params.txt"
+  }
+ },
+ {
+  "name": "shared create_definitions empty",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "create_definitions"
+  }
+ },
+ {
+  "name": "shared create_definitions dry run",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "create_definitions",
+   "dry_run": true,
+   "definitions": [
+    {
+     "name": "SS_SunHours",
+     "guid": "9f2a6c10-5b41-4d7e-8a13-6c0d21e4a999"
+    },
+    {
+     "name": "ZZ_RVTSS_Test_New",
+     "type": "number",
+     "group": "ZZ"
+    },
+    {
+     "name": "ZZ_RVTSS_Test_Guid",
+     "guid": "11111111-2222-3333-4444-555555555555"
+    }
+   ]
+  }
+ },
+ {
+  "name": "shared create_definitions no name",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "create_definitions",
+   "dry_run": true,
+   "definitions": [
+    {
+     "type": "text"
+    }
+   ]
+  }
+ },
+ {
+  "name": "shared create_definitions bad guid",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "create_definitions",
+   "dry_run": true,
+   "definitions": [
+    {
+     "name": "ZZ_RVTSS_Test_Bad",
+     "guid": "not-a-guid"
+    }
+   ]
+  }
+ },
+ {
+  "name": "shared create_definitions guid in use",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "create_definitions",
+   "dry_run": true,
+   "definitions": [
+    {
+     "name": "ZZ_RVTSS_Test_Dup",
+     "guid": "9F2A6C10-5B41-4D7E-8A13-6C0D21E4A701"
+    }
+   ]
+  }
+ },
+ {
+  "name": "shared create_definitions file missing",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "create_definitions",
+   "dry_run": true,
+   "shared_parameter_file": "C:/does/not/exist/params.txt",
+   "definitions": [
+    {
+     "name": "A"
+    }
+   ]
+  }
+ },
+ {
+  "name": "shared create_file no path",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "create_file"
+  }
+ },
+ {
+  "name": "shared create_file exists",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "create_file",
+   "shared_parameter_file": "C:/Windows/win.ini"
+  }
+ },
+ {
+  "name": "shared bind no name",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "bind",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "shared bind no categories",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "bind",
+   "name": "SS_SunHours",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "shared bind unknown category",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "bind",
+   "name": "SS_SunHours",
+   "categories": [
+    "Nonexistent Cat"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "shared bind not found",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "bind",
+   "name": "ZZ_not_in_file",
+   "categories": [
+    "Walls"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "shared bind dry run",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "bind",
+   "name": "SS_SunHours",
+   "categories": [
+    "Walls",
+    "Doors"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "shared bind dry run type binding",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "bind",
+   "guid": "9f2a6c10-5b41-4d7e-8a13-6c0d21e4a702",
+   "categories": [
+    "Walls"
+   ],
+   "binding": "type",
+   "group": "identity_data",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "shared bind dry run bad group",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "bind",
+   "name": "SS_SunHours",
+   "categories": [
+    "Walls"
+   ],
+   "group": "nope",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "shared bind existing binding other kind",
+  "path": "/parameters/shared/",
+  "body": {
+   "action": "bind",
+   "name": "Occupant",
+   "categories": [
+    "Rooms"
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global list",
+  "path": "/parameters/global/",
+  "body": {}
+ },
+ {
+  "name": "global list unit m",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "list",
+   "unit": "m"
+  }
+ },
+ {
+  "name": "global bad action no name",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "explode"
+  }
+ },
+ {
+  "name": "global bad action",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "explode",
+   "name": "x",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global create dry run",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "create",
+   "name": "ZZ_GP_Test",
+   "type": "length",
+   "value": 1500,
+   "value_unit": "mm",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global create dry run formula",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "create",
+   "name": "ZZ_GP_Test2",
+   "type": "number",
+   "value": 3,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global create length without unit",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "create",
+   "name": "ZZ_GP_Test3",
+   "type": "length",
+   "value": "1500",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global create string with units",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "create",
+   "name": "ZZ_GP_Test4",
+   "type": "length",
+   "value": "1500 mm",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global create text",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "create",
+   "name": "ZZ_GP_Test5",
+   "type": "text",
+   "value": "hello",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global create yesno",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "create",
+   "name": "ZZ_GP_Test6",
+   "type": "yesno",
+   "value": "maybe",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global create bad type",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "create",
+   "name": "ZZ_GP_Test7",
+   "type": "banana",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global create no name",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "create",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global create blank name",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "create",
+   "name": "   ",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global set_value not found",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "set_value",
+   "name": "ZZ_nothing",
+   "value": 1,
+   "dry_run": true
+  }
+ },
+ {
+  "name": "global associate not found",
+  "path": "/parameters/global/",
+  "body": {
+   "action": "associate",
+   "name": "ZZ_nothing",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "audit no selection",
+  "path": "/parameters/audit/",
+  "body": {}
+ },
+ {
+  "name": "audit walls required",
+  "path": "/parameters/audit/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "required": [
+    "Mark"
+   ]
+  }
+ },
+ {
+  "name": "audit walls required two (any order)",
+  "path": "/parameters/audit/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "required": [
+    "Mark",
+    "Comments"
+   ]
+  },
+  "unordered": [
+   "findings"
+  ]
+ },
+ {
+  "name": "audit missing parameter",
+  "path": "/parameters/audit/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "required": [
+    "ZZ_Not_A_Param"
+   ],
+   "check_definitions": false
+  }
+ },
+ {
+  "name": "audit rules",
+  "path": "/parameters/audit/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "name": "Base Offset",
+     "op": "gt",
+     "value": 0,
+     "unit": "mm",
+     "severity": "error"
+    }
+   ],
+   "check_definitions": false
+  }
+ },
+ {
+  "name": "audit rules regex",
+  "path": "/parameters/audit/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "rules": [
+    {
+     "name": "Mark",
+     "op": "regex",
+     "value": "^D-\\d+$"
+    }
+   ]
+  }
+ },
+ {
+  "name": "audit invalid rule",
+  "path": "/parameters/audit/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "name": "Mark",
+     "op": "weird",
+     "value": 1
+    }
+   ]
+  }
+ },
+ {
+  "name": "audit rule without name",
+  "path": "/parameters/audit/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "rules": [
+    {
+     "op": "eq",
+     "value": 1
+    }
+   ]
+  },
+  "expect_different": true
+ },
+ {
+  "name": "audit expected types",
+  "path": "/parameters/audit/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "required": [
+    "Mark",
+    "Base Offset"
+   ],
+   "expected_types": {
+    "Mark": "number",
+    "Base Offset": "length"
+   },
+   "check_empty": false
+  },
+  "unordered": [
+   "findings"
+  ]
+ },
+ {
+  "name": "audit naming pattern",
+  "path": "/parameters/audit/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "required": [
+    "Mark"
+   ],
+   "naming_pattern": "^SS_"
+  }
+ },
+ {
+  "name": "audit by element ids",
+  "path": "/parameters/audit/",
+  "body": {
+   "element_ids": [
+    210619,
+    210620
+   ],
+   "required": [
+    "Mark"
+   ],
+   "include_type_parameters": false
+  }
+ },
+ {
+  "name": "audit nested filter",
+  "path": "/parameters/audit/",
+  "body": {
+   "filter": {
+    "categories": [
+     "Doors"
+    ]
+   },
+   "required": [
+    "Fire Rating"
+   ]
+  }
+ },
+ {
+  "name": "export no selection",
+  "path": "/parameters/export/",
+  "body": {}
+ },
+ {
+  "name": "export no parameters",
+  "path": "/parameters/export/",
+  "body": {
+   "categories": [
+    "Walls"
+   ]
+  }
+ },
+ {
+  "name": "export csv inline",
+  "path": "/parameters/export/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "parameters": [
+    "Mark",
+    "Base Offset",
+    "Length",
+    "Comments"
+   ]
+  }
+ },
+ {
+  "name": "export csv raw values",
+  "path": "/parameters/export/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "parameters": [
+    "Base Offset",
+    "Length",
+    "Structural Usage"
+   ],
+   "value_mode": "raw",
+   "unit": "m"
+  }
+ },
+ {
+  "name": "export json",
+  "path": "/parameters/export/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "parameters": [
+    "Mark",
+    "Sill Height",
+    "Width"
+   ],
+   "format": "json"
+  }
+ },
+ {
+  "name": "export json truncated",
+  "path": "/parameters/export/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "parameters": [
+    "Mark"
+   ],
+   "format": "json",
+   "max_rows": 2
+  }
+ },
+ {
+  "name": "export json missing parameter",
+  "path": "/parameters/export/",
+  "body": {
+   "categories": [
+    "Windows"
+   ],
+   "parameters": [
+    "ZZ_nothing",
+    "Mark"
+   ],
+   "format": "json",
+   "unit": "ft"
+  }
+ },
+ {
+  "name": "export bad path",
+  "path": "/parameters/export/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "parameters": [
+    "Mark"
+   ],
+   "path": "C:/temp/export.txt"
+  }
+ },
+ {
+  "name": "import nothing",
+  "path": "/parameters/import/",
+  "body": {}
+ },
+ {
+  "name": "import missing file",
+  "path": "/parameters/import/",
+  "body": {
+   "path": "C:/does/not/exist.csv"
+  }
+ },
+ {
+  "name": "import no id column",
+  "path": "/parameters/import/",
+  "body": {
+   "csv_text": "Mark,Comments\nA,B\n"
+  }
+ },
+ {
+  "name": "import dry run",
+  "path": "/parameters/import/",
+  "body": {
+   "csv_text": "ElementId,Category,Mark,Comments\n210619,Walls,W-01,hello\n210620,Walls,W-02,\n",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "import dry run units",
+  "path": "/parameters/import/",
+  "body": {
+   "csv_text": "ElementId,Base Offset\n210619,150\n",
+   "units": {
+    "Base Offset": "mm"
+   },
+   "dry_run": true
+  }
+ },
+ {
+  "name": "import dry run missing element and parameter",
+  "path": "/parameters/import/",
+  "body": {
+   "csv_text": "ElementId,Mark\n999999999,X\n210619,Y\n",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "import dry run missing parameter",
+  "path": "/parameters/import/",
+  "body": {
+   "csv_text": "ElementId,ZZ_nothing\n210619,Y\n",
+   "dry_run": true,
+   "atomic": true
+  }
+ },
+ {
+  "name": "import dry run bad value",
+  "path": "/parameters/import/",
+  "body": {
+   "csv_text": "ElementId,Base Offset\n210619,abc\n",
+   "units": {
+    "Base Offset": "mm"
+   },
+   "dry_run": true
+  }
+ },
+ {
+  "name": "import dry run unique id",
+  "path": "/parameters/import/",
+  "body": {
+   "csv_text": "UniqueId,Mark\nnot-a-unique-id,Z\n",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "map nothing",
+  "path": "/parameters/map/",
+  "body": {}
+ },
+ {
+  "name": "map unknown preset",
+  "path": "/parameters/map/",
+  "body": {
+   "preset": "nope"
+  }
+ },
+ {
+  "name": "map preset all categories",
+  "path": "/parameters/map/",
+  "body": {
+   "preset": "ifc_overrides"
+  }
+ },
+ {
+  "name": "map preset cobie_space dry run",
+  "path": "/parameters/map/",
+  "body": {
+   "preset": "cobie_space",
+   "dry_run": true
+  }
+ },
+ {
+  "name": "map no selection",
+  "path": "/parameters/map/",
+  "body": {
+   "mappings": [
+    {
+     "from": "Mark",
+     "to": "Comments"
+    }
+   ]
+  }
+ },
+ {
+  "name": "map dry run",
+  "path": "/parameters/map/",
+  "body": {
+   "categories": [
+    "Walls"
+   ],
+   "mappings": [
+    {
+     "from": "Base Offset",
+     "to": "Comments"
+    },
+    {
+     "from": "Mark",
+     "to": "ZZ_nothing"
+    },
+    {
+     "from": "ZZ_nothing",
+     "to": "Mark"
+    }
+   ],
+   "dry_run": true
+  }
+ },
+ {
+  "name": "map dry run same type",
+  "path": "/parameters/map/",
+  "body": {
+   "categories": [
+    "Doors"
+   ],
+   "mappings": [
+    {
+     "from": "Mark",
+     "to": "Comments",
+     "categories": [
+      "Doors"
+     ]
+    },
+    {
+     "from": "Mark",
+     "to": "Comments",
+     "categories": [
+      "Walls"
+     ]
+    }
+   ],
+   "dry_run": true,
+   "only_empty_target": true
+  }
+ },
+ {
+  "name": "map dry run preset with categories",
+  "path": "/parameters/map/",
+  "body": {
+   "preset": "ifc_overrides",
+   "categories": [
+    "Walls"
+   ],
+   "dry_run": true,
+   "max_results": 1
+  }
+ },
+ {
+  "name": "overview",
+  "method": "POST",
+  "path": "/project_overview/",
+  "body": {}
+ },
+ {
+  "name": "overview unit m levels only",
+  "path": "/project_overview/",
+  "body": {
+   "include": [
+    "levels",
+    "info"
+   ],
+   "unit": "m"
+  }
+ },
+ {
+  "name": "overview grids phases",
+  "path": "/project_overview/",
+  "body": {
+   "include": [
+    "grids",
+    "phases",
+    "worksets",
+    "design_options"
+   ],
+   "unit": "ft"
+  }
+ },
+ {
+  "name": "links",
+  "path": "/list_links/",
+  "body": {}
+ },
+ {
+  "name": "links with counts",
+  "path": "/list_links/",
+  "body": {
+   "include_counts": true
+  }
+ },
+ {
+  "name": "model warnings",
+  "path": "/model_warnings/",
+  "body": {}
+ },
+ {
+  "name": "model warnings contains",
+  "path": "/model_warnings/",
+  "body": {
+   "contains": "overlap",
+   "limit": 5,
+   "offset": 0,
+   "ids_per_warning": 2
+  }
+ },
+ {
+  "name": "family inventory",
+  "path": "/family_inventory/",
+  "body": {
+   "limit": 5
+  }
+ },
+ {
+  "name": "family inventory page 2 no types",
+  "path": "/family_inventory/",
+  "body": {
+   "limit": 5,
+   "offset": 5,
+   "include_types": false
+  }
+ },
+ {
+  "name": "family inventory doors",
+  "path": "/family_inventory/",
+  "body": {
+   "category": "Doors"
+  }
+ },
+ {
+  "name": "family inventory unused",
+  "path": "/family_inventory/",
+  "body": {
+   "unused_only": true,
+   "contains": "tag",
+   "limit": 3
+  }
+ },
+ {
+  "name": "family inventory unknown category",
+  "path": "/family_inventory/",
+  "body": {
+   "category": "Banana"
+  }
+ },
+ {
+  "name": "find views",
+  "path": "/find_views/",
+  "body": {}
+ },
+ {
+  "name": "find views floor plans",
+  "path": "/find_views/",
+  "body": {
+   "view_types": [
+    "floorplan",
+    "ThreeD"
+   ],
+   "name_contains": "level"
+  }
+ },
+ {
+  "name": "find views templates only",
+  "path": "/find_views/",
+  "body": {
+   "templates": "only",
+   "limit": 5
+  }
+ },
+ {
+  "name": "find views include templates",
+  "path": "/find_views/",
+  "body": {
+   "templates": "include",
+   "offset": 5,
+   "limit": 5
+  }
+ },
+ {
+  "name": "find views on sheet",
+  "path": "/find_views/",
+  "body": {
+   "on_sheet": true
+  }
+ },
+ {
+  "name": "find views not on sheet",
+  "path": "/find_views/",
+  "body": {
+   "on_sheet": false,
+   "limit": 2
+  }
+ },
+ {
+  "name": "list sheets",
+  "path": "/list_sheets/",
+  "body": {}
+ },
+ {
+  "name": "list sheets params",
+  "path": "/list_sheets/",
+  "body": {
+   "parameters": [
+    "Sheet Number"
+   ],
+   "contains": "a1"
+  }
+ },
+ {
+  "name": "schedule data missing",
+  "path": "/schedule_data/",
+  "body": {}
+ },
+ {
+  "name": "schedule data not found",
+  "path": "/schedule_data/",
+  "body": {
+   "schedule": "no such schedule"
+  }
+ },
+ {
+  "name": "schedule data bad id",
+  "path": "/schedule_data/",
+  "body": {
+   "schedule": 12345
+  }
+ },
+ {
+  "name": "schedule data wall id",
+  "path": "/schedule_data/",
+  "body": {
+   "schedule": 210619
+  }
+ },
+ {
+  "name": "session info",
+  "path": "/session_info/",
+  "body": {},
+  "ignore": [
+   "extension_version",
+   "python_version",
+   "python_engine",
+   "pyrevit_version",
+   "temp_dir",
+   "pyrevit_language",
+   "revit_build"
+  ]
+ },
+ {
+  "name": "rvtss files none",
+  "path": "/rvtss_files/",
+  "body": {}
+ },
+ {
+  "name": "rvtss files bad kind",
+  "path": "/rvtss_files/",
+  "body": {
+   "kind": "secrets"
+  }
+ },
+ {
+  "name": "rvtss files config",
+  "path": "/rvtss_files/",
+  "body": {
+   "kind": "config"
+  }
+ },
+ {
+  "name": "rvtss files qc_rules",
+  "path": "/rvtss_files/",
+  "body": {
+   "kind": "qc_rules"
+  }
+ },
+ {
+  "name": "rvtss files log",
+  "path": "/rvtss_files/",
+  "body": {
+   "kind": "log_today",
+   "max_lines": 3
+  },
+  "ignore": [
+   "lines",
+   "total_lines"
+  ]
+ },
+ {
+  "name": "model info",
+  "method": "GET",
+  "path": "/model_info/"
+ }
+]

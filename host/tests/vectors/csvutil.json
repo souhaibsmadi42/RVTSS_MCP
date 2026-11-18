@@ -1,0 +1,2414 @@
+{
+ "cases": [
+  {
+   "fn": "_cell",
+   "args": [
+    null
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    true
+   ],
+   "kwargs": {},
+   "out": "Yes"
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    false
+   ],
+   "kwargs": {},
+   "out": "No"
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    "a"
+   ],
+   "kwargs": {},
+   "out": "a"
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    "a,b"
+   ],
+   "kwargs": {},
+   "out": "\"a,b\""
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    "say \"hi\""
+   ],
+   "kwargs": {},
+   "out": "\"say \"\"hi\"\"\""
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    "line\nbreak"
+   ],
+   "kwargs": {},
+   "out": "\"line\nbreak\""
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    "cr\rhere"
+   ],
+   "kwargs": {},
+   "out": "\"cr\rhere\""
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    0
+   ],
+   "kwargs": {},
+   "out": "0"
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    1
+   ],
+   "kwargs": {},
+   "out": "1"
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    -5
+   ],
+   "kwargs": {},
+   "out": "-5"
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    2.5
+   ],
+   "kwargs": {},
+   "out": "2.5"
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    1.0
+   ],
+   "kwargs": {},
+   "out": "1.0"
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    " pad "
+   ],
+   "kwargs": {},
+   "out": " pad "
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    ";"
+   ],
+   "kwargs": {},
+   "out": ";"
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    "'"
+   ],
+   "kwargs": {},
+   "out": "'"
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    "\u00e9t\u00e9"
+   ],
+   "kwargs": {},
+   "out": "\u00e9t\u00e9"
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    "\""
+   ],
+   "kwargs": {},
+   "out": "\"\"\"\""
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    ","
+   ],
+   "kwargs": {},
+   "out": "\",\""
+  },
+  {
+   "fn": "_cell",
+   "args": [
+    "\n"
+   ],
+   "kwargs": {},
+   "out": "\"\n\""
+  },
+  {
+   "fn": "to_csv",
+   "args": [
+    [
+     "ElementId",
+     "Comments"
+    ],
+    [
+     [
+      1,
+      "He said \"hi\", ok"
+     ],
+     [
+      2,
+      "\u00e9t\u00e9\nline"
+     ],
+     [
+      3,
+      null
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": "ElementId,Comments\r\n1,\"He said \"\"hi\"\", ok\"\r\n2,\"\u00e9t\u00e9\nline\"\r\n3,\r\n"
+  },
+  {
+   "fn": "to_csv",
+   "args": [
+    [
+     "a"
+    ],
+    [
+     [
+      true
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": "a\r\nYes\r\n"
+  },
+  {
+   "fn": "to_csv",
+   "args": [
+    [
+     "a",
+     "b"
+    ],
+    []
+   ],
+   "kwargs": {},
+   "out": "a,b\r\n"
+  },
+  {
+   "fn": "to_csv",
+   "args": [
+    [],
+    []
+   ],
+   "kwargs": {},
+   "out": "\r\n"
+  },
+  {
+   "fn": "to_csv",
+   "args": [
+    [],
+    [
+     [],
+     [
+      1
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": "\r\n\r\n1\r\n"
+  },
+  {
+   "fn": "to_csv",
+   "args": [
+    [
+     "a,b",
+     "c\"d"
+    ],
+    [
+     [
+      "x\r\ny",
+      false,
+      null,
+      2.5
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": "\"a,b\",\"c\"\"d\"\r\n\"x\r\ny\",No,,2.5\r\n"
+  },
+  {
+   "fn": "to_csv",
+   "args": [
+    [
+     "h"
+    ],
+    [
+     [
+      "1"
+     ],
+     [
+      ""
+     ],
+     [
+      null
+     ],
+     [
+      "  "
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": "h\r\n1\r\n\r\n\r\n  \r\n"
+  },
+  {
+   "fn": "to_csv",
+   "args": [
+    [
+     1,
+     null,
+     true
+    ],
+    [
+     [
+      0,
+      0.5,
+      -1
+     ]
+    ]
+   ],
+   "kwargs": {},
+   "out": "1,,Yes\r\n0,0.5,-1\r\n"
+  },
+  {
+   "fn": "to_csv",
+   "args": [
+    [
+     "a"
+    ],
+    [
+     "xy",
+     "z"
+    ]
+   ],
+   "kwargs": {},
+   "out": "a\r\nx,y\r\nz\r\n"
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": [
+    [],
+    []
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": []
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    null
+   ],
+   "kwargs": {},
+   "out": [
+    [],
+    []
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "\ufeff"
+   ],
+   "kwargs": {},
+   "out": [
+    [],
+    []
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "\ufeff"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "\ufeff"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\r\n1,2\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\r\n1,2\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "\ufeffa,b\r\n1,2\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "\ufeffa,b\r\n1,2\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "\ufeffa",
+     "b"
+    ],
+    [
+     "1",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n1,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n1,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n1,2"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n1,2"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    []
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    []
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    " a , b \n 1 , 2 \n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": " 1 ",
+      "b": " 2 "
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    " a , b \n 1 , 2 \n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     " a ",
+     " b "
+    ],
+    [
+     " 1 ",
+     " 2 "
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\n1,2\n\n\n3,4\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     },
+     {
+      "a": "3",
+      "b": "4"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\n1,2\n\n\n3,4\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [],
+    [
+     "1",
+     "2"
+    ],
+    [],
+    [],
+    [
+     "3",
+     "4"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n , \n1,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n , \n1,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     " ",
+     " "
+    ],
+    [
+     "1",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b,c\n1\n1,2\n1,2,3\n1,2,3,4\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b",
+     "c"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "",
+      "c": ""
+     },
+     {
+      "a": "1",
+      "b": "2",
+      "c": ""
+     },
+     {
+      "a": "1",
+      "b": "2",
+      "c": "3"
+     },
+     {
+      "a": "1",
+      "b": "2",
+      "c": "3"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b,c\n1\n1,2\n1,2,3\n1,2,3,4\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b",
+     "c"
+    ],
+    [
+     "1"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "1",
+     "2",
+     "3"
+    ],
+    [
+     "1",
+     "2",
+     "3",
+     "4"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,a,b\n1,2,3\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "2",
+      "b": "3"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,a,b\n1,2,3\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2",
+     "3"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,,b\n1,2,3\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "": "2",
+      "b": "3"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,,b\n1,2,3\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "",
+     "b"
+    ],
+    [
+     "1",
+     "2",
+     "3"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    ",\n1,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "1",
+     "2"
+    ],
+    []
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    ",\n1,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "",
+     ""
+    ],
+    [
+     "1",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "\n\na,b\n1,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "\n\na,b\n1,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [],
+    [],
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"x,y\",\"he said \"\"hi\"\"\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "x,y",
+      "b": "he said \"hi\""
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"x,y\",\"he said \"\"hi\"\"\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "x,y",
+     "he said \"hi\""
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"multi\nline\",2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "multi\nline",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"multi\nline\",2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "multi\nline",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"multi\r\nline\",2\r\n3,4\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "multi\r\nline",
+      "b": "2"
+     },
+     {
+      "a": "3",
+      "b": "4"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"multi\r\nline\",2\r\n3,4\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "multi\r\nline",
+     "2"
+    ],
+    [
+     "3",
+     "4"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"unterminated,2\n3,4\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "unterminated,2\n3,4\n",
+      "b": ""
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"unterminated,2\n3,4\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "unterminated,2\n3,4\n"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n1,\""
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": ""
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n1,\""
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     ""
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n1,\"x"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "x"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n1,\"x"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "x"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"x\"y,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "xy",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"x\"y,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "xy",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\nx\"y,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "x\"y",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\nx\"y,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "x\"y",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"x\" ,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "x ",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"x\" ,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "x ",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n \"x\",2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": " \"x\"",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n \"x\",2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     " \"x\"",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"\",\"\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    []
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"\",\"\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "",
+     ""
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"\",x\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "",
+      "b": "x"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"\",x\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "",
+     "x"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    []
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     ""
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"\"\"\",\"\"\"\"\"\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "\"",
+      "b": "\"\""
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"\"\"\",\"\"\"\"\"\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "\"",
+     "\"\""
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\r1,2\r"
+   ],
+   "kwargs": {},
+   "err": "Error",
+   "msg": "new-line character seen in unquoted field - do you need to open the file with newline=''?"
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\r1,2\r"
+   ],
+   "kwargs": {},
+   "err": "Error",
+   "msg": "new-line character seen in unquoted field - do you need to open the file with newline=''?"
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n1,2\r\n\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n1,2\r\n\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    []
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\r\r\n1,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\r\r\n1,2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a\n1\n2\n3"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a"
+    ],
+    [
+     {
+      "a": "1"
+     },
+     {
+      "a": "2"
+     },
+     {
+      "a": "3"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a\n1\n2\n3"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a"
+    ],
+    [
+     "1"
+    ],
+    [
+     "2"
+    ],
+    [
+     "3"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n1,2,\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n1,2,\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2",
+     ""
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n,\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    []
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n,\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "",
+     ""
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n,x\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "",
+      "b": "x"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n,x\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "",
+     "x"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "n\u00e4me,v\n\u00e9,1\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "n\u00e4me",
+     "v"
+    ],
+    [
+     {
+      "n\u00e4me": "\u00e9",
+      "v": "1"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "n\u00e4me,v\n\u00e9,1\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "n\u00e4me",
+     "v"
+    ],
+    [
+     "\u00e9",
+     "1"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a;b\n1;2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a;b"
+    ],
+    [
+     {
+      "a;b": "1;2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a;b\n1;2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a;b"
+    ],
+    [
+     "1;2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a\tb\n1\t2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a\tb"
+    ],
+    [
+     {
+      "a\tb": "1\t2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a\tb\n1\t2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a\tb"
+    ],
+    [
+     "1\t2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "\"a\",\"b\"\n\"1\",\"2\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "\"a\",\"b\"\n\"1\",\"2\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "\"a,b\"\n\"1,2\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a,b"
+    ],
+    [
+     {
+      "a,b": "1,2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "\"a,b\"\n\"1,2\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a,b"
+    ],
+    [
+     "1,2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n1,2\n\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n1,2\n\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    []
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "   \n\t\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [],
+    []
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "   \n\t\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "   "
+    ],
+    [
+     "\t"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a , b,c \nx"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b",
+     "c"
+    ],
+    [
+     {
+      "a": "x",
+      "b": "",
+      "c": ""
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a , b,c \nx"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a ",
+     " b",
+     "c "
+    ],
+    [
+     "x"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"x\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "x",
+      "b": ""
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"x\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "x"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a\n\"line1\nline2\nline3\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a"
+    ],
+    [
+     {
+      "a": "line1\nline2\nline3"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a\n\"line1\nline2\nline3\"\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a"
+    ],
+    [
+     "line1\nline2\nline3"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\"q\"\",\",z\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "q\",",
+      "b": "z"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\"q\"\",\",z\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "q\",",
+     "z"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n'x,y',2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "'x",
+      "b": "y'"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n'x,y',2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "'x",
+     "y'",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n1,2\n\"3"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     },
+     {
+      "a": "3",
+      "b": ""
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n1,2\n\"3"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "3"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n1,\"2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2\n"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n1,\"2\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2\n"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "x\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "x"
+    ],
+    []
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "x\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "x"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    [],
+    []
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "\r\n"
+   ],
+   "kwargs": {},
+   "out": [
+    []
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n\r\n1,2"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n\r\n1,2"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [],
+    [
+     "1",
+     "2"
+    ]
+   ]
+  },
+  {
+   "fn": "parse_csv",
+   "args": [
+    "a,b\n1,2\n \n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     {
+      "a": "1",
+      "b": "2"
+     }
+    ]
+   ]
+  },
+  {
+   "fn": "reader",
+   "args": [
+    "a,b\n1,2\n \n"
+   ],
+   "kwargs": {},
+   "out": [
+    [
+     "a",
+     "b"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     " "
+    ]
+   ]
+  },
+  {
+   "fn": "write_file",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": "efbbbf"
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "efbbbf"
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "write_file",
+   "args": [
+    "a,b\r\n1,2\r\n"
+   ],
+   "kwargs": {},
+   "out": "efbbbf612c620d0a312c320d0a"
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "efbbbf612c620d0a312c320d0a"
+   ],
+   "kwargs": {},
+   "out": "a,b\n1,2\n"
+  },
+  {
+   "fn": "write_file",
+   "args": [
+    "\u00e9t\u00e9,\u4e2d\r\nx\ny\rz\r\n"
+   ],
+   "kwargs": {},
+   "out": "efbbbfc3a974c3a92ce4b8ad0d0a780a790d7a0d0a"
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "efbbbfc3a974c3a92ce4b8ad0d0a780a790d7a0d0a"
+   ],
+   "kwargs": {},
+   "out": "\u00e9t\u00e9,\u4e2d\nx\ny\nz\n"
+  },
+  {
+   "fn": "write_file",
+   "args": [
+    "\ufeffalready"
+   ],
+   "kwargs": {},
+   "out": "efbbbfefbbbf616c7265616479"
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "efbbbfefbbbf616c7265616479"
+   ],
+   "kwargs": {},
+   "out": "\ufeffalready"
+  },
+  {
+   "fn": "write_file",
+   "args": [
+    "no newline"
+   ],
+   "kwargs": {},
+   "out": "efbbbf6e6f206e65776c696e65"
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "efbbbf6e6f206e65776c696e65"
+   ],
+   "kwargs": {},
+   "out": "no newline"
+  },
+  {
+   "fn": "write_file",
+   "args": [
+    "\n\n"
+   ],
+   "kwargs": {},
+   "out": "efbbbf0a0a"
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "efbbbf0a0a"
+   ],
+   "kwargs": {},
+   "out": "\n\n"
+  },
+  {
+   "fn": "write_file",
+   "args": [
+    "a\r\rb\r\n\nc"
+   ],
+   "kwargs": {},
+   "out": "efbbbf610d0d620d0a0a63"
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "efbbbf610d0d620d0a0a63"
+   ],
+   "kwargs": {},
+   "out": "a\n\nb\n\nc"
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "706c61696e206e6f20626f6d0d0a78"
+   ],
+   "kwargs": {},
+   "out": "plain no bom\nx"
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "efbbbfefbbbf7477696365"
+   ],
+   "kwargs": {},
+   "out": "\ufefftwice"
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "efbb"
+   ],
+   "kwargs": {},
+   "out": ""
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "610d620d0a630a"
+   ],
+   "kwargs": {},
+   "out": "a\nb\nc\n"
+  },
+  {
+   "fn": "read_file",
+   "args": [
+    "c3a9"
+   ],
+   "kwargs": {},
+   "out": "\u00e9"
+  }
+ ]
+}

@@ -1,0 +1,6056 @@
+{
+ "constants": {
+  "FORMATS": {
+   "pdf": ".pdf",
+   "dwg": ".dwg",
+   "dxf": ".dxf",
+   "ifc": ".ifc",
+   "nwc": ".nwc",
+   "csv": ".csv"
+  },
+  "MODEL_FORMATS": [
+   "ifc",
+   "nwc"
+  ],
+  "FIELDS": [
+   "number",
+   "name",
+   "title",
+   "revision",
+   "view_type",
+   "date",
+   "document"
+  ]
+ },
+ "cases": [
+  {
+   "fn": "default_template",
+   "args": [
+    true
+   ],
+   "expected": "{number} - {name}"
+  },
+  {
+   "fn": "default_template",
+   "args": [
+    false
+   ],
+   "expected": "{name}"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "Plan: Level 1"
+   ],
+   "expected": "Plan_ Level 1"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  "
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    ""
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    null
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A/B\\C:D*E?F\"G<H>I|J"
+   ],
+   "expected": "A_B_C_D_E_F_G_H_I_J"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "tab\there\nnew\r\nline"
+   ],
+   "expected": "tab_here_new__line"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "ctrl\u0000\u0001\u001f end"
+   ],
+   "expected": "ctrl___ end"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  padded  "
+   ],
+   "expected": "padded"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "...dots..."
+   ],
+   "expected": "dots"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    " . mixed . "
+   ],
+   "expected": " mixed "
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    ". ."
+   ],
+   "expected": " "
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a   b \t c"
+   ],
+   "expected": "a b _ c"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "trailing dot."
+   ],
+   "expected": "trailing dot"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    ".hidden"
+   ],
+   "expected": "hidden"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word "
+   ],
+   "expected": "word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa b"
+   ],
+   "expected": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab"
+   ],
+   "expected": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  bcd"
+   ],
+   "expected": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "Étage – niveau 1"
+   ],
+   "expected": "Étage – niveau 1"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "墙 / 楼板"
+   ],
+   "expected": "墙 _ 楼板"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "non breaking spaces"
+   ],
+   "expected": "non breaking spaces"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "CON"
+   ],
+   "expected": "CON"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "name.pdf"
+   ],
+   "expected": "name.pdf"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a_b-c"
+   ],
+   "expected": "a_b-c"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  .  "
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "*"
+   ],
+   "expected": "_"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "?.?"
+   ],
+   "expected": "_._"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "\u001f"
+   ],
+   "expected": "_"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "emoji 😀 ok"
+   ],
+   "expected": "emoji 😀 ok"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "-"
+   ],
+   "expected": "A-B"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    ""
+   ],
+   "expected": "AB"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    " "
+   ],
+   "expected": "A B"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "__"
+   ],
+   "expected": "A__B"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "."
+   ],
+   "expected": "A.B"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "$1"
+   ],
+   "expected": "A$1B"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "$0"
+   ],
+   "expected": "A$0B"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "_",
+    5
+   ],
+   "expected": "A_B"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "_",
+    1
+   ],
+   "expected": "A"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "_",
+    0
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "_",
+    3
+   ],
+   "expected": "A_B"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "_",
+    180
+   ],
+   "expected": "A_B"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "_",
+    1000
+   ],
+   "expected": "A_B"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    "-"
+   ],
+   "expected": "a-b-c"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    ""
+   ],
+   "expected": "abc"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    " "
+   ],
+   "expected": "a b c"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    "__"
+   ],
+   "expected": "a__b__c"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    "."
+   ],
+   "expected": "a.b.c"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    "$1"
+   ],
+   "expected": "a$1b$1c"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    "$0"
+   ],
+   "expected": "a$0b$0c"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    "_",
+    5
+   ],
+   "expected": "a_b_c"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    "_",
+    1
+   ],
+   "expected": "a"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    "_",
+    0
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    "_",
+    3
+   ],
+   "expected": "a_b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    "_",
+    180
+   ],
+   "expected": "a_b_c"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "a/b/c",
+    "_",
+    1000
+   ],
+   "expected": "a_b_c"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    "-"
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    ""
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    " "
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    "__"
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    "."
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    "$1"
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    "$0"
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    "_",
+    5
+   ],
+   "expected": "xxxxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    "_",
+    1
+   ],
+   "expected": "x"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    "_",
+    0
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    "_",
+    3
+   ],
+   "expected": "xxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    "_",
+    180
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxx",
+    "_",
+    1000
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    "-"
+   ],
+   "expected": "a b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    ""
+   ],
+   "expected": "a b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    " "
+   ],
+   "expected": "a b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    "__"
+   ],
+   "expected": "a b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    "."
+   ],
+   "expected": "a b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    "$1"
+   ],
+   "expected": "a b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    "$0"
+   ],
+   "expected": "a b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    "_",
+    5
+   ],
+   "expected": "a b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    "_",
+    1
+   ],
+   "expected": "a"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    "_",
+    0
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    "_",
+    3
+   ],
+   "expected": "a b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    "_",
+    180
+   ],
+   "expected": "a b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "  ..a b..  ",
+    "_",
+    1000
+   ],
+   "expected": "a b"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    "-"
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    ""
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    " "
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    "__"
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    "."
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    "$1"
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    "$0"
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    "_",
+    5
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    "_",
+    1
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    "_",
+    0
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    "_",
+    3
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    "_",
+    180
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "",
+    "_",
+    1000
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "abc def ghi",
+    "_",
+    4
+   ],
+   "expected": "abc"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "abcd  efgh",
+    "_",
+    6
+   ],
+   "expected": "abcd e"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "A:B",
+    "\\\\",
+    180
+   ],
+   "expected": "A\\B"
+  },
+  {
+   "fn": "sanitize",
+   "args": [
+    "abcdef",
+    "_",
+    -2
+   ],
+   "expected": "abcd"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "A101 - Plan_ Level 1"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name}",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "A101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "101 - 1.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "A101 - - dash"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "A_1__ - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{name} - {number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "Plan_ Level 1"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "1.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "dash"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "A101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "A101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "A101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "A_1__"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}-{name}-{revision}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "A101-Plan_ Level 1-P02"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}-{name}-{revision}",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}-{name}-{revision}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "A101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}-{name}-{revision}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}-{name}-{revision}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}-{name}-{revision}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "101-1.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}-{name}-{revision}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "A101 -- dash --"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}-{name}-{revision}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "A_1__-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}-{name}-{revision}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{name}-{number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}-{name}-{revision}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{document}_{number}_{title}_{date}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "Project.rvt_A101_Ground floor_2026-11-18"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{document}_{number}_{title}_{date}",
+    {}
+   ],
+   "expected": "___"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{document}_{number}_{title}_{date}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "_A101__"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{document}_{number}_{title}_{date}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "___"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{document}_{number}_{title}_{date}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "___"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{document}_{number}_{title}_{date}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "['a']_101_True_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{document}_{number}_{title}_{date}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "_ A101 __"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{document}_{number}_{title}_{date}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "_A_1____"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{document}_{number}_{title}_{date}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "_{name}__"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{document}_{number}_{title}_{date}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "___"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}/{name}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "FloorPlan_Plan_ Level 1"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}/{name}",
+    {}
+   ],
+   "expected": "_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}/{name}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}/{name}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "_Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}/{name}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}/{name}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "_1.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}/{name}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "a_b_- dash"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}/{name}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}/{name}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "_{number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}/{name}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "_$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "plain text",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "plain text"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "plain text",
+    {}
+   ],
+   "expected": "plain text"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "plain text",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "plain text"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "plain text",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "plain text"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "plain text",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "plain text"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "plain text",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "plain text"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "plain text",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "plain text"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "plain text",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "plain text"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "plain text",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "plain text"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "plain text",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "plain text"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "  ",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "  ",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "  ",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "  ",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "  ",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "  ",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "  ",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "  ",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "  ",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "  ",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " - {name}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "Plan_ Level 1"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " - {name}",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " - {name}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " - {name}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " - {name}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " - {name}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "1.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " - {name}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "dash"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " - {name}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " - {name}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " - {name}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} - ",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "Plan_ Level 1"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} - ",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} - ",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} - ",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} - ",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} - ",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "1.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} - ",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "dash"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} - ",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} - ",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} - ",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name} - {revision}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "A101 - Plan_ Level 1 - P02"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name} - {revision}",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name} - {revision}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "A101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name} - {revision}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name} - {revision}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name} - {revision}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "101 - 1.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name} - {revision}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "A101 - - dash - - "
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name} - {revision}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "A_1__ - xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name} - {revision}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{name} - {number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} - {name} - {revision}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "- - {name} - -",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "Plan_ Level 1"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "- - {name} - -",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "- - {name} - -",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "- - {name} - -",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "- - {name} - -",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "- - {name} - -",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "1.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "- - {name} - -",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "dash"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "- - {name} - -",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "- - {name} - -",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "- - {name} - -",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}{name}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "Plan_ Level 1Plan_ Level 1"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}{name}",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}{name}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}{name}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "PlanPlan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}{name}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}{name}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "1.51.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}{name}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "dash -- dash"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}{name}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}{name}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{number}{number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}{name}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1_$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{ name }",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "{ name }"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{ name }",
+    {}
+   ],
+   "expected": "{ name }"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{ name }",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "{ name }"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{ name }",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "{ name }"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{ name }",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "{ name }"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{ name }",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "{ name }"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{ name }",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "{ name }"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{ name }",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "{ name }"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{ name }",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{ name }"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{ name }",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "{ name }"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{}",
+    {}
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{{name}}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "{Plan_ Level 1}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{{name}}",
+    {}
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{{name}}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{{name}}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "{Plan}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{{name}}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "{}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{{name}}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "{1.5}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{{name}}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "{- dash -}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{{name}}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "{xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{{name}}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{{number}}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{{name}}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "{$1 _1 _g_1_}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{Name}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) Name. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{Name}",
+    {}
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) Name. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{Name}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) Name. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{Name}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) Name. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{Name}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) Name. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{Name}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) Name. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{Name}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) Name. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{Name}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) Name. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{Name}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) Name. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{Name}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) Name. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} -{name}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "A101 -Plan_ Level 1"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} -{name}",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} -{name}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "A101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} -{name}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} -{name}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} -{name}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "101 -1.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} -{name}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "A101 -- dash"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} -{name}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "A_1__ -xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} -{name}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{name} -{number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} -{name}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}\n",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "Plan_ Level 1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}\n",
+    {}
+   ],
+   "expected": "_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}\n",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}\n",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "Plan_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}\n",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}\n",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "1.5_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}\n",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "dash"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}\n",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}\n",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{number}_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name}\n",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1__"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{sheet_no}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{sheet_no}",
+    {}
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{sheet_no}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{sheet_no}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{sheet_no}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{sheet_no}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{sheet_no}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{sheet_no}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{sheet_no}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{sheet_no}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} {sheet_no} {bogus} {bogus} {a1}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) a1, bogus, sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} {sheet_no} {bogus} {bogus} {a1}",
+    {}
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) a1, bogus, sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} {sheet_no} {bogus} {bogus} {a1}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) a1, bogus, sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} {sheet_no} {bogus} {bogus} {a1}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) a1, bogus, sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} {sheet_no} {bogus} {bogus} {a1}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) a1, bogus, sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} {sheet_no} {bogus} {bogus} {a1}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) a1, bogus, sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} {sheet_no} {bogus} {bogus} {a1}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) a1, bogus, sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} {sheet_no} {bogus} {bogus} {a1}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) a1, bogus, sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} {sheet_no} {bogus} {bogus} {a1}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) a1, bogus, sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number} {sheet_no} {bogus} {bogus} {a1}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) a1, bogus, sheet_no. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "{number"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number",
+    {}
+   ],
+   "expected": "{number"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "{number"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "{number"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "{number"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "{number"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "{number"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "{number"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{number"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "{number"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "name}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "name}",
+    {}
+   ],
+   "expected": "name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "name}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "name}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "name}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "name}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "name}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "name}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "name}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "name}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{nümber}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) nümber. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{nümber}",
+    {}
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) nümber. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{nümber}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) nümber. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{nümber}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) nümber. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{nümber}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) nümber. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{nümber}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) nümber. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{nümber}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) nümber. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{nümber}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) nümber. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{nümber}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) nümber. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{nümber}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) nümber. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}.{name}.",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "A101.Plan_ Level 1"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}.{name}.",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}.{name}.",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "A101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}.{name}.",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}.{name}.",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}.{name}.",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "101.1.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}.{name}.",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "A101 .- dash -"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}.{name}.",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "A_1__.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}.{name}.",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{name}.{number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}.{name}.",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} -\t- {number}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "Plan_ Level 1 -_- A101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} -\t- {number}",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} -\t- {number}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "A101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} -\t- {number}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} -\t- {number}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} -\t- {number}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "1.5 -_- 101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} -\t- {number}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "dash - -_- A101"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} -\t- {number}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} -\t- {number}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{number} -_- {name}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{name} -\t- {number}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "-",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "-",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "-",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "-",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "-",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "-",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "-",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "-",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "-",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "-",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " -- ",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " -- ",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " -- ",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " -- ",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " -- ",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " -- ",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " -- ",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " -- ",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " -- ",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    " -- ",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}—{name}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "A101—Plan_ Level 1"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}—{name}",
+    {}
+   ],
+   "expected": "—"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}—{name}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "A101—"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}—{name}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "—Plan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}—{name}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "—"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}—{name}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "101—1.5"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}—{name}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "A101 —- dash"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}—{name}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "A_1__—xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}—{name}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "{name}—{number}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{number}—{name}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "—$1 _1 _g_1_"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{0}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) 0. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{0}",
+    {}
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) 0. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{0}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) 0. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{0}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) 0. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{0}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) 0. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{0}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) 0. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{0}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) 0. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{0}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) 0. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{0}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) 0. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{0}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "error": "NamingError",
+   "message": "Unknown naming field(s) 0. Use: {number}, {name}, {title}, {revision}, {view_type}, {date}, {document}"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}",
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "expected": "FloorPlan"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}",
+    {}
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}",
+    {
+     "number": "A101",
+     "name": ""
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}",
+    {
+     "number": "",
+     "name": "Plan"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}",
+    {
+     "number": null,
+     "name": null
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}",
+    {
+     "number": 101,
+     "name": 1.5,
+     "revision": 0,
+     "title": true,
+     "date": false,
+     "document": [
+      "a"
+     ]
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}",
+    {
+     "number": " A101 ",
+     "name": "- dash -",
+     "revision": "..",
+     "view_type": "a\tb"
+    }
+   ],
+   "expected": "a_b"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}",
+    {
+     "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+     "number": "A:1*?"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}",
+    {
+     "name": "{number}",
+     "number": "{name}"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    "{view_type}",
+    {
+     "name": "$1 \\1 \\g<1>"
+    }
+   ],
+   "expected": "export"
+  },
+  {
+   "fn": "render",
+   "args": [
+    null,
+    {
+     "number": "A101",
+     "name": "Plan: Level 1",
+     "title": "Ground floor",
+     "revision": "P02",
+     "view_type": "FloorPlan",
+     "date": "2026-11-18",
+     "document": "Project.rvt"
+    }
+   ],
+   "error": "TypeError",
+   "message": "expected string or bytes-like object, got 'NoneType'"
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "A",
+     "a",
+     "B",
+     "A"
+    ]
+   ],
+   "expected": [
+    "A",
+    "a_2",
+    "B",
+    "A_3"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    []
+   ],
+   "expected": []
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "x"
+    ]
+   ],
+   "expected": [
+    "x"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "A",
+     "A",
+     "A",
+     "A"
+    ]
+   ],
+   "expected": [
+    "A",
+    "A_2",
+    "A_3",
+    "A_4"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "A",
+     "A_2",
+     "A"
+    ]
+   ],
+   "expected": [
+    "A",
+    "A_2",
+    "A_3"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "A_2",
+     "A",
+     "A",
+     "a_2"
+    ]
+   ],
+   "expected": [
+    "A_2",
+    "A",
+    "A_3",
+    "a_2_2"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "a",
+     "A",
+     "A_2",
+     "a_3",
+     "A"
+    ]
+   ],
+   "expected": [
+    "a",
+    "A_2",
+    "A_2_2",
+    "a_3",
+    "A_4"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "Plan",
+     "plan",
+     "PLAN",
+     "Plan_2",
+     "plan_2",
+     "Plan"
+    ]
+   ],
+   "expected": [
+    "Plan",
+    "plan_2",
+    "PLAN_3",
+    "Plan_2_2",
+    "plan_2_3",
+    "Plan_4"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "",
+     "",
+     ""
+    ]
+   ],
+   "expected": [
+    "",
+    "_2",
+    "_3"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "É",
+     "é",
+     "E"
+    ]
+   ],
+   "expected": [
+    "É",
+    "é_2",
+    "E"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "A",
+     "B",
+     "C"
+    ]
+   ],
+   "expected": [
+    "A",
+    "B",
+    "C"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "x_1",
+     "x",
+     "X",
+     "x_2",
+     "X_2",
+     "x_2_2",
+     "x"
+    ]
+   ],
+   "expected": [
+    "x_1",
+    "x",
+    "X_2",
+    "x_2_2",
+    "X_2_3",
+    "x_2_2_2",
+    "x_3"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "ß",
+     "SS",
+     "ss"
+    ]
+   ],
+   "expected": [
+    "ß",
+    "SS",
+    "ss_2"
+   ]
+  },
+  {
+   "fn": "unique",
+   "args": [
+    [
+     "İ",
+     "i",
+     "I",
+     "ı"
+    ]
+   ],
+   "expected": [
+    "İ",
+    "i",
+    "I_2",
+    "ı"
+   ]
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc",
+    "ifc"
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc",
+    "nwc"
+   ],
+   "expected": "model.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc",
+    "pdf"
+   ],
+   "expected": "model.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc",
+    "dwg"
+   ],
+   "expected": "model.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc",
+    "dxf"
+   ],
+   "expected": "model.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc",
+    "csv"
+   ],
+   "expected": "model.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc",
+    "bogus"
+   ],
+   "expected": "model.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc",
+    ""
+   ],
+   "expected": "model.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc",
+    "IFC"
+   ],
+   "expected": "model.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc",
+    null
+   ],
+   "expected": "model.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.IFC",
+    "ifc"
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.IFC",
+    "nwc"
+   ],
+   "expected": "model.IFC"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.IFC",
+    "pdf"
+   ],
+   "expected": "model.IFC"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.IFC",
+    "dwg"
+   ],
+   "expected": "model.IFC"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.IFC",
+    "dxf"
+   ],
+   "expected": "model.IFC"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.IFC",
+    "csv"
+   ],
+   "expected": "model.IFC"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.IFC",
+    "bogus"
+   ],
+   "expected": "model.IFC"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.IFC",
+    ""
+   ],
+   "expected": "model.IFC"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.IFC",
+    "IFC"
+   ],
+   "expected": "model.IFC"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.IFC",
+    null
+   ],
+   "expected": "model.IFC"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc.ifc",
+    "ifc"
+   ],
+   "expected": "model.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc.ifc",
+    "nwc"
+   ],
+   "expected": "model.ifc.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc.ifc",
+    "pdf"
+   ],
+   "expected": "model.ifc.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc.ifc",
+    "dwg"
+   ],
+   "expected": "model.ifc.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc.ifc",
+    "dxf"
+   ],
+   "expected": "model.ifc.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc.ifc",
+    "csv"
+   ],
+   "expected": "model.ifc.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc.ifc",
+    "bogus"
+   ],
+   "expected": "model.ifc.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc.ifc",
+    ""
+   ],
+   "expected": "model.ifc.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc.ifc",
+    "IFC"
+   ],
+   "expected": "model.ifc.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.ifc.ifc",
+    null
+   ],
+   "expected": "model.ifc.ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model",
+    "ifc"
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model",
+    "nwc"
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model",
+    "pdf"
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model",
+    "dwg"
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model",
+    "dxf"
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model",
+    "csv"
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model",
+    "bogus"
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model",
+    ""
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model",
+    "IFC"
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model",
+    null
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "",
+    "ifc"
+   ],
+   "expected": ""
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "",
+    "nwc"
+   ],
+   "expected": ""
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "",
+    "pdf"
+   ],
+   "expected": ""
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "",
+    "dwg"
+   ],
+   "expected": ""
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "",
+    "dxf"
+   ],
+   "expected": ""
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "",
+    "csv"
+   ],
+   "expected": ""
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "",
+    "bogus"
+   ],
+   "expected": ""
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "",
+    ""
+   ],
+   "expected": ""
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "",
+    "IFC"
+   ],
+   "expected": ""
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "",
+    null
+   ],
+   "expected": ""
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    null,
+    "ifc"
+   ],
+   "expected": null
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    null,
+    "nwc"
+   ],
+   "expected": null
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    null,
+    "pdf"
+   ],
+   "expected": null
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    null,
+    "dwg"
+   ],
+   "expected": null
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    null,
+    "dxf"
+   ],
+   "expected": null
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    null,
+    "csv"
+   ],
+   "expected": null
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    null,
+    "bogus"
+   ],
+   "expected": null
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    null,
+    ""
+   ],
+   "expected": null
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    null,
+    "IFC"
+   ],
+   "expected": null
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    null,
+    null
+   ],
+   "expected": null
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    ".ifc",
+    "ifc"
+   ],
+   "expected": ""
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    ".ifc",
+    "nwc"
+   ],
+   "expected": ".ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    ".ifc",
+    "pdf"
+   ],
+   "expected": ".ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    ".ifc",
+    "dwg"
+   ],
+   "expected": ".ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    ".ifc",
+    "dxf"
+   ],
+   "expected": ".ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    ".ifc",
+    "csv"
+   ],
+   "expected": ".ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    ".ifc",
+    "bogus"
+   ],
+   "expected": ".ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    ".ifc",
+    ""
+   ],
+   "expected": ".ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    ".ifc",
+    "IFC"
+   ],
+   "expected": ".ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    ".ifc",
+    null
+   ],
+   "expected": ".ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.nwc",
+    "ifc"
+   ],
+   "expected": "model.nwc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.nwc",
+    "nwc"
+   ],
+   "expected": "model"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.nwc",
+    "pdf"
+   ],
+   "expected": "model.nwc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.nwc",
+    "dwg"
+   ],
+   "expected": "model.nwc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.nwc",
+    "dxf"
+   ],
+   "expected": "model.nwc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.nwc",
+    "csv"
+   ],
+   "expected": "model.nwc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.nwc",
+    "bogus"
+   ],
+   "expected": "model.nwc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.nwc",
+    ""
+   ],
+   "expected": "model.nwc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.nwc",
+    "IFC"
+   ],
+   "expected": "model.nwc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.nwc",
+    null
+   ],
+   "expected": "model.nwc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "a.pdf",
+    "ifc"
+   ],
+   "expected": "a.pdf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "a.pdf",
+    "nwc"
+   ],
+   "expected": "a.pdf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "a.pdf",
+    "pdf"
+   ],
+   "expected": "a"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "a.pdf",
+    "dwg"
+   ],
+   "expected": "a.pdf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "a.pdf",
+    "dxf"
+   ],
+   "expected": "a.pdf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "a.pdf",
+    "csv"
+   ],
+   "expected": "a.pdf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "a.pdf",
+    "bogus"
+   ],
+   "expected": "a.pdf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "a.pdf",
+    ""
+   ],
+   "expected": "a.pdf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "a.pdf",
+    "IFC"
+   ],
+   "expected": "a.pdf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "a.pdf",
+    null
+   ],
+   "expected": "a.pdf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "A.PDF",
+    "ifc"
+   ],
+   "expected": "A.PDF"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "A.PDF",
+    "nwc"
+   ],
+   "expected": "A.PDF"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "A.PDF",
+    "pdf"
+   ],
+   "expected": "A"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "A.PDF",
+    "dwg"
+   ],
+   "expected": "A.PDF"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "A.PDF",
+    "dxf"
+   ],
+   "expected": "A.PDF"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "A.PDF",
+    "csv"
+   ],
+   "expected": "A.PDF"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "A.PDF",
+    "bogus"
+   ],
+   "expected": "A.PDF"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "A.PDF",
+    ""
+   ],
+   "expected": "A.PDF"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "A.PDF",
+    "IFC"
+   ],
+   "expected": "A.PDF"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "A.PDF",
+    null
+   ],
+   "expected": "A.PDF"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "ifc",
+    "ifc"
+   ],
+   "expected": "ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "ifc",
+    "nwc"
+   ],
+   "expected": "ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "ifc",
+    "pdf"
+   ],
+   "expected": "ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "ifc",
+    "dwg"
+   ],
+   "expected": "ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "ifc",
+    "dxf"
+   ],
+   "expected": "ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "ifc",
+    "csv"
+   ],
+   "expected": "ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "ifc",
+    "bogus"
+   ],
+   "expected": "ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "ifc",
+    ""
+   ],
+   "expected": "ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "ifc",
+    "IFC"
+   ],
+   "expected": "ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "ifc",
+    null
+   ],
+   "expected": "ifc"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.dwg ",
+    "ifc"
+   ],
+   "expected": "model.dwg "
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.dwg ",
+    "nwc"
+   ],
+   "expected": "model.dwg "
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.dwg ",
+    "pdf"
+   ],
+   "expected": "model.dwg "
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.dwg ",
+    "dwg"
+   ],
+   "expected": "model.dwg "
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.dwg ",
+    "dxf"
+   ],
+   "expected": "model.dwg "
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.dwg ",
+    "csv"
+   ],
+   "expected": "model.dwg "
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.dwg ",
+    "bogus"
+   ],
+   "expected": "model.dwg "
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.dwg ",
+    ""
+   ],
+   "expected": "model.dwg "
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.dwg ",
+    "IFC"
+   ],
+   "expected": "model.dwg "
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "model.dwg ",
+    null
+   ],
+   "expected": "model.dwg "
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "x.csv",
+    "ifc"
+   ],
+   "expected": "x.csv"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "x.csv",
+    "nwc"
+   ],
+   "expected": "x.csv"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "x.csv",
+    "pdf"
+   ],
+   "expected": "x.csv"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "x.csv",
+    "dwg"
+   ],
+   "expected": "x.csv"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "x.csv",
+    "dxf"
+   ],
+   "expected": "x.csv"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "x.csv",
+    "csv"
+   ],
+   "expected": "x"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "x.csv",
+    "bogus"
+   ],
+   "expected": "x.csv"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "x.csv",
+    ""
+   ],
+   "expected": "x.csv"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "x.csv",
+    "IFC"
+   ],
+   "expected": "x.csv"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "x.csv",
+    null
+   ],
+   "expected": "x.csv"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "dxf.dxf",
+    "ifc"
+   ],
+   "expected": "dxf.dxf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "dxf.dxf",
+    "nwc"
+   ],
+   "expected": "dxf.dxf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "dxf.dxf",
+    "pdf"
+   ],
+   "expected": "dxf.dxf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "dxf.dxf",
+    "dwg"
+   ],
+   "expected": "dxf.dxf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "dxf.dxf",
+    "dxf"
+   ],
+   "expected": "dxf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "dxf.dxf",
+    "csv"
+   ],
+   "expected": "dxf.dxf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "dxf.dxf",
+    "bogus"
+   ],
+   "expected": "dxf.dxf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "dxf.dxf",
+    ""
+   ],
+   "expected": "dxf.dxf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "dxf.dxf",
+    "IFC"
+   ],
+   "expected": "dxf.dxf"
+  },
+  {
+   "fn": "strip_extension",
+   "args": [
+    "dxf.dxf",
+    null
+   ],
+   "expected": "dxf.dxf"
+  }
+ ]
+}

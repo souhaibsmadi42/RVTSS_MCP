@@ -1,0 +1,2328 @@
+{
+ "cases": [
+  {
+   "fn": "clean_request_id",
+   "args": [
+    null
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "abc-123_x.y:z"
+   ],
+   "kwargs": {},
+   "out": "abc-123_x.y:z"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "a b"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   ],
+   "kwargs": {},
+   "out": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "x\nINJECTED"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    " "
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "  padded  "
+   ],
+   "kwargs": {},
+   "out": "padded"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "a"
+   ],
+   "kwargs": {},
+   "out": "a"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "A.B:C-D_E"
+   ],
+   "kwargs": {},
+   "out": "A.B:C-D_E"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "a/b"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "a\\b"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "a,b"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "a;b"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "\u00e9"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "id\n"
+   ],
+   "kwargs": {},
+   "out": "id"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "\tid\t"
+   ],
+   "kwargs": {},
+   "out": "id"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    123
+   ],
+   "kwargs": {},
+   "out": "123"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    0
+   ],
+   "kwargs": {},
+   "out": "0"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    1.5
+   ],
+   "kwargs": {},
+   "out": "1.5"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    true
+   ],
+   "kwargs": {},
+   "out": "True"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    false
+   ],
+   "kwargs": {},
+   "out": "False"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "a=b"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "a+b"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "a%20b"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "{}"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "[x]"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx "
+   ],
+   "kwargs": {},
+   "out": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "00000000-0000-0000-0000-000000000000"
+   ],
+   "kwargs": {},
+   "out": "00000000-0000-0000-0000-000000000000"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "req:2026-01-01T00.00.00"
+   ],
+   "kwargs": {},
+   "out": "req:2026-01-01T00.00.00"
+  },
+  {
+   "fn": "clean_request_id",
+   "args": [
+    "a\u0000b"
+   ],
+   "kwargs": {},
+   "out": null
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {
+     "_rvtss_request_id": "r1",
+     "a": 1
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": [
+    "r1",
+    {
+     "a": 1
+    }
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {},
+    {
+     "rvtss_request_id": "q1"
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    "q1",
+    {}
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": [
+    null,
+    null
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {},
+    {}
+   ],
+   "kwargs": {},
+   "out": [
+    null,
+    {}
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {
+     "_rvtss_request_id": "bad id",
+     "a": 1
+    },
+    {
+     "rvtss_request_id": "q1"
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    null,
+    {
+     "a": 1
+    }
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {
+     "_rvtss_request_id": null,
+     "a": 1
+    },
+    {
+     "rvtss_request_id": "q1"
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    "q1",
+    {
+     "a": 1
+    }
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {
+     "_rvtss_request_id": "",
+     "a": 1
+    },
+    {
+     "rvtss_request_id": "q1"
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    null,
+    {
+     "a": 1
+    }
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {
+     "_rvtss_request_id": "body"
+    },
+    {
+     "rvtss_request_id": "query"
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    "body",
+    {}
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {
+     "a": 1
+    },
+    {
+     "other": "x"
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    null,
+    {
+     "a": 1
+    }
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    null,
+    {
+     "rvtss_request_id": "q2"
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    "q2",
+    null
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {
+     "a": 1
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": [
+    null,
+    {
+     "a": 1
+    }
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    null,
+    {
+     "rvtss_request_id": " q3 "
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    "q3",
+    null
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    null,
+    {
+     "rvtss_request_id": "bad id"
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    null,
+    null
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {
+     "_rvtss_request_id": 42
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": [
+    "42",
+    {}
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {
+     "_rvtss_request_id": 0
+    },
+    {
+     "rvtss_request_id": "q"
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    "0",
+    {}
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    {
+     "rvtss_request_id": "wrong-place"
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": [
+    null,
+    {
+     "rvtss_request_id": "wrong-place"
+    }
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    null,
+    {
+     "_rvtss_request_id": "wrong-place"
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    null,
+    null
+   ]
+  },
+  {
+   "fn": "pop_request_id",
+   "args": [
+    null,
+    {
+     "rvtss_request_id": 7
+    }
+   ],
+   "kwargs": {},
+   "out": [
+    "7",
+    null
+   ]
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "status": "success"
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "status": "success",
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "status": "success"
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "status": "success"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "status": "success"
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "status": "success"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "status": "success"
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "status": "success",
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "status": "success"
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "status": "success"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "status": "success"
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "status": "success"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1,
+      "request_id": "r1"
+     },
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1,
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1,
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "status": 200,
+     "more": 1
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "x": 1
+     }
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "x": 1
+     }
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     }
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "x": 1
+     }
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     }
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "x": 1
+     }
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     },
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "x": 1
+     }
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     }
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "x": 1
+     }
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "x": 1
+     }
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": "text",
+     "status": 200
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": "text",
+     "status": 200,
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": "text",
+     "status": 200
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": "text",
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": "text",
+     "status": 200
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": "text",
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": "text",
+     "status": 200
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": "text",
+     "status": 200,
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": "text",
+     "status": 200
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": "text",
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": "text",
+     "status": 200
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": "text",
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "request_id": "keep"
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": "keep"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "request_id": "keep"
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": "keep"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "request_id": "keep"
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": "keep"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "request_id": "keep"
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": "keep"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "request_id": "keep"
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": "keep"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "request_id": "keep"
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": "keep"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200,
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "request_id": "keep"
+     },
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    "text body",
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": "text body"
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    "text body",
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": "text body"
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    "text body",
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": "text body"
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    "text body",
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": "text body"
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    "text body",
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": "text body"
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    "text body",
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": "text body"
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    null,
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": null
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    null,
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": null
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": null
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    null,
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": null
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    null,
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": null
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    null,
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": null
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    5,
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": 5
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    5,
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": 5
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    5,
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": 5
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    5,
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": 5
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    5,
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": 5
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    5,
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": 5
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    [
+     1,
+     2
+    ],
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": [
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    [
+     1,
+     2
+    ],
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": [
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    [
+     1,
+     2
+    ],
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": [
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    [
+     1,
+     2
+    ],
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": [
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    [
+     1,
+     2
+    ],
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": [
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    [
+     1,
+     2
+    ],
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": [
+     1,
+     2
+    ]
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {},
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {},
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {}
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {},
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {}
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {},
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {},
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {}
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {},
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {}
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {},
+     "status": 500
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {
+      "request_id": "r1"
+     },
+     "status": 500
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {},
+     "status": 500
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {},
+     "status": 500
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": {},
+     "status": 500
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {},
+     "status": 500
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {},
+     "status": 500
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {},
+     "status": 500,
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {},
+     "status": 500
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {},
+     "status": 500
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": {},
+     "status": 500
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": {},
+     "status": 500
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": null,
+     "status": 200
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": null,
+     "status": 200,
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": null,
+     "status": 200
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": null,
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": null,
+     "status": 200
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": null,
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": null,
+     "status": 200
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": null,
+     "status": 200,
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": null,
+     "status": 200
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": null,
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": null,
+     "status": 200
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": null,
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": [
+      1
+     ],
+     "status": 200
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": [
+      1
+     ],
+     "status": 200,
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": [
+      1
+     ],
+     "status": 200
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": [
+      1
+     ],
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "data": [
+      1
+     ],
+     "status": 200
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": [
+      1
+     ],
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": [
+      1
+     ],
+     "status": 200
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": [
+      1
+     ],
+     "status": 200,
+     "request_id": "r1"
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": [
+      1
+     ],
+     "status": 200
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": [
+      1
+     ],
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "data": [
+      1
+     ],
+     "status": 200
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "data": [
+      1
+     ],
+     "status": 200
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "request_id": null
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": null
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "request_id": null
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": null
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "plain",
+    {
+     "request_id": null
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": null
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "request_id": null
+    },
+    "r1"
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": null
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "request_id": null
+    },
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": null
+    }
+   }
+  },
+  {
+   "fn": "attach_request_id",
+   "args": [
+    "object",
+    {
+     "request_id": null
+    },
+    null
+   ],
+   "kwargs": {},
+   "out": {
+    "same": true,
+    "body": {
+     "request_id": null
+    }
+   }
+  }
+ ],
+ "constants": {
+  "REQUEST_ID_BODY_KEY": "_rvtss_request_id",
+  "REQUEST_ID_QUERY_KEY": "rvtss_request_id"
+ }
+}

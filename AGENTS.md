@@ -82,6 +82,23 @@ then also be set for Revit).
 2. RVTSS tab → **Diagnostics → Run Self-Test** (works on a copy of `tests/test.rvt`); share the summary.
 3. Restart the client and ask it to call `rvtss_health`. `next_step` must be empty.
 
+## 5b. Alternative Revit side: RVTSS Host (C# add-in, no pyRevit)
+
+Ask the user which Revit side they want; do not install both unasked. The add-in needs the .NET SDK to build.
+
+1. Revit closed: `powershell -ExecutionPolicy Bypass -File host\deploy.ps1 -Year <2024|2025|2026|2027>`.
+   It builds, copies to `host\dist\R<year>` and writes `%APPDATA%\Autodesk\Revit\Addins\<year>\RvtssHost.addin`
+   (show this to the user first; `-Remove` deletes the manifest).
+2. Register the MCP server with `-e REVIT_PORT=48885` (Claude Code) or `"env": {"REVIT_PORT": "48885"}`
+   (Claude Desktop). Everything else in section 4 is unchanged.
+3. Start Revit, choose **Always Load** for RvtssHost, open a model.
+   `http://127.0.0.1:48885/revit_mcp/status/` must show `"health": "healthy"` and `"host": "csharp"`.
+4. `uv run python tests/live/run_live.py --port 48885`, or the ribbon button *RVTSS Host → Diagnostics →
+   Run Self-Test*.
+
+The add-in and the pyRevit extension can be loaded together (ports 48885 and 48884); the MCP server talks to
+one of them. Details and known differences: `host/README.md`.
+
 ## 6. Upgrade / uninstall
 
 * Upgrade: close Revit, `git pull` in `RVTSS.extension`, `uv sync`, reload pyRevit, restart the client

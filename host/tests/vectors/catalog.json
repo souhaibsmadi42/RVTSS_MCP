@@ -1,0 +1,1443 @@
+{
+ "cases": [
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "Width##LENGTH##MILLIMETERS"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "Width",
+    "kind": "LENGTH",
+    "unit": "mm",
+    "unit_token": "MILLIMETERS"
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "Fire Rating##OTHER##"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "Fire Rating",
+    "kind": "OTHER",
+    "unit": null,
+    "unit_token": ""
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "Name"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "Name",
+    "kind": "OTHER",
+    "unit": null,
+    "unit_token": ""
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "",
+    "kind": "OTHER",
+    "unit": null,
+    "unit_token": ""
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A##length##feet"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "LENGTH",
+    "unit": "ft",
+    "unit_token": "FEET"
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    " A ## angle ## degrees "
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "ANGLE",
+    "unit": "deg",
+    "unit_token": "DEGREES"
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A##AREA##SQUARE_METERS"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "AREA",
+    "unit": "m2",
+    "unit_token": "SQUARE_METERS"
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A##VOLUME##CUBIC_FEET"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "VOLUME",
+    "unit": "ft3",
+    "unit_token": "CUBIC_FEET"
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A##LENGTH##FURLONGS"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "LENGTH",
+    "unit": null,
+    "unit_token": "FURLONGS"
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A##LENGTH"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "LENGTH",
+    "unit": null,
+    "unit_token": ""
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A####"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "",
+    "unit": null,
+    "unit_token": ""
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "##"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "",
+    "kind": "",
+    "unit": null,
+    "unit_token": ""
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A##B##C##D"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "B",
+    "unit": null,
+    "unit_token": "C"
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A#B"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A#B",
+    "kind": "OTHER",
+    "unit": null,
+    "unit_token": ""
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A##ANGLE##DECIMAL_DEGREES"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "ANGLE",
+    "unit": "deg",
+    "unit_token": "DECIMAL_DEGREES"
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A##ANGLE##RADIANS"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "ANGLE",
+    "unit": "rad",
+    "unit_token": "RADIANS"
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "H\u00f6he##LENGTH##METERS"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "H\u00f6he",
+    "kind": "LENGTH",
+    "unit": "m",
+    "unit_token": "METERS"
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A## ##  "
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "",
+    "unit": null,
+    "unit_token": ""
+   }
+  },
+  {
+   "fn": "parse_header_cell",
+   "args": [
+    "A#####INCHES"
+   ],
+   "kwargs": {},
+   "out": {
+    "name": "A",
+    "kind": "",
+    "unit": null,
+    "unit_token": "#INCHES"
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",Width##LENGTH##MILLIMETERS,Height##LENGTH##MILLIMETERS,Fire Rating##OTHER##\nD1 900x2100,900,2100,60 min\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "Width",
+      "kind": "LENGTH",
+      "unit": "mm",
+      "unit_token": "MILLIMETERS"
+     },
+     {
+      "name": "Height",
+      "kind": "LENGTH",
+      "unit": "mm",
+      "unit_token": "MILLIMETERS"
+     },
+     {
+      "name": "Fire Rating",
+      "kind": "OTHER",
+      "unit": null,
+      "unit_token": ""
+     }
+    ],
+    "types": [
+     {
+      "name": "D1 900x2100",
+      "values": {
+       "Width": {
+        "value": "900",
+        "unit": "mm",
+        "kind": "LENGTH"
+       },
+       "Height": {
+        "value": "2100",
+        "unit": "mm",
+        "kind": "LENGTH"
+       },
+       "Fire Rating": {
+        "value": "60 min",
+        "unit": null,
+        "kind": "OTHER"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "Name,Width##LENGTH##MILLIMETERS\nA,1\n"
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Type catalog header must start with an empty cell (',Param##TYPE##UNIT,...')"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ""
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Type catalog is empty"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "\n\n"
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Type catalog is empty"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    " , \n"
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Type catalog is empty"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "W",
+      "kind": "LENGTH",
+      "unit": "ft",
+      "unit_token": "FEET"
+     }
+    ],
+    "types": []
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET\nA,1,2\n"
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Line 2 has more values than header columns"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET\n,1\n"
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Line 2 has no type name"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET\n  ,1\n"
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Line 2 has no type name"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET,H##LENGTH##FEET\nA,1\nB\nC,,3\nD, ,\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "W",
+      "kind": "LENGTH",
+      "unit": "ft",
+      "unit_token": "FEET"
+     },
+     {
+      "name": "H",
+      "kind": "LENGTH",
+      "unit": "ft",
+      "unit_token": "FEET"
+     }
+    ],
+    "types": [
+     {
+      "name": "A",
+      "values": {
+       "W": {
+        "value": "1",
+        "unit": "ft",
+        "kind": "LENGTH"
+       }
+      }
+     },
+     {
+      "name": "B",
+      "values": {}
+     },
+     {
+      "name": "C",
+      "values": {
+       "H": {
+        "value": "3",
+        "unit": "ft",
+        "kind": "LENGTH"
+       }
+      }
+     },
+     {
+      "name": "D",
+      "values": {}
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET\r\nA,1\r\n\r\nB,2\r\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "W",
+      "kind": "LENGTH",
+      "unit": "ft",
+      "unit_token": "FEET"
+     }
+    ],
+    "types": [
+     {
+      "name": "A",
+      "values": {
+       "W": {
+        "value": "1",
+        "unit": "ft",
+        "kind": "LENGTH"
+       }
+      }
+     },
+     {
+      "name": "B",
+      "values": {
+       "W": {
+        "value": "2",
+        "unit": "ft",
+        "kind": "LENGTH"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET,\"Note, long##OTHER##\"\n\"D 900, std\",3,\"say \"\"hi\"\"\"\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "W",
+      "kind": "LENGTH",
+      "unit": "ft",
+      "unit_token": "FEET"
+     },
+     {
+      "name": "Note, long",
+      "kind": "OTHER",
+      "unit": null,
+      "unit_token": ""
+     }
+    ],
+    "types": [
+     {
+      "name": "D 900, std",
+      "values": {
+       "W": {
+        "value": "3",
+        "unit": "ft",
+        "kind": "LENGTH"
+       },
+       "Note, long": {
+        "value": "say \"hi\"",
+        "unit": null,
+        "kind": "OTHER"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    " ,W##LENGTH##FEET\n A , 1 \n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "W",
+      "kind": "LENGTH",
+      "unit": "ft",
+      "unit_token": "FEET"
+     }
+    ],
+    "types": [
+     {
+      "name": "A",
+      "values": {
+       "W": {
+        "value": "1",
+        "unit": "ft",
+        "kind": "LENGTH"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET,W##LENGTH##METERS\nA,1,2\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "W",
+      "kind": "LENGTH",
+      "unit": "ft",
+      "unit_token": "FEET"
+     },
+     {
+      "name": "W",
+      "kind": "LENGTH",
+      "unit": "m",
+      "unit_token": "METERS"
+     }
+    ],
+    "types": [
+     {
+      "name": "A",
+      "values": {
+       "W": {
+        "value": "2",
+        "unit": "m",
+        "kind": "LENGTH"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",\nA\n"
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Type catalog header must start with an empty cell (',Param##TYPE##UNIT,...')"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",\nA,1\n"
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Type catalog header must start with an empty cell (',Param##TYPE##UNIT,...')"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET\nA,1\nA,2\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "W",
+      "kind": "LENGTH",
+      "unit": "ft",
+      "unit_token": "FEET"
+     }
+    ],
+    "types": [
+     {
+      "name": "A",
+      "values": {
+       "W": {
+        "value": "1",
+        "unit": "ft",
+        "kind": "LENGTH"
+       }
+      }
+     },
+     {
+      "name": "A",
+      "values": {
+       "W": {
+        "value": "2",
+        "unit": "ft",
+        "kind": "LENGTH"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",H\u00f6he##LENGTH##METERS\nT\u00fcr,2.1\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "H\u00f6he",
+      "kind": "LENGTH",
+      "unit": "m",
+      "unit_token": "METERS"
+     }
+    ],
+    "types": [
+     {
+      "name": "T\u00fcr",
+      "values": {
+       "H\u00f6he": {
+        "value": "2.1",
+        "unit": "m",
+        "kind": "LENGTH"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",A##ANGLE##DEGREES,V##VOLUME##CUBIC_METERS\nT,45,1.5\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "A",
+      "kind": "ANGLE",
+      "unit": "deg",
+      "unit_token": "DEGREES"
+     },
+     {
+      "name": "V",
+      "kind": "VOLUME",
+      "unit": "m3",
+      "unit_token": "CUBIC_METERS"
+     }
+    ],
+    "types": [
+     {
+      "name": "T",
+      "values": {
+       "A": {
+        "value": "45",
+        "unit": "deg",
+        "kind": "ANGLE"
+       },
+       "V": {
+        "value": "1.5",
+        "unit": "m3",
+        "kind": "VOLUME"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "\n,W##LENGTH##FEET\n\nA,1\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "W",
+      "kind": "LENGTH",
+      "unit": "ft",
+      "unit_token": "FEET"
+     }
+    ],
+    "types": [
+     {
+      "name": "A",
+      "values": {
+       "W": {
+        "value": "1",
+        "unit": "ft",
+        "kind": "LENGTH"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET\nA,1\n,2\n"
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Line 3 has no type name"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET\nA,1\nB,2,3,4\n"
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Line 3 has more values than header columns"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    "x"
+   ],
+   "kwargs": {},
+   "err": "CatalogError",
+   "msg": "Type catalog header must start with an empty cell (',Param##TYPE##UNIT,...')"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W\nA,1"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "W",
+      "kind": "OTHER",
+      "unit": null,
+      "unit_token": ""
+     }
+    ],
+    "types": [
+     {
+      "name": "A",
+      "values": {
+       "W": {
+        "value": "1",
+        "unit": null,
+        "kind": "OTHER"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##LENGTH##FEET\n\"A\nB\",1\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "W",
+      "kind": "LENGTH",
+      "unit": "ft",
+      "unit_token": "FEET"
+     }
+    ],
+    "types": [
+     {
+      "name": "A\nB",
+      "values": {
+       "W": {
+        "value": "1",
+        "unit": "ft",
+        "kind": "LENGTH"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",W##OTHER##\nA,  spaced value  \n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "W",
+      "kind": "OTHER",
+      "unit": null,
+      "unit_token": ""
+     }
+    ],
+    "types": [
+     {
+      "name": "A",
+      "values": {
+       "W": {
+        "value": "spaced value",
+        "unit": null,
+        "kind": "OTHER"
+       }
+      }
+     }
+    ]
+   }
+  },
+  {
+   "fn": "write",
+   "args": [
+    [
+     {
+      "name": "Width",
+      "spec": "length",
+      "unit": "mm"
+     },
+     {
+      "name": "Fire Rating",
+      "spec": "text"
+     },
+     {
+      "name": "Area",
+      "spec": "area",
+      "unit": "m2"
+     },
+     {
+      "name": "Angle",
+      "spec": "angle",
+      "unit": "deg"
+     },
+     {
+      "name": "Vol",
+      "spec": "volume",
+      "unit": "ft3"
+     },
+     {
+      "name": "Count",
+      "spec": "integer",
+      "unit": "mm"
+     },
+     {
+      "name": "Odd",
+      "spec": "length",
+      "unit": "furlong"
+     },
+     {
+      "name": "NoSpec"
+     },
+     {
+      "name": "NoneSpec",
+      "spec": null,
+      "unit": null
+     },
+     {
+      "name": "Unknown",
+      "spec": "currency",
+      "unit": "m"
+     },
+     {
+      "name": "Rad",
+      "spec": "angle",
+      "unit": "rad"
+     },
+     {
+      "name": "Internal",
+      "spec": "length",
+      "unit": "internal"
+     },
+     {
+      "name": "Yes",
+      "spec": "yesno"
+     }
+    ],
+    [
+     {
+      "name": "D 900, std",
+      "values": {
+       "Width": 900,
+       "Fire Rating": "60"
+      }
+     },
+     {
+      "name": "Plain",
+      "values": {
+       "Width": 900.5,
+       "Fire Rating": "say \"hi\"",
+       "Area": 1,
+       "Angle": 45.0,
+       "Vol": null,
+       "Count": 3,
+       "Yes": true,
+       "NotAColumn": "ignored"
+      }
+     },
+     {
+      "name": "",
+      "values": {}
+     },
+     {
+      "name": "Multi\nline",
+      "values": {
+       "Fire Rating": "a\nb",
+       "Yes": false,
+       "Width": 0
+      }
+     },
+     {
+      "name": 5,
+      "values": {
+       "Width": "",
+       "Fire Rating": " padded "
+      }
+     },
+     {
+      "name": "T\u00fcr",
+      "values": {
+       "Fire Rating": "\u00e9"
+      }
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": ",Width##LENGTH##MILLIMETERS,Fire Rating##OTHER##,Area##AREA##SQUARE_METERS,Angle##ANGLE##DEGREES,Vol##VOLUME##CUBIC_FEET,Count##OTHER##,Odd##LENGTH##,NoSpec##OTHER##,NoneSpec##OTHER##,Unknown##OTHER##,Rad##ANGLE##RADIANS,Internal##LENGTH##,Yes##OTHER##\n\"D 900, std\",900,60,,,,,,,,,,,\nPlain,900.5,\"say \"\"hi\"\"\",1,45.0,,3,,,,,,,True\n,,,,,,,,,,,,,\n\"Multi\nline\",0,\"a\nb\",,,,,,,,,,,False\n5,, padded ,,,,,,,,,,,\nT\u00fcr,,\u00e9,,,,,,,,,,,\n"
+  },
+  {
+   "fn": "write",
+   "args": [
+    [
+     {
+      "name": "Width",
+      "spec": "length",
+      "unit": "mm"
+     },
+     {
+      "name": "Fire Rating",
+      "spec": "text"
+     }
+    ],
+    [
+     {
+      "name": "D 900, std",
+      "values": {
+       "Width": 900,
+       "Fire Rating": "60"
+      }
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": ",Width##LENGTH##MILLIMETERS,Fire Rating##OTHER##\n\"D 900, std\",900,60\n"
+  },
+  {
+   "fn": "write",
+   "args": [
+    [],
+    [
+     {
+      "name": "D 900, std",
+      "values": {
+       "Width": 900,
+       "Fire Rating": "60"
+      }
+     },
+     {
+      "name": "Plain",
+      "values": {
+       "Width": 900.5,
+       "Fire Rating": "say \"hi\"",
+       "Area": 1,
+       "Angle": 45.0,
+       "Vol": null,
+       "Count": 3,
+       "Yes": true,
+       "NotAColumn": "ignored"
+      }
+     },
+     {
+      "name": "",
+      "values": {}
+     },
+     {
+      "name": "Multi\nline",
+      "values": {
+       "Fire Rating": "a\nb",
+       "Yes": false,
+       "Width": 0
+      }
+     },
+     {
+      "name": 5,
+      "values": {
+       "Width": "",
+       "Fire Rating": " padded "
+      }
+     },
+     {
+      "name": "T\u00fcr",
+      "values": {
+       "Fire Rating": "\u00e9"
+      }
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": "\"\"\n\"D 900, std\"\nPlain\n\"\"\n\"Multi\nline\"\n5\nT\u00fcr\n"
+  },
+  {
+   "fn": "write",
+   "args": [
+    [],
+    []
+   ],
+   "kwargs": {},
+   "out": "\"\"\n"
+  },
+  {
+   "fn": "write",
+   "args": [
+    [],
+    [
+     {
+      "name": "",
+      "values": {}
+     },
+     {
+      "name": "x",
+      "values": {}
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": "\"\"\n\"\"\nx\n"
+  },
+  {
+   "fn": "write",
+   "args": [
+    [
+     {
+      "name": "Width",
+      "spec": "length",
+      "unit": "mm"
+     },
+     {
+      "name": "Fire Rating",
+      "spec": "text"
+     },
+     {
+      "name": "Area",
+      "spec": "area",
+      "unit": "m2"
+     },
+     {
+      "name": "Angle",
+      "spec": "angle",
+      "unit": "deg"
+     },
+     {
+      "name": "Vol",
+      "spec": "volume",
+      "unit": "ft3"
+     },
+     {
+      "name": "Count",
+      "spec": "integer",
+      "unit": "mm"
+     },
+     {
+      "name": "Odd",
+      "spec": "length",
+      "unit": "furlong"
+     },
+     {
+      "name": "NoSpec"
+     },
+     {
+      "name": "NoneSpec",
+      "spec": null,
+      "unit": null
+     },
+     {
+      "name": "Unknown",
+      "spec": "currency",
+      "unit": "m"
+     },
+     {
+      "name": "Rad",
+      "spec": "angle",
+      "unit": "rad"
+     },
+     {
+      "name": "Internal",
+      "spec": "length",
+      "unit": "internal"
+     },
+     {
+      "name": "Yes",
+      "spec": "yesno"
+     }
+    ],
+    []
+   ],
+   "kwargs": {},
+   "out": ",Width##LENGTH##MILLIMETERS,Fire Rating##OTHER##,Area##AREA##SQUARE_METERS,Angle##ANGLE##DEGREES,Vol##VOLUME##CUBIC_FEET,Count##OTHER##,Odd##LENGTH##,NoSpec##OTHER##,NoneSpec##OTHER##,Unknown##OTHER##,Rad##ANGLE##RADIANS,Internal##LENGTH##,Yes##OTHER##\n"
+  },
+  {
+   "fn": "write",
+   "args": [
+    [
+     {
+      "name": "Only"
+     }
+    ],
+    [
+     {
+      "name": "",
+      "values": {
+       "Only": ""
+      }
+     },
+     {
+      "name": "",
+      "values": {
+       "Only": null
+      }
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": ",Only##OTHER##\n,\n,\n"
+  },
+  {
+   "fn": "write",
+   "args": [
+    [
+     {
+      "spec": "length"
+     }
+    ],
+    []
+   ],
+   "kwargs": {},
+   "err": "KeyError",
+   "msg": "'name'"
+  },
+  {
+   "fn": "write",
+   "args": [
+    [
+     {
+      "name": "Width",
+      "spec": "length",
+      "unit": "mm"
+     }
+    ],
+    [
+     {
+      "name": "x"
+     }
+    ]
+   ],
+   "kwargs": {},
+   "err": "KeyError",
+   "msg": "'values'"
+  },
+  {
+   "fn": "write",
+   "args": [
+    [
+     {
+      "name": "Width",
+      "spec": "length",
+      "unit": "mm"
+     }
+    ],
+    [
+     {
+      "values": {}
+     }
+    ]
+   ],
+   "kwargs": {},
+   "err": "KeyError",
+   "msg": "'name'"
+  },
+  {
+   "fn": "write",
+   "args": [
+    [
+     "notadict"
+    ],
+    []
+   ],
+   "kwargs": {},
+   "err": "AttributeError",
+   "msg": "'str' object has no attribute 'get'"
+  },
+  {
+   "fn": "write",
+   "args": [
+    [
+     {
+      "name": "a,b",
+      "spec": "length",
+      "unit": "m"
+     },
+     {
+      "name": "q\"q",
+      "spec": "number"
+     }
+    ],
+    [
+     {
+      "name": "n",
+      "values": {
+       "a,b": "1,5"
+      }
+     }
+    ]
+   ],
+   "kwargs": {},
+   "out": ",\"a,b##LENGTH##METERS\",\"q\"\"q##OTHER##\"\nn,\"1,5\",\n"
+  },
+  {
+   "fn": "parse",
+   "args": [
+    ",Width##LENGTH##MILLIMETERS,Fire Rating##OTHER##,Area##AREA##SQUARE_METERS,Angle##ANGLE##DEGREES,Vol##VOLUME##CUBIC_FEET,Count##OTHER##,Odd##LENGTH##,NoSpec##OTHER##,NoneSpec##OTHER##,Unknown##OTHER##,Rad##ANGLE##RADIANS,Internal##LENGTH##,Yes##OTHER##\n\"D 900, std\",900,60,,,,,,,,,,,\nPlain,900.5,\"say \"\"hi\"\"\",1,45.0,,3,,,,,,,True\n"
+   ],
+   "kwargs": {},
+   "out": {
+    "columns": [
+     {
+      "name": "Width",
+      "kind": "LENGTH",
+      "unit": "mm",
+      "unit_token": "MILLIMETERS"
+     },
+     {
+      "name": "Fire Rating",
+      "kind": "OTHER",
+      "unit": null,
+      "unit_token": ""
+     },
+     {
+      "name": "Area",
+      "kind": "AREA",
+      "unit": "m2",
+      "unit_token": "SQUARE_METERS"
+     },
+     {
+      "name": "Angle",
+      "kind": "ANGLE",
+      "unit": "deg",
+      "unit_token": "DEGREES"
+     },
+     {
+      "name": "Vol",
+      "kind": "VOLUME",
+      "unit": "ft3",
+      "unit_token": "CUBIC_FEET"
+     },
+     {
+      "name": "Count",
+      "kind": "OTHER",
+      "unit": null,
+      "unit_token": ""
+     },
+     {
+      "name": "Odd",
+      "kind": "LENGTH",
+      "unit": null,
+      "unit_token": ""
+     },
+     {
+      "name": "NoSpec",
+      "kind": "OTHER",
+      "unit": null,
+      "unit_token": ""
+     },
+     {
+      "name": "NoneSpec",
+      "kind": "OTHER",
+      "unit": null,
+      "unit_token": ""
+     },
+     {
+      "name": "Unknown",
+      "kind": "OTHER",
+      "unit": null,
+      "unit_token": ""
+     },
+     {
+      "name": "Rad",
+      "kind": "ANGLE",
+      "unit": "rad",
+      "unit_token": "RADIANS"
+     },
+     {
+      "name": "Internal",
+      "kind": "LENGTH",
+      "unit": null,
+      "unit_token": ""
+     },
+     {
+      "name": "Yes",
+      "kind": "OTHER",
+      "unit": null,
+      "unit_token": ""
+     }
+    ],
+    "types": [
+     {
+      "name": "D 900, std",
+      "values": {
+       "Width": {
+        "value": "900",
+        "unit": "mm",
+        "kind": "LENGTH"
+       },
+       "Fire Rating": {
+        "value": "60",
+        "unit": null,
+        "kind": "OTHER"
+       }
+      }
+     },
+     {
+      "name": "Plain",
+      "values": {
+       "Width": {
+        "value": "900.5",
+        "unit": "mm",
+        "kind": "LENGTH"
+       },
+       "Fire Rating": {
+        "value": "say \"hi\"",
+        "unit": null,
+        "kind": "OTHER"
+       },
+       "Area": {
+        "value": "1",
+        "unit": "m2",
+        "kind": "AREA"
+       },
+       "Angle": {
+        "value": "45.0",
+        "unit": "deg",
+        "kind": "ANGLE"
+       },
+       "Count": {
+        "value": "3",
+        "unit": null,
+        "kind": "OTHER"
+       },
+       "Yes": {
+        "value": "True",
+        "unit": null,
+        "kind": "OTHER"
+       }
+      }
+     }
+    ]
+   }
+  }
+ ],
+ "catalog_units": {
+  "MILLIMETERS": "mm",
+  "CENTIMETERS": "cm",
+  "METERS": "m",
+  "FEET": "ft",
+  "INCHES": "in",
+  "SQUARE_METERS": "m2",
+  "SQUARE_FEET": "ft2",
+  "CUBIC_METERS": "m3",
+  "CUBIC_FEET": "ft3",
+  "DEGREES": "deg",
+  "DECIMAL_DEGREES": "deg",
+  "RADIANS": "rad"
+ },
+ "rvtss_to_catalog": {
+  "mm": "MILLIMETERS",
+  "cm": "CENTIMETERS",
+  "m": "METERS",
+  "ft": "FEET",
+  "in": "INCHES",
+  "m2": "SQUARE_METERS",
+  "ft2": "SQUARE_FEET",
+  "m3": "CUBIC_METERS",
+  "ft3": "CUBIC_FEET",
+  "deg": "DEGREES",
+  "rad": "RADIANS"
+ },
+ "spec_to_catalog": {
+  "length": "LENGTH",
+  "area": "AREA",
+  "volume": "VOLUME",
+  "angle": "ANGLE",
+  "number": "OTHER",
+  "integer": "OTHER",
+  "text": "OTHER",
+  "yesno": "OTHER",
+  "material": "OTHER",
+  "url": "OTHER"
+ }
+}
