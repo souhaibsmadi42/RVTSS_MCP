@@ -193,6 +193,11 @@ in-Revit self-test (group `v22`) and has not yet been run in a live Revit sessio
 * **Website** (`website/`): a landing page with the tutorial (chapters, captions), install steps with copy
   buttons, and the manual as HTML. It is deployed to GitHub Pages by `.github/workflows/pages.yml`.
 
+### Added
+* A 40 s vertical reel (`media/rvtss-reel-40s-9x16.mp4`, 1080×1920, 60 fps) and its source in `media/reel-src/`.
+  The key art was generated with GPT Image 2.5. The type, motion, effects and the original soundtrack are rendered
+  from code. It replaces the earlier reel (`media/rvtss-reel-40s.mp4`) on the website and in the README.
+
 ### Fixed
 * `extension.json` now sets `default_enabled` to `True` and `builtin` to `False`. Recent pyRevit versions read
   this file and disabled a freshly cloned RVTSS, so no `revit_mcp` routes were registered and

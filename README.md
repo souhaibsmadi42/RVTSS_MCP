@@ -71,7 +71,7 @@ Revit MCP. RVTSS re-implements them for pyRevit; no code was copied. See [NOTICE
 |---|---|
 | **Website** (video + manual) | https://souhaibsmadi42.github.io/RVTSS_MCP/ |
 | **Install & use tutorial** (3:54, narrated) | [media/rvtss-tutorial.mp4](media/rvtss-tutorial.mp4) |
-| **40 s social reel** (vertical, captioned) | [media/rvtss-reel-40s.mp4](media/rvtss-reel-40s.mp4) |
+| **40 s social reel** (vertical, 9:16) | [media/rvtss-reel-40s-9x16.mp4](media/rvtss-reel-40s-9x16.mp4) |
 | **User manual** | [docs/USER_MANUAL.md](docs/USER_MANUAL.md) |
 | Tool reference (generated) | [docs/TOOLS.md](docs/TOOLS.md) |
 | Coordination features with examples | [docs/COORDINATION.md](docs/COORDINATION.md) |
@@ -79,6 +79,7 @@ Revit MCP. RVTSS re-implements them for pyRevit; no code was copied. See [NOTICE
 | Original upstream documentation | [docs/UPSTREAM.md](docs/UPSTREAM.md) |
 | Agent-assisted install · security · contributing | [AGENTS.md](AGENTS.md) · [SECURITY.md](SECURITY.md) · [CONTRIBUTING.md](CONTRIBUTING.md) |
 | 40 s promo film | [media/rvtss-promo-40s.mp4](media/rvtss-promo-40s.mp4) |
+| 40 s vertical reel source | [media/reel-src/README.md](media/reel-src/README.md) |
 
 [![RVTSS install & use tutorial (3:54) - click to watch](media/rvtss-tutorial-poster.jpg)](media/rvtss-tutorial.mp4)
 

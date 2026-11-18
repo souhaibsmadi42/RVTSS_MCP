@@ -1,88 +1,102 @@
-// Render the reel frames (1080x1920) with headless Chromium and pipe them to ffmpeg.
-//   node render.mjs preview 12.5 40 ...          -> stills in ./build/preview_<t>.png
-//   node render.mjs video [--fps 30] [--workers 4] -> ./build/video_noaudio.mp4
-import { createRequire } from 'node:module';
-const { chromium } = createRequire(import.meta.url)('playwright');
-import { createServer } from 'node:http';
-import { readFile, mkdir } from 'node:fs/promises';
-import { spawn } from 'node:child_process';
+// Frame-exact renderer for the reel page. The page draws frame f on demand (window.renderFrame); we grab it as JPEG
+// and pipe it into ffmpeg. Workers split the frame range; segments are joined with stream copy.
+//   node render.mjs stills 1.5 7 12.8            -> out/stills/t_01.500.png ...
+//   node render.mjs video [--workers 4] [--from s] [--to s] [--crf 16] [--name x.mp4]
+//   node render.mjs events                       -> build/events.json (audio cue list)
+import http from 'node:http';
+import fs from 'node:fs';
 import path from 'node:path';
+import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+const { chromium } = createRequire(import.meta.url)('playwright');   // the machine's pre-installed Playwright
 
-const DIR = path.dirname(fileURLToPath(import.meta.url));
-const BUILD = path.join(DIR, 'build');
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.json': 'application/json' };
+const ROOT = path.dirname(fileURLToPath(import.meta.url));
+const OUT = path.join(ROOT, 'out');
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.jpg': 'image/jpeg', '.png': 'image/png', '.json': 'application/json' };
 
 function serve() {
   return new Promise(res => {
-    const srv = createServer(async (req, rep) => {
-      try {
-        const p = path.join(DIR, decodeURIComponent(new URL(req.url, 'http://x').pathname));
-        const body = await readFile(p.endsWith('/') ? p + 'index.html' : p);
-        rep.writeHead(200, { 'content-type': TYPES[path.extname(p)] || 'application/octet-stream' });
-        rep.end(body);
-      } catch { rep.writeHead(404); rep.end(); }
-    }).listen(0, '127.0.0.1', () => res(srv));
+    const srv = http.createServer((req, rsp) => {
+      const p = path.join(ROOT, decodeURIComponent(new URL(req.url, 'http://x').pathname));
+      if (!p.startsWith(ROOT) || !fs.existsSync(p) || fs.statSync(p).isDirectory()) { rsp.writeHead(404); rsp.end(); return; }
+      rsp.writeHead(200, { 'Content-Type': TYPES[path.extname(p)] || 'application/octet-stream' });
+      fs.createReadStream(p).pipe(rsp);
+    });
+    srv.listen(0, '127.0.0.1', () => res(srv));
   });
 }
 
 async function openPage(browser, port) {
   const page = await browser.newPage({ viewport: { width: 1080, height: 1920 }, deviceScaleFactor: 1 });
-  page.on('pageerror', e => console.error('pageerror', e.message));
-  await page.goto(`http://127.0.0.1:${port}/index.html`);
-  await page.waitForFunction(() => window.READY || window.BOOT_ERROR, null, { timeout: 30000 });
-  const err = await page.evaluate(() => window.BOOT_ERROR);
-  if (err) throw new Error(err);
-  await page.evaluate(() => document.fonts.ready);
-  return page;
+  page.on('pageerror', e => console.log('[pageerror]', e.message));
+  page.on('console', m => { if (m.type() === 'error') console.log('[page]', m.text()); });
+  await page.goto(`http://127.0.0.1:${port}/src/index.html?render=1`, { waitUntil: 'load' });
+  const info = await page.evaluate(() => window.ready);
+  return { page, info };
 }
 
-async function renderChunk(browser, port, fps, f0, f1, out) {
-  const page = await openPage(browser, port);
-  const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'mjpeg', '-i', '-',
-    '-c:v', 'libx264', '-preset', 'medium', '-crf', '16', '-pix_fmt', 'yuv420p', '-r', String(fps), out], { stdio: ['pipe', 'inherit', 'inherit'] });
-  for (let f = f0; f < f1; f++) {
-    await page.evaluate(t => window.renderAt(t), f / fps);
-    const buf = await page.screenshot({ type: 'jpeg', quality: 94 });
-    if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
-    if ((f - f0) % 300 === 0) console.log(`${path.basename(out)}: ${f - f0}/${f1 - f0}`);
-  }
-  ff.stdin.end();
-  await new Promise(r => ff.on('close', r));
-  await page.close();
+function args() {
+  const a = process.argv.slice(3), o = { list: [] };
+  for (let i = 0; i < a.length; i++) { if (a[i].startsWith('--')) { o[a[i].slice(2)] = a[i + 1]; i++; } else o.list.push(parseFloat(a[i])); }
+  return o;
 }
 
-const [mode, ...rest] = process.argv.slice(2);
-await mkdir(BUILD, { recursive: true });
+const browser = await chromium.launch({ args: ['--disable-gpu-vsync', '--ignore-gpu-blocklist', '--font-render-hinting=none'] });
 const srv = await serve();
 const port = srv.address().port;
-const browser = await chromium.launch();
-try {
-  if (mode === 'preview') {
-    const page = await openPage(browser, port);
-    for (const t of rest.map(Number)) {
-      await page.evaluate(t => window.renderAt(t), t);
-      await page.screenshot({ path: path.join(BUILD, `preview_${t.toFixed(1).padStart(6, '0')}.png`) });
-    }
-  } else if (mode === 'video') {
-    const arg = (k, d) => { const i = rest.indexOf(k); return i >= 0 ? Number(rest[i + 1]) : d; };
-    const fps = arg('--fps', 30), workers = arg('--workers', 4);
-    const page = await openPage(browser, port);
-    const total = await page.evaluate(() => window.TOTAL);
-    await page.close();
-    const N = Math.ceil(total * fps), per = Math.ceil(N / workers);
-    const parts = [];
-    await Promise.all(Array.from({ length: workers }, (_, w) => {
-      const out = path.join(BUILD, `part${w}.mp4`); parts.push(out);
-      return renderChunk(browser, port, fps, w * per, Math.min(N, (w + 1) * per), out);
-    }));
-    const list = path.join(BUILD, 'parts.txt');
-    await (await import('node:fs/promises')).writeFile(list, parts.map(p => `file '${p}'`).join('\n'));
-    await new Promise((res, rej) => spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', path.join(BUILD, 'video_noaudio.mp4')], { stdio: 'inherit' })
-      .on('close', c => c ? rej(new Error('concat failed')) : res()));
-    console.log('frames', N, 'duration', total);
+const mode = process.argv[2], o = args();
+
+if (mode === 'stills') {
+  const { page, info } = await openPage(browser, port);
+  fs.mkdirSync(path.join(OUT, 'stills'), { recursive: true });
+  for (const t of o.list) {
+    const t0 = Date.now();
+    const url = await page.evaluate(f => window.renderFrame(f, 'png'), Math.round(t * info.fps));
+    const f = path.join(OUT, 'stills', `t_${t.toFixed(3).padStart(6, '0')}.png`);
+    fs.writeFileSync(f, Buffer.from(url.split(',')[1], 'base64'));
+    console.log(f, `${Date.now() - t0} ms`);
   }
-} finally {
-  await browser.close();
-  srv.close();
-}
+} else if (mode === 'events') {
+  const { page } = await openPage(browser, port);
+  const ev = await page.evaluate(() => window.EVENTS);
+  fs.mkdirSync(path.join(ROOT, 'build'), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, 'build', 'events.json'), JSON.stringify(ev, null, 1));
+  console.log('events', ev.length);
+} else if (mode === 'video') {
+  const workers = parseInt(o.workers || '4'), crf = String(o.crf || '16');
+  const probe = await openPage(browser, port); const { fps, frames } = probe.info; await probe.page.close();
+  const F0 = Math.round(parseFloat(o.from || '0') * fps), F1 = o.to ? Math.round(parseFloat(o.to) * fps) : frames;
+  const segDir = path.join(OUT, 'segments'); fs.rmSync(segDir, { recursive: true, force: true }); fs.mkdirSync(segDir, { recursive: true });
+  const per = Math.ceil((F1 - F0) / workers), T = Date.now();
+  const jobs = [];
+  for (let w = 0; w < workers; w++) {
+    const a = F0 + w * per, b = Math.min(F1, a + per); if (a >= b) break;
+    const file = path.join(segDir, `seg_${w}.mp4`);
+    jobs.push((async () => {
+      const { page } = await openPage(browser, port);
+      const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(fps), '-c:v', 'mjpeg', '-i', '-',
+        '-vf', 'scale=in_range=full:out_range=tv:out_color_matrix=bt709,format=yuv420p', '-c:v', 'libx264', '-preset', 'slow', '-crf', crf,
+        '-tune', 'film', '-profile:v', 'high', '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv',
+        '-x264-params', `keyint=${fps * 2}:min-keyint=${fps}`, '-r', String(fps), file], { stdio: ['pipe', 'inherit', 'inherit'] });
+      const done = new Promise((res, rej) => ff.on('close', c => (c === 0 ? res() : rej(new Error('ffmpeg ' + c)))));
+      const t0 = Date.now();
+      for (let f = a; f < b; f++) {
+        const url = await page.evaluate(n => window.renderFrame(n), f);
+        if (!ff.stdin.write(Buffer.from(url.slice(url.indexOf(',') + 1), 'base64'))) await new Promise(r => ff.stdin.once('drain', r));
+        if ((f - a) % 240 === 0) console.log(`  [w${w}] frame ${f}/${b} (${((f - a + 1) / ((Date.now() - t0) / 1000)).toFixed(1)} fps)`);
+      }
+      ff.stdin.end(); await done; await page.close();
+      return file;
+    })());
+  }
+  const files = await Promise.all(jobs);
+  const list = path.join(segDir, 'list.txt');
+  fs.writeFileSync(list, files.map(f => `file '${f}'`).join('\n'));
+  const out = path.join(OUT, o.name || 'video_noaudio.mp4');
+  await new Promise((res, rej) => spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', out], { stdio: 'inherit' })
+    .on('close', c => (c === 0 ? res() : rej(new Error('concat ' + c)))));
+  console.log(`done ${out} in ${((Date.now() - T) / 60000).toFixed(1)} min`);
+} else console.log('usage: node render.mjs stills <t...> | video [--workers n] | events');
+
+await browser.close(); srv.close();
