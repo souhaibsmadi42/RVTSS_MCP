@@ -94,7 +94,18 @@ async def log_info(ctx, message):
         pass
 
 
-def create_server(name, host="127.0.0.1", port=8000, instructions=None, lifespan=None):
+def _set_version(server, version):
+    """serverInfo.version: without this the SDK reports its own version (e.g. "1.9.0")."""
+    for attr in ("_mcp_server", "_lowlevel_server"):
+        low = getattr(server, attr, None)
+        if low is not None and hasattr(low, "version"):
+            try:
+                low.version = version
+            except Exception:
+                pass
+
+
+def create_server(name, host="127.0.0.1", port=8000, instructions=None, lifespan=None, version=None):
     """Create the MCP server object for whichever SDK is installed."""
     extra = {"lifespan": lifespan} if lifespan is not None else {}
     if MCP_MAJOR == 1:
@@ -104,6 +115,8 @@ def create_server(name, host="127.0.0.1", port=8000, instructions=None, lifespan
         server = _ServerClass(name, **kwargs)
     else:
         server = _ServerClass(name, instructions=instructions, **extra)
+    if version:
+        _set_version(server, version)
     # remember transport settings for run_server()/combined mode
     server._rvtss_host = host
     server._rvtss_port = port
