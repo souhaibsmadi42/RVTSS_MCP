@@ -101,6 +101,14 @@ async def _lifespan(_server):
             await close_client()
 
 
+def _rvtss_version():
+    try:
+        from revit_mcp import RVTSS_VERSION
+        return RVTSS_VERSION
+    except Exception:
+        return None
+
+
 # Create a generic MCP server for interacting with Revit
 # (stateless HTTP + JSON responses for HTTP transports; works on mcp 1.x and 2.x)
 mcp = create_server(
@@ -109,6 +117,7 @@ mcp = create_server(
     port=int(os.environ.get("MCP_PORT", "8000")),
     instructions=SERVER_INSTRUCTIONS,
     lifespan=_lifespan,
+    version=_rvtss_version(),
 )
 
 CONNECT_HINT = (
